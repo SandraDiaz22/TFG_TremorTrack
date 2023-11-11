@@ -1,0 +1,17 @@
+<!--Para no repetir en cada x.html el cuerpo del html
+    con head, body, ... creamos este layout que será
+    igual para todos, diferenciandose el cuerpo del body-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+     <title>app</title>
+</head>
+
+<body>
+    {% block body %}
+    {% endblock %}
+</body>
+
+</html>

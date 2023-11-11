@@ -1,0 +1,34 @@
+<!--Creamos un html tal cual, con head y body-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SANDRAWEB</title>
+</head>
+
+<body>
+   <h1> Hola {{nombre}} </h1><!--Paso de variables-->
+
+   <!--Se pueden hacer ifs y bucles for-->
+   {% if num ==1 %}
+   <h2>Bienvenida a tu Web</h2>
+   {% else %}
+   <h2>No eres bienvenida a tu Web</h2>
+   {% endif %}
+
+   {% for n in lista %}
+   <h3> {{n}} </h3>
+   {% endfor %}
+
+    <form action="/acceso" method="POST">
+        <input type="number" name="idPaciente" placeholder="Ingresa tu id de paciente">
+        <button>Enviar</button>
+    </form>
+
+</body>
+
+</html>
