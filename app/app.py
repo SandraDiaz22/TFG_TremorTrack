@@ -18,30 +18,33 @@ def index():
     nombre = "Sandra" #Pasar variables al html
     num = 1
     lista=[1,2,3,4,5,6,7]
-    comment_form = form.CommentForm(request.form)
-    if request.method == 'POST' and comment_form.validate(): #formulario correcto
-        #imprimo datos formulario
-        print(comment_form.username.data)
-        print(comment_form.idPaciente.data)
-        #creo sesion
-        session['idPaciente'] = comment_form.idPaciente.data
 
-    else:
-        print("Error en el formulario.")
+    formulario = form.FormularioAcceso(request.form)
 
     cookie= request.cookies.get('galletita')
     print(cookie)
 
-    return render_template('index.html', nombre=nombre, num=num, lista=lista, form=comment_form)
+    return render_template('index.html', nombre=nombre, num=num, lista=lista, form=formulario)
 
 
 
 @app.route('/acceso', methods=['POST'])
 def acceso():
-    #return "<h1> Contacto <h1>"#Antes de crear contacto.html
+   
+    formulario = form.FormularioAcceso(request.form)
+    if request.method == 'POST' and formulario.validate(): #formulario correcto
+        #imprimo datos formulario
+        print(formulario.username.data)
+        print(formulario.idPaciente.data)
+        #creo sesion
+        session['idPaciente'] = formulario.idPaciente.data
+
+    else:
+        print("Error en el formulario.")
 
     idPaciente = request.form.get("idPaciente")
-    return render_template('acceso.html', idPaciente=idPaciente)
+    nombrePaciente = request.form.get("username")
+    return render_template('acceso.html', idPaciente=idPaciente, username=nombrePaciente)
 
 
 @app.route('/cookie')

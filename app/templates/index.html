@@ -7,11 +7,68 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SANDRAWEB</title>
+    <title>Acceso Pacientes</title>
+
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {color: rgb(72, 158, 238); text-align: center; } /* Color del titilo */
+
+        p { text-align: center; } /* Alinea el texto del párrafo a la izquierda */
+
+        /* Formulario en un recuadro */
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-right: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        /* Boton de enviar */
+        button {
+            background-color:  rgb(72, 158, 238);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Color del boton de enviar cuando pasas por encima */
+        button:hover {background-color: #2980b9;}
+
+    </style>
 </head>
 
 <body>
-   <h1> Hola {{nombre}} </h1><!--Paso de variables-->
+   <!--Paso de variables
+    <h1> Hola {{nombre}} </h1>-->
 
    <!--Se pueden hacer ifs y bucles for-->
    <!--Ejemplo de if y ejempplo de lista
@@ -25,62 +82,48 @@
    <h3> {{n}} </h3>
    {% endfor %}-->
 
+    <div  class="container">
+        
+        <!--Introduccion-->
+        <h1> Bienvenido a la plataforma de acceso de datos </h1>
+        <p> Hola amigo, soy Sandra, estudiante de Ingeniería Informática en la UBU y la creadora de esta página. 
+        Estoy emocionada de compartir contigo esta plataforma donde podrás acceder a los datos del sensor que llevas de manera fácil y segura.</p>
+        <p> Para ello, por favor, introduzca su nombre e identificador de paciente. </p>
+    
 
-    <form action="/acceso" method="POST">
-        <input type="number" name="idPaciente" placeholder="Ingresa tu id de paciente">
-        <button>Enviar</button>
-    </form>
+        <!--Formulario de forma sencilla, que redirecciona a acceso
+        <form action="/acceso" method="POST">
+            <input type="number" name="idPaciente" placeholder="Ingresa tu id de paciente">
+            <button>Enviar</button>
+        </form> -->
 
+        <br>
+        <!--Nuevo intento de crear un formulario, randerizando de form.py -->
 
+        {% from "camposform.html" import render_field %}
+ 
+            <form action="/acceso" method="POST">
 
-    <!--Nuevo intento de crear un formulario -->
+                <!--Casilla para el nombre-->
+                {{ render_field(form.username, class = 'form-control', placeholder='Ingresa tu nombre' ) }}
+                <!--Para mostrar mensajes de error-->
+                <p class="help-block text-danger"></p>
 
-    {% from "camposform.html" import render_field %}
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                {{ render_field(form.idPaciente, class = 'form-control', placeholder='Ingresa tu id de paciente') }}
+                <p class="help-block text-danger"></p>
+
+                <!-- Campos ocultos vs ataques -->
+                {{ form.honeypot }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
                 <br>
-                <br>
+                
+                <button type="submit" class="btn btn-default">Enviar</button>
 
-                <form method="POST">
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            {{ render_field(form.username, class = 'form-control') }}
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-
-                    <div class="row control-group">
-                        <div class="form-group col-xs-12 floating-label-form-group controls">
-                            {{ render_field(form.idPaciente, class = 'form-control') }}
-                            <p class="help-block text-danger"></p>
-                        </div>
-                    </div>
-
-                    <!-- Campos ocultos vs ataques -->
-                    {{ form.honeypot }}
-                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
-
-                    <br>
-
-                    <div id="success"></div>
-                    <div class="row">
-                        <div class="form-group col-xs-12">
-                            <button type="submit" class="btn btn-default">Enviar</button>
-                        </div>
-                    </div>
-
-                </form>
-
-            </div>
-
-        </div>
+            </form>
 
     </div>
     
-
-
 
 </body>
 
