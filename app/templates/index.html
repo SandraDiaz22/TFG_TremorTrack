@@ -14,6 +14,7 @@
    <h1> Hola {{nombre}} </h1><!--Paso de variables-->
 
    <!--Se pueden hacer ifs y bucles for-->
+   <!--Ejemplo de if y ejempplo de lista
    {% if num ==1 %}
    <h2>Bienvenida a tu Web</h2>
    {% else %}
@@ -22,7 +23,8 @@
 
    {% for n in lista %}
    <h3> {{n}} </h3>
-   {% endfor %}
+   {% endfor %}-->
+
 
     <form action="/acceso" method="POST">
         <input type="number" name="idPaciente" placeholder="Ingresa tu id de paciente">
@@ -56,7 +58,9 @@
                         </div>
                     </div>
 
+                    <!-- Campos ocultos vs ataques -->
                     {{ form.honeypot }}
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
 
                     <br>
 
