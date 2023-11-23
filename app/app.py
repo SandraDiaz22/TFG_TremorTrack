@@ -1,14 +1,31 @@
 from flask import Flask, render_template, request, make_response, session
+from flask import g #para variables globales si hubiera
 import form
 from flask_wtf import CSRFProtect
+from config import DevelopmentConfig
+
 
 #Inicializar aplicación
 app = Flask(__name__)
-#Clave secreta para firmar sesiones
-app.secret_key = 'contraseña_super_mega_secreta'
+#Configuracion
+app.config.from_object(DevelopmentConfig)
 #Proteccion anti cross-site request forgery
-csrf = CSRFProtect(app)
+csrf = CSRFProtect()
 
+
+#Mensaje personalizado en las paginas no existentes (error 404)
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+
+#Decoradores que se ejecutan antes y despues
+@app.before_request
+def before_request():
+    pass
+@app.after_request
+def after_request(response):
+    return response
 
 
 @app.route('/', methods = ['GET', 'POST'])
@@ -56,4 +73,5 @@ def cookie():
 
 
 if __name__=='__main__':
-    app.run(debug=True) #Ejecutar
+    csrf.init_app(app) #Proteccion anti csrf
+    app.run() #Ejecutar
