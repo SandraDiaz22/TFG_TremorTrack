@@ -1,8 +1,10 @@
 from flask import Flask, render_template, request, make_response, session
-from flask import g #para variables globales si hubiera
+#from flask import g #para variables globales si hubiera
 import form
 from flask_wtf import CSRFProtect
 from config import DevelopmentConfig
+import csv
+import os
 
 
 #Inicializar aplicación
@@ -20,28 +22,30 @@ def page_not_found(e):
 
 
 #Decoradores que se ejecutan antes y despues
-@app.before_request
-def before_request():
-    pass
-@app.after_request
-def after_request(response):
-    return response
+#@app.before_request
+#def before_request():
+#    pass
+#@app.after_request
+#def after_request(response):
+#    return response
 
 
 @app.route('/', methods = ['GET', 'POST'])
 def index():
     #return "Hola Mundo!" #Antes de crear index.html
 
-    nombre = "Sandra" #Pasar variables al html
-    num = 1
-    lista=[1,2,3,4,5,6,7]
+    #nombre = "Sandra" #Pasar variables al html
+    #num = 1
+    #lista=[1,2,3,4,5,6,7]
 
     formulario = form.FormularioAcceso(request.form)
 
     cookie= request.cookies.get('galletita')
     print(cookie)
 
-    return render_template('index.html', nombre=nombre, num=num, lista=lista, form=formulario)
+    #return render_template('index.html', nombre=nombre, num=num, lista=lista, form=formulario)
+
+    return render_template('index.html', form=formulario)
 
 
 
@@ -59,9 +63,19 @@ def acceso():
     else:
         print("Error en el formulario.")
 
+    #Obtener id y nombre del formulario
     idPaciente = request.form.get("idPaciente")
     nombrePaciente = request.form.get("username")
-    return render_template('acceso.html', idPaciente=idPaciente, username=nombrePaciente)
+
+     # Obtener la ruta completa al archivo CSV
+    csv_path = os.path.join(os.path.dirname(__file__), 'prueba.csv')
+
+
+    with open(csv_path, 'r') as file: #Abrir el CSV para leer los datos
+        reader = csv.reader(file)
+        data = [row for row in reader] #Convertir los datos a una lista de diccionarios
+
+    return render_template('acceso.html', idPaciente=idPaciente, username=nombrePaciente, data=data)
 
 
 @app.route('/cookie')
@@ -71,7 +85,7 @@ def cookie():
     return response
 
 
-
 if __name__=='__main__':
     csrf.init_app(app) #Proteccion anti csrf
+
     app.run() #Ejecutar
