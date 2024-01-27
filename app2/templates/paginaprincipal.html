@@ -1,0 +1,47 @@
+
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Página Principal</title>
+
+{% endblock %}
+
+{% block body %}
+
+        <!--Barra superior-->
+        <p>Sobre nosotros   Contacto    Idioma</p>
+
+        <!--Botón que lleva a la página de login-->
+        <form method="post" action="/login">
+            <button type="submit">Iniciar sesión</button>
+        </form>
+
+
+
+        <!--Logo y nombre de la aplicación-->
+        <img src="/get_image/logofoto.JPG" alt="Logo Foto" class="logo">
+        <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 250px; height: auto; margin: 0 10px;" >
+
+
+        <!--Información para los usuarios-->
+        <h1>Descubre todo lo que puedes hacer con TremorTrack:</h1>
+        
+
+        <div class="columnas">
+            <div>
+                <h2>Pacientes</h2>
+                <p>- Realizar el seguimiento de los datos medidos por tú sensor gracias a gráficas.</p>
+                <p>- Predecir con IA cómo va a ser tú evolución según tus datos hasta el momento.</p>
+            </div>
+
+            <div>
+                <h2>Médicos</h2>
+                <p>- Consultar los datos de todos tus pacientes.</p>
+                <p>- Realizar predicciones con IA.</p>
+                <p>- Subir vídeos y datos de tus pacientes.</p>
+            </div>
+        </div>
+
+        
+{% endblock %}

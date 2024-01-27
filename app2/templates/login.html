@@ -1,0 +1,68 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Login</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+        
+        <!--Barra superior-->
+        <p>Sobre nosotros   Contacto    Idioma</p>
+
+        <!--Botón que lleva a la página principal-->
+        <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url_for('paginaprincipal') }}'">Inicio TT</button>
+    
+
+        
+        <!--Logo y nombre de la aplicación-->
+        <img src="/get_image/logofoto.JPG" alt="Logo Foto" class="logo">
+        <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 250px; height: auto; margin: 0 10px;" >
+
+
+        <h1>Inicie sesión</h1>
+
+
+        <!--Datos de prueba--->
+        <p class="prueba"><b>Datos de Administrador</b>
+            <br>Nombre de Usuario: {{ administrador.nombre_de_usuario }}
+            <br>Contraseña: {{ administrador.contraseña }}</p>
+        
+        <p class="prueba"><b>Datos de Médico</b>
+            <br>Nombre de Usuario: {{ medico.nombre_de_usuario }}
+            <br>Contraseña: {{ medico.contraseña }}</p>
+        
+        <p class="prueba"><b>Datos de Paciente</b>
+            <br>Nombre de Usuario: {{ paciente.nombre_de_usuario }}
+            <br>Contraseña: {{ paciente.contraseña }}</p>
+
+
+
+        <!--Formulario de inicio de sesión, randerizando de form.py-->
+        {% from "camposform.html" import render_field %}
+    
+        <form action="/login" method="post" >
+
+            <!--Casilla para el nombre-->
+            {{ render_field(form.username, class = 'form-control', placeholder='Ingresa tu nombre de usuario' ) }}
+            <!--Para mostrar mensajes de error-->
+            <p class="help-block text-danger"></p>
+
+            <!--Casilla para la contraseña-->
+            {{ render_field(form.contraseña, class = 'form-control', placeholder='Ingresa tu contraseña') }}
+            <p class="help-block text-danger"></p>
+
+
+
+            <br>
+            
+            <button type="submit" class="btn btn-default">Enviar</button>
+
+        </form>
+
+
+
+{% endblock %}

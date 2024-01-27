@@ -5,12 +5,22 @@ from flask_wtf import CSRFProtect
 from config import DevelopmentConfig
 import csv
 import os
+from flask_sqlalchemy import SQLAlchemy
+from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 
 
 #Inicializar aplicación
 app = Flask(__name__)
 #Configuracion
 app.config.from_object(DevelopmentConfig)
+#Conexion base de datos
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:maria@localhost/parkinson'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db.init_app(app)
+
+#Fotos
+app.static_folder = 'fotos'
+
 #Proteccion anti cross-site request forgery
 csrf = CSRFProtect()
 
@@ -39,13 +49,16 @@ def index():
     #lista=[1,2,3,4,5,6,7]
 
     formulario = form.FormularioAcceso(request.form)
+    administrador = Administrador.query.get(1)
+    medico = Medico.query.get(1)
+    paciente = Paciente.query.get(1)
 
     cookie= request.cookies.get('galletita')
     print(cookie)
 
     #return render_template('index.html', nombre=nombre, num=num, lista=lista, form=formulario)
 
-    return render_template('index.html', form=formulario)
+    return render_template('index.html', form=formulario, administrador=administrador, medico=medico, paciente=paciente)
 
 
 
@@ -56,16 +69,22 @@ def acceso():
     if request.method == 'POST' and formulario.validate(): #formulario correcto
         #imprimo datos formulario
         print(formulario.username.data)
-        print(formulario.idPaciente.data)
+        print(formulario.contraseña.data)
         #creo sesion
-        session['idPaciente'] = formulario.idPaciente.data
+        session['username'] = formulario.username.data
 
     else:
         print("Error en el formulario.")
 
-    #Obtener id y nombre del formulario
-    idPaciente = request.form.get("idPaciente")
+    #Obtener nombre y contraseña del formulario
     nombrePaciente = request.form.get("username")
+    contraseña = request.form.get("contraseña")
+    
+    #base de datos
+    administrador = Administrador.query.get(1)
+    medico = Medico.query.get(1)
+    paciente = Paciente.query.get(1)
+
 
      # Obtener la ruta completa al archivo CSV
     csv_path = os.path.join(os.path.dirname(__file__), 'prueba.csv')
@@ -75,7 +94,7 @@ def acceso():
         reader = csv.reader(file)
         data = [row for row in reader] #Convertir los datos a una lista de diccionarios
 
-    return render_template('acceso.html', idPaciente=idPaciente, username=nombrePaciente, data=data)
+    return render_template('acceso.html', contraseña=contraseña, username=nombrePaciente, data=data, administrador=administrador, medico=medico, paciente=paciente)
 
 
 @app.route('/cookie')

@@ -1,0 +1,80 @@
+<!--Para no repetir en cada x.html el cuerpo del html
+    con head, body, ... creamos este layout que será
+    igual para todos, diferenciandose el cuerpo del body-->
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+        /*Centrado*/
+        body { text-align: center; }
+
+        /*Para los logos*/
+        .logo{max-width: 128px; height: auto; margin: 0 10px;}
+
+        /*Para crear dos columnas con la info */
+        .columnas {column-count: 2;}
+
+        /*Para los datos de inicio de sesion*/
+        p.prueba { font-size: smaller; text-align: center; border: 2px solid #000;  padding: 10px;} 
+
+        /*Color del titilo */
+        h1 {color: rgb(72, 158, 238);} 
+
+
+
+
+        /* Formulario en un recuadro */
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-right: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        /* Boton de enviar */
+        button {
+            background-color:  rgb(72, 158, 238);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Color del boton de enviar cuando pasas por encima */
+        button:hover {background-color: #2980b9;}
+
+    </style>
+    {% block head %}
+    {% endblock %}
+</head>
+
+<body>
+    {% block body %}
+    {% endblock %}
+
+    <!-- Logos de la ubu y del parkinson al final de cada página-->
+    <img src="/get_image/ubu.JPG" alt="Logo UBU" class="logo">
+    <img src="/get_image/parkinson+.JPG" alt="Logo Parkinson" class="logo">
+     
+
+</body>
+
+</html>
