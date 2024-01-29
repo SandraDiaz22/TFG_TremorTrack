@@ -146,7 +146,15 @@ def BienvenidaPaciente(name):
     #base de datos para la foto
     paciente = Paciente.query.get(1)
 
-    return render_template('BienvenidaPaciente.html', name=name, paciente=paciente)
+    # Obtener la ruta completa al archivo CSV
+    csv_path = os.path.join(os.path.dirname(__file__), 'prueba.csv')
+
+
+    with open(csv_path, 'r') as file: #Abrir el CSV para leer los datos
+        reader = csv.reader(file)
+        data = [row for row in reader] #Convertir los datos a una lista de diccionarios
+
+    return render_template('BienvenidaPaciente.html', name=name, paciente=paciente, data=data)
 #----------------------------------------------------------------
 
 
