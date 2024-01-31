@@ -12,14 +12,14 @@ import os
 
 
 #Inicializar aplicación
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='/static')
 
 #Configuracion
 app.config.from_object(DevelopmentConfig)
 
 #Conexion base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:maria@localhost/parkinson'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
 #Fotos
@@ -145,12 +145,16 @@ def BienvenidaMedico(name):
 def BienvenidaPaciente(name):
     #base de datos para la foto
     paciente = Paciente.query.get(1)
-
+    #base de datos para los registros
+    registros = Registros.query.get(1)
+   
     # Obtener la ruta completa al archivo CSV
-    csv_path = os.path.join(os.path.dirname(__file__), 'prueba.csv')
+    ruta_archivo = registros.datos_en_crudo
+    print(ruta_archivo)
+    ruta_completa = os.path.join(app.root_path, ruta_archivo)
 
 
-    with open(csv_path, 'r') as file: #Abrir el CSV para leer los datos
+    with open(ruta_completa, 'r') as file: #Abrir el CSV para leer los datos
         reader = csv.reader(file)
         data = [row for row in reader] #Convertir los datos a una lista de diccionarios
 
@@ -161,7 +165,16 @@ def BienvenidaPaciente(name):
 
 
 
-
+#@app.route('/upload', methods=['POST'])
+#def upload_file():
+#    file = request.files['file']
+#    if file:
+#        filename = secure_filename(file.filename)
+#        file.save(os.path.join(app.root_path, 'static', 'registros', filename))
+#        # Actualiza la base de datos con la ruta del archivo
+#        registro = Registro.query.get(tu_id_registro)
+#        registro.ruta_archivo = 'static/registros/' + filename
+#        db.session.commit()
 
 
 
