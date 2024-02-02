@@ -15,6 +15,11 @@
         
     <img src="{{paciente.foto}}" alt="Imagen del paciente">
 
+    <video width="640" height="360" controls>
+        <source src="{{video.contenido}}" type="video/mp4">
+        Tu navegador no soporta el tag de video.
+    </video>
+
     <table border="1">
         
     {% for row in data %}

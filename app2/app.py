@@ -52,6 +52,12 @@ def page_not_found(e):
 def get_image(filename):
     return send_from_directory('static/fotos', filename)
 #----------------------------------------------------------------
+#----------------------------------------------------------------
+#Ruta para poder mostrar los vídeos
+@app.route('/get_video/<filename>')
+def get_video(filename):
+    return send_from_directory('static/videos', filename)
+#----------------------------------------------------------------
 
 
 
@@ -147,10 +153,11 @@ def BienvenidaPaciente(name):
     paciente = Paciente.query.get(1)
     #base de datos para los registros
     registros = Registros.query.get(1)
+    #base de datos para videos
+    video = Videos.query.get(1)
    
     # Obtener la ruta completa al archivo CSV
     ruta_archivo = registros.datos_en_crudo
-    print(ruta_archivo)
     ruta_completa = os.path.join(app.root_path, ruta_archivo)
 
 
@@ -158,7 +165,7 @@ def BienvenidaPaciente(name):
         reader = csv.reader(file)
         data = [row for row in reader] #Convertir los datos a una lista de diccionarios
 
-    return render_template('BienvenidaPaciente.html', name=name, paciente=paciente, data=data)
+    return render_template('BienvenidaPaciente.html', name=name, paciente=paciente, data=data, video=video)
 #----------------------------------------------------------------
 
 
