@@ -69,9 +69,6 @@ def get_video(filename):
 #       - Botón que lleva al formulario de Iniciar Sesión
 @app.route('/', methods = ['GET', 'POST'])
 def paginaprincipal():
-    if request.method == 'POST':
-        return redirect(url_for('login'))
-
     return render_template('paginaprincipal.html')
 #----------------------------------------------------------------
 
