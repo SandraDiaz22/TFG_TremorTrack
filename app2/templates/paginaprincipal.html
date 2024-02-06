@@ -10,20 +10,29 @@
 {% block body %}
 
         <!--Barra superior de navegación-->
-        <nav class="navbar navbar-expand-sm" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
+        <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
           <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
+            
+            <a class="navbar-brand" href="/">
+              <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+            </a>
+            
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown"> <!--Sección que se contrae-->
+              
               <ul class="navbar-nav"><!--A la izq-->
-                <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+                
                 <li class="nav-item" style="width: 200px;"><!--Ancho-->
                   <a class="nav-link" href="#">Sobre nosotros</a>
                 </li>
+                
                 <li class="nav-item" style="width: 200px;">
                   <a class="nav-link" href="#">Contacto</a>
                 </li>
+                
                 <li class="nav-item dropdown" style="width: 200px;">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                       Idioma
@@ -35,21 +44,21 @@
                   </ul>
                 </li>
               </ul>
+            </div>
+
               <ul class="navbar-nav ms-auto"><!--A la dcha-->
                 <li class="nav-item" style="width: 200px;">
-                  <a class="nav-link" href="login">Iniciar sesión</a><!--Lleva a la página principal-->
+                  <a class="nav-link" href="login">Iniciar sesión</a><!--Lleva a la página de login-->
                 </li>
               </ul>
-            </div>
+
           </div>
         </nav>
 
 
-
-        <!--Logo y nombre de la aplicación-->
-        <img src="/get_image/logofoto.JPG" alt="Logo Foto" class="logo">
-        <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 250px; height: auto; margin: 0 10px;" >
-
+        <!--Nombre de la aplicación-->
+        <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 300px; height: auto; margin: 0 10px;" >
+        
 
         <!--Información para los usuarios-->
         <h1>Descubre todo lo que puedes hacer con TremorTrack:</h1>
@@ -69,6 +78,8 @@
                 <p>- Subir vídeos y datos de tus pacientes.</p>
             </div>
         </div>
-
+        
+<!--Falta alineamiento vertical, sin <br> ni <div class="my-3">-->
+<!--Falta footer abajo, que no hay manera, sin position: sticky;absulute;relative;-->
         
 {% endblock %}
