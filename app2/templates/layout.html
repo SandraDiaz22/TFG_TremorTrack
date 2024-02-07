@@ -12,7 +12,8 @@
     <!--Biblioteca de Bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <!---Enlace al archivo CSS de estilos(no funciona)
-    <link rel="stylesheet" type="text/css" href="styles.css">-->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">-->
+    
     <style>
         /*Centrado*/
         body { text-align: center; height: 100%; }
@@ -21,7 +22,19 @@
         .logo{max-width: 128px; height: auto; } /*margin: 0 10px;*/
 
         /*Para crear dos columnas con la info */
-        .columnas {column-count: 2;}
+        .columnas {
+            display: flex;
+            flex-direction: row; /*dos columnas horizontales*/
+            justify-content: space-around;}
+
+        .colum {
+            flex: 1;
+            padding: 20px;
+            border: 1px solid #ccc;
+            margin: 10px;
+            background-color:#489eee40!important;
+        }
+
 
         /*Para los datos de inicio de sesion*/
         p.prueba { font-size: smaller; text-align: center; border: 2px solid #000;  padding: 10px; background-color:rgb(72, 158, 238, 0.25)!important;} 
@@ -34,11 +47,8 @@
             background-color:#489eee40!important;
         }
 
-
-
-
-
-
+        
+        /*-----------------------*/
 
 
         /* Formulario en un recuadro */
@@ -60,7 +70,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-        
+
         /* Boton de enviar */
         button {
             background-color:  rgb(72, 158, 238);
@@ -78,13 +88,15 @@
         button:hover {background-color: #2980b9;}
 
     </style>
+
+
     {% block head %}
     {% endblock %}
 </head>
 
 <body>
     <!--Biblioteca de Bootstrap-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     {% block body %}
     {% endblock %}
@@ -92,10 +104,14 @@
     
     <footer>
         <!-- Logos de la ubu y del parkinson al final de cada página-->
-        <img src="/get_image/ubu.JPG" alt="Logo UBU" class="logo">
-        <img src="/get_image/parkinson+.JPG" alt="Logo Parkinson" class="logo">
+        <a target="_blank" href="https://www.ubu.es/grado-en-ingenieria-informatica">
+            <img src="/get_image/ubu.JPG" alt="Logo UBU" class="logo">
+        </a>
+        <a target="_blank" href="https://parkinsonburgos.org/">
+            <img src="/get_image/parkinson+.JPG" alt="Logo Parkinson" class="logo">
+        </a>
     </footer>
 
-</body>
+    </body>
 
 </html>
