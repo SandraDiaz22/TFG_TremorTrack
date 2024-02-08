@@ -40,15 +40,34 @@
         p.prueba { font-size: smaller; text-align: center; border: 2px solid #000;  padding: 10px; background-color:rgb(72, 158, 238, 0.25)!important;} 
 
         /*Color del titilo */
-        h1 {color: rgb(72, 158, 238);} 
+        h1 {color: rgb(72, 158, 238);
+            margin-top: 40px; /* Espacio arriba */
+            margin-bottom: 40px; /* Espacio abajo */} 
 
         /*Color del fondo*/
         .fondo {
-            background-color:#489eee40!important;
-        }
+            background-color:#489eee40!important;}
+
+
+
+                /*-----------------------*/
+        .presentacion {  
+            margin: 0 auto; max-width: 600px;
+            border: 2px solid #ccc; /*Bordes*/
+            border-radius: 15px;
+            transition: transform 0.3s; /*Lento*/ }
+
+        .presentacion:hover {
+            transform: scale(1.05); /* Escala la tarjeta al pasar el ratón por encima */}
+        
+        .info-adicional {
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px; }
+    
 
         
-        /*-----------------------*/
+
 
 
         /* Formulario en un recuadro */
