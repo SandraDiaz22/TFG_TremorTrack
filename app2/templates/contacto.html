@@ -3,6 +3,13 @@
 {% block head %}
 
     <title>Contacto</title>
+    
+    <!-- Leaflet para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Font Awesome para los correos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 
 {% endblock %}
 
@@ -59,16 +66,39 @@
 
 
         <!--Contenido de la página-->
-        <div class="container mt-4 mb-4">
-          
-           <p>            Contacta con nosotros a través de correo electrónico: - sda1003@alu.ubu.es
- - alvarag@ubu.es
-Nuestra localización: Avenida Cantabria, s/n, 09006 Burgos (España)
 
-           </p>
-            
+        <div class="container mt-5">
+          <h1 class="mb-4">Contacta con nosotros</h1>
+  
+          <div class="row"> <!--Columnas responsivas de Bootstrap-->
+              <div class="col-md-6"> <!--Correos-->
+                  <h3>Preguntas y consultas</h3>
+                  <p>Puedes enviarnos tus preguntas y consultas a través de nuestros correos electrónicos:</p>
+                  <ul class="list-unstyled">
+                      <li><i class="fas fa-envelope"></i> <a href="mailto:sda1003@alu.ubu.es">sda1003@alu.ubu.es</a></li>
+                      <li><i class="fas fa-envelope"></i> <a href="mailto:alvarag@ubu.es">alvarag@ubu.es</a></li>
+                  </ul>
+              </div>
 
-        </div>
+              <div class="col-md-6"> <!--Ubicación-->
+                  <h3>Ubicación</h3>
+                  <p>Encuéntranos en:</p>
+                  <div id="map" style="height: 400px;"></div>
+              </div>
+          </div>
+      </div>
+  
+      <script>
+          var map = L.map('map').setView([42.351164, -3.688673], 15); //Coordenadas y zoom
+  
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '© OpenStreetMap contributors' //Créditos a OpenStreetMap :)
+          }).addTo(map);
+  
+          L.marker([42.351164, -3.688673]).addTo(map) //Coordenadas politecnica
+              .bindPopup('Avenida Cantabria, s/n, 09006 Burgos (España)') //Mensaje
+              .openPopup();
+      </script>
 
         
 {% endblock %}
