@@ -1,0 +1,108 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Login</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+        
+        <!--Barra superior de navegación-->
+        <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
+            <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
+              
+              <a class="navbar-brand" href="/">
+                <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+              </a>
+              
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
+              </button>
+
+              <div class="collapse navbar-collapse" id="navbarNavDropdown"> <!--Sección que se contrae-->
+                
+                <ul class="navbar-nav"><!--A la izq-->
+                  
+                  <li class="nav-item" style="width: 200px;"><!--Ancho-->
+                    <a class="nav-link" href="/sobreNosotros">Sobre nosotros</a>
+                  </li>
+                  
+                  <li class="nav-item" style="width: 200px;">
+                    <a class="nav-link" href="/contacto">Contacto</a>
+                  </li>
+                  
+                  <li class="nav-item dropdown" style="width: 200px;">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Idioma
+                    </a>
+                    <ul class="dropdown-menu">
+                      <li><a class="dropdown-item" href="#">Inglés</a></li>
+                      <li><a class="dropdown-item" href="#">Español</a></li>
+                      <li><a class="dropdown-item" href="#">Francés</a></li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+
+                <ul class="navbar-nav ms-auto"><!--A la dcha-->
+                  <li class="nav-item" style="width: 200px;">
+                    <a class="nav-link" href="/">Página principal</a><!--Lleva a la página principal-->
+                  </li>
+                </ul>
+
+            </div>
+          </nav>
+
+        
+        
+        <!--Nombre de la aplicación-->
+        <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 250px; height: auto; margin: 0 10px;">
+
+
+        <h1>Inicie sesión</h1>
+
+
+        <!--Datos de prueba--->
+        <p class="prueba"><b>Datos de Administrador</b>
+            <br>Nombre de Usuario: {{ administrador.nombre_de_usuario }}
+            <br>Contraseña: {{ administrador.contraseña }}</p>
+        
+        <p class="prueba"><b>Datos de Médico</b>
+            <br>Nombre de Usuario: {{ medico.nombre_de_usuario }}
+            <br>Contraseña: {{ medico.contraseña }}</p>
+        
+        <p class="prueba"><b>Datos de Paciente</b>
+            <br>Nombre de Usuario: {{ paciente.nombre_de_usuario }}
+            <br>Contraseña: {{ paciente.contraseña }}</p>
+
+
+
+        <!--Formulario de inicio de sesión, randerizando de form.py-->
+        {% from "camposform.html" import render_field %}
+    
+        <form action="/login" method="post" >
+
+            <!--Casilla para el nombre-->
+            {{ render_field(form.username, class = 'form-control', placeholder='Ingresa tu nombre de usuario' ) }}
+            <!--Para mostrar mensajes de error-->
+            <p class="help-block text-danger"></p>
+
+            <!--Casilla para la contraseña-->
+            {{ render_field(form.contraseña, class = 'form-control', placeholder='Ingresa tu contraseña') }}
+            <p class="help-block text-danger"></p>
+
+
+
+            <br>
+            
+            <button type="submit" class="btn btn-default">Enviar</button>
+
+        </form>
+
+
+
+{% endblock %}

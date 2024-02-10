@@ -1,0 +1,148 @@
+<!--Creamos un html tal cual, con head y body-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso Pacientes</title>
+
+
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        h1 {color: rgb(72, 158, 238); text-align: center; } /* Color del titilo */
+
+        p { text-align: center; } /* Alinea el texto del párrafo  */
+
+        p.prueba { font-size: smaller; text-align: center; border: 2px solid #000;  padding: 10px;} 
+
+        /* Formulario en un recuadro */
+        form {
+            max-width: 300px;
+            margin: 0 auto;
+            padding: 20px;
+            padding-right: 50px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        
+        /* Boton de enviar */
+        button {
+            background-color:  rgb(72, 158, 238);
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        /* Color del boton de enviar cuando pasas por encima */
+        button:hover {background-color: #2980b9;}
+
+    </style>
+</head>
+
+<body>
+   <!--Paso de variables
+    <h1> Hola {{nombre}} </h1>-->
+
+   <!--Se pueden hacer ifs y bucles for-->
+   <!--Ejemplo de if y ejempplo de lista
+   {% if num ==1 %}
+   <h2>Bienvenida a tu Web</h2>
+   {% else %}
+   <h2>No eres bienvenida a tu Web</h2>
+   {% endif %}
+
+   {% for n in lista %}
+   <h3> {{n}} </h3>
+   {% endfor %}-->
+   
+    <div  class="container">
+        
+        <!--Introduccion-->
+        <h1> Bienvenido a la plataforma de acceso de datos </h1>
+        <p> Hola amigo, soy Sandra, estudiante de Ingeniería Informática en la UBU y la creadora de esta página. 
+        Estoy emocionada de compartir contigo esta plataforma donde podrás acceder a los datos del sensor que llevas de manera fácil y segura.</p>
+        <p> Para ello, por favor, introduzca su nombre e identificador de paciente. </p>
+         
+        
+
+        
+        <p class="prueba"><b>Datos de Administrador</b>
+            <br>Nombre de Usuario: {{ administrador.nombre_de_usuario }}
+            <br>Contraseña: {{ administrador.contraseña }}</p2>
+        
+        <p class="prueba"><b>Datos de Médico</b>
+            <br>Nombre de Usuario: {{ medico.nombre_de_usuario }}
+            <br>Contraseña: {{ medico.contraseña }}</p>
+        
+        <p class="prueba"><b>Datos de Paciente</b>
+            <br>Nombre de Usuario: {{ paciente.nombre_de_usuario }}
+            <br>Contraseña: {{ paciente.contraseña }}</p>
+
+
+
+        <!--Formulario de forma sencilla, que redirecciona a acceso
+        <form action="/acceso" method="POST">
+            <input type="number" name="idPaciente" placeholder="Ingresa tu id de paciente">
+            <button>Enviar</button>
+        </form> -->
+
+        <br>
+        <!--Nuevo intento de crear un formulario, randerizando de form.py -->
+
+        {% from "camposform.html" import render_field %}
+ 
+            <form action="/acceso" method="POST">
+
+                <!--Casilla para el nombre-->
+                {{ render_field(form.username, class = 'form-control', placeholder='Ingresa tu nombre de usuario' ) }}
+                <!--Para mostrar mensajes de error-->
+                <p class="help-block text-danger"></p>
+
+                {{ render_field(form.contraseña, class = 'form-control', placeholder='Ingresa tu contraseña') }}
+                <p class="help-block text-danger"></p>
+
+                <!-- Campos ocultos vs ataques -->
+                {{ form.honeypot }}
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+                <br>
+                
+                <button type="submit" class="btn btn-default">Enviar</button>
+
+            </form>
+
+    </div>
+    
+
+</body>
+
+</html>

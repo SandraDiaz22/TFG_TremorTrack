@@ -1,0 +1,18 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Bienvenido</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+    
+    <h1> Bienvenido Médico </h1>
+    <h2> Hola {{name}} </h2> 
+        
+    <img src="{{medico.foto}}" alt="Imagen del médico">
+
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Error 404 - Página no encontrada</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <h1>Error 404 - Página no encontrada</h1>
+    <br>
+    <p>¡Ups! Parece que has llegado a un lugar inexplorado. Vamos a buscar un lugar mejor para ti.</p>
+    <br>
+        
+    <form method="post" action="/paginaprincipal">
+        <button type="submit">Acceso pacientes</button>
+    </form>
+    <br>
+
+    <img src="/get_image/404.png" alt="Imagen divertida" style="max-width: 500px; height: auto;">
+
+{% endblock %}

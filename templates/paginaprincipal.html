@@ -1,0 +1,91 @@
+
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Página Principal</title>
+
+{% endblock %}
+
+{% block body %}
+
+        <!--Barra superior de navegación-->
+        <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
+          <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
+            
+            <a class="navbar-brand" href="/">
+              <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown"> <!--Sección que se contrae-->
+              
+              <ul class="navbar-nav"><!--A la izq-->
+                
+                <li class="nav-item" style="width: 200px;"><!--Ancho-->
+                  <a class="nav-link" href="/sobreNosotros">Sobre nosotros</a>
+                </li>
+                
+                <li class="nav-item" style="width: 200px;">
+                  <a class="nav-link" href="/contacto">Contacto</a>
+                </li>
+                
+                <li class="nav-item dropdown" style="width: 200px;">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Idioma
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Inglés</a></li>
+                    <li><a class="dropdown-item" href="#">Español</a></li>
+                    <li><a class="dropdown-item" href="#">Francés</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+              <ul class="navbar-nav ms-auto"><!--A la dcha-->
+                <li class="nav-item" style="width: 200px;">
+                  <a class="nav-link" href="login">Iniciar sesión</a><!--Lleva a la página de login-->
+                </li>
+              </ul>
+
+          </div>
+        </nav>
+
+
+        <!--Contenido de la página-->
+        <div class="container mt-4 mb-4">
+          
+          <!--Nombre de la aplicación-->
+          <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 300px; height: auto; margin: 0 10px;" >
+        
+
+          <!--Información para los usuarios-->
+          <h1>Descubre todo lo que puedes hacer con TremorTrack:</h1>
+          <div class="columnas">
+              <div class="colum">
+                  <h2 style="margin-bottom: 20px;">Pacientes</h2>
+                  <p>- Realizar el seguimiento de los datos medidos por tú sensor gracias a gráficas.</p>
+                  <p>- Predecir con IA cómo va a ser tú evolución según tus datos hasta el momento.</p>
+              </div>
+
+              <div class="colum">
+                  <h2 style="margin-bottom: 20px;">Médicos</h2>
+                  <p>- Consultar los datos de todos tus pacientes.</p>
+                  <p>- Realizar predicciones con IA.</p>
+                  <p>- Subir vídeos y datos de tus pacientes.</p>
+              </div>
+          
+        </div>
+
+        </div>
+
+        
+        
+<!--Falta alineamiento vertical, sin <br> ni <div class="my-3">-->
+<!--Falta footer abajo, que no hay manera, sin position: sticky;absulute;relative;-->
+      
+{% endblock %}

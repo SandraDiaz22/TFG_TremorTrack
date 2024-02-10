@@ -1,0 +1,104 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Contacto</title>
+    
+    <!-- Leaflet para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Font Awesome para los correos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+{% endblock %}
+
+{% block body %}
+
+        <!--Barra superior de navegación-->
+        <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
+          <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
+            
+            <a class="navbar-brand" href="/">
+              <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNavDropdown"> <!--Sección que se contrae-->
+              
+              <ul class="navbar-nav"><!--A la izq-->
+                
+                <li class="nav-item" style="width: 200px;"><!--Ancho-->
+                    <a class="nav-link" href="/sobreNosotros">Sobre nosotros</a>
+                </li>
+                
+                <li class="nav-item" style="width: 200px;">
+                  <a class="nav-link active text-primary" aria-current="page" href="" style="text-decoration: underline">Contacto</a>
+                </li>
+                
+                <li class="nav-item dropdown" style="width: 200px;">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Idioma
+                  </a>
+                  <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">Inglés</a></li>
+                    <li><a class="dropdown-item" href="#">Español</a></li>
+                    <li><a class="dropdown-item" href="#">Francés</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+
+              <ul class="navbar-nav ms-auto"><!--A la dcha-->
+                <li class="nav-item" style="width: 200px;">
+                  <a class="nav-link" href="/">Página principal</a><!--Lleva a la página principal-->
+                </li>
+                <li class="nav-item" style="width: 200px;">
+                    <a class="nav-link" href="login">Iniciar sesión</a><!--Lleva a la página de login-->
+                </li>
+              </ul>
+
+          </div>
+        </nav>
+
+
+        <!--Contenido de la página-->
+
+        <div class="container mt-5">
+          <h1 class="mb-4">Contacta con nosotros</h1>
+  
+          <div class="row"> <!--Columnas responsivas de Bootstrap-->
+              <div class="col-md-6"> <!--Correos-->
+                  <h3>Preguntas y consultas</h3>
+                  <p>Puedes enviarnos tus preguntas y consultas a través de nuestros correos electrónicos:</p>
+                  <ul class="list-unstyled">
+                      <li><i class="fas fa-envelope"></i> <a href="mailto:sda1003@alu.ubu.es">sda1003@alu.ubu.es</a></li>
+                      <li><i class="fas fa-envelope"></i> <a href="mailto:alvarag@ubu.es">alvarag@ubu.es</a></li>
+                  </ul>
+              </div>
+
+              <div class="col-md-6"> <!--Ubicación-->
+                  <h3>Ubicación</h3>
+                  <p>Encuéntranos en:</p>
+                  <div id="map" style="height: 400px;"></div>
+              </div>
+          </div>
+      </div>
+  
+      <script>
+          var map = L.map('map').setView([42.351164, -3.688673], 15); //Coordenadas y zoom
+  
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+              attribution: '© OpenStreetMap contributors' //Créditos a OpenStreetMap :)
+          }).addTo(map);
+  
+          L.marker([42.351164, -3.688673]).addTo(map) //Coordenadas politecnica
+              .bindPopup('Avenida Cantabria, s/n, 09006 Burgos (España)') //Mensaje
+              .openPopup();
+      </script>
+
+        
+{% endblock %}
