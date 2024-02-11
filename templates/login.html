@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>Login</title>
+    <title>{% trans %}Login{% endtrans %}</title>
 
 {% endblock %}
 
@@ -16,10 +16,10 @@
             <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
               
               <a class="navbar-brand" href="/">
-                <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+                <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
               </a>
               
-              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+              <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
                 <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
               </button>
 
@@ -28,21 +28,21 @@
                 <ul class="navbar-nav"><!--A la izq-->
                   
                   <li class="nav-item" style="width: 200px;"><!--Ancho-->
-                    <a class="nav-link" href="/sobreNosotros">Sobre nosotros</a>
+                    <a class="nav-link" href="/sobreNosotros">{% trans %}Sobre nosotros{% endtrans %}</a>
                   </li>
                   
                   <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link" href="/contacto">Contacto</a>
+                    <a class="nav-link" href="/contacto">{% trans %}Contacto{% endtrans %}</a>
                   </li>
                   
                   <li class="nav-item dropdown" style="width: 200px;">
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Idioma
+                        {% trans %}Idioma{% endtrans %}
                     </a>
                     <ul class="dropdown-menu">
-                      <li><a class="dropdown-item" href="#">Inglés</a></li>
-                      <li><a class="dropdown-item" href="#">Español</a></li>
-                      <li><a class="dropdown-item" href="#">Francés</a></li>
+                      <li><a class="dropdown-item" href="#">{% trans %}Inglés{% endtrans %}</a></li>
+                      <li><a class="dropdown-item" href="#">{% trans %}Español{% endtrans %}</a></li>
+                      <li><a class="dropdown-item" href="#">{% trans %}Francés{% endtrans %}</a></li>
                     </ul>
                   </li>
                 </ul>
@@ -50,7 +50,7 @@
 
                 <ul class="navbar-nav ms-auto"><!--A la dcha-->
                   <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link" href="/">Página principal</a><!--Lleva a la página principal-->
+                    <a class="nav-link" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
                   </li>
                 </ul>
 
@@ -60,24 +60,24 @@
         
         
         <!--Nombre de la aplicación-->
-        <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 250px; height: auto; margin: 0 10px;">
+        <img src="/get_image/logoletras.JPG" alt="{% trans %}TremorTrack{% endtrans %}" style="max-width: 250px; height: auto; margin: 0 10px;">
 
 
-        <h1>Inicie sesión</h1>
+        <h1>{% trans %}Inicie sesión{% endtrans %}</h1>
 
 
         <!--Datos de prueba--->
-        <p class="prueba"><b>Datos de Administrador</b>
-            <br>Nombre de Usuario: {{ administrador.nombre_de_usuario }}
-            <br>Contraseña: {{ administrador.contraseña }}</p>
+        <p class="prueba"><b>{% trans %}Datos de Administrador{% endtrans %}</b>
+            <br>{% trans %}Nombre de Usuario{% endtrans %}: {{ administrador.nombre_de_usuario }}
+            <br>{% trans %}Contraseña{% endtrans %}: {{ administrador.contraseña }}</p>
         
-        <p class="prueba"><b>Datos de Médico</b>
-            <br>Nombre de Usuario: {{ medico.nombre_de_usuario }}
-            <br>Contraseña: {{ medico.contraseña }}</p>
+        <p class="prueba"><b>{% trans %}Datos de Médico{% endtrans %}</b>
+            <br>{% trans %}Nombre de Usuario{% endtrans %}: {{ medico.nombre_de_usuario }}
+            <br>{% trans %}Contraseña{% endtrans %}: {{ medico.contraseña }}</p>
         
-        <p class="prueba"><b>Datos de Paciente</b>
-            <br>Nombre de Usuario: {{ paciente.nombre_de_usuario }}
-            <br>Contraseña: {{ paciente.contraseña }}</p>
+        <p class="prueba"><b>{% trans %}Datos de Paciente{% endtrans %}</b>
+            <br>{% trans %}Nombre de Usuario{% endtrans %}: {{ paciente.nombre_de_usuario }}
+            <br>{% trans %}Contraseña{% endtrans %}: {{ paciente.contraseña }}</p>
 
 
 
@@ -86,22 +86,21 @@
     
         <form action="/login" method="post" >
 
-            <!--Casilla para el nombre-->
-            {{ render_field(form.username, class = 'form-control', placeholder='Ingresa tu nombre de usuario' ) }}
-            <!--Para mostrar mensajes de error-->
-            <p class="help-block text-danger"></p>
-
-            <!--Casilla para la contraseña-->
-            {{ render_field(form.contraseña, class = 'form-control', placeholder='Ingresa tu contraseña') }}
-            <p class="help-block text-danger"></p>
-
-
-
-            <br>
-            
-            <button type="submit" class="btn btn-default">Enviar</button>
-
-        </form>
+          <!-- Casilla para el nombre -->
+          {{ render_field(form.username, class='form-control', placeholder=_('Ingresa tu nombre de usuario')) }}
+          <!-- Para mostrar mensajes de error -->
+          <p class="help-block text-danger"></p>
+      
+          <!-- Casilla para la contraseña -->
+          {{ render_field(form.contraseña, class='form-control', placeholder=_('Ingresa tu contraseña')) }}
+          <p class="help-block text-danger"></p>
+      
+          <br>
+          
+          <button type="submit" class="btn btn-default">{% trans %}Enviar{% endtrans %}</button>
+      
+      </form>
+      
 
 
 

@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>Contacto</title>
+    <title>{% trans %}Contacto{% endtrans %}</title>
     
     <!-- Leaflet para el mapa -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
@@ -20,10 +20,10 @@
           <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
             
             <a class="navbar-brand" href="/">
-              <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+              <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
             </a>
             
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
               <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
             </button>
 
@@ -32,21 +32,21 @@
               <ul class="navbar-nav"><!--A la izq-->
                 
                 <li class="nav-item" style="width: 200px;"><!--Ancho-->
-                    <a class="nav-link" href="/sobreNosotros">Sobre nosotros</a>
+                    <a class="nav-link" href="/sobreNosotros">{% trans %}Sobre nosotros{% endtrans %}</a>
                 </li>
                 
                 <li class="nav-item" style="width: 200px;">
-                  <a class="nav-link active text-primary" aria-current="page" href="" style="text-decoration: underline">Contacto</a>
+                  <a class="nav-link active text-primary" aria-current="page" href="" style="text-decoration: underline">{% trans %}Contacto{% endtrans %}</a>
                 </li>
                 
                 <li class="nav-item dropdown" style="width: 200px;">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Idioma
+                      {% trans %}Idioma{% endtrans %}
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Inglés</a></li>
-                    <li><a class="dropdown-item" href="#">Español</a></li>
-                    <li><a class="dropdown-item" href="#">Francés</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Inglés{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Español{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Francés{% endtrans %}</a></li>
                   </ul>
                 </li>
               </ul>
@@ -54,10 +54,10 @@
 
               <ul class="navbar-nav ms-auto"><!--A la dcha-->
                 <li class="nav-item" style="width: 200px;">
-                  <a class="nav-link" href="/">Página principal</a><!--Lleva a la página principal-->
+                  <a class="nav-link" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
                 </li>
                 <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link" href="login">Iniciar sesión</a><!--Lleva a la página de login-->
+                    <a class="nav-link" href="login">{% trans %}Iniciar sesión{% endtrans %}</a><!--Lleva a la página de login-->
                 </li>
               </ul>
 
@@ -68,12 +68,12 @@
         <!--Contenido de la página-->
 
         <div class="container mt-5">
-          <h1 class="mb-4">Contacta con nosotros</h1>
+          <h1 class="mb-4">{% trans %}Contacta con nosotros{% endtrans %}</h1>
   
           <div class="row"> <!--Columnas responsivas de Bootstrap-->
               <div class="col-md-6"> <!--Correos-->
-                  <h3>Preguntas y consultas</h3>
-                  <p>Puedes enviarnos tus preguntas y consultas a través de nuestros correos electrónicos:</p>
+                  <h3>{% trans %}Preguntas y consultas{% endtrans %}</h3>
+                  <p>{% trans %}Puedes enviarnos tus preguntas y consultas a través de nuestros correos electrónicos:{% endtrans %}</p>
                   <ul class="list-unstyled">
                       <li><i class="fas fa-envelope"></i> <a href="mailto:sda1003@alu.ubu.es">sda1003@alu.ubu.es</a></li>
                       <li><i class="fas fa-envelope"></i> <a href="mailto:alvarag@ubu.es">alvarag@ubu.es</a></li>
@@ -81,8 +81,8 @@
               </div>
 
               <div class="col-md-6"> <!--Ubicación-->
-                  <h3>Ubicación</h3>
-                  <p>Encuéntranos en:</p>
+                  <h3>{% trans %}Ubicación{% endtrans %}</h3>
+                  <p>{% trans %}Encuéntranos en:{% endtrans %}</p>
                   <div id="map" style="height: 400px;"></div>
               </div>
           </div>
@@ -92,11 +92,11 @@
           var map = L.map('map').setView([42.351164, -3.688673], 15); //Coordenadas y zoom
   
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-              attribution: '© OpenStreetMap contributors' //Créditos a OpenStreetMap :)
+              attribution: '{% trans %}© OpenStreetMap contributors{% endtrans %}' //Créditos a OpenStreetMap :)
           }).addTo(map);
   
           L.marker([42.351164, -3.688673]).addTo(map) //Coordenadas politecnica
-              .bindPopup('Avenida Cantabria, s/n, 09006 Burgos (España)') //Mensaje
+              .bindPopup('{% trans %}Avenida Cantabria, s/n, 09006 Burgos (España){% endtrans %}') //Mensaje
               .openPopup();
       </script>
 

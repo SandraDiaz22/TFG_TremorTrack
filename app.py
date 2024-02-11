@@ -6,6 +6,7 @@ from flask_sqlalchemy import SQLAlchemy
 import form
 from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
+from flask_babel import Babel, _
 
 import csv
 import os
@@ -13,6 +14,7 @@ import os
 
 #Inicializar aplicación
 app = Flask(__name__, static_url_path='/static')
+babel= Babel(app)
 
 #Configuracion
 app.config.from_object(DevelopmentConfig)
@@ -24,6 +26,41 @@ db.init_app(app)
 
 #Fotos
 app.static_folder = 'fotos'
+
+
+
+#----------------------------------------------------------------
+#Traduccion
+
+#Idioma predeterminado (español)
+app.config['BABEL_DEFAULT_LOCALE'] = 'es'
+#Dicionario de idiomas
+app.config['LANGUAGES'] = {
+    'en': 'Inglés',
+    'es': 'Español',
+    'fr': 'Francés'
+}
+
+#Funcion que obtiene el idioma preferido del navegador del usuario
+#y sino pone el idioma predeterminado
+def get_locale():
+    idioma_navegador = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
+    if idioma_navegador is not None:
+        return idioma_navegador
+    else:
+        return app.config['BABEL_DEFAULT_LOCALE']
+
+
+#Inicializar babel con get_locale como selector de idioma
+babel = Babel(app, locale_selector=get_locale)
+
+#Pasar get_locale a la plantilla
+@app.context_processor
+def inject_get_locale():
+    return dict(get_locale=get_locale)
+#----------------------------------------------------------------
+
+
 
 #Proteccion anti cross-site request forgery
 #csrf = CSRFProtect()
@@ -38,9 +75,6 @@ app.static_folder = 'fotos'
 #Mensaje personalizado en las paginas no existentes (error 404)
 @app.errorhandler(404)
 def page_not_found(e):
-    if request.method == 'POST':
-        return redirect(url_for('paginaprincipal'))
-    
     return render_template('404.html'), 404
 #----------------------------------------------------------------
 

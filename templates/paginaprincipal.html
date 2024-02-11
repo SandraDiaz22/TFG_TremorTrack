@@ -1,9 +1,8 @@
-
 {% extends "layout.html" %} <!--Herencia de layout-->
 
 {% block head %}
 
-    <title>Página Principal</title>
+    <title>{% trans %}Página Principal{% endtrans %}</title>
 
 {% endblock %}
 
@@ -14,10 +13,10 @@
           <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
             
             <a class="navbar-brand" href="/">
-              <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+              <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
             </a>
             
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
               <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
             </button>
 
@@ -26,21 +25,21 @@
               <ul class="navbar-nav"><!--A la izq-->
                 
                 <li class="nav-item" style="width: 200px;"><!--Ancho-->
-                  <a class="nav-link" href="/sobreNosotros">Sobre nosotros</a>
+                  <a class="nav-link" href="/sobreNosotros">{% trans %}Sobre nosotros{% endtrans %}</a>
                 </li>
                 
                 <li class="nav-item" style="width: 200px;">
-                  <a class="nav-link" href="/contacto">Contacto</a>
+                  <a class="nav-link" href="/contacto">{% trans %}Contacto{% endtrans %}</a>
                 </li>
                 
                 <li class="nav-item dropdown" style="width: 200px;">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Idioma
+                      {% trans %}Idioma{% endtrans %}
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Inglés</a></li>
-                    <li><a class="dropdown-item" href="#">Español</a></li>
-                    <li><a class="dropdown-item" href="#">Francés</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Inglés{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Español{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Francés{% endtrans %}</a></li>
                   </ul>
                 </li>
               </ul>
@@ -48,7 +47,7 @@
 
               <ul class="navbar-nav ms-auto"><!--A la dcha-->
                 <li class="nav-item" style="width: 200px;">
-                  <a class="nav-link" href="login">Iniciar sesión</a><!--Lleva a la página de login-->
+                  <a class="nav-link" href="login">{% trans %}Iniciar sesión{% endtrans %}</a><!--Lleva a la página de login-->
                 </li>
               </ul>
 
@@ -60,23 +59,23 @@
         <div class="container mt-4 mb-4">
           
           <!--Nombre de la aplicación-->
-          <img src="/get_image/logoletras.JPG" alt="TremorTrack" style="max-width: 300px; height: auto; margin: 0 10px;" >
+          <img src="/get_image/logoletras.JPG" alt="{% trans %}TremorTrack{% endtrans %}" style="max-width: 300px; height: auto; margin: 0 10px;" >
         
 
           <!--Información para los usuarios-->
-          <h1>Descubre todo lo que puedes hacer con TremorTrack:</h1>
+          <h1>{% trans %}Descubre todo lo que puedes hacer con TremorTrack:{% endtrans %}</h1>
           <div class="columnas">
               <div class="colum">
-                  <h2 style="margin-bottom: 20px;">Pacientes</h2>
-                  <p>- Realizar el seguimiento de los datos medidos por tú sensor gracias a gráficas.</p>
-                  <p>- Predecir con IA cómo va a ser tú evolución según tus datos hasta el momento.</p>
+                  <h2 style="margin-bottom: 20px;">{% trans %}Pacientes{% endtrans %}</h2>
+                  <p>{% trans %}- Realizar el seguimiento de los datos medidos por tú sensor gracias a gráficas.{% endtrans %}</p>
+                  <p>{% trans %}- Predecir con IA cómo va a ser tú evolución según tus datos hasta el momento.{% endtrans %}</p>
               </div>
 
               <div class="colum">
-                  <h2 style="margin-bottom: 20px;">Médicos</h2>
-                  <p>- Consultar los datos de todos tus pacientes.</p>
-                  <p>- Realizar predicciones con IA.</p>
-                  <p>- Subir vídeos y datos de tus pacientes.</p>
+                  <h2 style="margin-bottom: 20px;">{% trans %}Médicos{% endtrans %}</h2>
+                  <p>{% trans %}- Consultar los datos de todos tus pacientes.{% endtrans %}</p>
+                  <p>{% trans %}- Realizar predicciones con IA.{% endtrans %}</p>
+                  <p>{% trans %}- Subir vídeos y datos de tus pacientes.{% endtrans %}</p>
               </div>
           
         </div>

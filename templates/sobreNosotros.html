@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>Sobre nosotros</title>
+    <title>{% trans %}Sobre nosotros{% endtrans %}</title>
 
 {% endblock %}
 
@@ -13,10 +13,10 @@
           <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
             
             <a class="navbar-brand" href="/">
-              <img src="/get_image/logoSinFondo.png" alt="Logo APP" style="max-width: 50px; height: auto;"> <!--Logo-->
+              <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
             </a>
             
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
               <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
             </button>
 
@@ -25,21 +25,21 @@
               <ul class="navbar-nav"><!--A la izq-->
                 
                 <li class="nav-item" style="width: 200px;"><!--Ancho-->
-                  <a class="nav-link active text-primary" aria-current="page" href="" style="text-decoration: underline">Sobre nosotros</a>
+                  <a class="nav-link active text-primary" aria-current="page" href="" style="text-decoration: underline">{% trans %}Sobre nosotros{% endtrans %}</a>
                 </li>
                 
                 <li class="nav-item" style="width: 200px;">
-                  <a class="nav-link" href="/contacto">Contacto</a>
+                  <a class="nav-link" href="/contacto">{% trans %}Contacto{% endtrans %}</a>
                 </li>
                 
                 <li class="nav-item dropdown" style="width: 200px;">
                   <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      Idioma
+                      {% trans %}Idioma{% endtrans %}
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">Inglés</a></li>
-                    <li><a class="dropdown-item" href="#">Español</a></li>
-                    <li><a class="dropdown-item" href="#">Francés</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Inglés{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Español{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="#">{% trans %}Francés{% endtrans %}</a></li>
                   </ul>
                 </li>
               </ul>
@@ -47,10 +47,10 @@
 
               <ul class="navbar-nav ms-auto"><!--A la dcha-->
                 <li class="nav-item" style="width: 200px;">
-                  <a class="nav-link" href="/">Página principal</a><!--Lleva a la página principal-->
+                  <a class="nav-link" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
                 </li>
                 <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link" href="login">Iniciar sesión</a><!--Lleva a la página de login-->
+                    <a class="nav-link" href="login">{% trans %}Iniciar sesión{% endtrans %}</a><!--Lleva a la página de login-->
                 </li>
               </ul>
 
@@ -60,7 +60,7 @@
 
         <!--Contenido de la página-->
 
-        <h1>Conócenos</h1>
+        <h1>{% trans %}Conócenos{% endtrans %}</h1>
 
 
         <div class="container mt-4 mb-4">
@@ -68,13 +68,12 @@
                 <div class="row no-gutters"><!--Foto y texto seguidos-->
                   
                     <div class="col-md-4"><!--Foto-->
-                        <img src="/get_image/yo3.jpg" class="rounded-circle" style="max-width: 200px;" alt="Sandra">
+                        <img src="/get_image/yo3.jpg" class="rounded-circle" style="max-width: 200px;" alt="{% trans %}Sandra{% endtrans %}">
                     </div>
 
                     <div class="col-md-8" style=" padding: 2rem;"><!--Mi info-->
-                            <h3>¡Hola! Soy Sandra</h3>
-                            <p class="card-text">Me presento: soy estudiante de Ingeniería Informática en la Universidad de Burgos 
-                                y, junto con mi tutor Álvar Arnaiz, somos los creadores de esta aplicación web.</p>
+                            <h3>{% trans %}¡Hola! Soy Sandra{% endtrans %}</h3>
+                            <p class="card-text">{% trans %}Me presento: soy estudiante de Ingeniería Informática en la Universidad de Burgos y, junto con mi tutor Álvar Arnaiz, somos los creadores de esta aplicación web.{% endtrans %}</p>
                     </div>
 
                 </div>
@@ -83,8 +82,8 @@
               <div class="row mt-5">
                 <div class="col-md-12">
                     <div class="info-adicional">
-                        <p>Este proyecto forma parte de mi trabajo de fin de grado y espero que sea de utilidad a muchas personas. </p>
-                        <p>Trabajamos junto con la Asociación de Parkinson de Burgos para hacer un poco más fácil la vida de las personas que sufren esta enfermedad.</p>
+                        <p>{% trans %}Este proyecto forma parte de mi trabajo de fin de grado y espero que sea de utilidad a muchas personas.{% endtrans %}</p>
+                        <p>{% trans %}Trabajamos junto con la Asociación de Parkinson de Burgos para hacer un poco más fácil la vida de las personas que sufren esta enfermedad.{% endtrans %}</p>
                     </div>
                 </div>
             </div>
