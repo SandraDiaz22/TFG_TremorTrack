@@ -37,9 +37,9 @@
                       {% trans %}Idioma{% endtrans %}
                   </a>
                   <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#">{% trans %}Inglés{% endtrans %}</a></li>
-                    <li><a class="dropdown-item" href="#">{% trans %}Español{% endtrans %}</a></li>
-                    <li><a class="dropdown-item" href="#">{% trans %}Francés{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="{{ request.path }}?lang=en">{% trans %}Inglés{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="{{ request.path }}?lang=es">{% trans %}Español{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="{{ request.path }}?lang=fr">{% trans %}Francés{% endtrans %}</a></li>
                   </ul>
                 </li>
               </ul>

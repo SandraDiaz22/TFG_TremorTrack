@@ -70,16 +70,6 @@ def inject_get_locale():
             #<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> -->
 
 
-
-#----------------------------------------------------------------
-#Mensaje personalizado en las paginas no existentes (error 404)
-@app.errorhandler(404)
-def page_not_found(e):
-    return render_template('404.html'), 404
-#----------------------------------------------------------------
-
-
-
 #----------------------------------------------------------------
 #Ruta para poder mostrar las imágenes
 @app.route('/get_image/<filename>')
@@ -91,6 +81,15 @@ def get_image(filename):
 @app.route('/get_video/<filename>')
 def get_video(filename):
     return send_from_directory('static/videos', filename)
+#----------------------------------------------------------------
+
+
+
+#----------------------------------------------------------------
+#Mensaje personalizado en las paginas no existentes (error 404)
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 #----------------------------------------------------------------
 
 
@@ -198,6 +197,20 @@ def BienvenidaMedico(name):
 
     return render_template('BienvenidaMedico.html', name=name, medico=medico)
 #----------------------------------------------------------------
+
+
+
+#----------------------------------------------------------------
+#Página que muestra el listado de pacientes a los médicos.
+#Por ahora nada
+@app.route('/listadoPacientes')
+def listadoPacientes():
+    #base de datos para la foto
+    medico = Medico.query.get(1)
+
+    return render_template('listadoPacientes.html', medico=medico)
+#----------------------------------------------------------------
+
 
 
 #----------------------------------------------------------------

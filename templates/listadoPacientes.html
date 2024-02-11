@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>{% trans %} Bienvenido{% endtrans %} </title>
+    <title>{% trans %}Listado pacientes{% endtrans %}</title>
 
 {% endblock %}
 
@@ -59,16 +59,15 @@
     <!--Contenido de la página-->
     <div class="container mt-4 mb-4">
 
-        <!-- poner nombre  -->
-        <h1>{% trans %}Bienvenido de nuevo {% endtrans %}</h1>
-
-        <!-- poner recuadro con la foto y cerrar sesion -->
-        <h2> Hola {{name}} </h2> 
-        <img src="{{medico.foto}}" alt="Imagen del médico">
+        <h1>{% trans %} Listado pacientes {% endtrans %}</h1>
         
-        <!-- Boton para ir al listado de pacientes -->
-        <a href="/listadoPacientes" class="btn btn-primary btn-lg">{% trans %}Mostrar listado pacientes{% endtrans %}</a>
-    
+        <!-- Poner esquina superior derecha un recuadro con nombre, foto y cerrar sesion -->
+        <!-- <h2> Hola {{name}} </h2>  -->
+        
+        <!-- <img src="{{medico.foto}}" alt="Imagen del médico"> -->
+        <!-- : https://askalione.github.io/bootstrap-table-filter/ -->
+        
+   
     </div>
 
 {% endblock %}
