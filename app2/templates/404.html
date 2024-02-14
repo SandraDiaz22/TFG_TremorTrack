@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>Error 404 - Página no encontrada</title>
+    <title>{% trans %}Error 404 - Página no encontrada{% endtrans %}</title>
 
 {% endblock %}
 
@@ -10,16 +10,17 @@
 
 {% block body %}
 
-    <h1>Error 404 - Página no encontrada</h1>
-    <br>
-    <p>¡Ups! Parece que has llegado a un lugar inexplorado. Vamos a buscar un lugar mejor para ti.</p>
-    <br>
-        
-    <form method="post" action="/paginaprincipal">
-        <button type="submit">Acceso pacientes</button>
-    </form>
-    <br>
+<div class="container text-center mt-5">
 
-    <img src="/get_image/404.png" alt="Imagen divertida" style="max-width: 500px; height: auto;">
+    <h1 class="display-4">{% trans %}Error 404 - Página no encontrada{% endtrans %}</h1>
+
+    <p class="lead">{% trans %}¡Ups! Parece que has llegado a un lugar inexplorado. Vamos a buscar un lugar mejor para ti.{% endtrans %}</p>
+
+    <a href="/" class="btn btn-primary btn-lg">{% trans %}Ir a la página principal{% endtrans %}</a>
+    
+    <br><br>
+
+    <img src="/get_image/404.png" alt="Imagen divertida" class="img-fluid" style="max-width: 500px;">
+</div>
 
 {% endblock %}

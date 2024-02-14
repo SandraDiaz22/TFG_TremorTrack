@@ -1,0 +1,229 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-02-11 12:42+0100\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: templates/404.html:5 templates/404.html:15
+msgid "Error 404 - Página no encontrada"
+msgstr ""
+
+#: templates/404.html:17
+msgid ""
+"¡Ups! Parece que has llegado a un lugar inexplorado. Vamos a buscar un "
+"lugar mejor para ti."
+msgstr ""
+
+#: templates/404.html:19
+msgid "Ir a la página principal"
+msgstr ""
+
+#: templates/contacto.html:5 templates/contacto.html:39 templates/login.html:35
+#: templates/paginaprincipal.html:32 templates/sobreNosotros.html:32
+msgid "Contacto"
+msgstr ""
+
+#: templates/contacto.html:23 templates/login.html:19
+#: templates/paginaprincipal.html:16 templates/sobreNosotros.html:16
+msgid "Logo APP"
+msgstr ""
+
+#: templates/contacto.html:26 templates/login.html:22
+#: templates/paginaprincipal.html:19 templates/sobreNosotros.html:19
+msgid "Toggle navigation"
+msgstr ""
+
+#: templates/contacto.html:35 templates/login.html:31
+#: templates/paginaprincipal.html:28 templates/sobreNosotros.html:5
+#: templates/sobreNosotros.html:28
+msgid "Sobre nosotros"
+msgstr ""
+
+#: templates/contacto.html:44 templates/login.html:40
+#: templates/paginaprincipal.html:37 templates/sobreNosotros.html:37
+msgid "Idioma"
+msgstr ""
+
+#: templates/contacto.html:47 templates/login.html:43
+#: templates/paginaprincipal.html:40 templates/sobreNosotros.html:40
+msgid "Inglés"
+msgstr ""
+
+#: templates/contacto.html:48 templates/login.html:44
+#: templates/paginaprincipal.html:41 templates/sobreNosotros.html:41
+msgid "Español"
+msgstr ""
+
+#: templates/contacto.html:49 templates/login.html:45
+#: templates/paginaprincipal.html:42 templates/sobreNosotros.html:42
+msgid "Francés"
+msgstr ""
+
+#: templates/contacto.html:57 templates/login.html:53
+#: templates/sobreNosotros.html:50
+msgid "Página principal"
+msgstr ""
+
+#: templates/contacto.html:60 templates/paginaprincipal.html:50
+#: templates/sobreNosotros.html:53
+msgid "Iniciar sesión"
+msgstr ""
+
+#: templates/contacto.html:71
+msgid "Contacta con nosotros"
+msgstr ""
+
+#: templates/contacto.html:75
+msgid "Preguntas y consultas"
+msgstr ""
+
+#: templates/contacto.html:76
+msgid ""
+"Puedes enviarnos tus preguntas y consultas a través de nuestros correos "
+"electrónicos:"
+msgstr ""
+
+#: templates/contacto.html:84
+msgid "Ubicación"
+msgstr ""
+
+#: templates/contacto.html:85
+msgid "Encuéntranos en:"
+msgstr ""
+
+#: templates/contacto.html:95
+msgid "© OpenStreetMap contributors"
+msgstr ""
+
+#: templates/contacto.html:99
+msgid "Avenida Cantabria, s/n, 09006 Burgos (España)"
+msgstr ""
+
+#: templates/login.html:5
+msgid "Login"
+msgstr ""
+
+#: templates/login.html:63 templates/paginaprincipal.html:62
+msgid "TremorTrack"
+msgstr ""
+
+#: templates/login.html:66
+msgid "Inicie sesión"
+msgstr ""
+
+#: templates/login.html:70
+msgid "Datos de Administrador"
+msgstr ""
+
+#: templates/login.html:71 templates/login.html:75 templates/login.html:79
+msgid "Nombre de Usuario"
+msgstr ""
+
+#: templates/login.html:72 templates/login.html:76 templates/login.html:80
+msgid "Contraseña"
+msgstr ""
+
+#: templates/login.html:74
+msgid "Datos de Médico"
+msgstr ""
+
+#: templates/login.html:78
+msgid "Datos de Paciente"
+msgstr ""
+
+#: templates/login.html:90
+msgid "Ingresa tu nombre de usuario"
+msgstr ""
+
+#: templates/login.html:95
+msgid "Ingresa tu contraseña"
+msgstr ""
+
+#: templates/login.html:100
+msgid "Enviar"
+msgstr ""
+
+#: templates/paginaprincipal.html:5
+msgid "Página Principal"
+msgstr ""
+
+#: templates/paginaprincipal.html:66
+msgid "Descubre todo lo que puedes hacer con TremorTrack:"
+msgstr ""
+
+#: templates/paginaprincipal.html:69
+msgid "Pacientes"
+msgstr ""
+
+#: templates/paginaprincipal.html:70
+msgid ""
+"- Realizar el seguimiento de los datos medidos por tú sensor gracias a "
+"gráficas."
+msgstr ""
+
+#: templates/paginaprincipal.html:71
+msgid ""
+"- Predecir con IA cómo va a ser tú evolución según tus datos hasta el "
+"momento."
+msgstr ""
+
+#: templates/paginaprincipal.html:75
+msgid "Médicos"
+msgstr ""
+
+#: templates/paginaprincipal.html:76
+msgid "- Consultar los datos de todos tus pacientes."
+msgstr ""
+
+#: templates/paginaprincipal.html:77
+msgid "- Realizar predicciones con IA."
+msgstr ""
+
+#: templates/paginaprincipal.html:78
+msgid "- Subir vídeos y datos de tus pacientes."
+msgstr ""
+
+#: templates/sobreNosotros.html:63
+msgid "Conócenos"
+msgstr ""
+
+#: templates/sobreNosotros.html:71
+msgid "Sandra"
+msgstr ""
+
+#: templates/sobreNosotros.html:75
+msgid "¡Hola! Soy Sandra"
+msgstr ""
+
+#: templates/sobreNosotros.html:76
+msgid ""
+"Me presento: soy estudiante de Ingeniería Informática en la Universidad "
+"de Burgos y, junto con mi tutor Álvar Arnaiz, somos los creadores de esta"
+" aplicación web."
+msgstr ""
+
+#: templates/sobreNosotros.html:85
+msgid ""
+"Este proyecto forma parte de mi trabajo de fin de grado y espero que sea "
+"de utilidad a muchas personas."
+msgstr ""
+
+#: templates/sobreNosotros.html:86
+msgid ""
+"Trabajamos junto con la Asociación de Parkinson de Burgos para hacer un "
+"poco más fácil la vida de las personas que sufren esta enfermedad."
+msgstr ""
+

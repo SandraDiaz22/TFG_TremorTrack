@@ -1,0 +1,144 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Listado pacientes{% endtrans %}</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <!--Barra superior de navegación-->
+    <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
+        <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
+        
+        <a class="navbar-brand" href="/">
+            <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
+        </a>
+        
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
+            <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNavDropdown"> <!--Sección que se contrae-->
+            
+            <ul class="navbar-nav"><!--A la izq-->
+            
+            <li class="nav-item" style="width: 200px;"><!--Ancho-->
+                <a class="nav-link" href="/sobreNosotros">{% trans %}Sobre nosotros{% endtrans %}</a>
+            </li>
+            
+            <li class="nav-item" style="width: 200px;">
+                <a class="nav-link" href="/contacto">{% trans %}Contacto{% endtrans %}</a>
+            </li>
+            
+            <li class="nav-item dropdown" style="width: 200px;">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% trans %}Idioma{% endtrans %}
+                </a>
+                <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{{ request.path }}?lang=en">{% trans %}Inglés{% endtrans %}</a></li>
+                <li><a class="dropdown-item" href="{{ request.path }}?lang=es">{% trans %}Español{% endtrans %}</a></li>
+                <li><a class="dropdown-item" href="{{ request.path }}?lang=fr">{% trans %}Francés{% endtrans %}</a></li>
+                </ul>
+            </li>
+            </ul>
+        </div>
+
+            <ul class="navbar-nav ms-auto"><!--A la dcha-->
+            <li class="nav-item" style="width: 200px;">
+                <a class="nav-link" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
+            </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    <!--Contenido de la página-->
+    <div class="container mt-4 mb-4">
+
+        <h1>{% trans %} Listado pacientes {% endtrans %}</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans %}ID{% endtrans %}</th>
+                    <th>{% trans %}Nombre{% endtrans %}</th>
+                    <th>{% trans %}Foto{% endtrans %}</th>
+                    <th>{% trans %}Acciones{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                <tr>
+                    <td>{{ paciente.id_paciente }}</td>
+                    <td>{{ paciente.nombre }}</td>
+                    <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
+                    <td>
+                        <button class="btn btn-info mostrar-info" data-id="{{ paciente.id_paciente }}">{% trans %} Información personal {% endtrans %}</button>
+                        <div class="datos-personales" style="display: none;"> <!--Datos invisibles-->
+                            <p>{% trans %} Fecha de nacimiento: {% endtrans %} {{ paciente.fecha_de_nacimiento }}</p>
+                            <p>{% trans %} Dirección: {% endtrans %} {{ paciente.direccion }}</p>
+                            <p>{% trans %} Teléfono: {% endtrans %} {{ paciente.telefono }}</p>
+                        </div>
+
+
+                        <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
+                        <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
+                            <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                <input type="file" name="archivo_video" accept="video/*">
+                                <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
+                            </form>
+                        </div>
+
+
+                        <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
+                        <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
+                            <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                <input type="file" name="archivo_sensor" accept=".csv">
+                                <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
+                            </form>
+                        </div>
+
+
+                        <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
+                    </td>
+
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Poner esquina superior derecha un recuadro con nombre, foto y cerrar sesion -->
+        <!-- <h2> Hola {{name}} </h2>  -->
+        
+        <!-- <img src="{{medico.foto}}" alt="Imagen del médico"> -->
+        <!-- : https://askalione.github.io/bootstrap-table-filter/ -->
+        
+   
+    </div>
+
+    <!-- Bootstrap-table filter -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script>
+        $(document).ready(function(){
+            $(".mostrar-info").click(function(){
+                var pacienteId = $(this).data("id");
+                $(this).next(".datos-personales").toggle();//Muestra más datos
+            });
+
+            $(".subir-videos").click(function(){
+                $(this).next(".formulario-videos").toggle(); //Muestra el formulario para subir videos
+            });
+
+            $(".subir-datos").click(function(){
+                $(this).next(".formulario-datos").toggle(); //Muestra el formulario para subir csv
+            });
+        });
+    </script>
+
+
+{% endblock %}
