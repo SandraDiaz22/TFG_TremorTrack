@@ -11,6 +11,8 @@ from flask_babel import Babel, _
 import csv
 import os
 
+import pandas as pd
+
 
 #Inicializar aplicación
 app = Flask(__name__, static_url_path='/static')
@@ -224,7 +226,21 @@ def listadoPacientes():
 #Por ahora nada
 @app.route('/mostrarDatosSensor/<paciente>')
 def mostrarDatosSensor(paciente):
-    return render_template('mostrarDatosSensor.html', paciente=paciente)
+    #base de datos de ese paciente
+    bbddpaciente = Paciente.query.get(paciente)
+    #base de datos para los registros
+    registros = Registros.query.get(1)
+  
+    # Obtener la ruta completa al archivo CSV
+    ruta_archivo = registros.datos_en_crudo
+    ruta_completa = os.path.join(app.root_path, ruta_archivo)
+
+
+    with open(ruta_completa, 'r') as file: #Abrir el CSV para leer los datos
+        reader = csv.reader(file)
+        data = [row for row in reader] #Convertir los datos a una lista de diccionarios
+
+    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, data=data)
 #----------------------------------------------------------------
 
 

@@ -87,7 +87,16 @@
                         <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
                         <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
                             <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
-                                <input type="file" name="archivo_video" accept="video/*">
+                                <input type="file" name="archivo_video" accept="video/*" required>
+                                <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
+                                <input type="date" id="fecha_video" name="fecha_video" required>
+                                <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
+                                <select id="mano" name="mano" required>
+                                    <option value="">{% trans %} Seleccionar {% endtrans %}</option>
+                                    <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
+                                    <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
+                                </select>
+
                                 <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
                             </form>
                         </div>
@@ -96,7 +105,9 @@
                         <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
                         <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
                             <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
-                                <input type="file" name="archivo_sensor" accept=".csv">
+                                <input type="file" name="archivo_sensor" accept=".csv" required>
+                                <label for="fecha_sensor">{% trans %} Fecha de los datos: {% endtrans %}</label>
+                                <input type="date" id="fecha_sensor" name="fecha_sensor" required>
                                 <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
                             </form>
                         </div>

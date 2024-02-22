@@ -10,7 +10,32 @@
 
 {% block body %}
     
-    <h1> datos paciente {{paciente}}</h1>
+    <!--Paciente-->
+    <h1> Paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} (id: {{bbddpaciente.id_paciente}})</h1>
+    <!--Faltaría poner en la esquina la foto y cosas del medico-->
+    <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente">
+
+    <!--Formulario para saber qué gráfica mostrar-->
+    <form action="" method="post" enctype="multipart/form-data">
+        <label for="grafica">{% trans %} Selecciona la gráfica a mostrar: {% endtrans %}</label>
+        <select id="grafica" name="greafica" required>
+            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
+            <option value="1">{% trans %} Número de pasos detectados {% endtrans %}</option>
+            <option value="2">{% trans %} Longitud de pasos del paciente {% endtrans %}</option>
+            <option value="3">{% trans %} y {% endtrans %}</option>
+            <option value="4">{% trans %} z {% endtrans %}</option>
+        </select>
+
+
+        <label for="fecha_desde">{% trans %} Selecciona fecha de inicio: {% endtrans %}</label>
+        <input type="date" id="fecha_desde" name="fecha_desde" required>
+        <label for="fecha_hasta">{% trans %} Selecciona fecha de fin: {% endtrans %}</label>
+        <input type="date" id="fecha_hasta" name="fecha_hasta" required>
+        <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
+    </form>
+
+    <!--Gráfica usando chart-->
+    <!--Antes en matplotlib-->
 
 
 {% endblock %}
