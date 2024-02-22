@@ -58,12 +58,15 @@
             transition: transform 0.3s; /*Lento*/ }
 
         .presentacion:hover {
-            transform: scale(1.05); /* Escala la tarjeta al pasar el ratón por encima */}
+            transform: scale(1.05); /* Escala la tarjeta al pasar el ratón por encima*/}
         
         .info-adicional {
             background-color: #f8f9fa;
             border-radius: 10px;
             padding: 20px; }
+
+        .active {
+            text-decoration: underline; /* Subraya la pagina en la que estamos*/    }
     
 
         
@@ -117,10 +120,57 @@
     <!--Biblioteca de Bootstrap-->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-    {% block body %}
-    {% endblock %}
+    <!--Barra superior de navegación-->
+    <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
+        <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
+            
+            <a class="navbar-brand" href="/">
+            <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
+            <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
+            </button>
 
-    
+            <div class="collapse navbar-collapse" id="navbarNavDropdown"> <!--Sección que se contrae-->
+            
+            <ul class="navbar-nav"><!--A la izq-->
+                
+                <li class="nav-item" style="width: 200px;"><!--Ancho-->
+                    <a class="nav-link {% if g.page == 'sobreNosotros' %}active text-primary{% endif %}" href="/sobreNosotros">{% trans %}Sobre nosotros{% endtrans %}</a>
+                </li>
+                
+                <li class="nav-item" style="width: 200px;">
+                    <a class="nav-link {% if g.page == 'contacto' %}active text-primary{% endif %}" href="/contacto">{% trans %}Contacto{% endtrans %}</a>
+                </li>
+                
+                <li class="nav-item dropdown" style="width: 200px;">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% trans %}Idioma{% endtrans %}
+                </a>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="{{ request.path }}?lang=en">{% trans %}Inglés{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="{{ request.path }}?lang=es">{% trans %}Español{% endtrans %}</a></li>
+                    <li><a class="dropdown-item" href="{{ request.path }}?lang=fr">{% trans %}Francés{% endtrans %}</a></li>
+                </ul>
+                </li>
+            </ul>
+            </div>
+
+            <ul class="navbar-nav ms-auto"><!--A la dcha-->
+                <li class="nav-item" style="width: 200px;">
+                    <a class="nav-link {% if g.page == 'paginaprincipal' %}active text-primary{% endif %}" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
+                </li>
+                <li class="nav-item" style="width: 200px;">
+                    <a class="nav-link {% if g.page == 'login' %}active text-primary{% endif %}" href="/login">{% trans %}Iniciar sesión{% endtrans %}</a><!--Lleva a la página de login-->
+                </li>
+            </ul>
+
+        </div>
+    </nav>
+
+    {% block body %}{% endblock %}
+        
     <footer>
         <!-- Logos de la ubu y del parkinson al final de cada página-->
         <a target="_blank" href="https://www.ubu.es/grado-en-ingenieria-informatica">

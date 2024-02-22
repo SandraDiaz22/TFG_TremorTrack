@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, session, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, make_response, session, redirect, url_for, send_from_directory, g
 
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
@@ -29,6 +29,11 @@ db.init_app(app)
 #Fotos
 app.static_folder = 'fotos'
 
+#Determina la página en la que nos encontramos
+@app.before_request
+def pagina_actual():
+    if request.endpoint:
+        g.page = request.endpoint.split('.')[-1]
 
 
 #----------------------------------------------------------------
