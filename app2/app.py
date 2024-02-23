@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, session, redirect, url_for, send_from_directory, g
+from flask import Flask, render_template, request, make_response, session, redirect, url_for, send_from_directory, g, flash
 
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
@@ -7,6 +7,7 @@ import form
 from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 from flask_babel import Babel, _
+from werkzeug.utils import secure_filename
 
 import csv
 import os
@@ -35,6 +36,61 @@ def pagina_actual():
     if request.endpoint:
         g.page = request.endpoint.split('.')[-1]
 
+
+
+
+#----------------------------------------------------------------
+#Subida de archivos a la bbdd
+
+#Configurar directorio donde se guardarán los archivos subidos
+app.config['UPLOAD_FOLDER'] = 'static/registros'
+#Limitar el tamaño máximo
+app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  #16MB
+        
+#Extensiones de archivo permitidas
+EXTENSION_CSV = {'csv'}
+EXTENSION_VIDEO = {}
+
+#Funciones que verifican que el archivo pasado tiene la extensión permitida
+def CSVpermitido(archivo):
+    return '.' in archivo and \
+           archivo.rsplit('.', 1)[1].lower() in EXTENSION_CSV
+
+def VIDEOpermitido(archivo):
+    return '.' in archivo and \
+           archivo.rsplit('.', 1)[1].lower() in EXTENSION_VIDEO
+
+
+@app.route('/subirDatosSensor/<id_paciente>', methods=['POST'])
+def subir_datos_sensor(id_paciente):
+    archivo = request.files['archivo_sensor'] #Archivo introducido por el médico 
+    if archivo and CSVpermitido(archivo.filename):
+        nombre_archivo = secure_filename(archivo.filename)
+
+        #Ruta de la carpeta del usuario dentro de static/registros
+        ruta_usuario = os.path.join(app.config['UPLOAD_FOLDER'], str(id_paciente))
+        #Si no existe carpeta para ese usurio la crea
+        os.makedirs(ruta_usuario, exist_ok=True)
+
+
+        #Ruta completa del archivo
+        ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
+        #Guardamos el archivo
+        archivo.save(ruta_archivo)
+
+
+        #Extrae la fecha del formulario
+        fecha_registro = request.form['fecha_sensor']
+
+
+        #Crea una instancia del modelo Registros
+        nuevo_registro = Registros(paciente=id_paciente, fecha=fecha_registro, datos_en_crudo=ruta_archivo)
+        #Y la añade a la base de datos
+        db.session.add(nuevo_registro)
+        db.session.commit()
+
+        flash('Archivo CSV subido con éxito.')
+        return redirect(url_for('listadoPacientes'))  # Asegúrate de redirigir a la vista adecuada
 
 #----------------------------------------------------------------
 #Traduccion
