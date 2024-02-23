@@ -43,7 +43,8 @@ def pagina_actual():
 #Subida de archivos a la bbdd
 
 #Configurar directorio donde se guardarán los archivos subidos
-app.config['UPLOAD_FOLDER'] = 'static/registros'
+app.config['UPLOAD_FOLDER'] = 'app2/static/registros'
+app.config['UPLOAD_FOLDER2'] = 'static/registros'
 #Limitar el tamaño máximo
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  #16MB
         
@@ -84,7 +85,8 @@ def subir_datos_sensor(id_paciente):
 
 
         #Crea una instancia del modelo Registros
-        nuevo_registro = Registros(paciente=id_paciente, fecha=fecha_registro, datos_en_crudo=ruta_archivo)
+        ruta_archivo_bbdd = os.path.join(app.config['UPLOAD_FOLDER2'], str(id_paciente), nombre_archivo).replace('\\', '/')
+        nuevo_registro = Registros(paciente=id_paciente, fecha=fecha_registro, datos_en_crudo=ruta_archivo_bbdd)
         #Y la añade a la base de datos
         db.session.add(nuevo_registro)
         db.session.commit()
