@@ -1,0 +1,59 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>Bienvenido</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <h1> Bienvenido Paciente </h1>
+    <h2> Hola {{name}} </h2> 
+        
+    <img src="{{paciente.foto}}" alt="Imagen del paciente">
+
+    <video width="640" height="360" controls>
+        <source src="/get_video/{{video.contenido}}" type="video/mp4">
+        Tu navegador no soporta el tag de video.
+    </video>
+
+
+    <table border="1">
+        
+    {% for row in data %}
+    <tr>
+        <td>{{ row[0] }}</td>
+        <td>{{ row[1] }}</td>
+        <td>{{ row[2] }}</td>
+        <td>{{ row[3] }}</td>
+        <td>{{ row[4] }}</td>
+        <td>{{ row[5] }}</td>
+        <td>{{ row[6] }}</td>
+        <td>{{ row[7] }}</td>
+        <td>{{ row[8] }}</td>
+        <td>{{ row[9] }}</td>
+        <td>{{ row[10] }}</td>
+        <td>{{ row[11] }}</td>
+        <td>{{ row[12] }}</td>
+        <td>{{ row[13] }}</td>
+        <td>{{ row[14] }}</td>
+        <td>{{ row[15] }}</td>
+        <td>{{ row[16] }}</td>
+        <td>{{ row[17] }}</td>
+        <td>{{ row[18] }}</td>
+        <td>{{ row[19] }}</td>
+        <td>{{ row[20] }}</td>
+        <td>{{ row[21] }}</td>
+        <td>{{ row[22] }}</td>
+        <td>{{ row[23] }}</td>
+        <td>{{ row[24] }}</td>
+        <td>{{ row[25] }}</td>
+        <td>{{ row[26] }}</td>
+    </tr>
+    </table>
+    {% endfor %}
+
+{% endblock %}

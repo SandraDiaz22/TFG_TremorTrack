@@ -1,0 +1,55 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Login{% endtrans %}</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+        
+  <!--Nombre de la aplicación-->
+  <img src="/get_image/logoletras.JPG" alt="{% trans %}TremorTrack{% endtrans %}" style="max-width: 250px; height: auto; margin: 0 10px;">
+
+
+  <h1>{% trans %}Inicie sesión{% endtrans %}</h1>
+
+
+  <!--Datos de prueba--->
+  <p class="prueba"><b>{% trans %}Datos de Administrador{% endtrans %}</b>
+      <br>{% trans %}Nombre de Usuario{% endtrans %}: {{ administrador.nombre_de_usuario }}
+      <br>{% trans %}Contraseña{% endtrans %}: {{ administrador.contraseña }}</p>
+  
+  <p class="prueba"><b>{% trans %}Datos de Médico{% endtrans %}</b>
+      <br>{% trans %}Nombre de Usuario{% endtrans %}: {{ medico.nombre_de_usuario }}
+      <br>{% trans %}Contraseña{% endtrans %}: {{ medico.contraseña }}</p>
+  
+  <p class="prueba"><b>{% trans %}Datos de Paciente{% endtrans %}</b>
+      <br>{% trans %}Nombre de Usuario{% endtrans %}: {{ paciente.nombre_de_usuario }}
+      <br>{% trans %}Contraseña{% endtrans %}: {{ paciente.contraseña }}</p>
+
+
+
+  <!--Formulario de inicio de sesión, randerizando de form.py-->
+  {% from "camposform.html" import render_field %}
+
+  <form action="/login" method="post" >
+
+    <!-- Casilla para el nombre -->
+    {{ render_field(form.username, class='form-control', placeholder=_('Ingresa tu nombre de usuario')) }}
+    <!-- Para mostrar mensajes de error -->
+    <p class="help-block text-danger"></p>
+
+    <!-- Casilla para la contraseña -->
+    {{ render_field(form.contraseña, class='form-control', placeholder=_('Ingresa tu contraseña')) }}
+    <p class="help-block text-danger"></p>
+
+    <br>
+    
+    <button type="submit" class="btn btn-default">{% trans %}Enviar{% endtrans %}</button>
+
+  </form>
+
+{% endblock %}

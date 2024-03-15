@@ -1,0 +1,54 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Contacto{% endtrans %}</title>
+    
+    <!-- Leaflet para el mapa -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <!-- Font Awesome para los correos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+
+{% endblock %}
+
+{% block body %}
+
+  <!--Contenido de la página-->
+
+  <div class="container mt-5">
+    <h1 class="mb-4">{% trans %}Contacta con nosotros{% endtrans %}</h1>
+
+    <div class="row"> <!--Columnas responsivas de Bootstrap-->
+        <div class="col-md-6"> <!--Correos-->
+            <h3>{% trans %}Preguntas y consultas{% endtrans %}</h3>
+            <p>{% trans %}Puedes enviarnos tus preguntas y consultas a través de nuestros correos electrónicos:{% endtrans %}</p>
+            <ul class="list-unstyled">
+                <li><i class="fas fa-envelope"></i> <a href="mailto:sda1003@alu.ubu.es">sda1003@alu.ubu.es</a></li>
+                <li><i class="fas fa-envelope"></i> <a href="mailto:alvarag@ubu.es">alvarag@ubu.es</a></li>
+            </ul>
+        </div>
+
+        <div class="col-md-6"> <!--Ubicación-->
+            <h3>{% trans %}Ubicación{% endtrans %}</h3>
+            <p>{% trans %}Encuéntranos en:{% endtrans %}</p>
+            <div id="map" style="height: 400px;"></div>
+        </div>
+    </div>
+  </div>
+
+  <script>
+      //Código en JavaScript para mostrar la ubicación de la UBU
+      var map = L.map('map').setView([42.351164, -3.688673], 15); //Coordenadas y zoom
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '{% trans %}© OpenStreetMap contributors{% endtrans %}' //Créditos a OpenStreetMap :)
+      }).addTo(map);
+
+      L.marker([42.351164, -3.688673]).addTo(map) //Coordenadas politecnica
+          .bindPopup('{% trans %}Avenida Cantabria, s/n, 09006 Burgos (España){% endtrans %}') //Mensaje
+          .openPopup();
+  </script>
+
+{% endblock %}
