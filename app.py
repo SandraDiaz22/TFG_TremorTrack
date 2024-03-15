@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, session, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, make_response, session, redirect, url_for, send_from_directory, g, flash
 
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
@@ -7,9 +7,12 @@ import form
 from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 from flask_babel import Babel, _
+from werkzeug.utils import secure_filename
 
 import csv
 import os
+
+import pandas as pd
 
 
 #Inicializar aplicación
@@ -26,6 +29,101 @@ db.init_app(app)
 
 #Fotos
 app.static_folder = 'fotos'
+
+#Determina la página en la que nos encontramos
+@app.before_request
+def pagina_actual():
+    if request.endpoint:
+        g.page = request.endpoint.split('.')[-1]
+
+
+
+
+#----------------------------------------------------------------
+#Subida de archivos a la bbdd
+
+#Configurar directorio donde se guardarán los archivos subidos
+app.config['UPLOAD_FOLDER'] = 'app2/static/registros'
+app.config['UPLOAD_FOLDER2'] = 'static/registros'
+app.config['UPLOAD_FOLDER3'] = 'app2/static/videos'
+#Limitar el tamaño máximo
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB
+        
+#Extensiones de archivo permitidas
+EXTENSION_CSV = {'csv'}
+EXTENSION_VIDEO = {'mp4'}
+
+#Funciones que verifican que el archivo pasado tiene la extensión permitida
+def CSVpermitido(archivo):
+    return '.' in archivo and \
+           archivo.rsplit('.', 1)[1].lower() in EXTENSION_CSV
+
+def VIDEOpermitido(archivo):
+    return '.' in archivo and \
+           archivo.rsplit('.', 1)[1].lower() in EXTENSION_VIDEO
+
+
+@app.route('/subirDatosSensor/<id_paciente>', methods=['POST'])
+def subir_datos_sensor(id_paciente):
+    archivo = request.files['archivo_sensor'] #Archivo introducido por el médico 
+    if archivo and CSVpermitido(archivo.filename):
+        nombre_archivo = secure_filename(archivo.filename)
+
+        #Ruta de la carpeta del usuario dentro de static/registros
+        ruta_usuario = os.path.join(app.config['UPLOAD_FOLDER'], str(id_paciente))
+        #Si no existe carpeta para ese usurio la crea
+        os.makedirs(ruta_usuario, exist_ok=True)
+
+        #Ruta completa del archivo
+        ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
+        #Guardamos el archivo
+        archivo.save(ruta_archivo)
+
+        #Extrae la fecha del formulario
+        fecha_registro = request.form['fecha_sensor']
+
+        #Crea una instancia del modelo Registros
+        ruta_archivo_bbdd = os.path.join(app.config['UPLOAD_FOLDER2'], str(id_paciente), nombre_archivo).replace('\\', '/')
+        nuevo_registro = Registros(paciente=id_paciente, fecha=fecha_registro, datos_en_crudo=ruta_archivo_bbdd)
+        #Y la añade a la base de datos
+        db.session.add(nuevo_registro)
+        db.session.commit()
+
+        flash('Archivo CSV subido con éxito.')
+        return redirect(url_for('listadoPacientes'))
+
+
+
+@app.route('/subirVideo/<id_paciente>', methods=['POST'])
+def subir_video(id_paciente):
+    archivo_video = request.files['archivo_video']  #Archivo introducido por el médico 
+    if archivo_video and VIDEOpermitido(archivo_video.filename):
+        nombre_archivo = secure_filename(archivo_video.filename)
+
+        #Carpeta donde se van a guardar los vídeos
+        ruta_usuario = os.path.join(app.config['UPLOAD_FOLDER3'], str(id_paciente))
+        #Si no existe carpeta para ese usurio la crea
+        os.makedirs(ruta_usuario, exist_ok=True)
+   
+        #Ruta completa del archivo
+        ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
+        #Guardamos el archivo
+        archivo_video.save(ruta_archivo)
+
+        #Extrae la fecha y mano dominante del formulario
+        fecha_video = request.form['fecha_video']
+        mano_dominante = request.form['mano']
+
+        #Crea una nueva instancia del modelo Videos
+        nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante)
+        #Y la añade a la base de datos
+        db.session.add(nuevo_video)
+        db.session.commit()
+
+        flash('Archivo de vídeo subido con éxito.')
+        return redirect(url_for('listadoPacientes'))
+
+
 
 
 
@@ -189,7 +287,7 @@ def BienvenidaAdmin(name):
 
 #----------------------------------------------------------------
 #Página de bienvenida para médicos.
-#Por ahora solo contiene el tipo de usuario
+#Por ahora solo contiene foto y dos botones
 @app.route('/BienvenidaMedico/<name>')
 def BienvenidaMedico(name):
     #base de datos para la foto
@@ -202,13 +300,43 @@ def BienvenidaMedico(name):
 
 #----------------------------------------------------------------
 #Página que muestra el listado de pacientes a los médicos.
-#Por ahora nada
+#Por ahora la lista con los botones pero feo
 @app.route('/listadoPacientes')
 def listadoPacientes():
-    #base de datos para la foto
-    medico = Medico.query.get(1)
+    medico_id = 1 #Quien inició sesion (cambiar a bien hecho)
 
-    return render_template('listadoPacientes.html', medico=medico)
+    #base de datos para la foto
+    medico = Medico.query.get(medico_id)
+
+    #Consulta para obtener todos los pacientes del médico logeado
+    pacientes = Paciente.query.filter_by(id_medico=medico_id).all()
+
+
+    return render_template('listadoPacientes.html', medico=medico, pacientes=pacientes)
+#----------------------------------------------------------------
+
+
+
+#----------------------------------------------------------------
+#Página que muestra los datos del sensor del paciente a los médicos.
+#Por ahora nada
+@app.route('/mostrarDatosSensor/<paciente>')
+def mostrarDatosSensor(paciente):
+    #base de datos de ese paciente
+    bbddpaciente = Paciente.query.get(paciente)
+    #base de datos para los registros
+    registros = Registros.query.get(1)
+  
+    # Obtener la ruta completa al archivo CSV
+    ruta_archivo = registros.datos_en_crudo
+    ruta_completa = os.path.join(app.root_path, ruta_archivo)
+
+
+    with open(ruta_completa, 'r') as file: #Abrir el CSV para leer los datos
+        reader = csv.reader(file)
+        data = [row for row in reader] #Convertir los datos a una lista de diccionarios
+
+    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, data=data)
 #----------------------------------------------------------------
 
 
@@ -314,4 +442,4 @@ def acceso():
 if __name__=='__main__':
     #csrf.init_app(app) #Proteccion anti csrf
 
-    app.run() #Ejecutar
+    app.run(debug=True) #Ejecutar

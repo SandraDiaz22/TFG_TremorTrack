@@ -10,65 +10,25 @@
 
 {% block body %}
 
-    <!--Barra superior de navegación-->
-    <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
-        <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
-        
-        <a class="navbar-brand" href="/">
-            <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
-        </a>
-        
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
-            <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
-        </button>
-
-        <div class="collapse navbar-collapse" id="navbarNavDropdown"> <!--Sección que se contrae-->
-            
-            <ul class="navbar-nav"><!--A la izq-->
-            
-            <li class="nav-item" style="width: 200px;"><!--Ancho-->
-                <a class="nav-link" href="/sobreNosotros">{% trans %}Sobre nosotros{% endtrans %}</a>
-            </li>
-            
-            <li class="nav-item" style="width: 200px;">
-                <a class="nav-link" href="/contacto">{% trans %}Contacto{% endtrans %}</a>
-            </li>
-            
-            <li class="nav-item dropdown" style="width: 200px;">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    {% trans %}Idioma{% endtrans %}
-                </a>
-                <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="{{ request.path }}?lang=en">{% trans %}Inglés{% endtrans %}</a></li>
-                <li><a class="dropdown-item" href="{{ request.path }}?lang=es">{% trans %}Español{% endtrans %}</a></li>
-                <li><a class="dropdown-item" href="{{ request.path }}?lang=fr">{% trans %}Francés{% endtrans %}</a></li>
-                </ul>
-            </li>
-            </ul>
-        </div>
-
-            <ul class="navbar-nav ms-auto"><!--A la dcha-->
-            <li class="nav-item" style="width: 200px;">
-                <a class="nav-link" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
-            </li>
-            </ul>
-
-        </div>
-    </nav>
-
     <!--Contenido de la página-->
     <div class="container mt-4 mb-4">
+        <div class="row justify-content-center">
 
-        <!-- poner nombre  -->
-        <h1>{% trans %}Bienvenido de nuevo {% endtrans %}</h1>
-
-        <!-- poner recuadro con la foto y cerrar sesion -->
-        <h2> Hola {{name}} </h2> 
-        <img src="{{medico.foto}}" alt="Imagen del médico">
+            <!-- Título de bienvenida + nombre médico-->
+            <h1>{% trans %}Bienvenido de nuevo {% endtrans %}{{medico.nombre}}</h1>
         
-        <!-- Boton para ir al listado de pacientes -->
-        <a href="/listadoPacientes" class="btn btn-primary btn-lg">{% trans %}Mostrar listado pacientes{% endtrans %}</a>
-    
-    </div>
+            <div class="col-md-8 text-center border p-4 mb-4">
+                <!-- Foto del médico -->
+                <img src="{{medico.foto}}" alt="Imagen del médico" class="img-fluid rounded-circle mb-4" style="max-width: 200px;">
+                <!-- Botón para cerrar sesión -->
+                <a href="/logout" class="btn btn-danger btn-lg mr-2">{% trans %}Cerrar sesión{% endtrans %}</a>
+            </div>
 
+            <div class="col-md-8 text-center mb-4">
+                <!-- Botón para ir al listado de pacientes -->
+                <a href="/listadoPacientes" class="btn btn-primary btn-lg">{% trans %}Mostrar listado pacientes{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+    
 {% endblock %}

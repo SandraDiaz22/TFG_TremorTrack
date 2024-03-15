@@ -42,8 +42,9 @@ class Registros(db.Model):
     datos_en_crudo = db.Column(db.String(250), nullable=False)
 
 class Videos(db.Model):
-    fecha = db.Column(db.Date, primary_key=True)
+    id_video = db.Column(db.Integer, primary_key=True)
     paciente = db.Column(db.Integer, db.ForeignKey('paciente.id_paciente'), nullable=True)
-    contenido = db.Column(db.LargeBinary, nullable=False)
+    fecha = db.Column(db.Date, nullable=False)
+    contenido = db.Column(db.String(250), nullable=False)
     mano_dominante = db.Column(db.Enum('mano derecha', 'mano izquierda'), nullable=False)
     
