@@ -27,7 +27,7 @@ class Paciente(db.Model):
     correo_electronico = db.Column(db.String(255), unique=True, nullable=False)
     nombre = db.Column(db.String(50), nullable=False)
     apellido = db.Column(db.String(50), nullable=False)
-    foto = db.Column(db.String(255), nullable=False)
+    foto = db.Column(db.String(255), nullable=True)
     fecha_de_nacimiento = db.Column(db.Date, nullable=False)
     sensor = db.Column(db.Enum('SI', 'NO'), nullable=False)
     direccion = db.Column(db.String(255), nullable=False)
