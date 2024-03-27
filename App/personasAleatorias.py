@@ -25,7 +25,7 @@ def guardar_imagen(id_paciente):
 
 
             #Guardar la imagen en los archivos
-            ruta_imagen = os.path.join('app2/static/fotos', f"fotoPaciente{id_paciente}.png").replace('\\', '/')
+            ruta_imagen = os.path.join('static/fotos', f"fotoPaciente{id_paciente}.png").replace('\\', '/')
             with open(ruta_imagen, 'wb') as f:
                 f.write(imagen)
             

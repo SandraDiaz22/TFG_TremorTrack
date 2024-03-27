@@ -43,9 +43,8 @@ def pagina_actual():
 #Subida de archivos a la bbdd
 
 #Configurar directorio donde se guardarán los archivos subidos
-app.config['UPLOAD_FOLDER'] = 'app2/static/registros'
-app.config['UPLOAD_FOLDER2'] = 'static/registros'
-app.config['UPLOAD_FOLDER3'] = 'app2/static/videos'
+app.config['RUTA_REGISTROS'] = 'static/registros'
+app.config['RUTA_VIDEOS'] = 'static/videos'
 #Limitar el tamaño máximo
 app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB
         
@@ -70,7 +69,7 @@ def subir_datos_sensor(id_paciente):
         nombre_archivo = secure_filename(archivo.filename)
 
         #Ruta de la carpeta del usuario dentro de static/registros
-        ruta_usuario = os.path.join(app.config['UPLOAD_FOLDER'], str(id_paciente))
+        ruta_usuario = os.path.join(app.config['RUTA_REGISTROS'], str(id_paciente))
         #Si no existe carpeta para ese usurio la crea
         os.makedirs(ruta_usuario, exist_ok=True)
 
@@ -83,8 +82,7 @@ def subir_datos_sensor(id_paciente):
         fecha_registro = request.form['fecha_sensor']
 
         #Crea una instancia del modelo Registros
-        ruta_archivo_bbdd = os.path.join(app.config['UPLOAD_FOLDER2'], str(id_paciente), nombre_archivo).replace('\\', '/')
-        nuevo_registro = Registros(paciente=id_paciente, fecha=fecha_registro, datos_en_crudo=ruta_archivo_bbdd)
+        nuevo_registro = Registros(paciente=id_paciente, fecha=fecha_registro, datos_en_crudo=ruta_archivo)
         #Y la añade a la base de datos
         db.session.add(nuevo_registro)
         db.session.commit()
@@ -101,7 +99,7 @@ def subir_video(id_paciente):
         nombre_archivo = secure_filename(archivo_video.filename)
 
         #Carpeta donde se van a guardar los vídeos
-        ruta_usuario = os.path.join(app.config['UPLOAD_FOLDER3'], str(id_paciente))
+        ruta_usuario = os.path.join(app.config['RUTA_VIDEOS'], str(id_paciente))
         #Si no existe carpeta para ese usurio la crea
         os.makedirs(ruta_usuario, exist_ok=True)
    
