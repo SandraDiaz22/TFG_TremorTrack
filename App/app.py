@@ -238,10 +238,6 @@ def login():
     #formulario de form.py
     formulario = form.FormularioAcceso(request.form)
 
-    #base de datos
-    administrador = Administrador.query.get(1)
-    medico = Medico.query.get(1)
-    paciente = Paciente.query.get(1)
 
     #cuando den al botón de iniciar sesión
     if request.method == 'POST':
@@ -250,18 +246,27 @@ def login():
         username = request.form.get('username')
         contraseña = request.form.get('contraseña')
 
+        #Buscar en la bbdd las credenciales
+        usuario_medico = Medico.query.filter_by(nombre_de_usuario=username, contraseña=contraseña).first()
+        usuario_administrador = Administrador.query.filter_by(nombre_de_usuario=username, contraseña=contraseña).first()
+        usuario_paciente = Paciente.query.filter_by(nombre_de_usuario=username, contraseña=contraseña).first()
+
+
         #Diferentes páginas de bienvenida según el usuario
         #Si es administrador
-        if username == 'sandradiaz' and contraseña == '1234':
-            return redirect(url_for('BienvenidaAdmin', name=username))
+        if usuario_administrador:
+            session['usuario_id'] = usuario_administrador.id_admin #Almacenamos el id del admin en su sesión
+            return redirect(url_for('BienvenidaAdmin'))
         
         #Si es médico
-        elif username == 'josefelix' and contraseña == '1234':
-            return redirect(url_for('BienvenidaMedico', name=username))
+        elif usuario_medico:
+            session['usuario_id'] = usuario_medico.id_medico #Almacenamos el id del medico en su sesión
+            return redirect(url_for('BienvenidaMedico'))
         
         #Si es paciente
-        elif username == 'pepeaguilar' and contraseña == '1234':
-            return redirect(url_for('BienvenidaPaciente', name=username))
+        elif usuario_paciente:
+            session['usuario_id'] = usuario_paciente.id_paciente #Almacenamos el id del paciente en su sesión
+            return redirect(url_for('BienvenidaPaciente'))
         
         #Si no es ninguno
         else:
@@ -269,7 +274,7 @@ def login():
             print(error)
     
 
-    return render_template('login.html', form=formulario, administrador=administrador, medico=medico, paciente=paciente)
+    return render_template('login.html', form=formulario)
 #----------------------------------------------------------------
 
 
@@ -277,21 +282,30 @@ def login():
 #----------------------------------------------------------------
 #Página de bienvenida para administradores.
 #Por ahora solo contiene el tipo de usuario
-@app.route('/BienvenidaAdmin/<name>')
-def BienvenidaAdmin(name):
-    return render_template('BienvenidaAdmin.html', name=name)
+@app.route('/BienvenidaAdmin')
+def BienvenidaAdmin():
+    #Control de sesiones
+    id_admin = session.get('usuario_id')
+
+    #Objeto de ese admin en la bbdd
+    admin = Administrador.query.get(id_admin)
+    
+    return render_template('BienvenidaAdmin.html', admin=admin)
 #----------------------------------------------------------------
 
 
 #----------------------------------------------------------------
 #Página de bienvenida para médicos.
 #Por ahora solo contiene foto y dos botones
-@app.route('/BienvenidaMedico/<name>')
-def BienvenidaMedico(name):
-    #base de datos para la foto
-    medico = Medico.query.get(1)
+@app.route('/BienvenidaMedico')
+def BienvenidaMedico():
+    #Control de sesiones
+    id_medico = session.get('usuario_id')
 
-    return render_template('BienvenidaMedico.html', name=name, medico=medico)
+    #Objeto de ese medico en la bbdd
+    medico = Medico.query.get(id_medico)
+
+    return render_template('BienvenidaMedico.html', medico=medico)
 #----------------------------------------------------------------
 
 
@@ -301,16 +315,13 @@ def BienvenidaMedico(name):
 #Por ahora la lista con los botones pero feo
 @app.route('/listadoPacientes')
 def listadoPacientes():
-    medico_id = 1 #Quien inició sesion (cambiar a bien hecho)
-
-    #base de datos para la foto
-    medico = Medico.query.get(medico_id)
+    #Qué médico pidió el listado
+    id_medico = session.get('usuario_id')
 
     #Consulta para obtener todos los pacientes del médico logeado
-    pacientes = Paciente.query.filter_by(id_medico=medico_id).all()
+    listadoPacientes = Paciente.query.filter_by(id_medico=id_medico).all()
 
-
-    return render_template('listadoPacientes.html', medico=medico, pacientes=pacientes)
+    return render_template('listadoPacientes.html', pacientes=listadoPacientes)
 #----------------------------------------------------------------
 
 
@@ -342,25 +353,18 @@ def mostrarDatosSensor(paciente):
 #----------------------------------------------------------------
 #Página de bienvenida para pacientes.
 #Por ahora solo contiene el tipo de usuario
-@app.route('/BienvenidaPaciente/<name>', methods=['GET', 'POST'])
-def BienvenidaPaciente(name):
-    #base de datos para la foto
-    paciente = Paciente.query.get(1)
-    #base de datos para los registros
-    registros = Registros.query.get(1)
-    #base de datos para videos
-    video = Videos.query.get(1)
-   
-    # Obtener la ruta completa al archivo CSV
-    ruta_archivo = registros.datos_en_crudo
-    ruta_completa = os.path.join(app.root_path, ruta_archivo)
+@app.route('/BienvenidaPaciente') #, methods=['GET', 'POST'])
+def BienvenidaPaciente():
+    #Control de sesiones
+    id_paciente = session.get('usuario_id')
 
+    #Objeto de ese paciente en la bbdd
+    paciente = Paciente.query.get(id_paciente)
 
-    with open(ruta_completa, 'r') as file: #Abrir el CSV para leer los datos
-        reader = csv.reader(file)
-        data = [row for row in reader] #Convertir los datos a una lista de diccionarios
+    #Su medico asignado
+    medico = Medico.query.get(paciente.id_medico)
 
-    return render_template('BienvenidaPaciente.html', name=name, paciente=paciente, data=data, video=video)
+    return render_template('BienvenidaPaciente.html', paciente=paciente, medico=medico) 
 #----------------------------------------------------------------
 
 

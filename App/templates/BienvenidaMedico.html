@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>{% trans %} Bienvenido{% endtrans %} </title>
+    <title>{% trans %} Bienvenido {% endtrans %}</title>
 
 {% endblock %}
 
@@ -26,7 +26,8 @@
 
             <div class="col-md-8 text-center mb-4">
                 <!-- Botón para ir al listado de pacientes -->
-                <a href="/listadoPacientes" class="btn btn-primary btn-lg">{% trans %}Mostrar listado pacientes{% endtrans %}</a>
+                <a href="{{ url_for('listadoPacientes') }}" class="btn btn-primary btn-lg">{% trans %}Mostrar listado pacientes{% endtrans %}</a>
+
             </div>
         </div>
     </div>
