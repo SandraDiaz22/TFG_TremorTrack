@@ -21,6 +21,7 @@ babel= Babel(app)
 
 #Configuracion
 app.config.from_object(DevelopmentConfig)
+app.secret_key = b'claveSuperMegaSecreta' #Clave secreta para las sesiones
 
 #Conexion base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:maria@localhost/parkinson'
@@ -255,17 +256,17 @@ def login():
         #Diferentes páginas de bienvenida según el usuario
         #Si es administrador
         if usuario_administrador:
-            session['usuario_id'] = usuario_administrador.id_admin #Almacenamos el id del admin en su sesión
+            session['username'] = usuario_administrador.nombre_de_usuario #Almacenamos el username del admin en su sesión
             return redirect(url_for('BienvenidaAdmin'))
         
         #Si es médico
         elif usuario_medico:
-            session['usuario_id'] = usuario_medico.id_medico #Almacenamos el id del medico en su sesión
+            session['username'] = usuario_medico.nombre_de_usuario #Almacenamos el username del medico en su sesión
             return redirect(url_for('BienvenidaMedico'))
         
         #Si es paciente
         elif usuario_paciente:
-            session['usuario_id'] = usuario_paciente.id_paciente #Almacenamos el id del paciente en su sesión
+            session['username'] = usuario_paciente.nombre_de_usuario #Almacenamos el username del paciente en su sesión
             return redirect(url_for('BienvenidaPaciente'))
         
         #Si no es ninguno
@@ -280,15 +281,36 @@ def login():
 
 
 #----------------------------------------------------------------
+#Página de cierre de sesión. Redirige al usuario a la página principal
+@app.route('/logout')
+def logout():
+    session.pop('username', None) #Elimina username de la sesión
+    return redirect(url_for('paginaprincipal')) #Redirige a pp
+#----------------------------------------------------------------
+
+
+
+
+#----------------------------------------------------------------
 #Página de bienvenida para administradores.
 #Por ahora solo contiene el tipo de usuario
 @app.route('/BienvenidaAdmin')
 def BienvenidaAdmin():
-    #Control de sesiones
-    id_admin = session.get('usuario_id')
+    #Verificar si el usuario está logueado
+    if 'username' not in session:
+        flash('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
+        return redirect(url_for('login'))
+
+    #Nombre de usuario del admin logeado
+    username_admin = session.get('username')
 
     #Objeto de ese admin en la bbdd
-    admin = Administrador.query.get(id_admin)
+    admin = Administrador.query.filter_by(nombre_de_usuario=username_admin).first()
+    
+    #Si no existe en la bbdd
+    if not admin:
+        flash('No se encontró ese usuario en la base de datos', 'error')
+        return redirect(url_for('login'))
     
     return render_template('BienvenidaAdmin.html', admin=admin)
 #----------------------------------------------------------------
@@ -299,12 +321,22 @@ def BienvenidaAdmin():
 #Por ahora solo contiene foto y dos botones
 @app.route('/BienvenidaMedico')
 def BienvenidaMedico():
-    #Control de sesiones
-    id_medico = session.get('usuario_id')
+    #Verificar si el usuario está logueado
+    if 'username' not in session:
+        flash('Se debe iniciar sesión como médico para acceder a esta página', 'error')
+        return redirect(url_for('login'))
+
+    #Nombre de usuario del admin logeado
+    username_medico = session.get('username')
 
     #Objeto de ese medico en la bbdd
-    medico = Medico.query.get(id_medico)
+    medico = Medico.query.filter_by(nombre_de_usuario=username_medico).first()
 
+    #Si no existe en la bbdd
+    if not medico:
+        flash('No se encontró ese usuario en la base de datos', 'error')
+        return redirect(url_for('login'))
+    
     return render_template('BienvenidaMedico.html', medico=medico)
 #----------------------------------------------------------------
 
@@ -316,10 +348,11 @@ def BienvenidaMedico():
 @app.route('/listadoPacientes')
 def listadoPacientes():
     #Qué médico pidió el listado
-    id_medico = session.get('usuario_id')
+    username_medico = session.get('username')
+    medico = Medico.query.filter_by(nombre_de_usuario=username_medico).first()
 
     #Consulta para obtener todos los pacientes del médico logeado
-    listadoPacientes = Paciente.query.filter_by(id_medico=id_medico).all()
+    listadoPacientes = Paciente.query.filter_by(id_medico=medico.id_medico).all()
 
     return render_template('listadoPacientes.html', pacientes=listadoPacientes)
 #----------------------------------------------------------------
@@ -355,11 +388,21 @@ def mostrarDatosSensor(paciente):
 #Por ahora solo contiene el tipo de usuario
 @app.route('/BienvenidaPaciente') #, methods=['GET', 'POST'])
 def BienvenidaPaciente():
-    #Control de sesiones
-    id_paciente = session.get('usuario_id')
+    #Verificar si el usuario está logueado
+    if 'username' not in session:
+        flash('Se debe iniciar sesión como paciente para acceder a esta página', 'error')
+        return redirect(url_for('login'))
+
+    #Nombre de usuario del admin logeado
+    username_paciente = session.get('username')
 
     #Objeto de ese paciente en la bbdd
-    paciente = Paciente.query.get(id_paciente)
+    paciente = Paciente.query.filter_by(nombre_de_usuario=username_paciente).first()
+
+    #Si no existe en la bbdd
+    if not paciente:
+        flash('No se encontró ese usuario en la base de datos', 'error')
+        return redirect(url_for('login'))
 
     #Su medico asignado
     medico = Medico.query.get(paciente.id_medico)
