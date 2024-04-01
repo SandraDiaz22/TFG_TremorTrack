@@ -15,31 +15,31 @@
         <div class="row justify-content-center">
 
             <!-- Título de bienvenida + nombre paciente-->
-            <h1>{% trans %}Bienvenido de nuevo {% endtrans %}{{paciente.nombre}}</h1>
+            <h1>{% trans %}Bienvenido de nuevo {% endtrans %}{{usuario.nombre}}</h1>
         
             <div class="col-md-8 text-center border p-4 mb-4"> <!--Perfil del usuario (con foto, username y cerrar sesión)-->
-                <img src="{{paciente.foto}}" alt="Imagen del paciente" class="img-fluid rounded-circle mb-3 logo">
-                <h2>{{ paciente.nombre_de_usuario }}</h2>
+                <img src="{{usuario.foto}}" alt="Imagen del paciente" class="img-fluid rounded-circle mb-3 logo">
+                <h2>{{ usuario.nombre_de_usuario }}</h2>
                 <a href="/logout" class="btn btn-danger btn-lg mr-2">{% trans %}Cerrar sesión{% endtrans %}</a>
             </div>
 
             <div class="col-md-6">
                 <div class="datos-personales">
                     <h1>{% trans %} Información del perfil {% endtrans %}</h1>
-                    <p>{% trans %} Nombre completo: {% endtrans %} {{ paciente.nombre }} {{ paciente.apellido }}</p>
+                    <p>{% trans %} Nombre completo: {% endtrans %} {{ usuario.nombre }} {{ usuario.apellido }}</p>
                     <p>{% trans %} Médico asignado: {% endtrans %} {{ medico.nombre }}</p>
-                    <p>{% trans %} Sensor: {% endtrans %} {{ paciente.sensor }}</p>
-                    <p>{% trans %} Fecha de nacimiento: {% endtrans %} {{ paciente.fecha_de_nacimiento }}</p>
-                    <p>{% trans %} Dirección: {% endtrans %} {{ paciente.direccion }}</p>
-                    <p>{% trans %} Teléfono: {% endtrans %} {{ paciente.telefono }}</p>
+                    <p>{% trans %} Sensor: {% endtrans %} {{ usuario.sensor }}</p>
+                    <p>{% trans %} Fecha de nacimiento: {% endtrans %} {{ usuario.fecha_de_nacimiento }}</p>
+                    <p>{% trans %} Dirección: {% endtrans %} {{ usuario.direccion }}</p>
+                    <p>{% trans %} Teléfono: {% endtrans %} {{ usuario.telefono }}</p>
                 </div>
                 <!-- Botón para editar los datos personales -->
-                <a href="/editarDatosPaciente/{{ paciente.id }}" class="btn btn-info">{% trans %}Editar datos personales{% endtrans %}</a>
+                <a href="/editarDatosPaciente/{{ usuario.id }}" class="btn btn-info">{% trans %}Editar datos personales{% endtrans %}</a>
             </div>
 
             <div class="col-md-8 text-center mb-4"> <!--Acciones del paciente-->
                 <!--Boton de revisar mi evolucion para ir a una ventana con las gráficas -->
-                <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-primary btn-lg">{% trans %}Revisar mi evolución{% endtrans %}</a>
+                <a href="/mostrarDatosSensor/{{ usuario.id_paciente }}" class="btn btn-primary btn-lg">{% trans %}Revisar mi evolución{% endtrans %}</a>
             </div>
         </div>
     </div>

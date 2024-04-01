@@ -28,6 +28,27 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:maria@localhost/pa
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
+#Para tener las bbdd en la plantilla
+@app.context_processor
+def usuarioActual():
+    #Obtener el nombre de usuario y rol de la sesión
+    username = session.get('username')
+    rol = session.get('rol')
+
+    #Obtener el usuario de la bbdd
+    usuario = None
+    if rol == 'administrador':
+        usuario = Administrador.query.filter_by(nombre_de_usuario=username).first()
+    elif rol == 'medico':
+        usuario = Medico.query.filter_by(nombre_de_usuario=username).first()
+    elif rol == 'paciente':
+        usuario = Paciente.query.filter_by(nombre_de_usuario=username).first()
+
+    #Usuario ahora disponible en layout
+    return dict(usuario=usuario)
+
+
+
 #Fotos
 app.static_folder = 'fotos'
 
@@ -257,16 +278,19 @@ def login():
         #Si es administrador
         if usuario_administrador:
             session['username'] = usuario_administrador.nombre_de_usuario #Almacenamos el username del admin en su sesión
+            session['rol'] = 'administrador' #Y su rol de admin
             return redirect(url_for('BienvenidaAdmin'))
         
         #Si es médico
         elif usuario_medico:
             session['username'] = usuario_medico.nombre_de_usuario #Almacenamos el username del medico en su sesión
+            session['rol'] = 'medico' #Y su rol de medico
             return redirect(url_for('BienvenidaMedico'))
         
         #Si es paciente
         elif usuario_paciente:
             session['username'] = usuario_paciente.nombre_de_usuario #Almacenamos el username del paciente en su sesión
+            session['rol'] = 'paciente' #Y su rol de paciente
             return redirect(url_for('BienvenidaPaciente'))
         
         #Si no es ninguno
@@ -312,7 +336,7 @@ def BienvenidaAdmin():
         flash('No se encontró ese usuario en la base de datos', 'error')
         return redirect(url_for('login'))
     
-    return render_template('BienvenidaAdmin.html', admin=admin)
+    return render_template('BienvenidaAdmin.html')
 #----------------------------------------------------------------
 
 
@@ -337,7 +361,7 @@ def BienvenidaMedico():
         flash('No se encontró ese usuario en la base de datos', 'error')
         return redirect(url_for('login'))
     
-    return render_template('BienvenidaMedico.html', medico=medico)
+    return render_template('BienvenidaMedico.html')
 #----------------------------------------------------------------
 
 
@@ -407,7 +431,7 @@ def BienvenidaPaciente():
     #Su medico asignado
     medico = Medico.query.get(paciente.id_medico)
 
-    return render_template('BienvenidaPaciente.html', paciente=paciente, medico=medico) 
+    return render_template('BienvenidaPaciente.html', medico=medico) 
 #----------------------------------------------------------------
 
 

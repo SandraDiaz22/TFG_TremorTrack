@@ -121,7 +121,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
     <!--Barra superior de navegación-->
-    <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--SM contrae al hacer bastante pequeño-->
+    <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--Se contrae al hacer bastante pequeño-->
         <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
             
             <a class="navbar-brand" href="/">
@@ -157,13 +157,41 @@
             </ul>
             </div>
 
-            <ul class="navbar-nav ms-auto"><!--A la dcha-->
-                <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link {% if g.page == 'paginaprincipal' %}active text-primary{% endif %}" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
-                </li>
-                <li class="nav-item" style="width: 200px;">
-                    <a class="nav-link {% if g.page == 'login' %}active text-primary{% endif %}" href="/login">{% trans %}Iniciar sesión{% endtrans %}</a><!--Lleva a la página de login-->
-                </li>
+            <ul class="navbar-nav ms-auto"><!--A la dcha aparecen la página principal y login si el usuario no está logueado, y su cuenta si lo está-->
+                
+                {% if 'username' in session %} <!--Si está logueado-->
+                    <li class="nav-item dropdown"> 
+                        <!--Perfil del usuario (con foto, username)-->
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            {{ session['username'] }}
+                            <img src="{{usuario.foto}}" alt="Foto de perfil" class="img-fluid rounded-circle me-2" style="width: 50px; height: 50px;">
+                        </a>
+                        
+                        <ul class="dropdown-menu">
+                            <!--Página principal del usuario según su rol-->
+                            {% if session['rol'] == 'administrador' %}
+                            <li><a class="dropdown-item" href="/BienvenidaAdmin">{% trans %}Perfil{% endtrans %}</a></li>
+                
+                            {% elif session['rol'] == 'medico' %}
+                            <li><a class="dropdown-item" href="/BienvenidaMedico">{% trans %}Perfil{% endtrans %}</a></li>
+                
+                            {% elif session['rol'] == 'paciente' %}
+                            <li><a class="dropdown-item" href="/BienvenidaPaciente">{% trans %}Perfil{% endtrans %}</a></li>
+                            {% endif %}
+                            
+                            <!--Cerrar sesión-->
+                            <li><a class="dropdown-item" href="/logout">{% trans %}Cerrar sesión{% endtrans %}</a></li>
+                        </ul>
+                    </li>
+
+                {% else %} <!--Si no está logueado-->
+                    <li class="nav-item" style="width: 200px;">
+                        <a class="nav-link {% if g.page == 'paginaprincipal' %}active text-primary{% endif %}" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
+                    </li>
+                    <li class="nav-item" style="width: 200px;">
+                        <a class="nav-link {% if g.page == 'login' %}active text-primary{% endif %}" href="/login">{% trans %}Iniciar sesión{% endtrans %}</a><!--Lleva a la página de login-->
+                    </li>
+                {% endif %}
             </ul>
 
         </div>
