@@ -17,14 +17,13 @@
             <!-- Título de bienvenida + nombre médico-->
             <h1>{% trans %}Bienvenido de nuevo {% endtrans %}{{medico.nombre}}</h1>
         
-            <div class="col-md-8 text-center border p-4 mb-4">
-                <!-- Foto del médico -->
-                <img src="{{medico.foto}}" alt="Imagen del médico" class="img-fluid rounded-circle mb-4" style="max-width: 200px;">
-                <!-- Botón para cerrar sesión -->
+            <div class="col-md-8 text-center border p-4 mb-4"> <!--Perfil del usuario (con foto, username y cerrar sesión)-->
+                <img src="{{medico.foto}}" alt="Imagen del médico" class="img-fluid rounded-circle mb-3 logo">
+                <h2>{{ medico.nombre_de_usuario }}</h2>
                 <a href="/logout" class="btn btn-danger btn-lg mr-2">{% trans %}Cerrar sesión{% endtrans %}</a>
             </div>
 
-            <div class="col-md-8 text-center mb-4">
+            <div class="col-md-8 text-center mb-4">  <!--Acciones del médico-->
                 <!-- Botón para ir al listado de pacientes -->
                 <a href="{{ url_for('listadoPacientes') }}" class="btn btn-primary btn-lg">{% trans %}Mostrar listado pacientes{% endtrans %}</a>
 

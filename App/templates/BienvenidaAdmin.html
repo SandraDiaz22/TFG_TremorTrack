@@ -9,9 +9,25 @@
 
 
 {% block body %}
-    
-    <h1> Bienvenido Admin </h1>
-    <h2> Hola {{admin.nombre}} </h2> 
+ 
+    <!--Contenido de la página-->
+    <div class="container mt-4 mb-4">
+        <div class="row justify-content-center">
+
+            <!-- Título de bienvenida + nombre admin-->
+            <h1>{% trans %}Bienvenido de nuevo administrador {% endtrans %}{{admin.nombre}}</h1>
+        
+            <div class="col-md-8 text-center border p-4 mb-4"> <!--Perfil del usuario (con foto, username y cerrar sesión)-->
+                <img src="{{admin.foto}}" alt="Imagen del administrador" class="img-fluid rounded-circle mb-3 logo">
+                <h2>{{ admin.nombre_de_usuario }}</h2>
+                <a href="/logout" class="btn btn-danger btn-lg mr-2">{% trans %}Cerrar sesión{% endtrans %}</a>
+            </div>
+
+            <div class="col-md-8 text-center mb-4"> <!--Acciones del administrador-->
+                <!--Nada por ahora (en un futuro todo)-->
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 
