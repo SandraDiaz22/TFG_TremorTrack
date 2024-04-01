@@ -10,6 +10,7 @@ class Administrador(db.Model):
     correo_electronico = db.Column(db.String(255), unique=True, nullable=False)
     nombre = db.Column(db.String(50), nullable=False)
     apellido = db.Column(db.String(50), nullable=False)
+    foto = db.Column(db.String(255), nullable=True)
 
 class Medico(db.Model):
     id_medico = db.Column(db.Integer, primary_key=True)
@@ -18,7 +19,7 @@ class Medico(db.Model):
     correo_electronico = db.Column(db.String(255), unique=True, nullable=False)
     nombre = db.Column(db.String(50), nullable=False)
     apellido = db.Column(db.String(50), nullable=False)
-    foto = db.Column(db.String(255), nullable=False)
+    foto = db.Column(db.String(255), nullable=True)
 
 class Paciente(db.Model):
     id_paciente = db.Column(db.Integer, primary_key=True)
@@ -29,7 +30,7 @@ class Paciente(db.Model):
     apellido = db.Column(db.String(50), nullable=False)
     foto = db.Column(db.String(255), nullable=True)
     fecha_de_nacimiento = db.Column(db.Date, nullable=False)
-    sensor = db.Column(db.Enum('SI', 'NO'), nullable=False)
+    sensor = db.Column(db.Enum('SI', 'NO'), nullable=True)
     direccion = db.Column(db.String(255), nullable=False)
     telefono = db.Column(db.String(15), nullable=False)
     id_medico = db.Column(db.Integer, db.ForeignKey('medico.id_medico'), nullable=True)
