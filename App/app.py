@@ -8,6 +8,7 @@ from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
+from datetime import timedelta
 
 import csv
 import os
@@ -22,6 +23,7 @@ babel= Babel(app)
 #Configuracion
 app.config.from_object(DevelopmentConfig)
 app.secret_key = b'claveSuperMegaSecreta' #Clave secreta para las sesiones
+app.permanent_session_lifetime = timedelta(hours=1) #Duración limitada de las sesiones(1 hora de inactividad)
 
 #Conexion base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:maria@localhost/parkinson'
