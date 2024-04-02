@@ -4,6 +4,9 @@
 
     <title>Datos sensor</title>
 
+    <!--Biblioteca para los gráficos-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 {% endblock %}
 
 
@@ -11,31 +14,164 @@
 {% block body %}
     
     <!--Paciente-->
-    <h1> Paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} (id: {{bbddpaciente.id_paciente}})</h1>
-    <!--Faltaría poner en la esquina la foto y cosas del medico-->
-    <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente">
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">  Paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} (id: {{bbddpaciente.id_paciente}})</h1>
+    
 
     <!--Formulario para saber qué gráfica mostrar-->
-    <form action="" method="post" enctype="multipart/form-data">
+    <form id="formulario" action="" method="post" enctype="multipart/form-data">
         <label for="grafica">{% trans %} Selecciona la gráfica a mostrar: {% endtrans %}</label>
-        <select id="grafica" name="greafica" required>
+
+        <select id="seleccionGrafico" required>
             <option value="">{% trans %} Seleccionar {% endtrans %}</option>
             <option value="1">{% trans %} Número de pasos detectados {% endtrans %}</option>
-            <option value="2">{% trans %} Longitud de pasos del paciente {% endtrans %}</option>
-            <option value="3">{% trans %} y {% endtrans %}</option>
-            <option value="4">{% trans %} z {% endtrans %}</option>
-        </select>
+            <!--Para ver como varía el número de pasos a lo largo del tiempo y detentar tendencias a largo plazo de la movilidad del paciente-->
 
+            <option value="2">{% trans %} Longitud de pasos del paciente {% endtrans %}</option>
+            <!--Al detectar cambios en la longitud del paso se pueden detectar inestabilidad o alteraciones en la marcha-->
+
+            <option value="3">{% trans %} Velocidad de zancada {% endtrans %}</option>
+            <!--Cambios en la velocidad es indicador de progresion de la enfermedad-->
+
+            <option value="4">{% trans %} Transiciones posturales {% endtrans %}</option>
+            <!--Relata problemas de equilibrio-->
+
+            <option value="5">{% trans %} Episodios de bloqueos de la marcha {% endtrans %}</option>
+            <!--Para evaluar la gravedad de los sintomas motores-->
+
+            <!--Poner con sombreado en las gráficas cuando un paciente está en ON (la medicacion funciona), OFF (puede haber sintomas) o INT (ermitente)-->
+        </select>
 
         <label for="fecha_desde">{% trans %} Selecciona fecha de inicio: {% endtrans %}</label>
         <input type="date" id="fecha_desde" name="fecha_desde" required>
+
         <label for="fecha_hasta">{% trans %} Selecciona fecha de fin: {% endtrans %}</label>
         <input type="date" id="fecha_hasta" name="fecha_hasta" required>
+
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
     </form>
 
     <!--Gráfica usando chart-->
-    <!--Antes en matplotlib-->
+    <div id="contenedorGrafico" style="width: 800px; height: 400px; margin: 0 auto;">
+        <canvas id="gráfico"></canvas>
+    </div>
 
+    <table border="1"><!--Prueba de funcionamiento de data-->
+        <tr>
+            <th>EPO</th>
+            <th>W_MEAN</th>
+            <th>W_MEAN_FILT</th>
+            <th>W_STD</th>
+            <th>NUM_WALK</th>
+            <th>SMA</th>
+            <th>DYSKP</th>
+            <th>DYSKC</th>
+            <th>LEN</th>
+            <th>NUM_STEPS</th>
+            <th>SPEED</th>
+            <th>CAD</th>
+            <th>TW</th>
+            <th>TL</th>
+            <th>TRANS</th>
+            <th>FOG_EP</th>
+            <th>FOG_WIN</th>
+            <th>BTN_PRESSED</th>
+            <th>MOTOR10</th>
+            <th>DYSK10</th>
+            <th>BRADY10</th>
+            <th>TH_LO</th>
+            <th>TH_HI</th>
+            <th>AGE</th>
+            <th>H&Y</th>
+            <th>LL</th>
+            <th>PAT</th>
+    
+        
+        </tr>
+        {% for row in data %}
+        <tr>
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+            <td>{{ row[9] }}</td>
+            <td>{{ row[10] }}</td>
+            <td>{{ row[11] }}</td>
+            <td>{{ row[12] }}</td>
+            <td>{{ row[13] }}</td>
+            <td>{{ row[14] }}</td>
+            <td>{{ row[15] }}</td>
+            <td>{{ row[16] }}</td>
+            <td>{{ row[17] }}</td>
+            <td>{{ row[18] }}</td>
+            <td>{{ row[19] }}</td>
+            <td>{{ row[20] }}</td>
+            <td>{{ row[21] }}</td>
+            <td>{{ row[22] }}</td>
+            <td>{{ row[23] }}</td>
+            <td>{{ row[24] }}</td>
+            <td>{{ row[25] }}</td>
+            <td>{{ row[26] }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <script>
+        //Listener que muestra el gráfico cuando se da a "Mostrar datos"
+        document.getElementById('formulario').addEventListener('submit', function(event) { 
+            event.preventDefault();
+            mostrarGrafico();
+        });
+
+        function mostrarGrafico() {
+
+            //Matplotlib deberia hacerlo solo usando la funcion plot3Axis en app.py pero no funciona 
+            //Esto por ahora es un gráfico de prueba con datos aleatorios
+
+
+            var seleccion = document.getElementById('seleccionGrafico').value;
+            var titulo = ''; //Título del gráfico dependiendo de la opcion seleccionada
+            switch (seleccion) {
+                case '1':
+                    titulo = 'Número de pasos detectados'; break;
+                case '2':
+                    titulo = 'Longitud de pasos del paciente'; break;
+                case '3':
+                    titulo = 'Velocidad de zancada'; break;
+                case '4':
+                    titulo = 'Transiciones posturales'; break;
+                case '5':
+                    titulo = 'Episodios de bloqueos de la marcha'; break;
+                default:
+                    titulo = '';
+            }
+            var ctx = document.getElementById('gráfico').getContext('2d');
+
+
+            var gráfico = new Chart(ctx, {
+                type: 'line',
+                
+                data: {
+                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'], //labels,
+                    datasets: [{
+                        label: titulo,
+                        data: [65, 59, 80, 81, 56, 55, 40], //data,
+                        borderColor: 'rgba(72, 158, 238, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: { y: { beginAtZero: true}}
+                }
+            });
+
+            //Mostrar el contenedor del gráfico
+            document.getElementById('contenedorGrafico').style.display = 'block';
+        }
+    </script>
 
 {% endblock %}

@@ -8,7 +8,8 @@ from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
-from datetime import timedelta
+from datetime import datetime, timedelta
+from Support_v0 import plot3Axis, returnByDatas
 
 import csv
 import os
@@ -387,24 +388,50 @@ def listadoPacientes():
 
 #----------------------------------------------------------------
 #Página que muestra los datos del sensor del paciente a los médicos.
-#Por ahora nada
-@app.route('/mostrarDatosSensor/<paciente>')
+#Sacamos todos los registros de ese paciente en las fechas selecionadas y creamos la gráfica
+@app.route('/mostrarDatosSensor/<paciente>', methods=['GET', 'POST'])
 def mostrarDatosSensor(paciente):
     #base de datos de ese paciente
     bbddpaciente = Paciente.query.get(paciente)
-    #base de datos para los registros
-    registros = Registros.query.get(1)
-  
-    # Obtener la ruta completa al archivo CSV
-    ruta_archivo = registros.datos_en_crudo
-    ruta_completa = os.path.join(app.root_path, ruta_archivo)
+
+    #Formulario de qué grafico mostrar
+    if request.method == 'POST':
+        fecha_desde = request.form.get('fecha_desde')
+        fecha_hasta = request.form.get('fecha_hasta')
+
+        #cnvertir las fechas a objetos datetime como los de la bbdd
+        fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
+        fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
+
+        #registros de ese paciente dentro de esas fechas
+        registros = Registros.query.filter_by(paciente=paciente) \
+                                    .filter(Registros.fecha.between(fecha_desde, fecha_hasta)).all()
+        
+        #si no tiene registros hacer algo (MEJORARLO)
+        if not registros:
+            flash('No se encontraron registros para ese usuario en la base de datos', 'error')
+            return redirect(url_for('listadoPacientes'))
+        
+        #extraer los datos de los CSV de esas fechas
+        datos_en_crudo = []
+        for registro in registros:
+            archivo_csv = os.path.join(app.root_path, registro.datos_en_crudo)
+            datos_registro = pd.read_csv(archivo_csv)
+            datos_en_crudo.append(datos_registro)
+        
+        #generar el gráfico
+        for columnas in datos_en_crudo:
+            if 'EPO' in columnas.columns and 'NUM_STEPS' in columnas.columns:
+                dataP = datos_registro[['EPO', 'NUM_STEPS']]
+        
+                #Función de support_v0 para crear gráficos con matplotlib
+                plot3Axis(dataP, ['NUM_STEPS'], ['Título:Número de pasos detectados'], ['Eje y: nº de pasos'], ['Eje x: Tiempo'], 'Título general del gráfico', fecha_desde, fecha_hasta)
 
 
-    with open(ruta_completa, 'r') as file: #Abrir el CSV para leer los datos
-        reader = csv.reader(file)
-        data = [row for row in reader] #Convertir los datos a una lista de diccionarios
+        return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, data=datos_en_crudo)
 
-    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, data=data)
+    #Si no envian formulario
+    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
 #----------------------------------------------------------------
 
 
