@@ -9,7 +9,7 @@ from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-from Support_v0 import plot3Axis, returnByDatas
+from Support_v0 import plot3Axis
 
 import csv
 import os
@@ -55,7 +55,7 @@ def usuarioActual():
 #Fotos
 app.static_folder = 'fotos'
 
-#Determina la página en la que nos encontramos
+#Determina la página en la que nos encontramos(para el navbar)
 @app.before_request
 def pagina_actual():
     if request.endpoint:
@@ -394,41 +394,52 @@ def mostrarDatosSensor(paciente):
     #base de datos de ese paciente
     bbddpaciente = Paciente.query.get(paciente)
 
-    #Formulario de qué grafico mostrar
-    if request.method == 'POST':
-        fecha_desde = request.form.get('fecha_desde')
-        fecha_hasta = request.form.get('fecha_hasta')
+    # #Formulario de qué grafico mostrar
+    # if request.method == 'POST':
+    #     fecha_desde = request.form.get('fecha_desde')
+    #     fecha_hasta = request.form.get('fecha_hasta')
 
-        #cnvertir las fechas a objetos datetime como los de la bbdd
-        fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
-        fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
+    #     #cnvertir las fechas a objetos datetime como los de la bbdd
+    #     fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
+    #     fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
 
-        #registros de ese paciente dentro de esas fechas
-        registros = Registros.query.filter_by(paciente=paciente) \
-                                    .filter(Registros.fecha.between(fecha_desde, fecha_hasta)).all()
+    #     #registros de ese paciente dentro de esas fechas
+    #     registros = Registros.query.filter_by(paciente=paciente) \
+    #                                 .filter(Registros.fecha.between(fecha_desde, fecha_hasta)).all()
         
-        #si no tiene registros hacer algo (MEJORARLO)
-        if not registros:
-            flash('No se encontraron registros para ese usuario en la base de datos', 'error')
-            return redirect(url_for('listadoPacientes'))
+    #     #si no tiene registros hacer algo (MEJORARLO)
+    #     if not registros:
+    #         mensaje = 'El paciente no tiene registros en las fechas seleccionadas'
+    #         print(mensaje)
+    #         flash(mensaje, 'error')
+    #         return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
         
-        #extraer los datos de los CSV de esas fechas
-        datos_en_crudo = []
-        for registro in registros:
-            archivo_csv = os.path.join(app.root_path, registro.datos_en_crudo)
-            datos_registro = pd.read_csv(archivo_csv)
-            datos_en_crudo.append(datos_registro)
+    #     print('SI funciona registtros')
+    #     #extraer los datos de los CSV de esas fechas
+    #     datos_en_crudo = []
+    #     for registro in registros:
+    #         archivo_csv = os.path.join(app.root_path, registro.datos_en_crudo)
+    #         datos_registro = pd.read_csv(archivo_csv)
+    #         datos_en_crudo.append(datos_registro)
         
-        #generar el gráfico
-        for columnas in datos_en_crudo:
-            if 'EPO' in columnas.columns and 'NUM_STEPS' in columnas.columns:
-                dataP = datos_registro[['EPO', 'NUM_STEPS']]
+    #     #generar el gráfico
+    #     for columnas in datos_en_crudo:
+    #         if 'EPO' in columnas.columns and 'NUM_STEPS' in columnas.columns:
+    #             dataP = datos_registro[['EPO', 'NUM_STEPS']]
         
-                #Función de support_v0 para crear gráficos con matplotlib
-                plot3Axis(dataP, ['NUM_STEPS'], ['Título:Número de pasos detectados'], ['Eje y: nº de pasos'], ['Eje x: Tiempo'], 'Título general del gráfico', fecha_desde, fecha_hasta)
+    #             #Función de support_v0 para crear gráficos con matplotlib
+    #             plot3Axis(dataP, ['NUM_STEPS'], ['Título:Número de pasos detectados'], ['Eje y: nº de pasos'], ['Eje x: Tiempo'], 'Título general del gráfico', str(fecha_desde), str(fecha_hasta))
 
 
-        return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, data=datos_en_crudo)
+    #     return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, data=datos_en_crudo)
+
+    dataPatient=pd.read_csv('prueba.csv')
+    plot3Axis(dataPatient, 
+          ['LEN', 'NUM_STEPS', 'SPEED', 'CAD'], 
+          ['Length of step','Number of Steps','Speed', 'Cadence'],
+          ['m','number of steps','m/s','steps/min']
+          , 'Data', 'Step parameters: minute level',2,4)
+
 
     #Si no envian formulario
     return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
