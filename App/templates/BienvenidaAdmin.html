@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>Bienvenido</title>
+    <title>{% trans %} Bienvenido {% endtrans %}</title>
 
 {% endblock %}
 
@@ -24,7 +24,7 @@
             </div>
 
             <div class="col-md-8 text-center mb-4"> <!--Acciones del administrador-->
-                <!--Nada por ahora (en un futuro todo)-->
+                <a href="{{ url_for('gestionUsuarios') }}" class="btn btn-primary btn-lg">{% trans %}Gestión de usuarios{% endtrans %}</a>
             </div>
         </div>
     </div>

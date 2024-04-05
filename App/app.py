@@ -112,7 +112,7 @@ def subir_datos_sensor(id_paciente):
         db.session.add(nuevo_registro)
         db.session.commit()
 
-        flash('Archivo CSV subido con éxito.')
+        print('Archivo CSV subido con éxito.')
         return redirect(url_for('listadoPacientes'))
 
 
@@ -143,7 +143,7 @@ def subir_video(id_paciente):
         db.session.add(nuevo_video)
         db.session.commit()
 
-        flash('Archivo de vídeo subido con éxito.')
+        print('Archivo de vídeo subido con éxito.')
         return redirect(url_for('listadoPacientes'))
 
 
@@ -325,7 +325,7 @@ def logout():
 def BienvenidaAdmin():
     #Verificar si el usuario está logueado
     if 'username' not in session:
-        flash('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
+        print('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
         return redirect(url_for('login'))
 
     #Nombre de usuario del admin logeado
@@ -336,11 +336,30 @@ def BienvenidaAdmin():
     
     #Si no existe en la bbdd
     if not admin:
-        flash('No se encontró ese usuario en la base de datos', 'error')
+        print('No se encontró ese usuario en la base de datos', 'error')
         return redirect(url_for('login'))
     
     return render_template('BienvenidaAdmin.html')
 #----------------------------------------------------------------
+
+
+
+
+#----------------------------------------------------------------
+#Página que muestra todos los usuarios de la aplicación para hacer su gestión
+@app.route('/gestionUsuarios')
+def gestionUsuarios():
+    #Consulta para obtener todos los administradores de la aplicación
+    listadoAdministradores = Administrador.query.all()
+    #Consulta para obtener todos los medicos de la aplicación
+    listadoMedicos = Medico.query.all()
+    #Consulta para obtener todos los pacientes de la aplicación
+    listadoPacientes = Paciente.query.all()
+
+    return render_template('gestionUsuarios.html', admins=listadoAdministradores, medicos=listadoMedicos ,pacientes=listadoPacientes)
+#----------------------------------------------------------------
+
+
 
 
 #----------------------------------------------------------------
@@ -350,10 +369,10 @@ def BienvenidaAdmin():
 def BienvenidaMedico():
     #Verificar si el usuario está logueado
     if 'username' not in session:
-        flash('Se debe iniciar sesión como médico para acceder a esta página', 'error')
+        print('Se debe iniciar sesión como médico para acceder a esta página', 'error')
         return redirect(url_for('login'))
 
-    #Nombre de usuario del admin logeado
+    #Nombre de usuario del medico logeado
     username_medico = session.get('username')
 
     #Objeto de ese medico en la bbdd
@@ -361,7 +380,7 @@ def BienvenidaMedico():
 
     #Si no existe en la bbdd
     if not medico:
-        flash('No se encontró ese usuario en la base de datos', 'error')
+        print('No se encontró ese usuario en la base de datos', 'error')
         return redirect(url_for('login'))
     
     return render_template('BienvenidaMedico.html')
@@ -388,7 +407,7 @@ def listadoPacientes():
 
 #----------------------------------------------------------------
 #Página que muestra los datos del sensor del paciente a los médicos.
-#Sacamos todos los registros de ese paciente en las fechas selecionadas y creamos la gráfica
+#Sacamos todos los registros de ese paciente en las fechas selecionadas y creamos la gráfica TODO
 @app.route('/mostrarDatosSensor/<paciente>', methods=['GET', 'POST'])
 def mostrarDatosSensor(paciente):
     #base de datos de ese paciente
@@ -426,6 +445,11 @@ def mostrarDatosSensor(paciente):
         #Fecha inicio y fin del gráfico
         fecha_desde = request.form.get('fecha_desde')
         fecha_hasta = request.form.get('fecha_hasta')
+        #Convertir las fechas a objetos datetime
+        diaIni = datetime.strptime(fecha_desde, '%Y-%m-%d')
+        diaFin = datetime.strptime(fecha_hasta, '%Y-%m-%d')
+
+        print(fecha_desde,fecha_hasta, diaIni, diaFin)
     
         #Llamada genérica a la función hecha por S4C SDK
         plot3Axis(PRUEBA, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, -1, -1)
@@ -445,7 +469,7 @@ def mostrarDatosSensor(paciente):
     #     if not registros:
     #         mensaje = 'El paciente no tiene registros en las fechas seleccionadas'
     #         print(mensaje)
-    #         flash(mensaje, 'error')
+    #         print(mensaje, 'error')
     #         return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
         
     #     print('SI funciona registtros')
@@ -482,7 +506,7 @@ def mostrarDatosSensor(paciente):
 def BienvenidaPaciente():
     #Verificar si el usuario está logueado
     if 'username' not in session:
-        flash('Se debe iniciar sesión como paciente para acceder a esta página', 'error')
+        print('Se debe iniciar sesión como paciente para acceder a esta página', 'error')
         return redirect(url_for('login'))
 
     #Nombre de usuario del admin logeado
@@ -493,7 +517,7 @@ def BienvenidaPaciente():
 
     #Si no existe en la bbdd
     if not paciente:
-        flash('No se encontró ese usuario en la base de datos', 'error')
+        print('No se encontró ese usuario en la base de datos', 'error')
         return redirect(url_for('login'))
 
     #Su medico asignado

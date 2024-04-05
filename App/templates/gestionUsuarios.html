@@ -1,0 +1,138 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Gestión Usuarios{% endtrans %}</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <!--Contenido de la página-->
+    <div class="container mt-4 mb-4">
+
+        <h1>{% trans %} Gestión de usuarios {% endtrans %}</h1>
+        
+        <!--Botones para mostrar las diferentes tablas-->
+        <h3>{% trans %} Elige la tabla a gestionar: {% endtrans %}</h3>
+        <div class="botones-container">
+            <button id="btnAdmins">{% trans %} Administradores{% endtrans %}</button>
+            <button id="btnMedicos">{% trans %} Médicos{% endtrans %}</button>
+            <button id="btnPacientes">{% trans %} Pacientes{% endtrans %}</button>
+        </div>
+
+        <!--Tabla de administradores-->
+        <h2 id="tituloAdmins" style="display: none;">{% trans %} Tabla de Administradores{% endtrans %}</h2>
+        <table class="table" id="tablaAdmins" style="display: none;">
+            <thead>
+                <tr>
+                    <th>{% trans %}ID{% endtrans %}</th>
+                    <th>{% trans %}Nombre{% endtrans %}</th>
+                    <th>{% trans %}Foto{% endtrans %}</th>
+                    <th>{% trans %}Acciones{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admin in admins %}
+                <tr>
+                    <td>{{ admin.id_admin }}</td>
+                    <td>{{ admin.nombre }}</td>
+                    <td><img src="{{ admin.foto }}" alt="Foto del admin" style="max-width: 100px;"></td>
+                    <td>{{ admin.nombre }}</td><!--cambiar-->
+                {% endfor %}
+
+            </tbody>
+        </table>
+
+        <!--Tabla de médicos-->
+        <h2 id="tituloMedicos" style="display: none;">{% trans %}Tabla de Médicos{% endtrans %}</h2>
+        <table class="table" id="tablaMedicos" style="display: none;">
+            <thead>
+                <tr>
+                    <th>{% trans %}ID{% endtrans %}</th>
+                    <th>{% trans %}Nombre{% endtrans %}</th>
+                    <th>{% trans %}Foto{% endtrans %}</th>
+                    <th>{% trans %}Acciones{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for medico in medicos %}
+                <tr>
+                    <td>{{ medico.id_medico }}</td>
+                    <td>{{ medico.nombre }}</td>
+                    <td><img src="{{ medico.foto }}" alt="Foto del medico" style="max-width: 100px;"></td>
+                    <td>{{ medico.nombre }}</td><!--cambiar-->
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <!--Tabla de pacientes-->
+        <h2 id="tituloPacientes" style="display: none;">{% trans %}Tabla de Pacientes{% endtrans %}</h2>
+        <table class="table" id="tablaPacientes" style="display: none;">
+            <thead>
+                <tr>
+                    <th>{% trans %}ID{% endtrans %}</th>
+                    <th>{% trans %}Nombre{% endtrans %}</th>
+                    <th>{% trans %}Foto{% endtrans %}</th>
+                    <th>{% trans %}Acciones{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for paciente in pacientes %}
+                <tr>
+                    <td>{{ paciente.id_paciente }}</td>
+                    <td>{{ paciente.nombre }}</td>
+                    <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
+                    <td>{{ paciente.nombre }}</td><!--cambiar-->
+                {% endfor %}
+            </tbody>
+        </table>
+
+
+    </div>
+
+
+    <script>
+        //Dependiendo del botón pulsado muestra una tabla(y su titulo h2) u otra
+        document.getElementById('btnAdmins').addEventListener('click', function() {
+            mostrarTabla('tablaAdmins', 'tituloAdmins');
+        });
+
+        document.getElementById('btnMedicos').addEventListener('click', function() {
+            mostrarTabla('tablaMedicos', 'tituloMedicos');
+        });
+
+        document.getElementById('btnPacientes').addEventListener('click', function() {
+            mostrarTabla('tablaPacientes', 'tituloPacientes');
+        });
+
+        function mostrarTabla(idTabla, idTitulo) {
+            var tabla = document.getElementById(idTabla)
+            var titulo = document.getElementById(idTitulo);
+            
+            //Si la tabla está visible, la oculta, y si está oculta, la muestra
+            if (tabla.style.display === 'block') {
+                tabla.style.display = 'none'; //Ocultar
+                titulo.style.display = 'none';
+
+            } else {
+                //Oculta todas las otras tablas para que se vea mejor
+                var tablas = document.querySelectorAll('table');
+                tablas.forEach(function(tabla) {
+                    tabla.style.display = 'none';
+                });
+                //Oculta todos los titulos 
+                var titulos = document.querySelectorAll('h2');
+                titulos.forEach(function(titulo) {
+                    titulo.style.display = 'none';
+                });
+                
+                tabla.style.display = 'block'; //Mostrar                
+                titulo.style.display = 'block';
+            }
+        }
+    </script>
+
+{% endblock %}
