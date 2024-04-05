@@ -39,8 +39,9 @@ class Paciente(db.Model):
 class Registros(db.Model):
     id_registro = db.Column(db.Integer, primary_key=True)
     paciente = db.Column(db.Integer, db.ForeignKey('paciente.id_paciente'), nullable=True)
-    fecha = db.Column(db.Date, nullable=False)
     datos_en_crudo = db.Column(db.String(250), nullable=False)
+    fecha_inicial = db.Column(db.Date, nullable=True)
+    fecha_final = db.Column(db.Date, nullable=True)
 
 class Videos(db.Model):
     id_video = db.Column(db.Integer, primary_key=True)
