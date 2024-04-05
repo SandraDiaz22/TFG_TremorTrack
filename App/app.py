@@ -103,17 +103,16 @@ def subir_datos_sensor(id_paciente):
         #Guardamos el archivo
         archivo.save(ruta_archivo)
 
-        #Extrae la fecha del formulario
-        fecha_registro = request.form['fecha_sensor']
-
         #Crea una instancia del modelo Registros
-        nuevo_registro = Registros(paciente=id_paciente, fecha=fecha_registro, datos_en_crudo=ruta_archivo)
+        nuevo_registro = Registros(paciente=id_paciente, datos_en_crudo=ruta_archivo)
         #Y la añade a la base de datos
         db.session.add(nuevo_registro)
         db.session.commit()
 
         print('Archivo CSV subido con éxito.')
-        return redirect(url_for('listadoPacientes'))
+        #Redireccionar al usuario(medico/admin) a la página anterior
+        return redirect(request.referrer)
+
 
 
 
@@ -144,7 +143,8 @@ def subir_video(id_paciente):
         db.session.commit()
 
         print('Archivo de vídeo subido con éxito.')
-        return redirect(url_for('listadoPacientes'))
+        #Redireccionar al usuario(medico/admin) a la página anterior
+        return redirect(request.referrer)
 
 
 

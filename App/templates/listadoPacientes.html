@@ -60,8 +60,6 @@
                         <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
                             <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
                                 <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
-                                <label for="fecha_sensor">{% trans %} Fecha de los datos: {% endtrans %}</label>
-                                <input type="date" id="fecha_sensor" name="fecha_sensor" required>
                                 <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
                             </form>
                         </div>

@@ -85,7 +85,48 @@
                     <td>{{ paciente.id_paciente }}</td>
                     <td>{{ paciente.nombre }}</td>
                     <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
-                    <td>{{ paciente.nombre }}</td><!--cambiar-->
+                    <td>
+                        <!--Datos personales-->
+                        <button class="btn btn-info mostrar-info" data-id="{{ paciente.id_paciente }}">{% trans %} Información personal {% endtrans %}</button>
+                        <div class="datos-personales" style="display: none;"> <!--Datos invisibles-->
+                            <p>{% trans %} Fecha de nacimiento: {% endtrans %} {{ paciente.fecha_de_nacimiento }}</p>
+                            <p>{% trans %} Dirección: {% endtrans %} {{ paciente.direccion }}</p>
+                            <p>{% trans %} Teléfono: {% endtrans %} {{ paciente.telefono }}</p>
+                        </div>
+
+                        <!--Subir vídeo-->
+                        <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
+                        <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
+                            <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                <input type="file" name="archivo_video" accept="video/*" required>
+                                <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
+                                <input type="date" id="fecha_video" name="fecha_video" required>
+                                <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
+                                <select id="mano" name="mano" required>
+                                    <option value="">{% trans %} Seleccionar {% endtrans %}</option>
+                                    <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
+                                    <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
+                                </select>
+
+                                <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
+                            </form>
+                        </div>
+
+                        <!--Subir registro-->
+                        <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
+                        <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
+                            <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
+                                <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
+                            </form>
+                        </div>
+
+                        <!--Mostrar gráfica-->
+                        <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
+
+
+                        <!--Eliminar usuario-->
+                    </td>
                 {% endfor %}
             </tbody>
         </table>
@@ -93,6 +134,10 @@
 
     </div>
 
+    <!-- Bootstrap-table filter -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
     <script>
         //Dependiendo del botón pulsado muestra una tabla(y su titulo h2) u otra
@@ -133,6 +178,21 @@
                 titulo.style.display = 'block';
             }
         }
+
+        $(document).ready(function(){
+            $(".mostrar-info").click(function(){
+                var pacienteId = $(this).data("id");
+                $(this).next(".datos-personales").toggle();//Muestra más datos
+            });
+
+            $(".subir-videos").click(function(){
+                $(this).next(".formulario-videos").toggle(); //Muestra el formulario para subir videos
+            });
+
+            $(".subir-datos").click(function(){
+                $(this).next(".formulario-datos").toggle(); //Muestra el formulario para subir csv
+            });
+        });
     </script>
 
 {% endblock %}
