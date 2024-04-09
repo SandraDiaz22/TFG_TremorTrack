@@ -40,7 +40,14 @@
                     <td>{{ admin.id_admin }}</td>
                     <td>{{ admin.nombre }}</td>
                     <td><img src="{{ admin.foto }}" alt="Foto del admin" style="max-width: 100px;"></td>
-                    <td>{{ admin.nombre }}</td><!--cambiar-->
+                    <td>{{ admin.nombre }}
+
+
+                        
+                        <!--Eliminar usuario-->
+                        <button onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                
+                    </td><!--cambiar-->
                 {% endfor %}
 
             </tbody>
@@ -63,7 +70,13 @@
                     <td>{{ medico.id_medico }}</td>
                     <td>{{ medico.nombre }}</td>
                     <td><img src="{{ medico.foto }}" alt="Foto del medico" style="max-width: 100px;"></td>
-                    <td>{{ medico.nombre }}</td><!--cambiar-->
+                    <td>{{ medico.nombre }}
+
+                        
+                        <!--Eliminar usuario-->
+                        <button onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                
+                    </td><!--cambiar-->
                 {% endfor %}
             </tbody>
         </table>
@@ -126,6 +139,8 @@
 
 
                         <!--Eliminar usuario-->
+                        <button onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                
                     </td>
                 {% endfor %}
             </tbody>
@@ -193,6 +208,30 @@
                 $(this).next(".formulario-datos").toggle(); //Muestra el formulario para subir csv
             });
         });
+
+        function eliminarUsuario(idUsuario, rolUsuario) {
+            if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+                fetch('/eliminarUsuario/' + rolUsuario + '/' + idUsuario, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json' },
+                    body: JSON.stringify({ id: idUsuario })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        //Funcionó
+                        alert('Usuario eliminado con éxito');
+                        //Recargar la página
+                        setTimeout(function(){ location.reload(); }, 1000);
+                    } else {
+                        alert('Error al eliminar el usuario');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al eliminar el usuario');
+                });
+            }
+        }
     </script>
 
 {% endblock %}

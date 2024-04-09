@@ -369,6 +369,30 @@ def gestionUsuarios():
 
 
 #----------------------------------------------------------------
+#Página que elimina al usuario con el id indicado
+@app.route('/eliminarUsuario/<rol>/<int:idUsuario>', methods=['POST'])
+def eliminarUsuario(rol, idUsuario):
+    if request.method == 'POST':
+        if rol == 'paciente':
+            usuario = Paciente.query.get_or_404(idUsuario)
+        
+        elif rol == 'medico':
+            usuario = Medico.query.get_or_404(idUsuario)
+        
+        elif rol == 'administrador':
+            usuario = Administrador.query.get_or_404(idUsuario)
+        
+        db.session.delete(usuario)
+        db.session.commit()
+        return 'Usuario eliminado correctamente', 200
+    else:
+        return 'Método no permitido', 405
+#----------------------------------------------------------------
+
+
+
+
+#----------------------------------------------------------------
 #Página de bienvenida para médicos.
 #Por ahora solo contiene foto y dos botones
 @app.route('/BienvenidaMedico')
