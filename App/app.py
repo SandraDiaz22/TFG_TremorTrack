@@ -10,6 +10,8 @@ from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 from Support_v0 import plot3Axis
+from fechasRegistros import actualizar_fechas_registros
+
 
 import csv
 import os
@@ -110,6 +112,10 @@ def subir_datos_sensor(id_paciente):
         db.session.commit()
 
         print('Archivo CSV subido con éxito.')
+        
+        #Rellenar fecha inicial y final del registro en la bbdd
+        actualizar_fechas_registros()
+
         #Redireccionar al usuario(medico/admin) a la página anterior
         return redirect(request.referrer)
 
