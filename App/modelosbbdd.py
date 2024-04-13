@@ -4,7 +4,7 @@ db = SQLAlchemy()
 
 
 class Administrador(db.Model):
-    id_admin = db.Column(db.Integer, primary_key=True)
+    id_admin = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre_de_usuario = db.Column(db.String(50), unique=True, nullable=False)
     contraseña = db.Column(db.String(64), nullable=False)
     correo_electronico = db.Column(db.String(255), unique=True, nullable=False)
@@ -13,7 +13,7 @@ class Administrador(db.Model):
     foto = db.Column(db.String(255), nullable=True)
 
 class Medico(db.Model):
-    id_medico = db.Column(db.Integer, primary_key=True)
+    id_medico = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre_de_usuario = db.Column(db.String(50), unique=True, nullable=False)
     contraseña = db.Column(db.String(64), nullable=False)
     correo_electronico = db.Column(db.String(255), unique=True, nullable=False)
@@ -22,7 +22,7 @@ class Medico(db.Model):
     foto = db.Column(db.String(255), nullable=True)
 
 class Paciente(db.Model):
-    id_paciente = db.Column(db.Integer, primary_key=True)
+    id_paciente = db.Column(db.Integer, primary_key=True, autoincrement=True)
     nombre_de_usuario = db.Column(db.String(50), unique=True, nullable=False)
     contraseña = db.Column(db.String(64), nullable=False)
     correo_electronico = db.Column(db.String(255), unique=True, nullable=False)
@@ -37,14 +37,14 @@ class Paciente(db.Model):
 
 
 class Registros(db.Model):
-    id_registro = db.Column(db.Integer, primary_key=True)
+    id_registro = db.Column(db.Integer, primary_key=True, autoincrement=True)
     paciente = db.Column(db.Integer, db.ForeignKey('paciente.id_paciente'), nullable=True)
     datos_en_crudo = db.Column(db.String(250), nullable=False)
     fecha_inicial = db.Column(db.Date, nullable=True)
     fecha_final = db.Column(db.Date, nullable=True)
 
 class Videos(db.Model):
-    id_video = db.Column(db.Integer, primary_key=True)
+    id_video = db.Column(db.Integer, primary_key=True, autoincrement=True)
     paciente = db.Column(db.Integer, db.ForeignKey('paciente.id_paciente'), nullable=True)
     fecha = db.Column(db.Date, nullable=False)
     contenido = db.Column(db.String(250), nullable=False)

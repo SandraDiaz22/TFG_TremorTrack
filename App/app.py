@@ -393,6 +393,106 @@ def eliminarUsuario(rol, idUsuario):
 
 
 #----------------------------------------------------------------
+#Página que añade un usuario a la bbdd
+@app.route('/agregarUsuario/<rol>', methods=['POST'])
+def agregarUsuario(rol):
+    if request.method == 'POST':
+        #Recoger los datos introducidos por el admin
+        datos_usuario = request.form.to_dict()
+        foto = request.files['foto']
+        if not datos_usuario or not foto:
+            return 'Datos del usuario no proporcionados', 400
+
+        #Verifica que estén los campos comunes para todos los roles
+        campos_obligatorios = ['nombre', 'apellido', 'nombre_de_usuario', 'contraseña', 'correo_electronico']
+        for campo in campos_obligatorios:
+            if campo not in datos_usuario:
+                return f'El campo {campo} es obligatorio', 400
+
+        #Si se añade un paciente
+        if rol == 'paciente':
+            #Verifica el resto de campos
+            campos_paciente = ['fecha_de_nacimiento', 'direccion', 'telefono', 'sensor', 'id_medico']
+            for campo in campos_paciente:
+                if campo not in datos_usuario:
+                    return f'El campo {campo} es obligatorio para el rol de paciente', 400
+
+            #Crea un nuevo paciente(sin foto)
+            nuevo_paciente = Paciente(  nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
+                                        nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=datos_usuario['contraseña'],
+                                        correo_electronico=datos_usuario['correo_electronico'], fecha_de_nacimiento=datos_usuario['fecha_de_nacimiento'],
+                                        direccion=datos_usuario['direccion'], telefono=datos_usuario['telefono'], 
+                                        sensor=datos_usuario['sensor'], id_medico=datos_usuario['id_medico'])
+   
+            #Lo añade a la bbdd
+            db.session.add(nuevo_paciente)
+            db.session.commit()
+
+            #Obtenemos su id
+            id_paciente = nuevo_paciente.id_paciente
+
+            #Foto del paciente
+            nombre_imagen = f'fotoPaciente{id_paciente}.png'            #nombre
+            ruta_imagen = os.path.join('static/fotos', nombre_imagen)   #ubicacion en local
+            foto.save(ruta_imagen)                                      #guardar en local
+            nuevo_paciente.foto = f'/get_image/{nombre_imagen}'         #para la bbdd
+            db.session.commit()                 
+
+
+        #Si es un médico
+        elif rol == 'medico':
+            #Crea un nuevo medico(sin foto)
+            nuevo_medico = Medico(  nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
+                                    nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=datos_usuario['contraseña'],
+                                    correo_electronico=datos_usuario['correo_electronico'])
+   
+            #Lo añade a la bbdd
+            db.session.add(nuevo_medico)
+            db.session.commit()
+
+            #Obtenemos su id
+            id_medico = nuevo_medico.id_medico
+
+            #Foto del medico
+            nombre_imagen = f'fotoMedico{id_medico}.png'                #nombre
+            ruta_imagen = os.path.join('static/fotos', nombre_imagen)   #ubicacion en local
+            foto.save(ruta_imagen)                                      #guardar en local
+            nuevo_medico.foto = f'/get_image/{nombre_imagen}'           #para la bbdd
+            db.session.commit()                 
+
+        
+        #Si es otro admin
+        elif rol == 'administrador':
+
+            #Crea un nuevo Administrador(sin foto)
+            nuevo_administrador = Administrador(nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
+                                                nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=datos_usuario['contraseña'],
+                                                correo_electronico=datos_usuario['correo_electronico'])
+   
+            #Lo añade a la bbdd
+            db.session.add(nuevo_administrador)
+            db.session.commit()
+
+            #Obtenemos su id
+            id_admin = nuevo_administrador.id_admin
+
+            #Foto del Administrador
+            nombre_imagen = f'fotoAdministrador{id_admin}.png'          #nombre
+            ruta_imagen = os.path.join('static/fotos', nombre_imagen)   #ubicacion en local
+            foto.save(ruta_imagen)                                      #guardar en local
+            nuevo_administrador.foto = f'/get_image/{nombre_imagen}'    #para la bbdd
+            db.session.commit()                 
+
+        return 'Usuario agregado correctamente', 200
+    else:
+        return 'Método no permitido', 405
+#----------------------------------------------------------------
+
+
+
+
+
+#----------------------------------------------------------------
 #Página de bienvenida para médicos.
 #Por ahora solo contiene foto y dos botones
 @app.route('/BienvenidaMedico')

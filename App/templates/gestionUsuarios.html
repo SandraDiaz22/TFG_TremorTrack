@@ -23,8 +23,68 @@
             <button id="btnPacientes">{% trans %} Pacientes{% endtrans %}</button>
         </div>
 
+
+
+        <!--Formulario para agregar nuevos usuarios-->
+        <form id="formulario-agregar-usuario" style="display: none;" enctype="multipart/form-data">
+            <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
+            <input type="text" id="nombre" name="nombre" required><br>
+
+            <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
+            <input type="text" id="apellido" name="apellido" required><br>
+
+            <label for="nombre_de_usuario">{% trans %}Nombre de Usuario:{% endtrans %}</label>
+            <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" required><br>
+
+            <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
+            <input type="password" id="contraseña" name="contraseña" required><br>
+
+            <label for="correo_electronico">{% trans %}Correo Electrónico:{% endtrans %}</label>
+            <input type="email" id="correo_electronico" name="correo_electronico" required><br>
+
+            <label for="foto">{% trans %}Foto:{% endtrans %}</label>
+            <input type="file" id="foto" name="foto" accept="image/*" required><br>
+
+            <!--Campos solo para pacientes-->
+            <div id="campos-paciente" style="display: none;">
+                <label for="fecha_de_nacimiento">{% trans %}Fecha de Nacimiento:{% endtrans %}</label>
+                <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento"><br>
+
+                <label for="direccion">{% trans %}Dirección:{% endtrans %}</label>
+                <input type="text" id="direccion" name="direccion"><br>
+
+                <label for="telefono">{% trans %}Teléfono:{% endtrans %}</label>
+                <input type="tel" id="telefono" name="telefono"><br>
+
+                <label for="sensor">{% trans %}¿Tiene Sensor?{% endtrans %}</label>
+                <select id="sensor" name="sensor">
+                    <option value="si">{% trans %}Sí{% endtrans %}</option>
+                    <option value="no">{% trans %}No{% endtrans %}</option>
+                </select><br>
+
+                <label for="id_medico">{% trans %}Médico Asignado:{% endtrans %}</label>
+                <input type="text" id="id_medico" name="id_medico"><br>
+            </div>
+
+            <input type="hidden" id="rol_usuario" name="rol_usuario">  <!--Campo oculto para el rol-->
+
+            <!--Botones para agregar el usuario -->
+            <button type="button" onclick="agregarUsuario()">{% trans %}Agregar Usuario{% endtrans %}</button>
+            <button type="reset">{% trans %}Limpiar{% endtrans %}</button>
+        </form>
+
+
+
+
+
+
+
+
+
         <!--Tabla de administradores-->
         <h2 id="tituloAdmins" style="display: none;">{% trans %} Tabla de Administradores{% endtrans %}</h2>
+        <button id="botonAgregarAdministrador" onclick="mostrarFormulario('administrador')" style="display: none;">{% trans %} Añadir Administrador {% endtrans %}</button>
+        
         <table class="table" id="tablaAdmins" style="display: none;">
             <thead>
                 <tr>
@@ -40,21 +100,26 @@
                     <td>{{ admin.id_admin }}</td>
                     <td>{{ admin.nombre }}</td>
                     <td><img src="{{ admin.foto }}" alt="Foto del admin" style="max-width: 100px;"></td>
-                    <td>{{ admin.nombre }}
-
+                    <td>
 
                         
                         <!--Eliminar usuario-->
                         <button onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
                 
-                    </td><!--cambiar-->
+                    </td>
                 {% endfor %}
 
             </tbody>
         </table>
 
+
+
+
+
         <!--Tabla de médicos-->
         <h2 id="tituloMedicos" style="display: none;">{% trans %}Tabla de Médicos{% endtrans %}</h2>
+        <button id="botonAgregarMedico" onclick="mostrarFormulario('medico')" style="display: none;">{% trans %} Añadir Médico {% endtrans %}</button>
+        
         <table class="table" id="tablaMedicos" style="display: none;">
             <thead>
                 <tr>
@@ -70,19 +135,24 @@
                     <td>{{ medico.id_medico }}</td>
                     <td>{{ medico.nombre }}</td>
                     <td><img src="{{ medico.foto }}" alt="Foto del medico" style="max-width: 100px;"></td>
-                    <td>{{ medico.nombre }}
-
+                    <td>
                         
                         <!--Eliminar usuario-->
                         <button onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
                 
-                    </td><!--cambiar-->
+                    </td>
                 {% endfor %}
             </tbody>
         </table>
 
+
+
+
+
         <!--Tabla de pacientes-->
         <h2 id="tituloPacientes" style="display: none;">{% trans %}Tabla de Pacientes{% endtrans %}</h2>
+        <button id="botonAgregarPaciente" onclick="mostrarFormulario('paciente')" style="display: none;">{% trans %} Añadir Paciente {% endtrans %}</button>
+        
         <table class="table" id="tablaPacientes" style="display: none;">
             <thead>
                 <tr>
@@ -149,33 +219,49 @@
 
     </div>
 
+
+
+
+
+
     <!-- Bootstrap-table filter -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-table/dist/bootstrap-table.min.js"></script>
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 
     <script>
-        //Dependiendo del botón pulsado muestra una tabla(y su titulo h2) u otra
+        //----------------------------------------------------------------
+        //Dependiendo del botón pulsado muestra una tabla(y su titulo h2 y botón de agregar) u otra
         document.getElementById('btnAdmins').addEventListener('click', function() {
-            mostrarTabla('tablaAdmins', 'tituloAdmins');
+            mostrarTabla('tablaAdmins', 'tituloAdmins', 'botonAgregarAdministrador');
         });
 
         document.getElementById('btnMedicos').addEventListener('click', function() {
-            mostrarTabla('tablaMedicos', 'tituloMedicos');
+            mostrarTabla('tablaMedicos', 'tituloMedicos', 'botonAgregarMedico');
         });
 
         document.getElementById('btnPacientes').addEventListener('click', function() {
-            mostrarTabla('tablaPacientes', 'tituloPacientes');
+            mostrarTabla('tablaPacientes', 'tituloPacientes', 'botonAgregarPaciente');
         });
 
-        function mostrarTabla(idTabla, idTitulo) {
+        function mostrarTabla(idTabla, idTitulo, idBoton) {
             var tabla = document.getElementById(idTabla)
             var titulo = document.getElementById(idTitulo);
+            var boton = document.getElementById(idBoton);
+            var formulario = document.getElementById('formulario-agregar-usuario');
+            var formularioPaciente = document.getElementById('campos-paciente');
+
+            //Si el formulario está visible, lo ocultamos
+            if (formulario.style.display === 'block') {
+                formulario.style.display = 'none';
+                formularioPaciente.style.display = 'none';
+            }
             
             //Si la tabla está visible, la oculta, y si está oculta, la muestra
             if (tabla.style.display === 'block') {
                 tabla.style.display = 'none'; //Ocultar
                 titulo.style.display = 'none';
+                boton.style.display = 'none';
 
             } else {
                 //Oculta todas las otras tablas para que se vea mejor
@@ -188,12 +274,22 @@
                 titulos.forEach(function(titulo) {
                     titulo.style.display = 'none';
                 });
+                //Oculta todos los botones 
+                botonAgregarAdministrador.style.display = 'none';
+                botonAgregarMedico.style.display = 'none';
+                botonAgregarPaciente.style.display = 'none';
                 
                 tabla.style.display = 'block'; //Mostrar                
                 titulo.style.display = 'block';
+                boton.style.display = 'block';
             }
         }
+        //----------------------------------------------------------------
 
+
+        //----------------------------------------------------------------
+        //Lógica para mostrar las acciones sobre los pacientes dependiendo 
+        //del botón al que le den
         $(document).ready(function(){
             $(".mostrar-info").click(function(){
                 var pacienteId = $(this).data("id");
@@ -208,7 +304,12 @@
                 $(this).next(".formulario-datos").toggle(); //Muestra el formulario para subir csv
             });
         });
+        //----------------------------------------------------------------
 
+
+
+        //----------------------------------------------------------------
+        //Eliminar usuario de la bbdd
         function eliminarUsuario(idUsuario, rolUsuario) {
             if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
                 fetch('/eliminarUsuario/' + rolUsuario + '/' + idUsuario, {
@@ -232,6 +333,104 @@
                 });
             }
         }
+        //----------------------------------------------------------------
+
+
+
+
+        //----------------------------------------------------------------
+        //Mostrar el formulario de añadir usuario específico
+        function mostrarFormulario(rolUsuario) {
+            const formulario = document.getElementById('formulario-agregar-usuario');
+            const formularioPaciente = document.getElementById('campos-paciente');
+
+            //Si ya estaba visible, lo ocultamos
+            if (formulario.style.display === 'block') {
+                formulario.style.display = 'none';
+                formularioPaciente.style.display = 'none';
+                return;
+            }
+
+             //Campo oculto del rol
+            document.getElementById('rol_usuario').value = rolUsuario;
+
+            //Mostrar formulario
+            formulario.style.display = 'block';
+
+            //Los pacientes tienen más campos que mostrar
+            if (rolUsuario === 'paciente') {
+                formularioPaciente.style.display = 'block';
+            }
+        }
+
+        //----------------------------------------------------------------
+
+
+
+
+        //----------------------------------------------------------------
+        //Pasar los datos del formulario a app.py para añadir a la
+        //bbdd un usuario con esos datos
+        function agregarUsuario() {
+            //Obtener los datos del formulario
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const nombre_de_usuario = document.getElementById('nombre_de_usuario').value;
+            const contraseña = document.getElementById('contraseña').value;
+            const correo_electronico = document.getElementById('correo_electronico').value;
+            const foto = document.getElementById('foto').files[0];
+            
+            //Crear un objeto con esos datos
+            const datos_usuario = { nombre: nombre, apellido: apellido,
+                                    nombre_de_usuario: nombre_de_usuario, contraseña: contraseña,
+                                    correo_electronico: correo_electronico, foto: foto };
+
+
+            //Si el usuario es un paciente tiene más campos
+            const rol = document.getElementById('rol_usuario').value;
+            if (rol === 'paciente') {
+                //Obtenerlos
+                const fecha_de_nacimiento = document.getElementById('fecha_de_nacimiento').value;
+                const direccion = document.getElementById('direccion').value;
+                const telefono = document.getElementById('telefono').value;
+                const sensor = document.getElementById('sensor').value;
+                const id_medico = document.getElementById('id_medico').value;
+
+                //Agregarlos al objeto
+                datos_usuario.fecha_de_nacimiento = fecha_de_nacimiento;
+                datos_usuario.direccion = direccion;
+                datos_usuario.telefono = telefono;
+                datos_usuario.sensor = sensor;
+                datos_usuario.id_medico = id_medico;
+            }
+
+            //Convertir los datos a FormData
+            const formData = new FormData();
+            for (const dato in datos_usuario) {
+                formData.append(dato, datos_usuario[dato]);
+            }
+
+            //Enviar los datos del usuario como un objeto FormData en la solicitud POST
+            fetch('/agregarUsuario/' + rol, {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Usuario agregado correctamente');
+                    location.reload();
+                } else {
+                    alert('Error al agregar el usuario1');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al agregar el usuario');
+            });
+        }
+
+
+        //----------------------------------------------------------------
     </script>
 
 {% endblock %}
