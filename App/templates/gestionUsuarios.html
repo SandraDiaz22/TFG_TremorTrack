@@ -103,6 +103,32 @@
                     <td>
 
                         <!--Editar usuario-->
+                        <button type="button" class="boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>
+                        <div class="formulario-edicion-administrador" id="formulario-edicion-administrador-{{ admin.id_admin }}" style="display: none;">
+                            <form action="/editar_usuario" method="POST">
+                                <input type="hidden" name="usuario_id" value="{{ admin.id_admin }}"> <!--Para saber quién editar-->
+                                <input type="hidden" name="editar_tipo" value="administrador">
+                            
+                                <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                <input type="text" id="nombre" name="nombre" value="{{ admin.nombre }}"><br>
+                            
+                                <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                <input type="text" id="apellido" name="apellido" value="{{ admin.apellido }}"><br>
+                            
+                                <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ admin.nombre_de_usuario }}"><br>
+                            
+                                <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                <input type="password" id="contraseña" name="contraseña" value="{{ admin.contraseña }}"><br>
+                            
+                                <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                <input type="email" id="correo_electronico" name="correo_electronico" value="{{ admin.correo_electronico }}"><br>
+                            
+                                <!--Falta la foto-->
+                            
+                                <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                            </form>
+                        </div>
                         
                         <!--Eliminar usuario-->
                         <button onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
@@ -139,6 +165,33 @@
                     <td>
                         
                         <!--Editar usuario-->
+                        <button type="button" class="boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %} Editar usuario {% endtrans %}</button>
+                        <div class="formulario-edicion-medico" id="formulario-edicion-medico-{{ medico.id_medico }}" style="display: none;">
+                            <form action="/editar_usuario" method="POST">
+                                <input type="hidden" name="usuario_id" value="{{ medico.id_medico }}"> <!--Para saber quién editar-->
+                                <input type="hidden" name="editar_tipo" value="medico">
+                            
+                                <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                <input type="text" id="nombre" name="nombre" value="{{ medico.nombre }}"><br>
+                            
+                                <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                <input type="text" id="apellido" name="apellido" value="{{ medico.apellido }}"><br>
+                            
+                                <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ medico.nombre_de_usuario }}"><br>
+                            
+                                <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                <input type="password" id="contraseña" name="contraseña" value="{{ medico.contraseña }}"><br>
+                            
+                                <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                <input type="email" id="correo_electronico" name="correo_electronico" value="{{ medico.correo_electronico }}"><br>
+                            
+                                <!--Falta foto-->
+                            
+                                <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                            </form>
+                        </div>
+                        
 
                         <!--Eliminar usuario-->
                         <button onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
@@ -186,7 +239,7 @@
                                 <p>{% trans %} Teléfono: {% endtrans %}
                                     <input type="text" name="telefono" value="{{ paciente.telefono }}">
                                 </p>
-                                <button type="submit" id="boton-guardar" class="btn btn-primary">Guardar cambios</button>
+                                <button type="submit" id="boton-guardar" class="btn btn-primary">{% trans %}Guardar cambios{% endtrans %}</button>
                             </form>
                         </div>
 
@@ -221,6 +274,51 @@
                         <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
 
                         <!--Editar usuario-->
+                        <button type="button" class="boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
+                        <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
+                            <form action="/editar_usuario" method="POST">
+                                <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
+                                <input type="hidden" name="editar_tipo" value="paciente">
+                            
+                                <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                <input type="text" id="nombre" name="nombre" value="{{ paciente.nombre }}"><br>
+                            
+                                <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                <input type="text" id="apellido" name="apellido" value="{{ paciente.apellido }}"><br>
+                            
+                                <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ paciente.nombre_de_usuario }}"><br>
+                            
+                                <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                <input type="password" id="contraseña" name="contraseña" value="{{ paciente.contraseña }}"><br>
+                            
+                                <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                <input type="email" id="correo_electronico" name="correo_electronico" value="{{ paciente.correo_electronico }}"><br>
+                            
+                                <label for="fecha_de_nacimiento">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
+                                <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}"><br>
+                            
+                                <label for="direccion">{% trans %} Dirección: {% endtrans %}</label>
+                                <input type="text" id="direccion" name="direccion" value="{{ paciente.direccion }}"><br>
+                            
+                                <label for="telefono">{% trans %} Teléfono: {% endtrans %}</label>
+                                <input type="text" id="telefono" name="telefono" value="{{ paciente.telefono }}"><br>
+                            
+                                <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
+                                <select id="sensor" name="sensor">
+                                    <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
+                                    <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
+                                </select><br>
+                            
+                                <label for="id_medico">{% trans %} ID del médico: {% endtrans %}</label>
+                                <input type="text" id="id_medico" name="id_medico" value="{{ paciente.id_medico }}"><br>
+
+                                <!--Falta foto-->
+                            
+                                <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                            </form>
+                        </div>
+                        
 
                         <!--Eliminar usuario-->
                         <button onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
@@ -473,6 +571,83 @@
             });
         });
         //----------------------------------------------------------------
+
+
+
+
+        //----------------------------------------------------------------
+        //Lógica para mostrar el formulario de editar datos de usuarios
+        //dependiendo qué usuario le den
+        $(document).ready(function(){
+            //Administradores
+            $(".boton-editar-administrador").click(function(){
+                var usuarioId = $(this).data("id");
+                var formularioEdicion = $("#formulario-edicion-administrador-" + usuarioId);
+                //Si estaba oculto, lo pone visible y viceversa
+                formularioEdicion.toggle();
+                //Ocultar el resto
+                $(".formulario-edicion-administrador").not(formularioEdicion).hide();
+            });
+
+            //Médicos
+            $(".boton-editar-medico").click(function(){
+                var usuarioId = $(this).data("id");
+                var formularioEdicion = $("#formulario-edicion-medico-" + usuarioId);
+                //Si estaba oculto, lo pone visible y viceversa
+                formularioEdicion.toggle();
+                //Ocultar el resto
+                $(".formulario-edicion-medico").not(formularioEdicion).hide();
+            });
+
+            //Pacientes
+            $(".boton-editar-paciente").click(function(){
+                var usuarioId = $(this).data("id");
+                var formularioEdicion = $("#formulario-edicion-paciente-" + usuarioId);
+                //Si estaba oculto, lo pone visible y viceversa
+                formularioEdicion.toggle();
+                //Ocultar el resto
+                $(".formulario-edicion-paciente").not(formularioEdicion).hide();
+            });
+        });        
+        //----------------------------------------------------------------
+
+
+
+        //----------------------------------------------------------------
+        //Cuando se pulsa el botón de guardar cambios al editar los datos de 
+        //los usuarios se llama a la función que actualiza esos datos en la 
+        //base de datos y dependiendo del resultado se alerta al usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('#boton-guardarCambios').forEach(function(boton) {
+                boton.addEventListener('click', function() {
+                    
+                    //Obtener el formulario asociado al botón
+                    const formulario = event.target.closest('form');
+                    const formData = new FormData(formulario); //Datos del formulario
+
+                    fetch('/editar_usuario', {
+                        method: 'POST',
+                        body: formData //Lo mandamos por aqui
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Usuario editado correctamente');
+                            location.reload(); //Recarga la página
+                        } else {
+                            alert('Error al editar el usuario');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al editar el usuario');
+                    });
+                });
+            });
+        });
+
+        //----------------------------------------------------------------
+
+
     </script>
 
 {% endblock %}

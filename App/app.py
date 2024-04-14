@@ -460,7 +460,6 @@ def agregarUsuario(rol):
             nuevo_medico.foto = f'/get_image/{nombre_imagen}'           #para la bbdd
             db.session.commit()                 
 
-        
         #Si es otro admin
         elif rol == 'administrador':
 
@@ -516,6 +515,46 @@ def actualizar_datos_personales():
     else:
         return 'Método no permitido', 405
 #----------------------------------------------------------------
+
+
+
+
+
+
+#----------------------------------------------------------------
+#Función para editar todos los campos de la bbdd de cada usuario
+@app.route('/editar_usuario', methods=['POST'])
+def editar_usuario():
+    usuario_id = request.form.get('usuario_id')
+    tipo_usuario = request.form.get('editar_tipo')
+
+    #Obtenemos el usuario a editar
+    if tipo_usuario == 'administrador':
+        usuario = Administrador.query.get(usuario_id)
+    elif tipo_usuario == 'medico':
+        usuario = Medico.query.get(usuario_id)
+    elif tipo_usuario == 'paciente':
+        usuario = Paciente.query.get(usuario_id)
+
+    if usuario:
+        usuario.nombre = request.form.get('nombre')
+        usuario.apellido = request.form.get('apellido')
+        usuario.nombre_de_usuario = request.form.get('nombre_de_usuario')
+        usuario.contraseña = request.form.get('contraseña')
+        usuario.correo_electronico = request.form.get('correo_electronico')
+        if tipo_usuario == 'paciente':
+            usuario.fecha_de_nacimiento = request.form.get('fecha_de_nacimiento')
+            usuario.direccion = request.form.get('direccion')
+            usuario.telefono = request.form.get('telefono')
+            usuario.sensor =  request.form.get('sensor')
+            usuario.id_medico = request.form.get('id_medico')
+        
+        db.session.commit()
+        return 'Usuario editado correctamente', 200
+    else:
+        return 'Usuario no encontrado', 404
+#----------------------------------------------------------------
+
 
 
 
