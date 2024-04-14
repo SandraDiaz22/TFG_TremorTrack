@@ -32,9 +32,19 @@
                     <td>
                         <button class="btn btn-info mostrar-info" data-id="{{ paciente.id_paciente }}">{% trans %} Información personal {% endtrans %}</button>
                         <div class="datos-personales" style="display: none;"> <!--Datos invisibles-->
-                            <p>{% trans %} Fecha de nacimiento: {% endtrans %} {{ paciente.fecha_de_nacimiento }}</p>
-                            <p>{% trans %} Dirección: {% endtrans %} {{ paciente.direccion }}</p>
-                            <p>{% trans %} Teléfono: {% endtrans %} {{ paciente.telefono }}</p>
+                            <form id="formulario-datos-personales"><!--Muestra los datos y permite cambiarlos-->
+                                <input type="hidden" name="id_paciente" value="{{ paciente.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
+                                <p>{% trans %} Fecha de nacimiento: {% endtrans %}
+                                    <input type="date" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}">
+                                </p>
+                                <p>{% trans %} Dirección: {% endtrans %}
+                                    <input type="text" name="direccion" value="{{ paciente.direccion }}">
+                                </p>
+                                <p>{% trans %} Teléfono: {% endtrans %}
+                                    <input type="text" name="telefono" value="{{ paciente.telefono }}">
+                                </p>
+                                <button type="submit" id="boton-guardar" class="btn btn-primary">Guardar cambios</button>
+                            </form>
                         </div>
 
 
@@ -94,6 +104,34 @@
                 $(this).next(".formulario-datos").toggle(); //Muestra el formulario para subir csv
             });
         });
+
+        
+        //----------------------------------------------------------------
+        //Cuando se pulsa el botón de guardar cambios al editar los datos de 
+        //los pacientes se llama a la función que actualiza esos datos en la 
+        //base de datos y dependiendo del resultado se alerta al usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('boton-guardar').addEventListener('click', function() {
+                const formData = new FormData(document.getElementById('formulario-datos-personales'));
+                fetch('/actualizar_datos_personales', {
+                    method: 'POST',
+                    body: formData //Lo mandamos por aqui
+                })
+                .then(response => {
+                    if (response.ok) {
+                        alert('Paciente editado correctamente');//Bien
+                        location.reload(); //Recargar la página
+                    } else {
+                        alert('Error al editar el paciente');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Error al editar el paciente');
+                });
+            });
+        });
+        //----------------------------------------------------------------
     </script>
 
 
