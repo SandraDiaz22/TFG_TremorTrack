@@ -493,6 +493,36 @@ def agregarUsuario(rol):
 
 
 #----------------------------------------------------------------
+#Función que actualiza la informacion personal de los pacientes en la bbdd
+@app.route('/actualizar_datos_personales', methods=['POST'])
+def actualizar_datos_personales():
+    if request.method == 'POST':
+        #Recogemos los nuevos datos del paciente
+        id_paciente = request.form.get('id_paciente')
+        fecha_de_nacimiento = request.form.get('fecha_de_nacimiento')
+        direccion = request.form.get('direccion')
+        telefono = request.form.get('telefono')
+
+        #Editamos al paciente
+        paciente = Paciente.query.get(id_paciente)
+        if paciente:
+            paciente.fecha_de_nacimiento = fecha_de_nacimiento
+            paciente.direccion = direccion
+            paciente.telefono = telefono
+            db.session.commit() #Subir a la bbdd
+            return 'Paciente editado correctamente', 200
+        else:
+            return 'Paciente no encontrado', 404
+    else:
+        return 'Método no permitido', 405
+#----------------------------------------------------------------
+
+
+
+
+
+
+#----------------------------------------------------------------
 #Página de bienvenida para médicos.
 #Por ahora solo contiene foto y dos botones
 @app.route('/BienvenidaMedico')
