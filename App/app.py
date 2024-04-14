@@ -498,9 +498,9 @@ def actualizar_datos_personales():
     if request.method == 'POST':
         #Recogemos los nuevos datos del paciente
         id_paciente = request.form.get('id_paciente')
-        fecha_de_nacimiento = request.form.get('fecha_de_nacimiento')
-        direccion = request.form.get('direccion')
-        telefono = request.form.get('telefono')
+        fecha_de_nacimiento = request.form.get('fecha_de_nacimientoP')
+        direccion = request.form.get('direccionP')
+        telefono = request.form.get('telefonoP')
 
         #Editamos al paciente
         paciente = Paciente.query.get(id_paciente)

@@ -225,23 +225,7 @@
                     <td>{{ paciente.nombre }}</td>
                     <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
                     <td>
-                        <!--Datos personales-->
-                        <button class="btn btn-info mostrar-info" data-id="{{ paciente.id_paciente }}">{% trans %} Información personal {% endtrans %}</button>
-                        <div class="datos-personales" style="display: none;"> <!--Datos invisibles-->
-                            <form id="formulario-datos-personales"><!--Muestra los datos y permite cambiarlos-->
-                                <input type="hidden" name="id_paciente" value="{{ paciente.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
-                                <p>{% trans %} Fecha de nacimiento: {% endtrans %}
-                                    <input type="date" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}">
-                                </p>
-                                <p>{% trans %} Dirección: {% endtrans %}
-                                    <input type="text" name="direccion" value="{{ paciente.direccion }}">
-                                </p>
-                                <p>{% trans %} Teléfono: {% endtrans %}
-                                    <input type="text" name="telefono" value="{{ paciente.telefono }}">
-                                </p>
-                                <button type="submit" id="boton-guardar" class="btn btn-primary">{% trans %}Guardar cambios{% endtrans %}</button>
-                            </form>
-                        </div>
+                        <!--Datos personales no hace falta por repetitivo-->
 
                         <!--Subir vídeo-->
                         <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
@@ -403,11 +387,6 @@
         //Lógica para mostrar las acciones sobre los pacientes dependiendo 
         //del botón al que le den
         $(document).ready(function(){
-            $(".mostrar-info").click(function(){
-                var pacienteId = $(this).data("id");
-                $(this).next(".datos-personales").toggle();//Muestra más datos
-            });
-
             $(".subir-videos").click(function(){
                 $(this).next(".formulario-videos").toggle(); //Muestra el formulario para subir videos
             });
@@ -530,7 +509,7 @@
             .then(response => {
                 if (response.ok) {
                     alert('Usuario agregado correctamente');
-                    location.reload();
+                    setTimeout(function(){ location.reload(); }, 1000);
                 } else {
                     alert('Error al agregar el usuario1');
                 }
@@ -540,36 +519,6 @@
                 alert('Error al agregar el usuario');
             });
         }
-        //----------------------------------------------------------------
-
-
-
-
-        //----------------------------------------------------------------
-        //Cuando se pulsa el botón de guardar cambios al editar los datos de 
-        //los pacientes se llama a la función que actualiza esos datos en la 
-        //base de datos y dependiendo del resultado se alerta al usuario
-        document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('boton-guardar').addEventListener('click', function() {
-                const formData = new FormData(document.getElementById('formulario-datos-personales'));
-                fetch('/actualizar_datos_personales', {
-                    method: 'POST',
-                    body: formData //Lo mandamos por aqui
-                })
-                .then(response => {
-                    if (response.ok) {
-                        alert('Paciente editado correctamente');//Bien
-                        location.reload(); //Recargar la página
-                    } else {
-                        alert('Error al editar el paciente');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('Error al editar el paciente');
-                });
-            });
-        });
         //----------------------------------------------------------------
 
 
@@ -619,8 +568,9 @@
         //base de datos y dependiendo del resultado se alerta al usuario
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('#boton-guardarCambios').forEach(function(boton) {
-                boton.addEventListener('click', function() {
-                    
+                boton.addEventListener('click', function(event) {
+                    event.preventDefault();
+
                     //Obtener el formulario asociado al botón
                     const formulario = event.target.closest('form');
                     const formData = new FormData(formulario); //Datos del formulario
@@ -632,7 +582,7 @@
                     .then(response => {
                         if (response.ok) {
                             alert('Usuario editado correctamente');
-                            location.reload(); //Recarga la página
+                            setTimeout(function(){ location.reload(); }, 1000);//Recarga la página
                         } else {
                             alert('Error al editar el usuario');
                         }
