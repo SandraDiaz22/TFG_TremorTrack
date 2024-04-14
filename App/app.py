@@ -329,10 +329,10 @@ def logout():
 #Por ahora solo contiene el tipo de usuario
 @app.route('/BienvenidaAdmin')
 def BienvenidaAdmin():
-    #Verificar si el usuario está logueado
-    if 'username' not in session:
+    #Verificar si el usuario está logueado como admin
+    if 'username' not in session or session.get('rol') != 'administrador':
         print('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
-        return redirect(url_for('login'))
+        return redirect(url_for('paginaprincipal'))
 
     #Nombre de usuario del admin logeado
     username_admin = session.get('username')
@@ -343,7 +343,7 @@ def BienvenidaAdmin():
     #Si no existe en la bbdd
     if not admin:
         print('No se encontró ese usuario en la base de datos', 'error')
-        return redirect(url_for('login'))
+        return redirect(url_for('paginaprincipal'))
     
     return render_template('BienvenidaAdmin.html')
 #----------------------------------------------------------------
@@ -355,6 +355,11 @@ def BienvenidaAdmin():
 #Página que muestra todos los usuarios de la aplicación para hacer su gestión
 @app.route('/gestionUsuarios')
 def gestionUsuarios():
+    #Verificar si el usuario está logueado como admin
+    if 'username' not in session or session.get('rol') != 'administrador':
+        print('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
+        return redirect(url_for('paginaprincipal'))
+    
     #Consulta para obtener todos los administradores de la aplicación
     listadoAdministradores = Administrador.query.all()
     #Consulta para obtener todos los medicos de la aplicación
@@ -566,10 +571,10 @@ def editar_usuario():
 #Por ahora solo contiene foto y dos botones
 @app.route('/BienvenidaMedico')
 def BienvenidaMedico():
-    #Verificar si el usuario está logueado
-    if 'username' not in session:
+    #Verificar si el usuario está logueado como médico
+    if 'username' not in session or session.get('rol') != 'medico':
         print('Se debe iniciar sesión como médico para acceder a esta página', 'error')
-        return redirect(url_for('login'))
+        return redirect(url_for('paginaprincipal'))
 
     #Nombre de usuario del medico logeado
     username_medico = session.get('username')
@@ -592,6 +597,11 @@ def BienvenidaMedico():
 #Por ahora la lista con los botones pero feo
 @app.route('/listadoPacientes')
 def listadoPacientes():
+    #Verificar si el usuario está logueado como médico
+    if 'username' not in session or session.get('rol') != 'medico':
+        print('Se debe iniciar sesión como médico para acceder a esta página', 'error')
+        return redirect(url_for('paginaprincipal'))
+    
     #Qué médico pidió el listado
     username_medico = session.get('username')
     medico = Medico.query.filter_by(nombre_de_usuario=username_medico).first()
@@ -609,6 +619,11 @@ def listadoPacientes():
 #Sacamos todos los registros de ese paciente en las fechas selecionadas y creamos la gráfica TODO
 @app.route('/mostrarDatosSensor/<paciente>', methods=['GET', 'POST'])
 def mostrarDatosSensor(paciente):
+    #Verificar si el usuario está logueado
+    if 'username' not in session:
+        print('Se debe iniciar sesión para acceder a esta página', 'error')
+        return redirect(url_for('paginaprincipal'))
+    
     #base de datos de ese paciente
     bbddpaciente = Paciente.query.get(paciente)
 
@@ -703,10 +718,10 @@ def mostrarDatosSensor(paciente):
 #Por ahora solo contiene el tipo de usuario
 @app.route('/BienvenidaPaciente') #, methods=['GET', 'POST'])
 def BienvenidaPaciente():
-    #Verificar si el usuario está logueado
-    if 'username' not in session:
+    #Verificar si el usuario está logueado como paciente
+    if 'username' not in session or session.get('rol') != 'paciente':
         print('Se debe iniciar sesión como paciente para acceder a esta página', 'error')
-        return redirect(url_for('login'))
+        return redirect(url_for('paginaprincipal'))
 
     #Nombre de usuario del admin logeado
     username_paciente = session.get('username')
