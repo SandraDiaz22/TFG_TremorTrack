@@ -624,6 +624,34 @@ def mostrarDatosSensor(paciente):
         print('Se debe iniciar sesión para acceder a esta página', 'error')
         return redirect(url_for('paginaprincipal'))
     
+    #Obtener el rol del usuario de la sesión
+    rol_usuario = session.get('rol')
+
+    #Si es administrador, puede ver las gráficas de todos
+    if rol_usuario == 'administrador':
+        pass
+    #Si es paciente, solo puede acceder si coincide con el paciente pasado en la URL
+    elif rol_usuario == 'paciente':
+        username_paciente = session.get('username')
+        #Objeto de ese paciente en la bbdd
+        pacienteSesion = Paciente.query.filter_by(nombre_de_usuario=username_paciente).first()
+        idPacienteSesion= pacienteSesion.id_paciente
+        #Si no coinciden, redirige a la pagina principal
+        if str(paciente) != str(idPacienteSesion):
+            print('Solo puedes acceder a tus propios datos', 'error')
+            return redirect(url_for('paginaprincipal'))
+    #Si es médico, verificar si el paciente está en su lista de pacientes asociados
+    elif rol_usuario == 'medico':
+        username_medico = session.get('username')
+        #Objeto de ese medico en la bbdd
+        medico = Medico.query.filter_by(nombre_de_usuario=username_medico).first()
+        listadoPacientes = Paciente.query.filter_by(id_medico=medico.id_medico).all() #Sus pacientes asociados
+        listado_id_Pacientes = [str(paciente.id_paciente) for paciente in listadoPacientes] #Los id de sus pacientes
+        #Si no está en la lista, redirige a la pagina principal
+        if str(paciente) not in listado_id_Pacientes:
+            print('No tienes permiso para acceder a los datos de este paciente', 'error')
+            return redirect(url_for('paginaprincipal'))
+    
     #base de datos de ese paciente
     bbddpaciente = Paciente.query.get(paciente)
 
