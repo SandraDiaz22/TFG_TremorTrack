@@ -33,16 +33,86 @@
                     <p>{% trans %} Dirección: {% endtrans %} {{ usuario.direccion }}</p>
                     <p>{% trans %} Teléfono: {% endtrans %} {{ usuario.telefono }}</p>
                 </div>
-                <!-- Botón para editar los datos personales -->
-                <a href="/editarDatosPaciente/{{ usuario.id }}" class="btn btn-info">{% trans %}Editar datos personales{% endtrans %}</a>
             </div>
 
             <div class="col-md-8 text-center mb-4"> <!--Acciones del paciente-->
+                
+                <!-- Botón para editar los datos personales -->
+                <button class="btn btn-primary btn-lg mostrar-editables" data-id="{{ usuario.id_paciente }}">{% trans %} Editar datos personales {% endtrans %}</button>
+                        <div class="datos-editables" style="display: none;"> <!--Datos invisibles-->
+                            <form id="formulario-datos-editables"><!--Muestra los datos y permite cambiarlos-->
+                                <input type="hidden" name="id_paciente" value="{{ usuario.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
+                                
+                                <label for="fecha_de_nacimientoP">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
+                                <input type="date" id="fecha_de_nacimientoP" name="fecha_de_nacimientoP" value="{{ usuario.fecha_de_nacimiento }}"><br>
+                            
+                                <label for="direccionP">{% trans %} Dirección: {% endtrans %}</label>
+                                <input type="text" id="direccionP" name="direccionP" value="{{ usuario.direccion }}"><br>
+                            
+                                <label for="telefonoP">{% trans %} Teléfono: {% endtrans %}</label>
+                                <input type="text" id="telefonoP" name="telefonoP" value="{{ usuario.telefono }}"><br>
+                                
+                                <button type="submit" class="btn btn-primary boton-guardar">{% trans %} Guardar cambios {% endtrans %}</button>
+                            </form>
+                        </div>
+
+
                 <!--Boton de revisar mi evolucion para ir a una ventana con las gráficas -->
                 <a href="/mostrarDatosSensor/{{ usuario.id_paciente }}" class="btn btn-primary btn-lg">{% trans %}Revisar mi evolución{% endtrans %}</a>
             </div>
         </div>
     </div>
+
+    <!-- Bootstrap-table filter -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+
+    <script>
+
+        $(document).ready(function(){
+            $(".mostrar-editables").click(function(){
+                var pacienteId = $(this).data("id");
+                $(this).next(".datos-editables").toggle(); //Muestra el formulario
+            });
+        });
+
+
+        //----------------------------------------------------------------
+        //Cuando se pulsa el botón de guardar cambios al editar los datos de 
+        //los pacientes se llama a la función que actualiza esos datos en la 
+        //base de datos y dependiendo del resultado se alerta al usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.boton-guardar').forEach(function(boton) {
+                boton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    
+                    // Encuentra el formulario asociado a este botón
+                    const formulario = boton.closest('form');
+                    const formData = new FormData(formulario);
+
+                    fetch('/actualizar_datos_personales', {
+                        method: 'POST',
+                        body: formData //Lo mandamos por aqui
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Los datos se han actualizado correctamente'); //Bien
+                            location.reload(); //Recargar la página
+                        } else {
+                            alert('Error al editar los datos');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('Error al editar los datos');
+                    });
+                });
+            });
+        });
+        //----------------------------------------------------------------
+
+    </script>
 
 
 {% endblock %}

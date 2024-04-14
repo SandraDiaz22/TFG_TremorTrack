@@ -113,7 +113,9 @@
         //base de datos y dependiendo del resultado se alerta al usuario
         document.addEventListener('DOMContentLoaded', function() {
             document.querySelectorAll('.boton-guardar').forEach(function(boton) {
-                boton.addEventListener('click', function() {
+                boton.addEventListener('click', function(event) {
+                    event.preventDefault();
+
                     // Encuentra el formulario asociado a este botón
                     const formulario = boton.closest('form');
                     const formData = new FormData(formulario);
