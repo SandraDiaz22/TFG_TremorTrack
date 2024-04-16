@@ -3,20 +3,28 @@ from flask import Flask, jsonify, render_template, request, make_response, sessi
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 
-import form
 from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
-from Support_v0 import plot3Axis
+
 from fechasRegistros import actualizar_fechas_registros
 
+import form
 import csv
 import os
 import json
-
 import pandas as pd
+import numpy as np
+import matplotlib
+matplotlib.use('agg')
+import matplotlib.pyplot as plt
+
+import io
+import base64
+
+
 
 
 #Inicializar aplicación
@@ -658,6 +666,67 @@ def mostrarDatosSensor(paciente):
     return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
 #----------------------------------------------------------------
 
+
+
+
+
+#----------------------------------------------------------------
+#Alteracion de la funcion creada por el equipo de desarrollo del sensor
+#Se ha transformado para que genere la gráfica en una foto para poner en la app
+#y no en una ventana a parte
+def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
+    dataByDays = returnByDatas(dataP, dayIni, dayFin)
+    time = [datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
+
+    fig, axes = plt.subplots(len(data), 1, figsize=(10, len(data) * 5))
+    fig.suptitle(GeneralTitle)
+
+    for i, ax in enumerate(axes):
+        ax.plot(time, dataByDays[data[i]].tolist())
+        ax.set_title(title[i])
+        ax.set_ylabel(ylabel[i])
+        ax.set_xlabel(xlabel)
+        ax.grid(True)
+        ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d'))
+
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+    #Convertir el gráfico a una imagen
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    graph_url = base64.b64encode(img.getvalue()).decode()
+
+    plt.close()
+
+    return graph_url
+#----------------------------------------------------------------
+
+
+
+
+#----------------------------------------------------------------
+#Funcion programada por los creadores del sensor para preparar los datos para
+#la funcion plot3Axis
+def returnByDatas(dataP,dayIni,dayFin):
+    #EpocToDatetime
+    time3=[datetime.utcfromtimestamp(item/1000.) for item in dataP['EPO']]
+    
+    output=set() #conjunto vacio que llena con fechas formateadas
+    [output.add(item.strftime("%Y-%m-%d")) for item in time3]
+    datasDatetime=[datetime.strptime(item, "%Y-%m-%d") for item in list(output)]
+    
+    datasDatetime.sort(reverse = False)#ordena ascendente
+    ini=dayIni
+    fin=dayFin   
+    if (ini==-1):
+        ini=1
+    if ((fin==-1) | (fin>=len(datasDatetime))):
+        fin=len(datasDatetime)-1
+        
+    index=np.where((dataP['EPO']>=(datasDatetime[ini-1].timestamp()*1000)) & (dataP['EPO']<(datasDatetime[fin].timestamp()*1000)))
+    return dataP.loc[index] #devuelve las filas en el rango especificado
+#----------------------------------------------------------------
 
 
 
