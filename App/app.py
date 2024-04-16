@@ -655,47 +655,58 @@ def mostrarDatosSensor(paciente):
     #base de datos de ese paciente
     bbddpaciente = Paciente.query.get(paciente)
 
-    #Formulario de qué grafico mostrar
-    if request.method == 'POST':
+    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
+#----------------------------------------------------------------
 
-        #Qué gráfico mostrar dependiendo de la seleccion del formulario        
-        seleccion_grafico = request.form.get('seleccionGrafico')
-        if seleccion_grafico == '1':
-            ColumnasAEstudiar = ['W_MEAN_FILT', 'W_STD', 'NUM_WALK']
-            TitulosGraficas = ['Marcha media filtrada', 'Desviación estándar media de la marcha', 'Número de pasos considerados']
-            EjeYMedidas = ['m/s\u00b2','m/s\u00b2','nº pasos']
-            TituloGeneral = 'Parámetros de Bradicinesia'
-        elif seleccion_grafico == '2':
-            ColumnasAEstudiar = ['FOG_EP', 'DYSKP', 'DYSKC']
-            TitulosGraficas = ['Episodios de FoG', 'Probabilidad de discinesia','Confianza en la discinesia']
-            EjeYMedidas = ['Episodios','Probabilidad','Confianza']
-            TituloGeneral = 'Parámetros de FoG y Discinesia'
-        elif seleccion_grafico == '3':
-            ColumnasAEstudiar = ['LEN', 'NUM_STEPS', 'SPEED', 'CAD']
-            TitulosGraficas = ['Longitud de los pasos', 'Número de pasos', 'Velocidad de zancada', 'Cadencia de los pasos']
-            EjeYMedidas = ['m','nº pasos','m/s','pasos/min']
-            TituloGeneral = 'Información de los pasos'
-        elif seleccion_grafico == '4':
-            ColumnasAEstudiar = ['MOTOR10', 'DYSK10', 'BRADY10']
-            TitulosGraficas = ['Estado motor 10 min', 'Discinesia 10 min', 'Bradicinesia 10 min']
-            EjeYMedidas = ['0=OFF 1=ON 2=INT 3=NaN','0,3=NaN 1=Dysk yes 2=No Dysk','0=OFF 1=ON 2=INT 3=NaN']
-            TituloGeneral = 'Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min'
 
-        #Datos de los registros del paciente
-        PRUEBA=pd.read_csv('prueba.csv')
 
-        #Fecha inicio y fin del gráfico
-        fecha_desde = request.form.get('fecha_desde')
-        fecha_hasta = request.form.get('fecha_hasta')
-        #Convertir las fechas a objetos datetime
-        diaIni = datetime.strptime(fecha_desde, '%Y-%m-%d')
-        diaFin = datetime.strptime(fecha_hasta, '%Y-%m-%d')
 
-        print(fecha_desde,fecha_hasta, diaIni, diaFin)
+
+#----------------------------------------------------------------
+#Funcion que crea la gráfica a partir de lo enviado en el formulario
+@app.route('/crearGrafico', methods=['POST'])
+def crearGrafico():
+    #Qué gráfico mostrar dependiendo de la seleccion del formulario        
+    seleccion_grafico = request.form.get('seleccionGrafico')
+    if seleccion_grafico == '1':
+        ColumnasAEstudiar = ['W_MEAN_FILT', 'W_STD', 'NUM_WALK']
+        TitulosGraficas = ['Marcha media filtrada', 'Desviación estándar media de la marcha', 'Número de pasos considerados']
+        EjeYMedidas = ['m/s\u00b2','m/s\u00b2','nº pasos']
+        TituloGeneral = 'Parámetros de Bradicinesia'
+    elif seleccion_grafico == '2':
+        ColumnasAEstudiar = ['FOG_EP', 'DYSKP', 'DYSKC']
+        TitulosGraficas = ['Episodios de FoG', 'Probabilidad de discinesia','Confianza en la discinesia']
+        EjeYMedidas = ['Episodios','Probabilidad','Confianza']
+        TituloGeneral = 'Parámetros de FoG y Discinesia'
+    elif seleccion_grafico == '3':
+        ColumnasAEstudiar = ['LEN', 'NUM_STEPS', 'SPEED', 'CAD']
+        TitulosGraficas = ['Longitud de los pasos', 'Número de pasos', 'Velocidad de zancada', 'Cadencia de los pasos']
+        EjeYMedidas = ['m','nº pasos','m/s','pasos/min']
+        TituloGeneral = 'Información de los pasos'
+    elif seleccion_grafico == '4':
+        ColumnasAEstudiar = ['MOTOR10', 'DYSK10', 'BRADY10']
+        TitulosGraficas = ['Estado motor 10 min', 'Discinesia 10 min', 'Bradicinesia 10 min']
+        EjeYMedidas = ['0=OFF 1=ON 2=INT 3=NaN','0,3=NaN 1=Dysk yes 2=No Dysk','0=OFF 1=ON 2=INT 3=NaN']
+        TituloGeneral = 'Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min'
+
+    #Datos de los registros del paciente
+    PRUEBA=pd.read_csv('prueba.csv')
+
+    #Fecha inicio y fin del gráfico
+    fecha_desde = request.form.get('fechaInicio')
+    fecha_hasta = request.form.get('fechaFin')
     
-        #Llamada genérica a la función hecha por S4C SDK
-        plot3Axis(PRUEBA, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, -1, -1)
-        
+    #Convertir las fechas a objetos datetime
+    diaIni = datetime.strptime(fecha_desde, '%Y-%m-%d')
+    diaFin = datetime.strptime(fecha_hasta, '%Y-%m-%d')
+
+    print(fecha_desde,fecha_hasta, diaIni, diaFin)
+
+    #Llamada genérica a la función hecha por S4C SDK
+    datos_grafico = plot3Axis(PRUEBA, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, -1, -1)
+
+    return jsonify(datos_grafico = datos_grafico )
+#----------------------------------------------------------------     
 
 
 
@@ -736,7 +747,8 @@ def mostrarDatosSensor(paciente):
 
 
     #Si no envian formulario
-    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
+    
+    
 #----------------------------------------------------------------
 
 
@@ -744,7 +756,7 @@ def mostrarDatosSensor(paciente):
 
 
 #----------------------------------------------------------------
-#Función que calcula los días en los que hay registros
+#Función que calcula los días en los que hay registros(TODO)
 @app.route('/registros-disponibles', methods=['GET'])
 def obtener_registros_disponibles():
     año = request.args.get('año')

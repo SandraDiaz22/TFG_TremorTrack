@@ -32,132 +32,115 @@
         </select>
 
 
-        <label for="calendario">Selecciona el año y mes:</label>
+        <label for="calendario">Selecciona las fechas a mostrar(7):</label>
         <input type="text" id="calendario" name="calendario" required>
-
-        <div id="calendario-selector"></div>
 
 
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
     </form>
 
+    <div id="imagenGrafo" style="width: 800px; height: 1200px; margin: 0 auto; margin-bottom: 20px; display: none;">
+    <h2 class="mb-4">{% trans %}Gráfico de plot3Axis{% endtrans %}</h2>
+        <img id="imagenGrafico" src="" style="max-width: 100%; height: auto;">
+    </div>
+
     <!--Gráfica usando chart-->
-    <div id="contenedorGrafico" style="width: 800px; height: 400px; margin: 0 auto;">
-        <canvas id="gráfico"></canvas>
+    <div id="contenedorGrafico" style="width: 800px; height: 400px; margin: 0 auto; display: none;">
+        <h2 class="mb-4">{% trans %}Gráfico con datos locos{% endtrans %}</h2>
+        <canvas id="grafico"></canvas>
     </div>
 
 
     <script>
+        let fechaInicio;
+        let fechaFin;
+
         document.addEventListener('DOMContentLoaded', function () {
             flatpickr('#calendario', {
-                dateFormat: 'Y-m-d', // Formato de fecha deseado
-                mode: 'range', // Permite la selección de un rango de fechas
+                dateFormat: 'Y-m-d',
+                mode: 'range', //Permite seleccionar un rango de fechas
+                inline: true,
                 onChange: function (selectedDates, dateStr) {
                 if (selectedDates.length === 2) {
-                    const fechaInicio = selectedDates[0];
-                    const fechaFin = selectedDates[1];
+                    fechaInicio = selectedDates[0];
+                    fechaFin = selectedDates[1];
 
                     const añoInicio = fechaInicio.getFullYear();
                     const mesInicio = fechaInicio.getMonth() + 1;
                     const añoFin = fechaFin.getFullYear();
                     const mesFin = fechaFin.getMonth() + 1;
-
-                    // Realizar la solicitud de los días disponibles para el rango seleccionado
-                    fetch(`/registros-disponibles?añoInicio=${añoInicio}&mesInicio=${mesInicio}&añoFin=${añoFin}&mesFin=${mesFin}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            mostrarCalendario(data);
-                        })
-                        .catch(error => {
-                            console.error('Error al obtener los días disponibles:', error);
-                        });
                 }
             }
             });
-    
-            function mostrarCalendario(data) {
-                const calendarioSelector = document.getElementById('calendario-selector');
-                calendarioSelector.innerHTML = ''; // Limpiamos el calendario antes de agregar nuevos elementos
-    
-                const año = new Date().getFullYear();
-                const mes = new Date().getMonth() + 1;
-    
-                // Crear elementos HTML para el calendario
-                const calendarioDiv = document.createElement('div');
-                calendarioDiv.classList.add('calendario');
-    
-                // Añadir título al calendario
-                const titulo = document.createElement('h2');
-                titulo.textContent = `${data.mesesDisponibles[mes - 1]} ${año}`;
-                calendarioDiv.appendChild(titulo);
-    
-                // Crear tabla para los días del mes
-                const tabla = document.createElement('table');
-                const cabecera = document.createElement('tr');
-    
-                // Añadir cabeceras para los días de la semana
-                for (let i = 0; i < 7; i++) {
-                    const th = document.createElement('th');
-                    th.textContent = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][i];
-                    cabecera.appendChild(th);
+        });
+
+        //Listener que muestra el gráfico cuando se da a "Mostrar datos"
+        document.getElementById('formulario').addEventListener('submit', function(event) { 
+            //mostrarGrafico(fechaInicio, fechaFin);
+            event.preventDefault();
+
+            //Datos del formulario
+            const formData = new FormData(document.getElementById('formulario'));
+            const fechaInicio = formData.get('calendario').split(' to ')[0];
+            const fechaFin = formData.get('calendario').split(' to ')[1];
+            formData.append('fechaInicio', fechaInicio);
+            formData.append('fechaFin', fechaFin);
+
+            //Solicitud AJAX al servidor Flask
+            fetch('/crearGrafico', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Muestra el gráfico utilizando los datos recibidos del servidor
+                if (data.datos_grafico !== "") {
+                    // Hacer visible el div de la imagen y actualizar la imagen
+                    document.getElementById('imagenGrafo').style.display = 'block';
+                    document.getElementById('imagenGrafico').src = "data:image/png;base64," + data.datos_grafico;
+                    // Obtener la referencia de la imagen
+                    const imagenGrafico = document.getElementById('imagenGrafico');
+                } else {
+                    // Si los datos del gráfico no están disponibles, ocultar el div de la imagen
+                    document.getElementById('imagenGrafo').style.display = 'none';
                 }
-                tabla.appendChild(cabecera);
-    
-                // Calcular el primer día del mes y el último día del mes
-                const primerDiaMes = new Date(año, mes - 1, 1);
-                const ultimoDiaMes = new Date(año, mes, 0);
-    
-                let contadorDias = 1;
-                let fila = document.createElement('tr');
-    
-                // Rellenar los días del mes
-                for (let i = 0; i < 7; i++) {
-                    const dia = document.createElement('td');
-                    if (i < primerDiaMes.getDay() || contadorDias > ultimoDiaMes.getDate()) {
-                        dia.textContent = '';
-                    } else {
-                        dia.textContent = contadorDias;
-                        contadorDias++;
-                    }
-                    fila.appendChild(dia);
-                }
-                tabla.appendChild(fila);
-    
-                // Agregar tabla al calendario
-                calendarioDiv.appendChild(tabla);
-    
-                // Agregar calendario al contenedor
-                calendarioSelector.appendChild(calendarioDiv);
-            }
+                mostrarGrafico(fechaInicio, fechaFin);
+            });
         });
 
 
 
         //Funcion que genera un gráfico
         function mostrarGrafico(fechaInicio, fechaFin) {
-
-            //Matplotlib deberia hacerlo solo usando la funcion plot3Axis en app.py pero no funciona 
-            //Esto por ahora es un gráfico de prueba con datos aleatorios
+            //Título del gráfico dependiendo de la opcion seleccionada
+            var titulo = ''; 
             var seleccion = document.getElementById('seleccionGrafico').value;
-            var titulo = ''; //Título del gráfico dependiendo de la opcion seleccionada
-            switch (seleccion) {//MAL
+            switch (seleccion) {
                 case '1':
-                    titulo = 'Número de pasos detectados'; break;
+                    titulo = 'Parámetros de Bradicinesia'; break;
                 case '2':
-                    titulo = 'Longitud de pasos del paciente'; break;
+                    titulo = 'Parámetros de FoG y Discinesia'; break;
                 case '3':
-                    titulo = 'Velocidad de zancada'; break;
+                    titulo = 'Información de los pasos'; break;
                 case '4':
-                    titulo = 'Transiciones posturales'; break;
-                case '5':
-                    titulo = 'Episodios de bloqueos de la marcha'; break;
+                    titulo = 'Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min'; break;
                 default:
                     titulo = '';
             }
-            var ctx = document.getElementById('gráfico').getContext('2d');
+
+            //Rango de fechas entre fecha inicio y fecha fin
+            const labels = [];
+            const fechaActual = new Date(fechaInicio);
+            while (fechaActual <= fechaFin) {
+                //Meter la fecha actual en la matriz
+                labels.push(fechaActual.toISOString().split('T')[0]);
+                //Incrementar un día la fecha actual
+                fechaActual.setDate(fechaActual.getDate() + 1);
+            }
 
 
-            var gráfico = new Chart(ctx, {
+            var ctx = document.getElementById('grafico').getContext('2d');
+            var grafico = new Chart(ctx, {
                 type: 'line',
                 
                 data: {

@@ -3,8 +3,17 @@ import math
 import pandas as pd
 import datetime
 import matplotlib
+
+
+#Sandra
+matplotlib.use('agg')
+
+
 import matplotlib.pyplot as plt
 
+#Sandra
+import io
+import base64
 
 
 #Histograma de x (array de datos) con los limites definidos en bins
@@ -101,28 +110,56 @@ def cutDateFrameByDate(dataPatient, dayIni, dayFin):
 
 #Función que crea graficos (ver en ejemplos) para representar x datos (data) 
 #del dataframe (dataP) a lo largo de un rango de tiempo especificado
-def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle,dayIni,dayFin):
+# def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle,dayIni,dayFin):
     
-    dataByDays=returnByDatas(dataP,dayIni,dayFin) #Como cutDateFrameByDate
-    time=[datetime.datetime.utcfromtimestamp(item/1000.) for item in dataByDays['EPO']] #EpocToDatetime
+#     dataByDays=returnByDatas(dataP,dayIni,dayFin) #Como cutDateFrameByDate
+#     time=[datetime.datetime.utcfromtimestamp(item/1000.) for item in dataByDays['EPO']] #EpocToDatetime
 
-    #matploilib
-    plt.figure(num=1, figsize=(20,10), dpi=150)
-    plt.suptitle(GeneralTitle)
-    plt.xlabel(xlabel)
-    totalOfPlots=len(data)*100+10
-    numberOfPlot=1
+#     #matploilib
+#     plt.figure(num=1, figsize=(20,10), dpi=150)
+#     plt.suptitle(GeneralTitle)
+#     plt.xlabel(xlabel)
+#     totalOfPlots=len(data)*100+10
+#     numberOfPlot=1
     
-    for index in range(len(data)): #para cada dato a representar crea un subgrafo
-        plt.subplot(totalOfPlots+numberOfPlot)
-        plt.plot(time,dataByDays[data[index]].tolist())
-        plt.title(title[index])
-        plt.ylabel(ylabel[index])
-        numberOfPlot=numberOfPlot+1
+#     for index in range(len(data)): #para cada dato a representar crea un subgrafo
+#         plt.subplot(totalOfPlots+numberOfPlot)
+#         plt.plot(time,dataByDays[data[index]].tolist())
+#         plt.title(title[index])
+#         plt.ylabel(ylabel[index])
+#         numberOfPlot=numberOfPlot+1
     
-    plt.gcf().autofmt_xdate() #fechas legibles
-    plt.show() #muestra todos los graficos
+#     plt.gcf().autofmt_xdate() #fechas legibles
+#     plt.show() #muestra todos los graficos
 
+
+#Sandra
+def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
+    dataByDays = returnByDatas(dataP, dayIni, dayFin)
+    time = [datetime.datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
+
+    fig, axes = plt.subplots(len(data), 1, figsize=(10, len(data) * 5))
+    fig.suptitle(GeneralTitle)
+
+    for i, ax in enumerate(axes):
+        ax.plot(time, dataByDays[data[i]].tolist())
+        ax.set_title(title[i])
+        ax.set_ylabel(ylabel[i])
+        ax.set_xlabel(xlabel)
+        ax.grid(True)
+        ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d'))
+
+    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+    #Convertir el gráfico a una imagen
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    graph_url = base64.b64encode(img.getvalue()).decode()
+
+    plt.close()
+
+    return graph_url
 
 
 
