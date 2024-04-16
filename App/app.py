@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, make_response, session, redirect, url_for, send_from_directory, g, flash
+from flask import Flask, jsonify, render_template, request, make_response, session, redirect, url_for, send_from_directory, g, flash
 
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
@@ -12,9 +12,9 @@ from datetime import datetime, timedelta
 from Support_v0 import plot3Axis
 from fechasRegistros import actualizar_fechas_registros
 
-
 import csv
 import os
+import json
 
 import pandas as pd
 
@@ -738,6 +738,27 @@ def mostrarDatosSensor(paciente):
     #Si no envian formulario
     return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
 #----------------------------------------------------------------
+
+
+
+
+
+#----------------------------------------------------------------
+#Función que calcula los días en los que hay registros
+@app.route('/registros-disponibles', methods=['GET'])
+def obtener_registros_disponibles():
+    año = request.args.get('año')
+    mes = request.args.get('mes')
+
+    data = {
+        'añosDisponibles': [2022, 2023, 2024],
+        'mesesDisponibles': ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+        'diasDisponibles': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
+    }
+    return jsonify(data)
+#----------------------------------------------------------------
+
+
 
 
 

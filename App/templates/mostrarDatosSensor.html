@@ -6,6 +6,9 @@
 
     <!--Biblioteca para los gráficos-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!--Biblioteca para los calendarios-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
 {% endblock %}
 
@@ -22,21 +25,18 @@
         <label for="seleccionGrafico">{% trans %} Selecciona la gráfica a mostrar: {% endtrans %}</label>
         <select id="seleccionGrafico" name="seleccionGrafico" required>
             <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-
             <option value="1">{% trans %} Parámetros de Bradicinesia {% endtrans %}</option>
-           
             <option value="2">{% trans %} Parámetros de FoG y Discinesia {% endtrans %}</option>
-            
             <option value="3">{% trans %} Información de los pasos {% endtrans %}</option>
-            
             <option value="4">{% trans %} Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min {% endtrans %}</option>
         </select>
 
-        <label for="fecha_desde">{% trans %} Selecciona fecha de inicio: {% endtrans %}</label>
-        <input type="date" id="fecha_desde" name="fecha_desde" required>
 
-        <label for="fecha_hasta">{% trans %} Selecciona fecha de fin: {% endtrans %}</label>
-        <input type="date" id="fecha_hasta" name="fecha_hasta" required>
+        <label for="calendario">Selecciona el año y mes:</label>
+        <input type="text" id="calendario" name="calendario" required>
+
+        <div id="calendario-selector"></div>
+
 
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
     </form>
@@ -48,18 +48,96 @@
 
 
     <script>
-        //Listener que muestra el gráfico cuando se da a "Mostrar datos"
-        document.getElementById('formulario').addEventListener('submit', function(event) { 
-            mostrarGrafico();
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('#calendario', {
+                dateFormat: 'Y-m-d', // Formato de fecha deseado
+                mode: 'range', // Permite la selección de un rango de fechas
+                onChange: function (selectedDates, dateStr) {
+                if (selectedDates.length === 2) {
+                    const fechaInicio = selectedDates[0];
+                    const fechaFin = selectedDates[1];
+
+                    const añoInicio = fechaInicio.getFullYear();
+                    const mesInicio = fechaInicio.getMonth() + 1;
+                    const añoFin = fechaFin.getFullYear();
+                    const mesFin = fechaFin.getMonth() + 1;
+
+                    // Realizar la solicitud de los días disponibles para el rango seleccionado
+                    fetch(`/registros-disponibles?añoInicio=${añoInicio}&mesInicio=${mesInicio}&añoFin=${añoFin}&mesFin=${mesFin}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            mostrarCalendario(data);
+                        })
+                        .catch(error => {
+                            console.error('Error al obtener los días disponibles:', error);
+                        });
+                }
+            }
+            });
+    
+            function mostrarCalendario(data) {
+                const calendarioSelector = document.getElementById('calendario-selector');
+                calendarioSelector.innerHTML = ''; // Limpiamos el calendario antes de agregar nuevos elementos
+    
+                const año = new Date().getFullYear();
+                const mes = new Date().getMonth() + 1;
+    
+                // Crear elementos HTML para el calendario
+                const calendarioDiv = document.createElement('div');
+                calendarioDiv.classList.add('calendario');
+    
+                // Añadir título al calendario
+                const titulo = document.createElement('h2');
+                titulo.textContent = `${data.mesesDisponibles[mes - 1]} ${año}`;
+                calendarioDiv.appendChild(titulo);
+    
+                // Crear tabla para los días del mes
+                const tabla = document.createElement('table');
+                const cabecera = document.createElement('tr');
+    
+                // Añadir cabeceras para los días de la semana
+                for (let i = 0; i < 7; i++) {
+                    const th = document.createElement('th');
+                    th.textContent = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'][i];
+                    cabecera.appendChild(th);
+                }
+                tabla.appendChild(cabecera);
+    
+                // Calcular el primer día del mes y el último día del mes
+                const primerDiaMes = new Date(año, mes - 1, 1);
+                const ultimoDiaMes = new Date(año, mes, 0);
+    
+                let contadorDias = 1;
+                let fila = document.createElement('tr');
+    
+                // Rellenar los días del mes
+                for (let i = 0; i < 7; i++) {
+                    const dia = document.createElement('td');
+                    if (i < primerDiaMes.getDay() || contadorDias > ultimoDiaMes.getDate()) {
+                        dia.textContent = '';
+                    } else {
+                        dia.textContent = contadorDias;
+                        contadorDias++;
+                    }
+                    fila.appendChild(dia);
+                }
+                tabla.appendChild(fila);
+    
+                // Agregar tabla al calendario
+                calendarioDiv.appendChild(tabla);
+    
+                // Agregar calendario al contenedor
+                calendarioSelector.appendChild(calendarioDiv);
+            }
         });
 
 
-        function mostrarGrafico() {
+
+        //Funcion que genera un gráfico
+        function mostrarGrafico(fechaInicio, fechaFin) {
 
             //Matplotlib deberia hacerlo solo usando la funcion plot3Axis en app.py pero no funciona 
             //Esto por ahora es un gráfico de prueba con datos aleatorios
-
-
             var seleccion = document.getElementById('seleccionGrafico').value;
             var titulo = ''; //Título del gráfico dependiendo de la opcion seleccionada
             switch (seleccion) {//MAL
