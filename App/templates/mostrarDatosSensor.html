@@ -39,12 +39,17 @@
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
     </form>
 
+    <!--Gráfica usando chart-->
+    <div id="graficoDefinitivo"></div>
+
+
+    <!--Gráfica usando plot3Axis-->
     <div id="imagenGrafo" style="width: 800px; height: 1200px; margin: 0 auto; margin-bottom: 20px; display: none;">
     <h2 class="mb-4">{% trans %}Gráfico de plot3Axis{% endtrans %}</h2>
         <img id="imagenGrafico" src="" style="max-width: 100%; height: auto;">
     </div>
 
-    <!--Gráfica usando chart-->
+    <!--Gráfica usando chart con datos locos-->
     <div id="contenedorGrafico" style="width: 800px; height: 400px; margin: 0 auto; display: none;">
         <h2 class="mb-4">{% trans %}Gráfico con datos locos{% endtrans %}</h2>
         <canvas id="grafico"></canvas>
@@ -54,6 +59,7 @@
     <script>
         let fechaInicio;
         let fechaFin;
+        var datos_grafico;
 
         document.addEventListener('DOMContentLoaded', function () {
             flatpickr('#calendario', {
@@ -93,20 +99,65 @@
             })
             .then(response => response.json())
             .then(data => {
-                // Muestra el gráfico utilizando los datos recibidos del servidor
-                if (data.datos_grafico !== "") {
-                    // Hacer visible el div de la imagen y actualizar la imagen
-                    document.getElementById('imagenGrafo').style.display = 'block';
-                    document.getElementById('imagenGrafico').src = "data:image/png;base64," + data.datos_grafico;
-                    // Obtener la referencia de la imagen
-                    const imagenGrafico = document.getElementById('imagenGrafico');
+                console.log('Datos recibidos:', data);
+
+                // // Muestra el gráfico utilizando los datos recibidos del servidor
+                // if (data.datos_grafico !== "") {
+                //     // Hacer visible el div de la imagen y actualizar la imagen
+                //     document.getElementById('imagenGrafo').style.display = 'block';
+                //     document.getElementById('imagenGrafico').src = "data:image/png;base64," + data.datos_grafico;
+                //     // Obtener la referencia de la imagen
+                //     const imagenGrafico = document.getElementById('imagenGrafico');
+                // } else {
+                //     // Si los datos del gráfico no están disponibles, ocultar el div de la imagen
+                //     document.getElementById('imagenGrafo').style.display = 'none';
+                // }
+                    // Verificar si la clave datos_grafico existe y no está vacía
+
+
+
+                    //Esta es la parte que funciona para 3 graficos en a y d pero no en b y c
+                if (data && data.datos_grafico) {
+                    try {
+                        //Cadena JSON con los datos
+                        const chartData = JSON.parse(data.datos_grafico);
+
+                        //Si chartData es un array y no está vacío
+                        if (Array.isArray(chartData) && chartData.length > 0) {
+
+                            const contenedorGraficoDefinitivo = document.getElementById('graficoDefinitivo');
+                            contenedorGraficoDefinitivo.innerHTML = ''; // Limpiar contenedor de gráficos
+
+                            // Crear un nuevo gráfico para cada conjunto de datos recibido
+                            chartData.forEach(chart => {
+                                const ctx = document.createElement('canvas');
+                                contenedorGraficoDefinitivo.appendChild(ctx);
+                                const myChart = new Chart(ctx.getContext('2d'), {
+                                    type: 'line',
+                                    data: chart,
+                                    options: {
+                                        scales: { y: { beginAtZero: true } }
+                                    }
+                                });
+                            });
+
+                            //Llamar a la función mostrarGrafico que es la de prueba anterior
+                            mostrarGrafico(fechaInicio, fechaFin);
+                        } else {
+                            console.error('La clave datos_grafico no contiene un array válido.');
+                        }
+                    } catch (error) {
+                        console.error('Error al analizar los datos_grafico:', error);
+                    }
                 } else {
-                    // Si los datos del gráfico no están disponibles, ocultar el div de la imagen
-                    document.getElementById('imagenGrafo').style.display = 'none';
+                    console.error('No se encontró la clave datos_grafico o está vacía en los datos recibidos.');
                 }
-                mostrarGrafico(fechaInicio, fechaFin);
+            })
+            .catch(error => {
+                console.error('Error al procesar la respuesta:', error);
             });
         });
+            
 
 
 

@@ -674,33 +674,79 @@ def mostrarDatosSensor(paciente):
 #Alteracion de la funcion creada por el equipo de desarrollo del sensor
 #Se ha transformado para que genere la gráfica en una foto para poner en la app
 #y no en una ventana a parte
+# def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
+#     dataByDays = returnByDatas(dataP, dayIni, dayFin)
+#     time = [datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
+
+#     fig, axes = plt.subplots(len(data), 1, figsize=(10, len(data) * 5))
+#     fig.suptitle(GeneralTitle)
+
+#     for i, ax in enumerate(axes):
+#         ax.plot(time, dataByDays[data[i]].tolist())
+#         ax.set_title(title[i])
+#         ax.set_ylabel(ylabel[i])
+#         ax.set_xlabel(xlabel)
+#         ax.grid(True)
+#         ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d'))
+
+#     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
+
+#     #Convertir el gráfico a una imagen
+#     img = io.BytesIO()
+#     plt.savefig(img, format='png')
+#     img.seek(0)
+#     graph_url = base64.b64encode(img.getvalue()).decode()
+
+#     plt.close()
+
+#     return graph_url
+
+
+#Esta version saca todos a la vez
+# def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
+#     dataByDays = returnByDatas(dataP, dayIni, dayFin)
+#     time = [datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
+#     data_values = {
+#         'labels': [t.strftime('%Y-%m-%d') for t in time],
+#         'datasets': []  # Inicializar la lista de datasets
+#     }
+
+#     # Iterar sobre los datos a graficar
+#     for i, column in enumerate(data):
+#         dataset = {
+#             'label': title[i],  # Título de la serie
+#             'data': dataByDays[column].tolist(),  # Datos de la serie
+#             'yAxisID': ylabel[i],  # Etiqueta del eje Y
+#             'fill': False  # No rellenar el área bajo la curva
+#         }
+#         data_values['datasets'].append(dataset)  # Agregar el conjunto de datos a la lista de datasets
+
+#     return json.dumps(data_values)
+
+
+#Esta version solo funciona en las opciones 1 y 4
 def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
     dataByDays = returnByDatas(dataP, dayIni, dayFin)
     time = [datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
 
-    fig, axes = plt.subplots(len(data), 1, figsize=(10, len(data) * 5))
-    fig.suptitle(GeneralTitle)
+    data_values_list = []  #Lista para almacenar los datos de múltiples gráficos
 
-    for i, ax in enumerate(axes):
-        ax.plot(time, dataByDays[data[i]].tolist())
-        ax.set_title(title[i])
-        ax.set_ylabel(ylabel[i])
-        ax.set_xlabel(xlabel)
-        ax.grid(True)
-        ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d'))
+    #Iterar sobre ColumnasAEstudiar (3 o 4 gráficos diferentes)
+    for i, column in enumerate(data):
+        data_values = {
+            'labels': [t.strftime('%Y-%m-%d') for t in time], #Fechas en el eje X
+            'datasets': [{
+                'label': title[i], #Título de ese gráfico
+                'data': dataByDays[column].tolist(), #Datos en esos días
+                'yAxisID': ylabel[i], #Medida del Eje Y para ese gráfico
+                'fill': False
+            }]
+        }
+        data_values_list.append(data_values) #Añadir datos de ese gráfico en el total
 
-    fig.tight_layout(rect=[0, 0.03, 1, 0.95])
-
-    #Convertir el gráfico a una imagen
-    img = io.BytesIO()
-    plt.savefig(img, format='png')
-    img.seek(0)
-    graph_url = base64.b64encode(img.getvalue()).decode()
-
-    plt.close()
-
-    return graph_url
+    return json.dumps(data_values_list) #Lo enviamos como JSON
 #----------------------------------------------------------------
+
 
 
 
@@ -774,7 +820,8 @@ def crearGrafico():
     #Llamada genérica a la función hecha por S4C SDK
     datos_grafico = plot3Axis(PRUEBA, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, -1, -1)
 
-    return jsonify(datos_grafico = datos_grafico )
+    return jsonify(datos_grafico = datos_grafico)
+
 #----------------------------------------------------------------     
 
 
