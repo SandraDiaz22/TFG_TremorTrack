@@ -101,6 +101,9 @@
             .then(data => {
                 console.log('Datos recibidos:', data);
 
+                // Eliminar el primer elemento de la lista de datos (el título general)
+                //const chartData = data.slice(1);
+
                 // // Muestra el gráfico utilizando los datos recibidos del servidor
                 // if (data.datos_grafico !== "") {
                 //     // Hacer visible el div de la imagen y actualizar la imagen
@@ -121,28 +124,52 @@
                     try {
                         //Cadena JSON con los datos
                         const chartData = JSON.parse(data.datos_grafico);
+                        
+                        const generalTitle = chartData[0].GeneralTitle;
+                        chartData.shift(); //Elimina el titulo
 
                         //Si chartData es un array y no está vacío
                         if (Array.isArray(chartData) && chartData.length > 0) {
 
                             const contenedorGraficoDefinitivo = document.getElementById('graficoDefinitivo');
-                            contenedorGraficoDefinitivo.innerHTML = ''; // Limpiar contenedor de gráficos
+                            contenedorGraficoDefinitivo.innerHTML = ''; //Limpiar contenedor
 
-                            // Crear un nuevo gráfico para cada conjunto de datos recibido
+                            //Crear h2 para el título general
+                            const tituloGeneral = document.createElement('h2');
+                            tituloGeneral.textContent = generalTitle;
+
+                            //Título general antes de los gráficos
+                            contenedorGraficoDefinitivo.appendChild(tituloGeneral);
+
+                            //Crear un nuevo gráfico para cada conjunto de datos
                             chartData.forEach(chart => {
                                 const ctx = document.createElement('canvas');
                                 contenedorGraficoDefinitivo.appendChild(ctx);
+
+                                // Agregar título del eje Y
+                                chart.datasets.forEach(dataset => {
+                                    dataset.yAxisID = dataset.yAxisID || 'defaultYAxis';
+                                });
+
                                 const myChart = new Chart(ctx.getContext('2d'), {
                                     type: 'line',
                                     data: chart,
                                     options: {
-                                        scales: { y: { beginAtZero: true } }
+                                        scales: {
+                                            y: {
+                                                beginAtZero: true,
+                                                title: {
+                                                    display: true,
+                                                    text: chart.datasets[0].yAxisID // Usamos la primera etiqueta de eje Y
+                                                }
+                                            }
+                                        }
                                     }
                                 });
                             });
 
                             //Llamar a la función mostrarGrafico que es la de prueba anterior
-                            mostrarGrafico(fechaInicio, fechaFin);
+                            //mostrarGrafico(fechaInicio, fechaFin);
                         } else {
                             console.error('La clave datos_grafico no contiene un array válido.');
                         }

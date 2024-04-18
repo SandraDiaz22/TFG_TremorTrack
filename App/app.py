@@ -724,9 +724,10 @@ def mostrarDatosSensor(paciente):
 #     return json.dumps(data_values)
 
 
-#Esta version solo funciona en las opciones 1 y 4
+#Esta version funciona
 def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
     dataByDays = returnByDatas(dataP, dayIni, dayFin)
+    dataByDays = dataByDays.fillna(0) #Cambia los NaN por 0
     time = [datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
 
     data_values_list = []  #Lista para almacenar los datos de múltiples gráficos
@@ -744,6 +745,8 @@ def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
         }
         data_values_list.append(data_values) #Añadir datos de ese gráfico en el total
 
+    data_values_list.insert(0, {'GeneralTitle': GeneralTitle}) #Tíitulo general de las 3 gráficas
+    
     return json.dumps(data_values_list) #Lo enviamos como JSON
 #----------------------------------------------------------------
 
