@@ -755,26 +755,15 @@ def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
 
 
 #----------------------------------------------------------------
-#Funcion programada por los creadores del sensor para preparar los datos para
-#la funcion plot3Axis
-def returnByDatas(dataP,dayIni,dayFin):
-    #EpocToDatetime
-    time3=[datetime.utcfromtimestamp(item/1000.) for item in dataP['EPO']]
-    
-    output=set() #conjunto vacio que llena con fechas formateadas
-    [output.add(item.strftime("%Y-%m-%d")) for item in time3]
-    datasDatetime=[datetime.strptime(item, "%Y-%m-%d") for item in list(output)]
-    
-    datasDatetime.sort(reverse = False)#ordena ascendente
-    ini=dayIni
-    fin=dayFin   
-    if (ini==-1):
-        ini=1
-    if ((fin==-1) | (fin>=len(datasDatetime))):
-        fin=len(datasDatetime)-1
-        
-    index=np.where((dataP['EPO']>=(datasDatetime[ini-1].timestamp()*1000)) & (dataP['EPO']<(datasDatetime[fin].timestamp()*1000)))
-    return dataP.loc[index] #devuelve las filas en el rango especificado
+#Alteracion de la funcion programada por los creadores del sensor para 
+#preparar los datos para la funcion plot3Axis, filtrando los datos por fechas
+def returnByDatas(data, ini, fin):
+    if ini != -1 and fin != -1: #Si no son -1 
+        #Filtrar datos por fecha
+        datosFiltrados = data[(data['EPO'] >= (ini.timestamp() * 1000) + 86400000) & (data['EPO'] <= (fin.timestamp() * 1000) + 86400000)]
+    else:
+        datosFiltrados = data  #Sino devuelve todos los datos sin filtrar
+    return datosFiltrados
 #----------------------------------------------------------------
 
 
@@ -821,7 +810,7 @@ def crearGrafico():
     print(fecha_desde,fecha_hasta, diaIni, diaFin)
 
     #Llamada genérica a la función hecha por S4C SDK
-    datos_grafico = plot3Axis(PRUEBA, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, -1, -1)
+    datos_grafico = plot3Axis(PRUEBA, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, diaIni, diaFin)
 
     return jsonify(datos_grafico = datos_grafico)
 
