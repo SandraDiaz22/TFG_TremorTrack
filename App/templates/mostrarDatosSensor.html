@@ -9,7 +9,9 @@
     <!--Biblioteca para los calendarios-->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
 
+    
 {% endblock %}
 
 
@@ -31,10 +33,10 @@
             <option value="4">{% trans %} Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min {% endtrans %}</option>
         </select>
 
-
-        <label for="calendario">Selecciona las fechas a mostrar(7):</label>
-        <input type="text" id="calendario" name="calendario" required>
-
+        <div class="flatpickr">
+            <label for="calendario">Selecciona las fechas a mostrar:</label>
+            <input type="text" placeholder="Seleciona fechas..." id="calendario" name="calendario" required>
+        </div>
 
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
     </form>
@@ -55,7 +57,7 @@
         <canvas id="grafico"></canvas>
     </div>
 
-
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script>
         let fechaInicio;
         let fechaFin;
@@ -63,20 +65,33 @@
 
         document.addEventListener('DOMContentLoaded', function () {
             flatpickr('#calendario', {
-                dateFormat: 'Y-m-d',
+                dateFormat: 'Y-m-d', //Formato de las fechas
                 mode: 'range', //Permite seleccionar un rango de fechas
-                inline: true,
-                onChange: function (selectedDates, dateStr) {
-                if (selectedDates.length === 2) {
-                    fechaInicio = selectedDates[0];
-                    fechaFin = selectedDates[1];
+                
+                enable: [
+                    {
+                        from: "2019-07-23",
+                        to: "2019-07-25"
+                    },
+                    {
+                        from: "2019-07-26",
+                        to: "2019-07-29"
+                    }
+                ], //Permitir solo el rango de fechas en el que hay registros
+                
+                locale:'es', //Español
 
-                    const añoInicio = fechaInicio.getFullYear();
-                    const mesInicio = fechaInicio.getMonth() + 1;
-                    const añoFin = fechaFin.getFullYear();
-                    const mesFin = fechaFin.getMonth() + 1;
+                onChange: function (selectedDates, dateStr) {//Guardar fechas
+                    if (selectedDates.length === 2) {
+                        fechaInicio = selectedDates[0];
+                        fechaFin = selectedDates[1];
+
+                        const añoInicio = fechaInicio.getFullYear();
+                        const mesInicio = fechaInicio.getMonth() + 1;
+                        const añoFin = fechaFin.getFullYear();
+                        const mesFin = fechaFin.getMonth() + 1;
+                    }
                 }
-            }
             });
         });
 
