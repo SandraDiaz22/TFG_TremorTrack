@@ -662,69 +662,42 @@ def mostrarDatosSensor(paciente):
     
     #base de datos de ese paciente
     bbddpaciente = Paciente.query.get(paciente)
+    #Todos sus registros
+    registros = Registros.query.filter_by(paciente=paciente).all()
+    #Fechas en las que hay registros de ese paciente(para poner enable en el calendario)
+    fechas = []
+    for registro in registros:
+        rango_fechas = generar_rango_fechas(registro.fecha_inicial, registro.fecha_final)
+        #Agregar el rango de fechas en forma Y-m-d de ese registro al array
+        fechas.extend([fecha.strftime('%Y-%m-%d') for fecha in rango_fechas])
+    #Eliminar duplicados y ordenar las fechas
+    fechas = sorted(set(fechas))
+    #Convertir a una cadena JSON
+    fechas_json = json.dumps(fechas)
 
-    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
+    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, fechas=fechas_json)
 #----------------------------------------------------------------
 
+
+
+
+#----------------------------------------------------------------
+#Función para generar un rango de fechas entre dos fechas pasadas por parámetro
+def generar_rango_fechas(fecha_inicial, fecha_final):
+    delta = timedelta(days=1)
+    fecha_actual = fecha_inicial
+    while fecha_actual <= fecha_final:
+        yield fecha_actual
+        fecha_actual += delta
+#----------------------------------------------------------------
 
 
 
 
 #----------------------------------------------------------------
 #Alteracion de la funcion creada por el equipo de desarrollo del sensor
-#Se ha transformado para que genere la gráfica en una foto para poner en la app
-#y no en una ventana a parte
-# def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
-#     dataByDays = returnByDatas(dataP, dayIni, dayFin)
-#     time = [datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
-
-#     fig, axes = plt.subplots(len(data), 1, figsize=(10, len(data) * 5))
-#     fig.suptitle(GeneralTitle)
-
-#     for i, ax in enumerate(axes):
-#         ax.plot(time, dataByDays[data[i]].tolist())
-#         ax.set_title(title[i])
-#         ax.set_ylabel(ylabel[i])
-#         ax.set_xlabel(xlabel)
-#         ax.grid(True)
-#         ax.xaxis.set_major_formatter(matplotlib.dates.DateFormatter('%Y-%m-%d'))
-
-#     fig.tight_layout(rect=[0, 0.03, 1, 0.95])
-
-#     #Convertir el gráfico a una imagen
-#     img = io.BytesIO()
-#     plt.savefig(img, format='png')
-#     img.seek(0)
-#     graph_url = base64.b64encode(img.getvalue()).decode()
-
-#     plt.close()
-
-#     return graph_url
-
-
-#Esta version saca todos a la vez
-# def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
-#     dataByDays = returnByDatas(dataP, dayIni, dayFin)
-#     time = [datetime.utcfromtimestamp(item / 1000.) for item in dataByDays['EPO']]
-#     data_values = {
-#         'labels': [t.strftime('%Y-%m-%d') for t in time],
-#         'datasets': []  # Inicializar la lista de datasets
-#     }
-
-#     # Iterar sobre los datos a graficar
-#     for i, column in enumerate(data):
-#         dataset = {
-#             'label': title[i],  # Título de la serie
-#             'data': dataByDays[column].tolist(),  # Datos de la serie
-#             'yAxisID': ylabel[i],  # Etiqueta del eje Y
-#             'fill': False  # No rellenar el área bajo la curva
-#         }
-#         data_values['datasets'].append(dataset)  # Agregar el conjunto de datos a la lista de datasets
-
-#     return json.dumps(data_values)
-
-
-#Esta version funciona
+#Se ha transformado para que genere los datos para crear las gráficas
+#con chart.js en vez de crearlas con matploitlib
 def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
     dataByDays = returnByDatas(dataP, dayIni, dayFin)
     dataByDays = dataByDays.fillna(0) #Cambia los NaN por 0
@@ -796,9 +769,6 @@ def crearGrafico():
         EjeYMedidas = ['0=OFF 1=ON 2=INT 3=NaN','0,3=NaN 1=Dysk yes 2=No Dysk','0=OFF 1=ON 2=INT 3=NaN']
         TituloGeneral = 'Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min'
 
-    #Datos de los registros del paciente
-    PRUEBA=pd.read_csv('prueba.csv')
-
     #Fecha inicio y fin del gráfico
     fecha_desde = request.form.get('fechaInicio')
     fecha_hasta = request.form.get('fechaFin')
@@ -807,10 +777,21 @@ def crearGrafico():
     diaIni = datetime.strptime(fecha_desde, '%Y-%m-%d')
     diaFin = datetime.strptime(fecha_hasta, '%Y-%m-%d')
 
-    print(fecha_desde,fecha_hasta, diaIni, diaFin)
+    #Datos de los registros del paciente
+    id_paciente= request.form.get('id_paciente') #Qué paciente es
+    #Todos sus registros    
+    registros = Registros.query.filter_by(paciente=id_paciente).all()
+    #Registro que contenga las fechas ini y fin
+    registro_seleccionado = None
+    for registro in registros:
+        if registro.fecha_inicial <= diaIni.date() and registro.fecha_final >= diaFin.date():
+            registro_seleccionado = registro
+            break
+    dataFrame_registro = pd.read_csv(registro_seleccionado.datos_en_crudo)
+
 
     #Llamada genérica a la función hecha por S4C SDK
-    datos_grafico = plot3Axis(PRUEBA, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, diaIni, diaFin)
+    datos_grafico = plot3Axis(dataFrame_registro, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, diaIni, diaFin)
 
     return jsonify(datos_grafico = datos_grafico)
 

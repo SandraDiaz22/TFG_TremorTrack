@@ -25,6 +25,7 @@
     <!--Formulario para saber qué gráfica mostrar-->
     <form id="formulario" action="" method="post">
         <label for="seleccionGrafico">{% trans %} Selecciona la gráfica a mostrar: {% endtrans %}</label>
+        
         <select id="seleccionGrafico" name="seleccionGrafico" required>
             <option value="">{% trans %} Seleccionar {% endtrans %}</option>
             <option value="1">{% trans %} Parámetros de Bradicinesia {% endtrans %}</option>
@@ -38,24 +39,13 @@
             <input type="text" placeholder="Seleciona fechas..." id="calendario" name="calendario" required>
         </div>
 
+        <input type="hidden" name="id_paciente" value="{{ bbddpaciente.id_paciente }}"> <!--Para saber qué paciente es-->
+
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
     </form>
 
     <!--Gráfica usando chart-->
     <div id="graficoDefinitivo"></div>
-
-
-    <!--Gráfica usando plot3Axis-->
-    <div id="imagenGrafo" style="width: 800px; height: 1200px; margin: 0 auto; margin-bottom: 20px; display: none;">
-    <h2 class="mb-4">{% trans %}Gráfico de plot3Axis{% endtrans %}</h2>
-        <img id="imagenGrafico" src="" style="max-width: 100%; height: auto;">
-    </div>
-
-    <!--Gráfica usando chart con datos locos-->
-    <div id="contenedorGrafico" style="width: 800px; height: 400px; margin: 0 auto; display: none;">
-        <h2 class="mb-4">{% trans %}Gráfico con datos locos{% endtrans %}</h2>
-        <canvas id="grafico"></canvas>
-    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script>
@@ -64,21 +54,11 @@
         var datos_grafico;
 
         document.addEventListener('DOMContentLoaded', function () {
+            let fechas = JSON.parse('{{ fechas | safe }}'); // Convertir la cadena JSON a un array de JavaScript
             flatpickr('#calendario', {
                 dateFormat: 'Y-m-d', //Formato de las fechas
                 mode: 'range', //Permite seleccionar un rango de fechas
-                
-                enable: [
-                    {
-                        from: "2019-07-23",
-                        to: "2019-07-25"
-                    },
-                    {
-                        from: "2019-07-26",
-                        to: "2019-07-29"
-                    }
-                ], //Permitir solo el rango de fechas en el que hay registros
-                
+                enable: fechas, //Permitir solo el rango de fechas en el que hay registros
                 locale:'es', //Español
 
                 onChange: function (selectedDates, dateStr) {//Guardar fechas
@@ -97,13 +77,12 @@
 
         //Listener que muestra el gráfico cuando se da a "Mostrar datos"
         document.getElementById('formulario').addEventListener('submit', function(event) { 
-            //mostrarGrafico(fechaInicio, fechaFin);
             event.preventDefault();
 
             //Datos del formulario
             const formData = new FormData(document.getElementById('formulario'));
-            const fechaInicio = formData.get('calendario').split(' to ')[0];
-            const fechaFin = formData.get('calendario').split(' to ')[1];
+            const fechaInicio = formData.get('calendario').split(' a ')[0];
+            const fechaFin = formData.get('calendario').split(' a ')[1];
             formData.append('fechaInicio', fechaInicio);
             formData.append('fechaFin', fechaFin);
 
@@ -116,25 +95,6 @@
             .then(data => {
                 console.log('Datos recibidos:', data);
 
-                // Eliminar el primer elemento de la lista de datos (el título general)
-                //const chartData = data.slice(1);
-
-                // // Muestra el gráfico utilizando los datos recibidos del servidor
-                // if (data.datos_grafico !== "") {
-                //     // Hacer visible el div de la imagen y actualizar la imagen
-                //     document.getElementById('imagenGrafo').style.display = 'block';
-                //     document.getElementById('imagenGrafico').src = "data:image/png;base64," + data.datos_grafico;
-                //     // Obtener la referencia de la imagen
-                //     const imagenGrafico = document.getElementById('imagenGrafico');
-                // } else {
-                //     // Si los datos del gráfico no están disponibles, ocultar el div de la imagen
-                //     document.getElementById('imagenGrafo').style.display = 'none';
-                // }
-                    // Verificar si la clave datos_grafico existe y no está vacía
-
-
-
-                    //Esta es la parte que funciona para 3 graficos en a y d pero no en b y c
                 if (data && data.datos_grafico) {
                     try {
                         //Cadena JSON con los datos
@@ -183,8 +143,6 @@
                                 });
                             });
 
-                            //Llamar a la función mostrarGrafico que es la de prueba anterior
-                            //mostrarGrafico(fechaInicio, fechaFin);
                         } else {
                             console.error('La clave datos_grafico no contiene un array válido.');
                         }
@@ -199,60 +157,6 @@
                 console.error('Error al procesar la respuesta:', error);
             });
         });
-            
-
-
-
-        //Funcion que genera un gráfico
-        function mostrarGrafico(fechaInicio, fechaFin) {
-            //Título del gráfico dependiendo de la opcion seleccionada
-            var titulo = ''; 
-            var seleccion = document.getElementById('seleccionGrafico').value;
-            switch (seleccion) {
-                case '1':
-                    titulo = 'Parámetros de Bradicinesia'; break;
-                case '2':
-                    titulo = 'Parámetros de FoG y Discinesia'; break;
-                case '3':
-                    titulo = 'Información de los pasos'; break;
-                case '4':
-                    titulo = 'Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min'; break;
-                default:
-                    titulo = '';
-            }
-
-            //Rango de fechas entre fecha inicio y fecha fin
-            const labels = [];
-            const fechaActual = new Date(fechaInicio);
-            while (fechaActual <= fechaFin) {
-                //Meter la fecha actual en la matriz
-                labels.push(fechaActual.toISOString().split('T')[0]);
-                //Incrementar un día la fecha actual
-                fechaActual.setDate(fechaActual.getDate() + 1);
-            }
-
-
-            var ctx = document.getElementById('grafico').getContext('2d');
-            var grafico = new Chart(ctx, {
-                type: 'line',
-                
-                data: {
-                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'], //labels,
-                    datasets: [{
-                        label: titulo,
-                        data: [65, 59, 80, 81, 56, 55, 40], //data,
-                        borderColor: 'rgba(72, 158, 238, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: { y: { beginAtZero: true}}
-                }
-            });
-
-            //Mostrar el contenedor del gráfico
-            document.getElementById('contenedorGrafico').style.display = 'block';
-        }
     </script>
 
 {% endblock %}
