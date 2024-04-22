@@ -9,7 +9,7 @@ from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta
 
-from fechasRegistros import actualizar_fechas_registros
+from fechasRegistros import actualizar_fechas_registros, obtener_fechas_registro
 
 import form
 import csv
@@ -100,9 +100,18 @@ def VIDEOpermitido(archivo):
 @app.route('/subirDatosSensor/<id_paciente>', methods=['POST'])
 def subir_datos_sensor(id_paciente):
     archivo = request.files['archivo_sensor'] #Archivo introducido por el médico 
+    print(archivo)
     if archivo and CSVpermitido(archivo.filename):
-        nombre_archivo = secure_filename(archivo.filename)
+        #Obtener la fecha y hora actual(con segundos)
+        fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        # Obtener fecha inicial y final del registro
+        fecha_ini, fecha_fin = obtener_fechas_registro(archivo)
+        fecha_ini_str = fecha_ini.strftime("%Y-%m-%d")
+        fecha_fin_str = fecha_fin.strftime("%Y-%m-%d")
 
+        #Generar un nombre único para el archivo
+        nombre_archivo = f"stat_on_ID{id_paciente}_{fecha_ini_str}_a_{fecha_fin_str}_{fecha_subida}.csv"
+        
         #Ruta de la carpeta del usuario dentro de static/registros
         ruta_usuario = os.path.join(app.config['RUTA_REGISTROS'], str(id_paciente))
         #Si no existe carpeta para ese usurio la crea
@@ -111,6 +120,7 @@ def subir_datos_sensor(id_paciente):
         #Ruta completa del archivo
         ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
         #Guardamos el archivo
+        archivo.seek(0)  #Puntero al principio del archivo
         archivo.save(ruta_archivo)
 
         #Crea una instancia del modelo Registros
@@ -123,6 +133,7 @@ def subir_datos_sensor(id_paciente):
         
         #Rellenar fecha inicial y final del registro en la bbdd
         actualizar_fechas_registros()
+        print('Fechas actualizadas en la base de datos con éxito.')
 
         #Redireccionar al usuario(medico/admin) a la página anterior
         return redirect(request.referrer)
@@ -134,7 +145,16 @@ def subir_datos_sensor(id_paciente):
 def subir_video(id_paciente):
     archivo_video = request.files['archivo_video']  #Archivo introducido por el médico 
     if archivo_video and VIDEOpermitido(archivo_video.filename):
-        nombre_archivo = secure_filename(archivo_video.filename)
+        #Extrae la fecha y mano dominante del formulario
+        fecha_video = request.form['fecha_video']
+        mano_dominante = request.form['mano']
+
+        #Obtener la fecha y hora actual(con segundos)
+        fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        
+        #Generar un nombre único para el archivo
+        # ID_id_paciente_FECHA_MANO_FechaDeSubida.mp4
+        nombre_archivo = f"ID{id_paciente}_{fecha_video}_{mano_dominante}_{fecha_subida}.mp4"
 
         #Carpeta donde se van a guardar los vídeos
         ruta_usuario = os.path.join(app.config['RUTA_VIDEOS'], str(id_paciente))
@@ -145,10 +165,6 @@ def subir_video(id_paciente):
         ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
         #Guardamos el archivo
         archivo_video.save(ruta_archivo)
-
-        #Extrae la fecha y mano dominante del formulario
-        fecha_video = request.form['fecha_video']
-        mano_dominante = request.form['mano']
 
         #Crea una nueva instancia del modelo Videos
         nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante)
