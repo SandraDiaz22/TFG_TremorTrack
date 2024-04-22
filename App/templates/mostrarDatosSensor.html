@@ -19,7 +19,7 @@
 {% block body %}
     
     <!--Paciente-->
-    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">  Paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} (id: {{bbddpaciente.id_paciente}})</h1>
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">  Paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
     
 
     <!--Formulario para saber qué gráfica mostrar-->
@@ -37,6 +37,7 @@
         <div class="flatpickr">
             <label for="calendario">Selecciona las fechas a mostrar:</label>
             <input type="text" placeholder="Seleciona fechas..." id="calendario" name="calendario" required>
+            <p id="mensaje-fechas-disponibles">Fechas disponibles: cargando...</p>
         </div>
 
         <input type="hidden" name="id_paciente" value="{{ bbddpaciente.id_paciente }}"> <!--Para saber qué paciente es-->
@@ -54,11 +55,12 @@
         var datos_grafico;
 
         document.addEventListener('DOMContentLoaded', function () {
-            let fechas = JSON.parse('{{ fechas | safe }}'); // Convertir la cadena JSON a un array de JavaScript
+            let fechasDisponibles = JSON.parse('{{ fechas | safe }}'); //Convertir la cadena JSON a un array de JavaScript
+            actualizarMensajeFechasDisponibles(fechasDisponibles);
             flatpickr('#calendario', {
                 dateFormat: 'Y-m-d', //Formato de las fechas
                 mode: 'range', //Permite seleccionar un rango de fechas
-                enable: fechas, //Permitir solo el rango de fechas en el que hay registros
+                enable: fechasDisponibles, //Permitir solo el rango de fechas en el que hay registros
                 locale:'es', //Español
 
                 onChange: function (selectedDates, dateStr) {//Guardar fechas
@@ -74,6 +76,38 @@
                 }
             });
         });
+
+        //Divide las fechas disponibles en rangos y muestra dichos rangos al usuario
+        //para facilitar la seleccion de las fechas
+        function actualizarMensajeFechasDisponibles(fechasDisponibles) {
+            let mensaje = 'Fechas disponibles: <br>';
+            let rangos = [];
+            let inicioRango = fechasDisponibles[0];
+            let finRango = fechasDisponibles[0];
+            
+            for (let i = 1; i < fechasDisponibles.length; i++) {
+                let fechaActual = fechasDisponibles[i];
+                let fechaAnterior = fechasDisponibles[i - 1];
+                
+                //Si la fecha actual es consecutiva a la fecha anterior
+                if (new Date(fechaActual) - new Date(fechaAnterior) === 86400000) {
+                    finRango = fechaActual; //Actualizar el final del rango
+                } else {
+                    //Sino, finalizar el rango actual y comenzar uno nuevo
+                    rangos.push(inicioRango === finRango ? inicioRango : inicioRango + ' a ' + finRango);
+                    inicioRango = fechaActual;
+                    finRango = fechaActual;
+                }
+            }
+            
+            //Agregar el último rango
+            rangos.push(inicioRango === finRango ? inicioRango : inicioRango + ' a ' + finRango);
+            
+            mensaje += rangos.join('<br>'); //Salto de linea después de cada rango
+            
+            document.getElementById('mensaje-fechas-disponibles').innerHTML = mensaje; //Mostrar mensaje
+        }
+
 
         //Listener que muestra el gráfico cuando se da a "Mostrar datos"
         document.getElementById('formulario').addEventListener('submit', function(event) { 
