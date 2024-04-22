@@ -1,0 +1,23 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %} Vídeos Paciente {% endtrans %}</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+ 
+    <!--Contenido de la página-->
+    <div class="container mt-4 mb-4">
+        <div class="row justify-content-center">
+
+            <!--Paciente-->
+            <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">  Vídeos paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
+            
+        </div>
+    </div>
+
+{% endblock %}

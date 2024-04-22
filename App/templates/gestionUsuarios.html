@@ -257,6 +257,9 @@
                         <!--Mostrar gráfica-->
                         <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
 
+                        <!--Mostrar vídeos-->
+                        <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar vídeos {% endtrans %}</a>
+
                         <!--Editar usuario-->
                         <button type="button" class="boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
                         <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">

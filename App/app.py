@@ -815,64 +815,49 @@ def crearGrafico():
 
 
 
-    #     #cnvertir las fechas a objetos datetime como los de la bbdd
-    #     fecha_desde = datetime.strptime(fecha_desde, '%Y-%m-%d').date()
-    #     fecha_hasta = datetime.strptime(fecha_hasta, '%Y-%m-%d').date()
-
-    #     #registros de ese paciente dentro de esas fechas
-    #     registros = Registros.query.filter_by(paciente=paciente) \
-    #                                 .filter(Registros.fecha.between(fecha_desde, fecha_hasta)).all()
-        
-    #     #si no tiene registros hacer algo (MEJORARLO)
-    #     if not registros:
-    #         mensaje = 'El paciente no tiene registros en las fechas seleccionadas'
-    #         print(mensaje)
-    #         print(mensaje, 'error')
-    #         return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente)
-        
-    #     print('SI funciona registtros')
-    #     #extraer los datos de los CSV de esas fechas
-    #     datos_en_crudo = []
-    #     for registro in registros:
-    #         archivo_csv = os.path.join(app.root_path, registro.datos_en_crudo)
-    #         datos_registro = pd.read_csv(archivo_csv)
-    #         datos_en_crudo.append(datos_registro)
-        
-    #     #generar el gráfico
-    #     for columnas in datos_en_crudo:
-    #         if 'EPO' in columnas.columns and 'NUM_STEPS' in columnas.columns:
-    #             dataP = datos_registro[['EPO', 'NUM_STEPS']]
-        
-    #             #Función de support_v0 para crear gráficos con matplotlib
-    #             plot3Axis(dataP, ['NUM_STEPS'], ['Título:Número de pasos detectados'], ['Eje y: nº de pasos'], ['Eje x: Tiempo'], 'Título general del gráfico', str(fecha_desde), str(fecha_hasta))
-
-
-    #     return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, data=datos_en_crudo)
-
-
-
-    #Si no envian formulario
-    
-    
-#----------------------------------------------------------------
-
-
-
 
 
 #----------------------------------------------------------------
-#Función que calcula los días en los que hay registros(TODO)
-@app.route('/registros-disponibles', methods=['GET'])
-def obtener_registros_disponibles():
-    año = request.args.get('año')
-    mes = request.args.get('mes')
+#Página que muestra los vídeos del paciente a los médicos (admins y ese paciente).
+@app.route('/mostrarVideos/<paciente>', methods=['GET', 'POST'])
+def mostrarVideos(paciente):
+    #Verificar si el usuario está logueado
+    if 'username' not in session:
+        print('Se debe iniciar sesión para acceder a esta página', 'error')
+        return redirect(url_for('paginaprincipal'))
+    
+    #Obtener el rol del usuario de la sesión
+    rol_usuario = session.get('rol')
 
-    data = {
-        'añosDisponibles': [2022, 2023, 2024],
-        'mesesDisponibles': ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-        'diasDisponibles': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31]
-    }
-    return jsonify(data)
+    #Si es administrador, puede ver las gráficas de todos
+    if rol_usuario == 'administrador':
+        pass
+    #Si es paciente, solo puede acceder si coincide con el paciente pasado en la URL
+    elif rol_usuario == 'paciente':
+        username_paciente = session.get('username')
+        #Objeto de ese paciente en la bbdd
+        pacienteSesion = Paciente.query.filter_by(nombre_de_usuario=username_paciente).first()
+        idPacienteSesion= pacienteSesion.id_paciente
+        #Si no coinciden, redirige a la pagina principal
+        if str(paciente) != str(idPacienteSesion):
+            print('Solo puedes acceder a tus propios videos', 'error')
+            return redirect(url_for('paginaprincipal'))
+    #Si es médico, verificar si el paciente está en su lista de pacientes asociados
+    elif rol_usuario == 'medico':
+        username_medico = session.get('username')
+        #Objeto de ese medico en la bbdd
+        medico = Medico.query.filter_by(nombre_de_usuario=username_medico).first()
+        listadoPacientes = Paciente.query.filter_by(id_medico=medico.id_medico).all() #Sus pacientes asociados
+        listado_id_Pacientes = [str(paciente.id_paciente) for paciente in listadoPacientes] #Los id de sus pacientes
+        #Si no está en la lista, redirige a la pagina principal
+        if str(paciente) not in listado_id_Pacientes:
+            print('No tienes permiso para acceder a los videos de este paciente', 'error')
+            return redirect(url_for('paginaprincipal'))
+    
+    #base de datos de ese paciente
+    bbddpaciente = Paciente.query.get(paciente)
+
+    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente)
 #----------------------------------------------------------------
 
 
