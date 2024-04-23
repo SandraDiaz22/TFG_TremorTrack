@@ -48,5 +48,5 @@ class Videos(db.Model):
     paciente = db.Column(db.Integer, db.ForeignKey('paciente.id_paciente'), nullable=True)
     fecha = db.Column(db.Date, nullable=False)
     contenido = db.Column(db.String(250), nullable=False)
-    mano_dominante = db.Column(db.Enum('mano derecha', 'mano izquierda'), nullable=False)
+    mano_dominante = db.Column(db.Enum('derecha', 'izquierda'), nullable=False)
     

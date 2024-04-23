@@ -19,7 +19,7 @@
 {% block body %}
     
     <!--Paciente-->
-    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">  Paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">{% trans %} Paciente: {% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
     
 
     <!--Formulario para saber qué gráfica mostrar-->

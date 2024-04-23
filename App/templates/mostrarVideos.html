@@ -9,15 +9,68 @@
 
 
 {% block body %}
- 
-    <!--Contenido de la página-->
-    <div class="container mt-4 mb-4">
-        <div class="row justify-content-center">
+<!--Contenido de la página-->
+<div class="container mt-4 mb-4">
+    <div class="row justify-content-center">
 
-            <!--Paciente-->
-            <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">  Vídeos paciente: {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
-            
+        <!--Paciente-->
+        <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo"> {% trans %}  Vídeos paciente:  {% endtrans %}  {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
+        
+        <!--Vídeos-->
+        <div>
+            {% if videos %}
+                <!--Por cada video del paciente mostramos su info y permitimos su reproducción-->
+                {% for video in videos %}
+                    <div class="presentacion"> <!--Tarjetas individuales-->
+                        <!--Info del vídeo-->
+                        <p> <strong> {% trans %} Título del vídeo: {% endtrans %} </strong> {{ video.contenido }}</p>
+                        <p> <strong> {% trans %} Mano dominante: {% endtrans %} </strong> {{ video.mano_dominante }}</p>
+                        <p> <strong> {% trans %} Fecha: {% endtrans %} </strong> {{ video.fecha }}</p>
+
+                        <!--Vídeo en cuestión (se muestra al pulsar el botón)-->
+                        <div class="video" style="display: none;">
+                            <video controls width="320">
+                                <source src="/get_video/{{ bbddpaciente.id_paciente }}/{{ video.contenido }}" type="video/mp4">
+                                {% trans %} Tu navegador no soporta la etiqueta de vídeo. {% endtrans %}
+                            </video>
+                            <button class="ocultar" style= "margin-top: 10px; margin-bottom: 10px;">{% trans %} Ocultar vídeo {% endtrans %}</button>
+                        </div>
+                        <button class="reproducir" style= "margin-bottom: 10px;">{% trans %} Reproducir vídeo {% endtrans %}</button>
+                    </div>
+                    <br>
+                {% endfor %}
+
+            <!--Si ese paciente no tiene videos-->
+            {% else %}
+                <p>{% trans %} No hay vídeos disponibles para mostrar. {% endtrans %}</p>
+            {% endif %}
         </div>
+        
     </div>
+</div>
+
+<script>
+    //Cuando le den al botón de reproducir se mostrará el vídeo
+    document.querySelectorAll('.reproducir').forEach(button => {
+        button.addEventListener('click', function() {
+            const reproduccion = this.parentElement.querySelector('.video');
+            reproduccion.style.display = 'block'; //Mostrar
+            this.style.display = 'none'; //Ocultar el botón después de hacer clic
+        });
+    });
+
+    //Cuando le den al botón de ocultar se dejará de mostrar el vídeo
+    document.querySelectorAll('.ocultar').forEach(button => {
+        button.addEventListener('click', function() {
+            const contenedor = this.parentElement;
+            const reproduccion = contenedor.querySelector('video');
+            reproduccion.pause(); //Pausar el video si está reproduciéndose
+            contenedor.style.display = 'none'; //Ocultar
+            contenedor.parentElement.querySelector('.reproducir').style.display = 'block'; //Mostrar el botón "Reproducir vídeo"
+        });
+    });
+</script>
+
+
 
 {% endblock %}

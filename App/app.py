@@ -229,9 +229,10 @@ def get_image(filename):
 #----------------------------------------------------------------
 #----------------------------------------------------------------
 #Ruta para poder mostrar los vídeos
-@app.route('/get_video/<filename>')
-def get_video(filename):
-    return send_from_directory('static/videos', filename)
+@app.route('/get_video/<int:id_paciente>/<filename>')
+def get_video(id_paciente, filename):
+    return send_from_directory('static/videos/{}/'.format(id_paciente), filename)
+
 #----------------------------------------------------------------
 
 
@@ -857,7 +858,10 @@ def mostrarVideos(paciente):
     #base de datos de ese paciente
     bbddpaciente = Paciente.query.get(paciente)
 
-    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente)
+    #vídeos de ese paciente
+    videos = Videos.query.filter_by(paciente=paciente).all()
+
+    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos)
 #----------------------------------------------------------------
 
 
