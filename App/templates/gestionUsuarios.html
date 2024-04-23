@@ -84,61 +84,61 @@
         <!--Tabla de administradores-->
         <h2 id="tituloAdmins" style="display: none;">{% trans %} Tabla de Administradores{% endtrans %}</h2>
         <button id="botonAgregarAdministrador" onclick="mostrarFormulario('administrador')" style="display: none;">{% trans %} Añadir Administrador {% endtrans %}</button>
-        
-        <table class="table" id="tablaAdmins" style="display: none;">
-            <thead>
-                <tr>
-                    <th>{% trans %}ID{% endtrans %}</th>
-                    <th>{% trans %}Nombre{% endtrans %}</th>
-                    <th>{% trans %}Foto{% endtrans %}</th>
-                    <th>{% trans %}Acciones{% endtrans %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for admin in admins %}
-                <tr>
-                    <td>{{ admin.id_admin }}</td>
-                    <td>{{ admin.nombre }}</td>
-                    <td><img src="{{ admin.foto }}" alt="Foto del admin" style="max-width: 100px;"></td>
-                    <td>
+        <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
+            <table class="table" id="tablaAdmins" style=" display: none; ">
+                <thead>
+                    <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Nombre{% endtrans %}</th>
+                        <th>{% trans %}Foto{% endtrans %}</th>
+                        <th>{% trans %}Acciones{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for admin in admins %}
+                    <tr>
+                        <td>{{ admin.id_admin }}</td>
+                        <td>{{ admin.nombre }}</td>
+                        <td><img src="{{ admin.foto }}" alt="Foto del admin" style="max-width: 100px;"></td>
+                        <td>
 
-                        <!--Editar usuario-->
-                        <button type="button" class="boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>
-                        <div class="formulario-edicion-administrador" id="formulario-edicion-administrador-{{ admin.id_admin }}" style="display: none;">
-                            <form action="/editar_usuario" method="POST">
-                                <input type="hidden" name="usuario_id" value="{{ admin.id_admin }}"> <!--Para saber quién editar-->
-                                <input type="hidden" name="editar_tipo" value="administrador">
+                            <!--Editar usuario-->
+                            <button type="button" class="boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <div class="formulario-edicion-administrador" id="formulario-edicion-administrador-{{ admin.id_admin }}" style="display: none;">
+                                <form action="/editar_usuario" method="POST">
+                                    <input type="hidden" name="usuario_id" value="{{ admin.id_admin }}"> <!--Para saber quién editar-->
+                                    <input type="hidden" name="editar_tipo" value="administrador">
+                                
+                                    <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                    <input type="text" id="nombre" name="nombre" value="{{ admin.nombre }}"><br>
+                                
+                                    <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                    <input type="text" id="apellido" name="apellido" value="{{ admin.apellido }}"><br>
+                                
+                                    <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                    <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ admin.nombre_de_usuario }}"><br>
+                                
+                                    <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                    <input type="password" id="contraseña" name="contraseña" value="{{ admin.contraseña }}"><br>
+                                
+                                    <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                    <input type="email" id="correo_electronico" name="correo_electronico" value="{{ admin.correo_electronico }}"><br>
+                                
+                                    <!--Falta la foto-->
+                                
+                                    <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                </form>
+                            </div>
                             
-                                <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
-                                <input type="text" id="nombre" name="nombre" value="{{ admin.nombre }}"><br>
-                            
-                                <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
-                                <input type="text" id="apellido" name="apellido" value="{{ admin.apellido }}"><br>
-                            
-                                <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
-                                <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ admin.nombre_de_usuario }}"><br>
-                            
-                                <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
-                                <input type="password" id="contraseña" name="contraseña" value="{{ admin.contraseña }}"><br>
-                            
-                                <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
-                                <input type="email" id="correo_electronico" name="correo_electronico" value="{{ admin.correo_electronico }}"><br>
-                            
-                                <!--Falta la foto-->
-                            
-                                <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
-                            </form>
-                        </div>
-                        
-                        <!--Eliminar usuario-->
-                        <button onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
-                
-                    </td>
-                {% endfor %}
+                            <!--Eliminar usuario-->
+                            <button type="button" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                    
+                        </td>
+                    {% endfor %}
 
-            </tbody>
-        </table>
-
+                </tbody>
+            </table>
+        </div>
 
 
 
@@ -146,60 +146,61 @@
         <!--Tabla de médicos-->
         <h2 id="tituloMedicos" style="display: none;">{% trans %}Tabla de Médicos{% endtrans %}</h2>
         <button id="botonAgregarMedico" onclick="mostrarFormulario('medico')" style="display: none;">{% trans %} Añadir Médico {% endtrans %}</button>
-        
-        <table class="table" id="tablaMedicos" style="display: none;">
-            <thead>
-                <tr>
-                    <th>{% trans %}ID{% endtrans %}</th>
-                    <th>{% trans %}Nombre{% endtrans %}</th>
-                    <th>{% trans %}Foto{% endtrans %}</th>
-                    <th>{% trans %}Acciones{% endtrans %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for medico in medicos %}
-                <tr>
-                    <td>{{ medico.id_medico }}</td>
-                    <td>{{ medico.nombre }}</td>
-                    <td><img src="{{ medico.foto }}" alt="Foto del medico" style="max-width: 100px;"></td>
-                    <td>
-                        
-                        <!--Editar usuario-->
-                        <button type="button" class="boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %} Editar usuario {% endtrans %}</button>
-                        <div class="formulario-edicion-medico" id="formulario-edicion-medico-{{ medico.id_medico }}" style="display: none;">
-                            <form action="/editar_usuario" method="POST">
-                                <input type="hidden" name="usuario_id" value="{{ medico.id_medico }}"> <!--Para saber quién editar-->
-                                <input type="hidden" name="editar_tipo" value="medico">
+        <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
+            <table class="table" id="tablaMedicos" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Nombre{% endtrans %}</th>
+                        <th>{% trans %}Foto{% endtrans %}</th>
+                        <th>{% trans %}Acciones{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for medico in medicos %}
+                    <tr>
+                        <td>{{ medico.id_medico }}</td>
+                        <td>{{ medico.nombre }}</td>
+                        <td><img src="{{ medico.foto }}" alt="Foto del medico" style="max-width: 100px;"></td>
+                        <td>
                             
-                                <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
-                                <input type="text" id="nombre" name="nombre" value="{{ medico.nombre }}"><br>
+                            <!--Editar usuario-->
+                            <button type="button" class="boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <div class="formulario-edicion-medico" id="formulario-edicion-medico-{{ medico.id_medico }}" style="display: none;">
+                                <form action="/editar_usuario" method="POST">
+                                    <input type="hidden" name="usuario_id" value="{{ medico.id_medico }}"> <!--Para saber quién editar-->
+                                    <input type="hidden" name="editar_tipo" value="medico">
+                                
+                                    <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                    <input type="text" id="nombre" name="nombre" value="{{ medico.nombre }}"><br>
+                                
+                                    <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                    <input type="text" id="apellido" name="apellido" value="{{ medico.apellido }}"><br>
+                                
+                                    <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                    <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ medico.nombre_de_usuario }}"><br>
+                                
+                                    <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                    <input type="password" id="contraseña" name="contraseña" value="{{ medico.contraseña }}"><br>
+                                
+                                    <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                    <input type="email" id="correo_electronico" name="correo_electronico" value="{{ medico.correo_electronico }}"><br>
+                                
+                                    <!--Falta foto-->
+                                
+                                    <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                </form>
+                            </div>
                             
-                                <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
-                                <input type="text" id="apellido" name="apellido" value="{{ medico.apellido }}"><br>
-                            
-                                <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
-                                <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ medico.nombre_de_usuario }}"><br>
-                            
-                                <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
-                                <input type="password" id="contraseña" name="contraseña" value="{{ medico.contraseña }}"><br>
-                            
-                                <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
-                                <input type="email" id="correo_electronico" name="correo_electronico" value="{{ medico.correo_electronico }}"><br>
-                            
-                                <!--Falta foto-->
-                            
-                                <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
-                            </form>
-                        </div>
-                        
 
-                        <!--Eliminar usuario-->
-                        <button onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
-                
-                    </td>
-                {% endfor %}
-            </tbody>
-        </table>
+                            <!--Eliminar usuario-->
+                            <button type="button" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                    
+                        </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
 
 
@@ -208,112 +209,114 @@
         <!--Tabla de pacientes-->
         <h2 id="tituloPacientes" style="display: none;">{% trans %}Tabla de Pacientes{% endtrans %}</h2>
         <button id="botonAgregarPaciente" onclick="mostrarFormulario('paciente')" style="display: none;">{% trans %} Añadir Paciente {% endtrans %}</button>
-        
-        <table class="table" id="tablaPacientes" style="display: none;">
-            <thead>
-                <tr>
-                    <th>{% trans %}ID{% endtrans %}</th>
-                    <th>{% trans %}Nombre{% endtrans %}</th>
-                    <th>{% trans %}Foto{% endtrans %}</th>
-                    <th>{% trans %}Acciones{% endtrans %}</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for paciente in pacientes %}
-                <tr>
-                    <td>{{ paciente.id_paciente }}</td>
-                    <td>{{ paciente.nombre }}</td>
-                    <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
-                    <td>
-                        <!--Datos personales no hace falta por repetitivo-->
+        <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
+            <table class="table" id="tablaPacientes" style="display: none;">
+                <thead>
+                    <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Nombre{% endtrans %}</th>
+                        <th>{% trans %}Foto{% endtrans %}</th>
+                        <th>{% trans %}Acciones{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                    <tr>
+                        <td>{{ paciente.id_paciente }}</td>
+                        <td>{{ paciente.nombre }}</td>
+                        <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
+                        <td>
+                            <!--Datos personales no hace falta por repetitivo-->
 
-                        <!--Subir vídeo-->
-                        <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
-                        <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
-                            <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
-                                <input type="file" name="archivo_video" accept="video/*" required>
-                                <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
-                                <input type="date" id="fecha_video" name="fecha_video" required>
-                                <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
-                                <select id="mano" name="mano" required>
-                                    <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-                                    <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
-                                    <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
-                                </select>
+                            <!--Subir vídeo-->
+                            <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
+                            <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
+                                <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="archivo_video" accept="video/*" required>
+                                    <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
+                                    <input type="date" id="fecha_video" name="fecha_video" required>
+                                    <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
+                                    <select id="mano" name="mano" required>
+                                        <option value="">{% trans %} Seleccionar {% endtrans %}</option>
+                                        <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
+                                        <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
+                                    </select>
 
-                                <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
-                            </form>
-                        </div>
+                                    <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
+                                </form>
+                            </div>
 
-                        <!--Subir registro-->
-                        <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
-                        <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
-                            <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
-                                <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
-                                <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
-                            </form>
-                        </div>
+                            <!--Mostrar vídeos-->
+                            <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar vídeos {% endtrans %}</a>
 
-                        <!--Mostrar gráfica-->
-                        <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
 
-                        <!--Mostrar vídeos-->
-                        <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar vídeos {% endtrans %}</a>
+                            <!--Subir registro-->
+                            <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
+                            <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
+                                <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                    <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
+                                    <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
+                                </form>
+                            </div>
 
-                        <!--Editar usuario-->
-                        <button type="button" class="boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
-                        <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
-                            <form action="/editar_usuario" method="POST">
-                                <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
-                                <input type="hidden" name="editar_tipo" value="paciente">
-                            
-                                <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
-                                <input type="text" id="nombre" name="nombre" value="{{ paciente.nombre }}"><br>
-                            
-                                <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
-                                <input type="text" id="apellido" name="apellido" value="{{ paciente.apellido }}"><br>
-                            
-                                <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
-                                <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ paciente.nombre_de_usuario }}"><br>
-                            
-                                <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
-                                <input type="password" id="contraseña" name="contraseña" value="{{ paciente.contraseña }}"><br>
-                            
-                                <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
-                                <input type="email" id="correo_electronico" name="correo_electronico" value="{{ paciente.correo_electronico }}"><br>
-                            
-                                <label for="fecha_de_nacimiento">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
-                                <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}"><br>
-                            
-                                <label for="direccion">{% trans %} Dirección: {% endtrans %}</label>
-                                <input type="text" id="direccion" name="direccion" value="{{ paciente.direccion }}"><br>
-                            
-                                <label for="telefono">{% trans %} Teléfono: {% endtrans %}</label>
-                                <input type="text" id="telefono" name="telefono" value="{{ paciente.telefono }}"><br>
-                            
-                                <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
-                                <select id="sensor" name="sensor">
-                                    <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
-                                    <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
-                                </select><br>
-                            
-                                <label for="id_medico">{% trans %} ID del médico: {% endtrans %}</label>
-                                <input type="text" id="id_medico" name="id_medico" value="{{ paciente.id_medico }}"><br>
+                            <!--Mostrar gráfica-->
+                            <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
 
-                                <!--Falta foto-->
-                            
-                                <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
-                            </form>
-                        </div>
-                        
+                            <!--Editar usuario-->
+                            <button type="button" class="boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
+                                <form action="/editar_usuario" method="POST">
+                                    <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
+                                    <input type="hidden" name="editar_tipo" value="paciente">
+                                
+                                    <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                    <input type="text" id="nombre" name="nombre" value="{{ paciente.nombre }}"><br>
+                                
+                                    <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                    <input type="text" id="apellido" name="apellido" value="{{ paciente.apellido }}"><br>
+                                
+                                    <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                    <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ paciente.nombre_de_usuario }}"><br>
+                                
+                                    <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                    <input type="password" id="contraseña" name="contraseña" value="{{ paciente.contraseña }}"><br>
+                                
+                                    <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                    <input type="email" id="correo_electronico" name="correo_electronico" value="{{ paciente.correo_electronico }}"><br>
+                                
+                                    <label for="fecha_de_nacimiento">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
+                                    <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}"><br>
+                                
+                                    <label for="direccion">{% trans %} Dirección: {% endtrans %}</label>
+                                    <input type="text" id="direccion" name="direccion" value="{{ paciente.direccion }}"><br>
+                                
+                                    <label for="telefono">{% trans %} Teléfono: {% endtrans %}</label>
+                                    <input type="text" id="telefono" name="telefono" value="{{ paciente.telefono }}"><br>
+                                
+                                    <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
+                                    <select id="sensor" name="sensor">
+                                        <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
+                                        <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
+                                    </select><br>
+                                
+                                    <label for="id_medico">{% trans %} ID del médico: {% endtrans %}</label>
+                                    <input type="text" id="id_medico" name="id_medico" value="{{ paciente.id_medico }}"><br>
 
-                        <!--Eliminar usuario-->
-                        <button onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
-                
-                    </td>
-                {% endfor %}
-            </tbody>
-        </table>
+                                    <!--Falta foto-->
+                                
+                                    <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                </form>
+                            </div>
+                            
+
+                            <!--Eliminar usuario-->
+                            <button type="button" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                    
+                        </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
 
 
     </div>

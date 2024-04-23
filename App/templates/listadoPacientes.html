@@ -65,6 +65,8 @@
                                 <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
                             </form>
                         </div>
+                        
+                        <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar vídeos {% endtrans %}</a>
 
 
                         <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
@@ -77,9 +79,6 @@
 
 
                         <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
-
-                        
-                        <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar vídeos {% endtrans %}</a>
 
                     </td>
 
