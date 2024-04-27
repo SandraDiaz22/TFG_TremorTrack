@@ -156,21 +156,25 @@
                                 contenedorGraficoDefinitivo.appendChild(ctx);
 
                                 // Agregar título del eje Y
-                                chart.datasets.forEach(dataset => {
-                                    dataset.yAxisID = dataset.yAxisID || 'defaultYAxis';
-                                });
+                                //chart.datasets.forEach(dataset => {
+                                //    dataset.yAxisID = dataset.yAxisID || 'defaultYAxis';
+                                //});
 
                                 const myChart = new Chart(ctx.getContext('2d'), {
-                                    type: 'line',
+                                    type: 'line', //scatter no funciona
                                     data: chart,
                                     options: {
-                                        scales: {
-                                            y: {
-                                                beginAtZero: true,
-                                                title: {
-                                                    display: true,
-                                                    text: chart.datasets[0].yAxisID // Usamos la primera etiqueta de eje Y
-                                                }
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: chart.datasets[0].yAxisID,
+                                                position: 'left'
+                                            }
+                                        },
+                                        elements: {
+                                            point: {
+                                                backgroundColor: 'rgba(0, 0, 0, 0)', //Líneas transparentes
+                                                borderColor: 'rgba(72, 158, 238, 1)' //Puntos en azul
                                             }
                                         }
                                     }
