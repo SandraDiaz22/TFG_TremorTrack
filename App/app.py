@@ -7,7 +7,7 @@ from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
 from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 
 from fechasRegistros import actualizar_fechas_registros, obtener_fechas_registro
 
@@ -749,8 +749,15 @@ def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
 #preparar los datos para la funcion plot3Axis, filtrando los datos por fechas
 def returnByDatas(data, ini, fin):
     if ini != -1 and fin != -1: #Si no son -1 
+        #Filtrar datos por fecha (ini y fin son 2019-07-24 00:00:00 2019-07-26 23:59:59.999999)
+        #datosFiltrados = data[(data['EPO'] >= ini.timestamp() * 1000) & (data['EPO'] <= fin.timestamp() * 1000)] #saca del 23 al 26
+        #datosFiltrados = data[(data['EPO'] >= (ini.timestamp() * 1000) + 86400000) & (data['EPO'] <= (fin.timestamp() * 1000) + 86400000)] #saca del 24 al 27
+
+        #Transformamos los EPO a fecha y comparamos con ini y fin
+        fechas_epo = [datetime.utcfromtimestamp(epo/1000) for epo in data['EPO']]
+        fechas_df = pd.DataFrame({'EPO': fechas_epo})
         #Filtrar datos por fecha
-        datosFiltrados = data[(data['EPO'] >= (ini.timestamp() * 1000) + 86400000) & (data['EPO'] <= (fin.timestamp() * 1000) + 86400000)]
+        datosFiltrados = data[(fechas_df['EPO'] >= ini) & (fechas_df['EPO'] <= fin)]
     else:
         datosFiltrados = data  #Sino devuelve todos los datos sin filtrar
     return datosFiltrados
@@ -794,6 +801,10 @@ def crearGrafico():
     diaIni = datetime.strptime(fecha_desde, '%Y-%m-%d')
     diaFin = datetime.strptime(fecha_hasta, '%Y-%m-%d')
 
+    #Escoger diaIni desde el principio del dia y diaFin hasta el final del dia
+    diaIni = datetime.combine(diaIni.date(), time.min)
+    diaFin = datetime.combine(diaFin.date(), time.max)
+    
     #Datos de los registros del paciente
     id_paciente= request.form.get('id_paciente') #Qué paciente es
     #Todos sus registros    

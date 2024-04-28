@@ -57,6 +57,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             let fechasDisponibles = JSON.parse('{{ fechas | safe }}'); //Convertir la cadena JSON a un array de JavaScript
             actualizarMensajeFechasDisponibles(fechasDisponibles);
+
             flatpickr('#calendario', {
                 dateFormat: 'Y-m-d', //Formato de las fechas
                 mode: 'range', //Permite seleccionar un rango de fechas
@@ -64,14 +65,15 @@
                 locale:'es', //Español
 
                 onChange: function (selectedDates, dateStr) {//Guardar fechas
-                    if (selectedDates.length === 2) {
+                    //Si solo elige una, es tanto fecha inicio como fin
+                    if (selectedDates.length === 1) {
+                        fechaInicio = selectedDates[0];
+                        fechaFin = selectedDates[0];
+                    
+                    //Si elige un rango
+                    } else if (selectedDates.length === 2) {
                         fechaInicio = selectedDates[0];
                         fechaFin = selectedDates[1];
-
-                        const añoInicio = fechaInicio.getFullYear();
-                        const mesInicio = fechaInicio.getMonth() + 1;
-                        const añoFin = fechaFin.getFullYear();
-                        const mesFin = fechaFin.getMonth() + 1;
                     }
                 }
             });
@@ -113,17 +115,21 @@
         document.getElementById('formulario').addEventListener('submit', function(event) { 
             event.preventDefault();
 
-            //Datos del formulario
+            //Datos del formulario (seleccion + fechas)
             const formData = new FormData(document.getElementById('formulario'));
-            const fechaInicio = formData.get('calendario').split(' a ')[0];
-            const fechaFin = formData.get('calendario').split(' a ')[1];
-            formData.append('fechaInicio', fechaInicio);
-            formData.append('fechaFin', fechaFin);
+
+            //Ajustar las fechas globales a la zona horaria (+1 día)
+            const fechaInicioAjustada = new Date(fechaInicio.getTime() - (fechaInicio.getTimezoneOffset() * 60000));
+            const fechaFinAjustada = new Date(fechaFin.getTime() - (fechaFin.getTimezoneOffset() * 60000));
+            //Las añadimos como strings
+            formData.append('fechaInicio', fechaInicioAjustada.toISOString().split('T')[0]);
+            formData.append('fechaFin', fechaFinAjustada.toISOString().split('T')[0]);
+
 
             //Solicitud AJAX al servidor Flask
             fetch('/crearGrafico', {
                 method: 'POST',
-                body: formData
+                body: formData //Le pasamos los datos del formulario
             })
             .then(response => response.json())
             .then(data => {
