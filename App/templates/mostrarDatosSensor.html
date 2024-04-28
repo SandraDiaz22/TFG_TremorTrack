@@ -58,11 +58,20 @@
             let fechasDisponibles = JSON.parse('{{ fechas | safe }}'); //Convertir la cadena JSON a un array de JavaScript
             actualizarMensajeFechasDisponibles(fechasDisponibles);
 
+            //Si hay fechas disponibles se muestra en el calendario la primera fecha disponible, sino la fecha actual.
+            let fechaPredeterminada;
+            if (fechasDisponibles.length > 0) {
+                fechaPredeterminada = fechasDisponibles[0]; //La primera fecha con registros
+            } else {
+                fechaPredeterminada = new Date(); //Fecha actual
+            }
+
             flatpickr('#calendario', {
                 dateFormat: 'Y-m-d', //Formato de las fechas
                 mode: 'range', //Permite seleccionar un rango de fechas
                 enable: fechasDisponibles, //Permitir solo el rango de fechas en el que hay registros
                 locale:'es', //Español
+                defaultDate: fechaPredeterminada, //Fecha mostrada inicialmente
 
                 onChange: function (selectedDates, dateStr) {//Guardar fechas
                     //Si solo elige una, es tanto fecha inicio como fin
@@ -75,6 +84,10 @@
                         fechaInicio = selectedDates[0];
                         fechaFin = selectedDates[1];
                     }
+                },
+                onReady: function (selectedDates, dateStr, instance) {
+                    //Limpia la selección automática al principio
+                    instance.clear();
                 }
             });
         });
