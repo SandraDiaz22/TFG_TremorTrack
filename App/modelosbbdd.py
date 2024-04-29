@@ -49,4 +49,7 @@ class Videos(db.Model):
     fecha = db.Column(db.Date, nullable=False)
     contenido = db.Column(db.String(250), nullable=False)
     mano_dominante = db.Column(db.Enum('derecha', 'izquierda'), nullable=False)
+    lentitud =  db.Column(db.Enum('0','1','2','3','4'), nullable=True)
+    amplitud = db.Column(db.Enum('0','1','2','3','4'), nullable=True)
+    estadisticas = db.Column(db.String(250), nullable=True)
     

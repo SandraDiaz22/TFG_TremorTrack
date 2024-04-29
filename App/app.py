@@ -145,9 +145,11 @@ def subir_datos_sensor(id_paciente):
 def subir_video(id_paciente):
     archivo_video = request.files['archivo_video']  #Archivo introducido por el médico 
     if archivo_video and VIDEOpermitido(archivo_video.filename):
-        #Extrae la fecha y mano dominante del formulario
+        #Extrae la fecha, mano dominante, lentitud y amplitud del formulario
         fecha_video = request.form['fecha_video']
         mano_dominante = request.form['mano']
+        lentitud = request.form['lentitud']
+        amplitud = request.form['amplitud']
 
         #Obtener la fecha y hora actual(con segundos)
         fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
@@ -167,7 +169,7 @@ def subir_video(id_paciente):
         archivo_video.save(ruta_archivo)
 
         #Crea una nueva instancia del modelo Videos
-        nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante)
+        nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante, lentitud=lentitud, amplitud=amplitud)
         #Y la añade a la base de datos
         db.session.add(nuevo_video)
         db.session.commit()
