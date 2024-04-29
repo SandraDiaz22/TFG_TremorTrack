@@ -45,8 +45,19 @@
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
     </form>
 
-    <!--Gráfica usando chart-->
-    <div id="graficoDefinitivo"></div>
+    <br>
+
+    <!--Contenedor general gráficos-->
+    <div id="contenedorGeneral">
+        <!--Titulo-->
+        <h2 id="tituloGeneral"></h2>
+   
+        <!--Miniaturas gráficas-->
+        <div id="miniaturas" class="miniaturas-contenedor"></div>
+    
+        <!-- Hueco para la gráfica grande-->
+        <div id="graficoDefinitivo"></div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
     <script>
@@ -148,39 +159,73 @@
             .then(data => {
                 console.log('Datos recibidos:', data);
 
-                if (data && data.datos_grafico) {
+                if (data && data.datos_grafico) { 
                     try {
                         //Cadena JSON con los datos
                         const chartData = JSON.parse(data.datos_grafico);
                         
-                        const generalTitle = chartData[0].GeneralTitle;
-                        chartData.shift(); //Elimina el titulo
+                        //Título
+                        const tituloGeneral = document.getElementById('tituloGeneral');
+                        tituloGeneral.textContent = chartData[0].GeneralTitle; //Titulo general seleccionado
+                        chartData.shift(); //Elimina el titulo del json
 
-                        //Si chartData es un array y no está vacío
-                        if (Array.isArray(chartData) && chartData.length > 0) {
+                        //Contenedor para la miniatura previa
+                        const miniaturasContenedor = document.getElementById('miniaturas');
+                        miniaturasContenedor.innerHTML = ''; //Limpiar seleccion de antes
+                        //Contenedor para el gráfico grande
+                        const contenedorGraficoDefinitivo  = document.getElementById('graficoDefinitivo');
+                        contenedorGraficoDefinitivo.innerHTML = ''; //Limpiar todo
 
-                            const contenedorGraficoDefinitivo = document.getElementById('graficoDefinitivo');
-                            contenedorGraficoDefinitivo.innerHTML = ''; //Limpiar contenedor
+                        //Para cada conjunto de datos crear un gráfico y su miniatura
+                        chartData.forEach(chart => {
+                            //Crear miniaturas dinámicamente
+                            const miniaturaDiv = document.createElement('div');
+                            miniaturaDiv.classList.add('miniatura');
+                            miniaturasContenedor.appendChild(miniaturaDiv);
 
-                            //Crear h2 para el título general
-                            const tituloGeneral = document.createElement('h2');
-                            tituloGeneral.textContent = generalTitle;
+                            //Titulo miniatura
+                            const miniaturaTitulo = document.createElement('h4');
+                            miniaturaTitulo.textContent = chart.datasets[0].label;
+                            miniaturaDiv.appendChild(miniaturaTitulo);
 
-                            //Título general antes de los gráficos
-                            contenedorGraficoDefinitivo.appendChild(tituloGeneral);
+                            //Mini gráfico
+                            const miniaturaCanvas = document.createElement('canvas');
+                            miniaturaCanvas.width = 150;
+                            miniaturaCanvas.height = 100;
+                            miniaturaDiv.appendChild(miniaturaCanvas);
+                            const miniaturaChart = new Chart(miniaturaCanvas.getContext('2d'), {
+                                type: 'line',
+                                data: chart,
+                                options: {
+                                    maintainAspectRatio: false, //Crece hasta lo que lo deje el tamaño del div
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        }
+                                    },
+                                    elements: {
+                                        line: {
+                                            borderWidth: 0.2 //Sin las líneas que unen los puntos
+                                        },
+                                        point: {
+                                            backgroundColor: 'rgba(72, 158, 238, 1)'//Puntos en azul
+                                        }
+                                    }
+                                }
+                            });
 
-                            //Crear un nuevo gráfico para cada conjunto de datos
-                            chartData.forEach(chart => {
-                                const ctx = document.createElement('canvas');
-                                contenedorGraficoDefinitivo.appendChild(ctx);
+                            //Si dan clic en una miniatura se muestra el gráfico en grande
+                            miniaturaCanvas.addEventListener('click', () => {
+                                //Limpiar anterior antes de mostrar otro
+                                contenedorGraficoDefinitivo.innerHTML = '';
 
-                                // Agregar título del eje Y
-                                //chart.datasets.forEach(dataset => {
-                                //    dataset.yAxisID = dataset.yAxisID || 'defaultYAxis';
-                                //});
+                                //Crear nuevo canvas para el gráfico grande
+                                const graficoDefinitivoCanvas = document.createElement('canvas');
+                                graficoDefinitivoCanvas.id = 'graficoDefinitivoCanvas';
+                                contenedorGraficoDefinitivo.appendChild(graficoDefinitivoCanvas);
 
-                                const myChart = new Chart(ctx.getContext('2d'), {
-                                    type: 'line', //scatter no funciona
+                                const chartCompleto = new Chart(graficoDefinitivoCanvas.getContext('2d'), {
+                                    type: 'line',
                                     data: chart,
                                     options: {
                                         plugins: {
@@ -191,23 +236,24 @@
                                             }
                                         },
                                         elements: {
+                                            line: {
+                                                borderWidth: 0.2 //Sin las líneas que unen los puntos
+                                            },
                                             point: {
-                                                backgroundColor: 'rgba(0, 0, 0, 0)', //Líneas transparentes
-                                                borderColor: 'rgba(72, 158, 238, 1)' //Puntos en azul
+                                                backgroundColor: 'rgba(72, 158, 238, 1)'//Puntos en azul
                                             }
                                         }
                                     }
                                 });
-                            });
+                            }); //Fin clic
 
-                        } else {
-                            console.error('La clave datos_grafico no contiene un array válido.');
-                        }
+                        });//Fin for each
+
                     } catch (error) {
-                        console.error('Error al analizar los datos_grafico:', error);
+                        console.error('Error al analizar los datos:', error);
                     }
                 } else {
-                    console.error('No se encontró la clave datos_grafico o está vacía en los datos recibidos.');
+                    console.error('No hay datos.');
                 }
             })
             .catch(error => {
