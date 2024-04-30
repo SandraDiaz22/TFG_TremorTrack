@@ -55,12 +55,14 @@
                                 <input type="file" name="archivo_video" accept="video/*" required>
                                 <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
                                 <input type="date" id="fecha_video" name="fecha_video" required>
+                                <br>
                                 <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
                                 <select id="mano" name="mano" required>
                                     <option value="">{% trans %} Seleccionar {% endtrans %}</option>
                                     <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
                                     <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
                                 </select>
+                                <br>
                                 <label for="lentitud">{% trans %} Lentitud: {% endtrans %}</label>
                                 <select id="lentitud" name="lentitud" required>
                                     <option value="">{% trans %} Seleccionar {% endtrans %}</option>
@@ -70,6 +72,7 @@
                                     <option value="3">{% trans %} 3 {% endtrans %}</option>
                                     <option value="4">{% trans %} 4 {% endtrans %}</option>
                                 </select>
+                                <br>
                                 <label for="amplitud">{% trans %} Amplitud: {% endtrans %}</label>
                                 <select id="amplitud" name="amplitud" required>
                                     <option value="">{% trans %} Seleccionar {% endtrans %}</option>
@@ -79,7 +82,7 @@
                                     <option value="3">{% trans %} 3 {% endtrans %}</option>
                                     <option value="4">{% trans %} 4 {% endtrans %}</option>
                                 </select>
-
+                                <br>
                                 <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
                             </form>
                         </div>

@@ -4,6 +4,43 @@
 
     <title>{% trans %}Gestión Usuarios{% endtrans %}</title>
 
+    <style>
+        /*Estilo para botones de seleccionar qué tabla ver*/
+        .btn-seleccion {
+            border: 2px solid black;/*Borde*/
+        }
+        /*Movimiento cuando pasas por encima*/
+        .btn-seleccion:hover {transform: translateY(-2px);}
+        
+
+        /*Estilo para botones de añadir usuario */
+        .btn-add {
+            background-color: #46e96c;
+        }.btn-add:hover {background-color: #31aa4d }
+
+
+        /*Estilo para botón "editar usuario"*/
+        .btn-editar {
+            background-color: #ec8942;
+        }.btn-editar:hover {background-color: #ad632e }
+
+
+        /*Estilo para botón "eliminar usuario"*/
+        .btn-eliminar {
+            background-color: red;
+        }.btn-eliminar:hover {background-color: rgb(141, 2, 2) }
+        
+    
+        /*Estilo para botones de acciones solo para pacientes*/
+        .btn-accion-paciente {
+            background-color: #af3ee8;
+        }.btn-accion-paciente:hover {background-color: #7c2ca4 }
+        
+    
+        
+    </style>
+    
+
 {% endblock %}
 
 
@@ -18,9 +55,9 @@
         <!--Botones para mostrar las diferentes tablas-->
         <h3>{% trans %} Elige la tabla a gestionar: {% endtrans %}</h3>
         <div class="botones-container">
-            <button id="btnAdmins">{% trans %} Administradores{% endtrans %}</button>
-            <button id="btnMedicos">{% trans %} Médicos{% endtrans %}</button>
-            <button id="btnPacientes">{% trans %} Pacientes{% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnAdmins">{% trans %} Administradores {% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnMedicos">{% trans %} Médicos {% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnPacientes">{% trans %} Pacientes {% endtrans %}</button>
         </div>
 
 
@@ -69,8 +106,8 @@
             <input type="hidden" id="rol_usuario" name="rol_usuario">  <!--Campo oculto para el rol-->
 
             <!--Botones para agregar el usuario -->
-            <button type="button" onclick="agregarUsuario()">{% trans %}Agregar Usuario{% endtrans %}</button>
-            <button type="reset">{% trans %}Limpiar{% endtrans %}</button>
+            <button type="button" class="btn-add" onclick="agregarUsuario()">{% trans %}Agregar Usuario{% endtrans %}</button>
+            <button type="button" class="btn-eliminar" onclick="cancelarAgregado()">{% trans %}Cancelar{% endtrans %}</button>
         </form>
 
 
@@ -82,8 +119,8 @@
 
 
         <!--Tabla de administradores-->
-        <h2 id="tituloAdmins" style="display: none;">{% trans %} Tabla de Administradores{% endtrans %}</h2>
-        <button id="botonAgregarAdministrador" onclick="mostrarFormulario('administrador')" style="display: none;">{% trans %} Añadir Administrador {% endtrans %}</button>
+        <h2 id="tituloAdmins" style="display: none;">{% trans %}Tabla de Administradores{% endtrans %}</h2>
+        <button type="button" class="btn-add" id="botonAgregarAdministrador" onclick="mostrarFormulario('administrador')" style="display: none;">{% trans %} Añadir Administrador {% endtrans %}</button>
         <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
             <table class="table" id="tablaAdmins" style=" display: none; ">
                 <thead>
@@ -103,7 +140,7 @@
                         <td>
 
                             <!--Editar usuario-->
-                            <button type="button" class="boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <button type="button" class="btn-editar boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>
                             <div class="formulario-edicion-administrador" id="formulario-edicion-administrador-{{ admin.id_admin }}" style="display: none;">
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ admin.id_admin }}"> <!--Para saber quién editar-->
@@ -126,12 +163,13 @@
                                 
                                     <!--Falta la foto-->
                                 
-                                    <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="button" class="btn-eliminar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
                             
                             <!--Eliminar usuario-->
-                            <button type="button" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
                     
                         </td>
                     {% endfor %}
@@ -145,7 +183,7 @@
 
         <!--Tabla de médicos-->
         <h2 id="tituloMedicos" style="display: none;">{% trans %}Tabla de Médicos{% endtrans %}</h2>
-        <button id="botonAgregarMedico" onclick="mostrarFormulario('medico')" style="display: none;">{% trans %} Añadir Médico {% endtrans %}</button>
+        <button type="button" class="btn-add" id="botonAgregarMedico" onclick="mostrarFormulario('medico')" style="display: none;">{% trans %} Añadir Médico {% endtrans %}</button>
         <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
             <table class="table" id="tablaMedicos" style="display: none;">
                 <thead>
@@ -165,7 +203,7 @@
                         <td>
                             
                             <!--Editar usuario-->
-                            <button type="button" class="boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <button type="button" class="btn-editar boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %} Editar usuario {% endtrans %}</button>
                             <div class="formulario-edicion-medico" id="formulario-edicion-medico-{{ medico.id_medico }}" style="display: none;">
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ medico.id_medico }}"> <!--Para saber quién editar-->
@@ -188,13 +226,14 @@
                                 
                                     <!--Falta foto-->
                                 
-                                    <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="button" class="btn-eliminar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
                             
 
                             <!--Eliminar usuario-->
-                            <button type="button" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
                     
                         </td>
                     {% endfor %}
@@ -208,7 +247,7 @@
 
         <!--Tabla de pacientes-->
         <h2 id="tituloPacientes" style="display: none;">{% trans %}Tabla de Pacientes{% endtrans %}</h2>
-        <button id="botonAgregarPaciente" onclick="mostrarFormulario('paciente')" style="display: none;">{% trans %} Añadir Paciente {% endtrans %}</button>
+        <button type="button" class="btn-add" id="botonAgregarPaciente" onclick="mostrarFormulario('paciente')" style="display: none;">{% trans %} Añadir Paciente {% endtrans %}</button>
         <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
             <table class="table" id="tablaPacientes" style="display: none;">
                 <thead>
@@ -226,62 +265,67 @@
                         <td>{{ paciente.nombre }}</td>
                         <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
                         <td>
-                            <!--Datos personales no hace falta por repetitivo-->
+                            <div class="acciones-paciente">
+                                <!--Datos personales no hace falta por repetitivo-->
 
-                            <!--Subir vídeo-->
-                            <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
-                            <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
-                                <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
-                                    <input type="file" name="archivo_video" accept="video/*" required>
-                                    <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
-                                    <input type="date" id="fecha_video" name="fecha_video" required>
-                                    <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
-                                    <select id="mano" name="mano" required>
-                                        <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-                                        <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
-                                        <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
-                                    </select>
-                                    <label for="lentitud">{% trans %} Lentitud: {% endtrans %}</label>
-                                    <select id="lentitud" name="lentitud" required>
-                                        <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-                                        <option value="0">{% trans %} 0 {% endtrans %}</option>
-                                        <option value="1">{% trans %} 1 {% endtrans %}</option>
-                                        <option value="2">{% trans %} 2 {% endtrans %}</option>
-                                        <option value="3">{% trans %} 3 {% endtrans %}</option>
-                                        <option value="4">{% trans %} 4 {% endtrans %}</option>
-                                    </select>
-                                    <label for="amplitud">{% trans %} Amplitud: {% endtrans %}</label>
-                                    <select id="amplitud" name="amplitud" required>
-                                        <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-                                        <option value="0">{% trans %} 0 {% endtrans %}</option>
-                                        <option value="1">{% trans %} 1 {% endtrans %}</option>
-                                        <option value="2">{% trans %} 2 {% endtrans %}</option>
-                                        <option value="3">{% trans %} 3 {% endtrans %}</option>
-                                        <option value="4">{% trans %} 4 {% endtrans %}</option>
-                                    </select>
+                                <!--Subir vídeo-->
+                                <button type="button" class="subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
+                                <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
+                                    <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                        <input type="file" name="archivo_video" accept="video/*" required>
+                                        <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
+                                        <input type="date" id="fecha_video" name="fecha_video" required>
+                                        <br>
+                                        <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
+                                        <select id="mano" name="mano" required>
+                                            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
+                                            <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
+                                            <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
+                                        </select>
+                                        <br>
+                                        <label for="lentitud">{% trans %} Lentitud: {% endtrans %}</label>
+                                        <select id="lentitud" name="lentitud" required>
+                                            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
+                                            <option value="0">{% trans %} 0 {% endtrans %}</option>
+                                            <option value="1">{% trans %} 1 {% endtrans %}</option>
+                                            <option value="2">{% trans %} 2 {% endtrans %}</option>
+                                            <option value="3">{% trans %} 3 {% endtrans %}</option>
+                                            <option value="4">{% trans %} 4 {% endtrans %}</option>
+                                        </select>
+                                        <br>
+                                        <label for="amplitud">{% trans %} Amplitud: {% endtrans %}</label>
+                                        <select id="amplitud" name="amplitud" required>
+                                            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
+                                            <option value="0">{% trans %} 0 {% endtrans %}</option>
+                                            <option value="1">{% trans %} 1 {% endtrans %}</option>
+                                            <option value="2">{% trans %} 2 {% endtrans %}</option>
+                                            <option value="3">{% trans %} 3 {% endtrans %}</option>
+                                            <option value="4">{% trans %} 4 {% endtrans %}</option>
+                                        </select>
+                                        <br>
+                                        <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
+                                    </form>
+                                </div>
 
-                                    <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir vídeo {% endtrans %}</button>
-                                </form>
+                                <!--Mostrar vídeos-->
+                                <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-primary">{% trans %} Mostrar vídeos {% endtrans %}</a>
+
+
+                                <!--Subir registro-->
+                                <button type="button" class="subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
+                                <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
+                                    <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                        <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
+                                        <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
+                                    </form>
+                                </div>
+
+                                <!--Mostrar gráfica-->
+                                <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-primary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
                             </div>
-
-                            <!--Mostrar vídeos-->
-                            <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar vídeos {% endtrans %}</a>
-
-
-                            <!--Subir registro-->
-                            <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
-                            <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
-                                <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
-                                    <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
-                                    <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
-                                </form>
-                            </div>
-
-                            <!--Mostrar gráfica-->
-                            <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
 
                             <!--Editar usuario-->
-                            <button type="button" class="boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <button type="button" class="btn-editar boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
                             <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
@@ -322,13 +366,14 @@
 
                                     <!--Falta foto-->
                                 
-                                    <button type="submit" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="button" class="btn-eliminar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
                             
 
                             <!--Eliminar usuario-->
-                            <button type="button" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
                     
                         </td>
                     {% endfor %}
@@ -477,7 +522,20 @@
                 formularioPaciente.style.display = 'block';
             }
         }
+        //----------------------------------------------------------------
 
+
+
+
+        //----------------------------------------------------------------
+        //Pasar los datos del formulario a app.py para añadir a la
+        //bbdd un usuario con esos datos
+        function cancelarAgregado() {
+            //Limpia los campos del formulario
+            document.getElementById("formulario-agregar-usuario").reset();
+            //Oculta el formulario
+            document.getElementById("formulario-agregar-usuario").style.display = "none";
+        }
         //----------------------------------------------------------------
 
 
@@ -615,6 +673,13 @@
                         console.error('Error:', error);
                         alert('Error al editar el usuario');
                     });
+                });
+            });
+            //Si decide cancelar los cambios, limpia el form
+            document.querySelectorAll('.boton-cancelarCambios').forEach(function(botonCancelar) {
+                botonCancelar.addEventListener('click', function(event) {
+                    const formulario = event.target.closest('form');
+                    formulario.reset(); //Restaurar valores originales
                 });
             });
         });

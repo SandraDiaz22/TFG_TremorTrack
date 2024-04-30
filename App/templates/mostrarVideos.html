@@ -33,9 +33,10 @@
                                 <source src="/get_video/{{ bbddpaciente.id_paciente }}/{{ video.contenido }}" type="video/mp4">
                                 {% trans %} Tu navegador no soporta la etiqueta de vídeo. {% endtrans %}
                             </video>
-                            <button class="ocultar" style= "margin-top: 10px; margin-bottom: 10px;">{% trans %} Ocultar vídeo {% endtrans %}</button>
+                            <br>
+                            <button type="button" class="ocultar">{% trans %} Ocultar vídeo {% endtrans %}</button>
                         </div>
-                        <button class="reproducir" style= "margin-bottom: 10px;">{% trans %} Reproducir vídeo {% endtrans %}</button>
+                        <button type="button" class="reproducir">{% trans %} Reproducir vídeo {% endtrans %}</button>
                     </div>
                     <br>
                 {% endfor %}
