@@ -52,7 +52,8 @@
                                 <label for="telefonoP">{% trans %} Teléfono: {% endtrans %}</label>
                                 <input type="text" id="telefonoP" name="telefonoP" value="{{ usuario.telefono }}"><br>
                                 
-                                <button type="submit" class="btn btn-primary boton-guardar">{% trans %} Guardar cambios {% endtrans %}</button>
+                                <button type="submit" class="boton-guardar" style="padding: 10px 20px; ">{% trans %} Guardar cambios {% endtrans %}</button>
+                                <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                             </form>
                         </div>
 
@@ -107,6 +108,13 @@
                         console.error('Error:', error);
                         alert('Error al editar los datos');
                     });
+                });
+            });
+            //Si decide cancelar los cambios, limpia el form
+            document.querySelectorAll('.boton-cancelarCambios').forEach(function(botonCancelar) {
+                botonCancelar.addEventListener('click', function(event) {
+                    const formulario = event.target.closest('form');
+                    formulario.reset(); //Restaurar valores originales
                 });
             });
         });
