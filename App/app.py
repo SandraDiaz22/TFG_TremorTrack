@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import DevelopmentConfig
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
+import hashlib
 from flask_babel import Babel, _
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta, time
@@ -292,10 +293,8 @@ def contacto():
 #       - Logos
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-
     #formulario de form.py
     formulario = form.FormularioAcceso(request.form)
-
 
     #cuando den al botón de iniciar sesión
     if request.method == 'POST':
@@ -304,10 +303,13 @@ def login():
         username = request.form.get('username')
         contraseña = request.form.get('contraseña')
 
+        #Hashear la contraseña
+        contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
+
         #Buscar en la bbdd las credenciales
-        usuario_medico = Medico.query.filter_by(nombre_de_usuario=username, contraseña=contraseña).first()
-        usuario_administrador = Administrador.query.filter_by(nombre_de_usuario=username, contraseña=contraseña).first()
-        usuario_paciente = Paciente.query.filter_by(nombre_de_usuario=username, contraseña=contraseña).first()
+        usuario_medico = Medico.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
+        usuario_administrador = Administrador.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
+        usuario_paciente = Paciente.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
 
 
         #Diferentes páginas de bienvenida según el usuario
