@@ -144,6 +144,11 @@
                     // Encuentra el formulario asociado a este botón
                     const formulario = boton.closest('form');
                     const formData = new FormData(formulario);
+                    
+                    //Validar los datos
+                    if (!validarDatos(formData)) {
+                        return; //Detener el envío del formulario
+                    }
 
                     fetch('/actualizar_datos_personales', {
                         method: 'POST',
@@ -172,6 +177,57 @@
             });
         });
         //----------------------------------------------------------------
+
+        //Función para validar los datos del formulario (número de 9 cifras, fecha de nacimiento razonable, dirección normal)
+        function validarDatos(formData) {
+            //Validar teléfono
+            var telefono = formData.get("telefonoP");
+            var telefonoRegex = /^[0-9]{9}$/; //RE para 9 números
+            if (!telefonoRegex.test(telefono)) { //Si no tiene 9 números mostramos error y cancelamos form
+                alert("El teléfono debe contener exactamente 9 números.");
+                return false;
+            }
+
+
+
+            //Validar fecha de nacimiento
+            var fechaNacimiento = formData.get("fecha_de_nacimientoP");
+            //Convertir a Date
+            var fechaNacimientoDate = new Date(fechaNacimiento);
+
+            //Como mínimo debe tener 18 años y como máximo 100
+            var fechaActual = new Date();
+            var fechaMinima = new Date(fechaActual);
+            fechaMinima.setFullYear(fechaMinima.getFullYear() - 100); //100 años
+            var fechaMaxima = new Date(fechaActual);
+            fechaMaxima.setFullYear(fechaMaxima.getFullYear() - 18); //18 años
+
+            //Si la fecha no está en el rango permitido, error y cancelamos form
+            if (fechaNacimientoDate < fechaMinima || fechaNacimientoDate > fechaMaxima) {
+                alert("La fecha de nacimiento debe estar entre " + fechaMaxima.getFullYear() + " y " + fechaMinima.getFullYear() + ".");
+                return false;
+            }
+
+
+
+            //Validar direccion
+            var direccion = formData.get("direccionP");
+            if (direccion.length > 100) {
+                alert("La dirección es demasiado larga.");
+                return false; //Demasiado larga
+            }
+            //Si tiene caracteres que no son propios de una direccion, error y cancelamos form
+            var direccionRegex = /^[A-Za-z0-9áéíóúÁÉÍÓÚ.,ºª\-# ]+$/;
+            if (!direccionRegex.test(direccion)) {
+                alert("La dirección tiene caracteres no permitidos.");
+                return false;
+            }
+
+
+            
+            //Si todo está bien
+            return true;
+        }
     </script>
 
 
