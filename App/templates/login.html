@@ -40,16 +40,36 @@
     <!-- Casilla para el nombre -->
     {{ render_field(form.username, class='form-control', placeholder=_('Ingresa tu nombre de usuario')) }}
     <!-- Para mostrar mensajes de error -->
-    <p class="help-block text-danger"></p>
+    {% for error in form.username.errors %}
+        <p class="help-block text-danger">{{ error }}</p>
+    {% endfor %}
 
     <!-- Casilla para la contraseña -->
     {{ render_field(form.contraseña, type='password', class='form-control', placeholder=_('Ingresa tu contraseña')) }}
-    <p class="help-block text-danger"></p>
+    {% for error in form.contraseña.errors %}
+        <p class="help-block text-danger">{{ error }}</p>
+    {% endfor %}
 
     <br>
     
+    <!-- Mostrar mensajes de error -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'error' %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+
     <button type="submit">{% trans %}Enviar{% endtrans %}</button>
 
+
+ 
   </form>
+  <br>
 
 {% endblock %}

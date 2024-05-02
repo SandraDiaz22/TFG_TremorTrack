@@ -334,7 +334,7 @@ def login():
         #Si no es ninguno
         else:
             error = 'Credenciales incorrectas. Inténtalo de nuevo.'
-            print(error)
+            flash(error, 'error')  #Mostrar error al usuario
     
 
     return render_template('login.html', form=formulario)
