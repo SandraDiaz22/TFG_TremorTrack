@@ -552,6 +552,12 @@
             const contraseña = document.getElementById('contraseña').value;
             const correo_electronico = document.getElementById('correo_electronico').value;
             const foto = document.getElementById('foto').files[0];
+
+            //Validar campos obligatorios
+            if (!nombre || !apellido || !nombre_de_usuario || !contraseña || !correo_electronico || !foto) {
+                alert('Por favor, complete todos los campos obligatorios.');
+                return;
+            }
             
             //Crear un objeto con esos datos
             const datos_usuario = { nombre: nombre, apellido: apellido,
@@ -581,6 +587,13 @@
             const formData = new FormData();
             for (const dato in datos_usuario) {
                 formData.append(dato, datos_usuario[dato]);
+            }
+
+            //Validar los datos
+            var mensajeError = validarDatos(formData, rol);
+            if (mensajeError !== true) {
+                alert(mensajeError); //Mostrar error
+                return; //Detener el envío del formulario
             }
 
             //Enviar los datos del usuario como un objeto FormData en la solicitud POST
@@ -685,6 +698,99 @@
         });
 
         //----------------------------------------------------------------
+
+        //Función para validar los datos del formulario de agregar usuario
+        function validarDatos(formData, rol) {
+            //Validar nombre
+            var nombre = formData.get("nombre");
+            if (nombre.length > 50) {
+                return "El nombre es demasiado largo."; //Demasiado largo
+            }
+            //Si tiene caracteres que no son propios de un nombre, error y cancelamos form
+            var nombreRegex  = /^[A-Za-záéíóúÁÉÍÓÚüÜñÑ\-']+$/;
+            if (!nombreRegex.test(nombre)) {
+                return "El nombre tiene caracteres no permitidos.";
+            }
+
+
+            //Validar apellido
+            var apellido = formData.get("apellido");
+            if (apellido.length > 50) {
+                return "El apellido es demasiado largo."; //Demasiado largo
+            }
+            //Si tiene caracteres que no son propios de un apellido, error y cancelamos form]+$/;
+            if (!nombreRegex.test(apellido)) {
+                return "El apellido tiene caracteres no permitidos.";
+            }
+            
+
+            //Validar nombre de usuario
+            var nombre_de_usuario = formData.get("nombre_de_usuario");
+            if (nombre_de_usuario.length > 50) {
+                return "El nombre de usuario es demasiado largo.";
+            }
+            //Si tiene caracteres que no son propios de un nombre de usuario, error y cancelamos form
+            var nombreUsuarioRegex = /^[a-zA-Z0-9_-]+$/;
+            if (!nombreUsuarioRegex.test(nombre_de_usuario)) {
+                return "El nombre de usuario tiene caracteres no permitidos.";
+            }
+
+
+            //Validar contraseña
+            var contraseña = formData.get("contraseña");
+            if (contraseña.length > 50) {
+                return "La contraseña es demasiado larga."; //Demasiado larga
+            }else if (contraseña.length < 8) {
+                return "La contraseña es demasiado corta."; //Demasiado corta
+            }
+
+
+            if (rol === 'paciente'){
+                //Validar teléfono
+                var telefono = formData.get("telefono");
+                var telefonoRegex = /^[0-9]{9}$/; //RE para 9 números
+                if (!telefonoRegex.test(telefono)) { //Si no tiene 9 números mostramos error y cancelamos form
+                    return "El teléfono debe contener exactamente 9 números.";
+                }
+
+                //Validar fecha de nacimiento
+                var fechaNacimiento = formData.get("fecha_de_nacimiento");
+                if (!fechaNacimiento) {
+                    return "Por favor, complete todos los campos obligatorios.";
+                }
+                //Convertir a Date
+                var fechaNacimientoDate = new Date(fechaNacimiento);
+                //Como mínimo debe tener 18 años y como máximo 100
+                var fechaActual = new Date();
+                var fechaMinima = new Date(fechaActual);
+                fechaMinima.setFullYear(fechaMinima.getFullYear() - 100); //100 años
+                var fechaMaxima = new Date(fechaActual);
+                fechaMaxima.setFullYear(fechaMaxima.getFullYear() - 18); //18 años
+                //Si la fecha no está en el rango permitido, error y cancelamos form
+                if (fechaNacimientoDate < fechaMinima || fechaNacimientoDate > fechaMaxima) {
+                    return "La fecha de nacimiento debe estar entre " + fechaMaxima.getFullYear() + " y " + fechaMinima.getFullYear() + ".";
+                }
+
+
+                //Validar médico asignado
+            
+
+                //Validar direccion
+                var direccion = formData.get("direccion");
+                if (direccion.length > 100) {
+                    return "La dirección es demasiado larga.";
+                }
+                //Si tiene caracteres que no son propios de una direccion, error y cancelamos form
+                var direccionRegex = /^[A-Za-z0-9áéíóúÁÉÍÓÚ.,ºª\-# ]+$/;
+                if (!direccionRegex.test(direccion)) {
+                    return "La dirección tiene caracteres no permitidos.";
+                }
+            }
+
+            
+            //Si todo está bien
+            return true;
+        }
 
 
     </script>
