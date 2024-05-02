@@ -99,7 +99,7 @@
                     <option value="no">{% trans %}No{% endtrans %}</option>
                 </select><br>
 
-                <label for="id_medico">{% trans %}Médico Asignado:{% endtrans %}</label>
+                <label for="id_medico">{% trans %}ID médico Asignado:{% endtrans %}</label>
                 <input type="text" id="id_medico" name="id_medico"><br>
             </div>
 
@@ -163,7 +163,7 @@
                                 
                                     <!--Falta la foto-->
                                 
-                                    <button type="submit" class="btn-editar" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="administrador">{% trans %} Guardar cambios {% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
@@ -226,7 +226,7 @@
                                 
                                     <!--Falta foto-->
                                 
-                                    <button type="submit" class="btn-editar" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="medico">{% trans %} Guardar cambios {% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
@@ -366,7 +366,7 @@
 
                                     <!--Falta foto-->
                                 
-                                    <button type="submit" class="btn-editar" id="boton-guardarCambios">{% trans %} Guardar cambios {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente">{% trans %} Guardar cambios {% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
@@ -511,7 +511,7 @@
                 return;
             }
 
-             //Campo oculto del rol
+            //Campo oculto del rol
             document.getElementById('rol_usuario').value = rolUsuario;
 
             //Mostrar formulario
@@ -669,6 +669,15 @@
                     //Obtener el formulario asociado al botón
                     const formulario = event.target.closest('form');
                     const formData = new FormData(formulario); //Datos del formulario
+                    //Obtener el rol del usuario
+                    const rol = boton.dataset.rol;
+
+                    //Validar los datos
+                    var mensajeError = validarDatos(formData, rol);
+                    if (mensajeError !== true) {
+                        alert(mensajeError); //Mostrar error
+                        return; //Detener el envío del formulario
+                    }
 
                     fetch('/editar_usuario', {
                         method: 'POST',
@@ -773,6 +782,13 @@
 
 
                 //Validar médico asignado
+                var medicoAsignado = formData.get("id_medico");
+                if (!medicoAsignado) {
+                    return "Por favor, complete todos los campos obligatorios.";
+                }
+                if (isNaN(medicoAsignado)) {
+                    return "El ID del médico debe ser un número.";
+                }
             
 
                 //Validar direccion
