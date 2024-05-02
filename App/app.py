@@ -443,6 +443,10 @@ def agregarUsuario(rol):
             if campo not in datos_usuario:
                 return f'El campo {campo} es obligatorio', 400
 
+        #Hashear la contraseña
+        contraseña = datos_usuario['contraseña']
+        contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
+
         #Si se añade un paciente
         if rol == 'paciente':
             #Verifica el resto de campos
@@ -453,7 +457,7 @@ def agregarUsuario(rol):
 
             #Crea un nuevo paciente(sin foto)
             nuevo_paciente = Paciente(  nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
-                                        nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=datos_usuario['contraseña'],
+                                        nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
                                         correo_electronico=datos_usuario['correo_electronico'], fecha_de_nacimiento=datos_usuario['fecha_de_nacimiento'],
                                         direccion=datos_usuario['direccion'], telefono=datos_usuario['telefono'], 
                                         sensor=datos_usuario['sensor'], id_medico=datos_usuario['id_medico'])
@@ -477,7 +481,7 @@ def agregarUsuario(rol):
         elif rol == 'medico':
             #Crea un nuevo medico(sin foto)
             nuevo_medico = Medico(  nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
-                                    nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=datos_usuario['contraseña'],
+                                    nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
                                     correo_electronico=datos_usuario['correo_electronico'])
    
             #Lo añade a la bbdd
@@ -499,7 +503,7 @@ def agregarUsuario(rol):
 
             #Crea un nuevo Administrador(sin foto)
             nuevo_administrador = Administrador(nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
-                                                nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=datos_usuario['contraseña'],
+                                                nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
                                                 correo_electronico=datos_usuario['correo_electronico'])
    
             #Lo añade a la bbdd
@@ -574,7 +578,10 @@ def editar_usuario():
         usuario.nombre = request.form.get('nombre')
         usuario.apellido = request.form.get('apellido')
         usuario.nombre_de_usuario = request.form.get('nombre_de_usuario')
-        usuario.contraseña = request.form.get('contraseña')
+        contraseña = request.form.get('contraseña')
+        #Hashear la contraseña
+        contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
+        usuario.contraseña = contraseña_hasheada
         usuario.correo_electronico = request.form.get('correo_electronico')
         if tipo_usuario == 'paciente':
             usuario.fecha_de_nacimiento = request.form.get('fecha_de_nacimiento')
