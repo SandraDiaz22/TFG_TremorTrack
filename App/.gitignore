@@ -1,3 +1,4 @@
 # Ignorar la carpeta static
 static/
 env/
+../env
