@@ -6,7 +6,7 @@ from modelosbbdd import Videos
 #Importar funcion de Catalin
 from paddel.src.paddel.preprocessing.input.poses import extract_poses_ts
 from paddel.src.paddel.preprocessing.input.classic import extract_classic_features
-
+from paddel.src.paddel.preprocessing.input.time_series import extract_time_series
 
 #Conexión a la base de datos
 engine = create_engine('mysql+pymysql://root:maria@localhost/parkinson')
@@ -14,45 +14,38 @@ Session = sessionmaker(bind=engine)
 session = Session()
 
 def analizarVideos():
-
-    video_path = "static/videos/1/CONTROL995_03-08-2023_DCHA_M-56-D.mp4"
-    poses_df = extract_poses_ts(video_path)
-    #print(poses_df)
-    caracteristicas = extract_classic_features(poses_df)
-    print(caracteristicas)
-
-
-
-
     #Todos los videos de la base de datos que no tienen todavía características
-    # videos = session.query(Videos).filter(Videos.velocidad_media.is_(None)).all()
+    videos = session.query(Videos).filter(Videos.velocidad_media.is_(None)).all()
 
-    # for video in videos:
-    #     video_id = video.id_video  #ID del video para control
-    #     video_path = "static/videos/" + str(video.paciente) + "/" + video.contenido #Ruta al video
+    for video in videos:
+        video_id = video.id_video  #ID del video para control
+        video_path = "static/videos/" + str(video.paciente) + "/" + video.contenido #Ruta al video
 
-    #     try:
-    #         #Extrae las poses de la mano del vídeo con tiempos
-    #         poses_df = extract_poses_ts(video_path)
+        try:
+            #Extrae las poses de la mano del vídeo con tiempos
+            poses_ts = extract_poses_ts(video_path)
+            
+            time_series = extract_time_series(poses_ts)
+            time_series["id"] = 0  # id for tsfresh
 
-    #         caracteristicas = extract_classic_features(poses_df)
+            caracteristicas = extract_classic_features(time_series)
 
-    #         #Actualizar bbdd con las 7 características devueltas por la función
-            # video.velocidad_media = caracteristicas["mean_speed"]
-            # video.frecuencia_max = caracteristicas["frequency_of_maximums"]
-            # video.frecuencia_min = caracteristicas["frequency_of_minimums"]
-            # video.promedio_max = caracteristicas["average_of_maximums"]
-            # video.desv_estandar_max = caracteristicas["std_of_maximums"]
-            # video.diferencia_ranurada_min = caracteristicas["slotted_difference_of_frequency_of_minimums"]
-            # video.diferencia_ranurada_max = caracteristicas["slotted_difference_of_average_of_maximums"]
+            #Actualizar bbdd con las 7 características devueltas por la función
+            video.velocidad_media = str(caracteristicas["angle__mean_speed"])
+            video.frecuencia_max = str(caracteristicas["angle__frequency_of_maximums"])
+            video.frecuencia_min = str(caracteristicas["angle__frequency_of_minimums"])
+            video.promedio_max = str(caracteristicas["angle__average_of_maximums"])
+            video.desv_estandar_max = str(caracteristicas["angle__std_of_maximums"])
+            video.diferencia_ranurada_min = str(caracteristicas["angle__slotted_difference_of_frequency_of_minimums"])
+            video.diferencia_ranurada_max = str(caracteristicas["angle__slotted_difference_of_average_of_maximums"])
 
-    #         session.commit()
+            session.commit()
 
-    #         # Imprimir algunas estadísticas para el video actual
-    #         print(f"Video ID: {video_id}, Numero de frames: {len(poses_df)}")
+            # Imprimir algunas estadísticas para el video actual
+            print(f"Video con ID {video_id} analizado.")
 
-    #     except Exception as e:
-    #         print(f"Error procesando el vídeo con ID {video_id}: {str(e)}")
+        except Exception as e:
+            print(f"Error procesando el vídeo con ID {video_id}: {str(e)}")
 
 if __name__ == "__main__":
     analizarVideos()
