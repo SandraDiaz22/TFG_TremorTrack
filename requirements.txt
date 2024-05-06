@@ -85,7 +85,7 @@ opt-einsum==3.3.0
 overrides==7.4.0
 packaging==23.2
 paddlepaddle==2.6.1
-pandas==2.1.2
+pandas==1.5.3
 pandocfilters==1.5.0
 parso==0.8.3
 pickleshare==0.7.5
@@ -145,3 +145,4 @@ wheel==0.41.2
 widgetsnbextension==4.0.9
 WTForms==3.1.1
 pydantic==1.10.7
+tsfresh==0.20.0
