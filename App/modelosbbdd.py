@@ -51,5 +51,12 @@ class Videos(db.Model):
     mano_dominante = db.Column(db.Enum('derecha', 'izquierda'), nullable=False)
     lentitud =  db.Column(db.Enum('0','1','2','3','4'), nullable=True)
     amplitud = db.Column(db.Enum('0','1','2','3','4'), nullable=True)
-    estadisticas = db.Column(db.String(250), nullable=True)
+    velocidad_media = db.Column(db.String(50), nullable=True)
+    frecuencia_max = db.Column(db.String(50), nullable=True)
+    frecuencia_min = db.Column(db.String(50), nullable=True)
+    promedio_max = db.Column(db.String(50), nullable=True)
+    desv_estandar_max = db.Column(db.String(50), nullable=True)
+    diferencia_ranurada_min = db.Column(db.String(50), nullable=True)
+    diferencia_ranurada_max = db.Column(db.String(50), nullable=True)
+
     
