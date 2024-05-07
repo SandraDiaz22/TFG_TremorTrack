@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta, time
 
 from fechasRegistros import actualizar_fechas_registros, obtener_fechas_registro
+from analizarVideos import analizarVideos
 
 import form
 import csv
@@ -144,40 +145,44 @@ def subir_datos_sensor(id_paciente):
 
 @app.route('/subirVideo/<id_paciente>', methods=['POST'])
 def subir_video(id_paciente):
-    archivo_video = request.files['archivo_video']  #Archivo introducido por el médico 
-    if archivo_video and VIDEOpermitido(archivo_video.filename):
-        #Extrae la fecha, mano dominante, lentitud y amplitud del formulario
-        fecha_video = request.form['fecha_video']
-        mano_dominante = request.form['mano']
-        lentitud = request.form['lentitud']
-        amplitud = request.form['amplitud']
+    if request.method == 'POST':
+        archivo_video = request.files['archivo_video']  #Archivo introducido por el médico 
+        if archivo_video and VIDEOpermitido(archivo_video.filename):
+            #Extrae la fecha, mano dominante, lentitud y amplitud del formulario
+            fecha_video = request.form['fecha_video']
+            mano_dominante = request.form['mano']
+            lentitud = request.form['lentitud']
+            amplitud = request.form['amplitud']
 
-        #Obtener la fecha y hora actual(con segundos)
-        fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        
-        #Generar un nombre único para el archivo
-        # ID_id_paciente_FECHA_MANO_FechaDeSubida.mp4
-        nombre_archivo = f"ID{id_paciente}_{fecha_video}_{mano_dominante}_{fecha_subida}.mp4"
+            #Obtener la fecha y hora actual(con segundos)
+            fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            
+            #Generar un nombre único para el archivo
+            # ID_id_paciente_FECHA_MANO_FechaDeSubida.mp4
+            nombre_archivo = f"ID{id_paciente}_{fecha_video}_{mano_dominante}_{fecha_subida}.mp4"
 
-        #Carpeta donde se van a guardar los vídeos
-        ruta_usuario = os.path.join(app.config['RUTA_VIDEOS'], str(id_paciente))
-        #Si no existe carpeta para ese usurio la crea
-        os.makedirs(ruta_usuario, exist_ok=True)
-   
-        #Ruta completa del archivo
-        ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
-        #Guardamos el archivo
-        archivo_video.save(ruta_archivo)
+            #Carpeta donde se van a guardar los vídeos
+            ruta_usuario = os.path.join(app.config['RUTA_VIDEOS'], str(id_paciente))
+            #Si no existe carpeta para ese usurio la crea
+            os.makedirs(ruta_usuario, exist_ok=True)
+    
+            #Ruta completa del archivo
+            ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
+            #Guardamos el archivo
+            archivo_video.save(ruta_archivo)
 
-        #Crea una nueva instancia del modelo Videos
-        nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante, lentitud=lentitud, amplitud=amplitud)
-        #Y la añade a la base de datos
-        db.session.add(nuevo_video)
-        db.session.commit()
+            #Crea una nueva instancia del modelo Videos
+            nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante, lentitud=lentitud, amplitud=amplitud)
+            #Y la añade a la base de datos
+            db.session.add(nuevo_video)
+            db.session.commit()
 
-        print('Archivo de vídeo subido con éxito.')
-        #Redireccionar al usuario(medico/admin) a la página anterior
-        return redirect(request.referrer)
+            #Analizar vídeo subido para sacar sus características
+            analizarVideos()
+
+            print('Archivo de vídeo subido con éxito.')
+            return jsonify({'message': 'Archivo de vídeo subido con éxito.'})
+    return '', 400
 
 
 

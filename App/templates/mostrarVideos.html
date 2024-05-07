@@ -41,6 +41,8 @@
                         <!--Características del vídeo-->
                         <button type="button" class="mostrarCaracteristicas">{% trans %} Características {% endtrans %}</button>
                         <div class="caracteristicas" style="display: none;">
+                            <p> <strong> {% trans %} Lentitud: {% endtrans %} </strong> {{ video.lentitud }}</p>
+                            <p> <strong> {% trans %} Amplitud: {% endtrans %} </strong> {{ video.amplitud }}</p>
                             <p> <strong> {% trans %} Velocidad media: {% endtrans %} </strong> {{ video.velocidad_media }}</p>
                             <p> <strong> {% trans %} Frecuencia de máximos: {% endtrans %} </strong> {{ video.frecuencia_max }}</p>
                             <p> <strong> {% trans %} Frecuencia de mínimos: {% endtrans %} </strong> {{ video.frecuencia_min }}</p>
