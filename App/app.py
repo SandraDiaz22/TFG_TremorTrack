@@ -901,6 +901,17 @@ def eliminarVideo():
     if request.method == 'POST':
         id_video = request.json['id_video']
         video = Videos.query.get(id_video)
+        
+        #Eliminar video de los archivos
+        ruta_archivo = os.path.join(app.config['RUTA_VIDEOS'], str(video.paciente), video.contenido)
+        try:
+            #Eliminar
+            os.remove(ruta_archivo)
+        except OSError as e:
+            print(f"No se pudo eliminar el archivo: {e}")
+            return 'Error al eliminar el archivo', 500
+
+        #Eliminar video de la bbdd
         db.session.delete(video)
         db.session.commit()
         return 'Vídeo eliminado correctamente', 200
