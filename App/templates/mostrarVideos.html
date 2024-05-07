@@ -51,6 +51,9 @@
                             <p> <strong> {% trans %} Diferencia ranurada de la frecuencia de mínimos: {% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
                             <p> <strong> {% trans %} Diferencia ranurada de la frecuencia de máximos: {% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
                         </div>
+
+                        <!--Eliminar vídeo-->
+                        <button type="button" class="btn-eliminar" onclick="eliminarVideo('{{ video.id_video }}')">{% trans %} Eliminar vídeo {% endtrans %}</button>
                     </div>
                     <br>
                 {% endfor %}
@@ -97,6 +100,32 @@
             }
         });
     });
+
+
+    //Cuando le den al botón de eliminar vídeo de la bbdd
+    function eliminarVideo(id_video) {
+        if (confirm('¿Estás seguro de que deseas eliminar este vídeo?')) {
+            fetch('/eliminarVideo', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json' },
+                body: JSON.stringify({ id_video: id_video })
+            })
+            .then(response => {
+                if (response.ok) {
+                    //Funcionó
+                    alert('Vídeo eliminado con éxito');
+                    //Recargar la página
+                    setTimeout(function(){ location.reload(); }, 1000);
+                } else {
+                    alert('Error al eliminar el vídeo');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error al eliminar el vídeo');
+            });
+        }
+    }
 </script>
 
 

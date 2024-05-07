@@ -894,6 +894,22 @@ def mostrarVideos(paciente):
 
 
 
+#----------------------------------------------------------------
+#Página que elimina el vídeo seleccionado
+@app.route('/eliminarVideo', methods=['POST'])
+def eliminarVideo():
+    if request.method == 'POST':
+        id_video = request.json['id_video']
+        video = Videos.query.get(id_video)
+        db.session.delete(video)
+        db.session.commit()
+        return 'Vídeo eliminado correctamente', 200
+    else:
+        return 'Método no permitido', 405
+#----------------------------------------------------------------
+
+
+
 
 #----------------------------------------------------------------
 #Página de bienvenida para pacientes.
