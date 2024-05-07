@@ -37,6 +37,18 @@
                             <button type="button" class="ocultar">{% trans %} Ocultar vídeo {% endtrans %}</button>
                         </div>
                         <button type="button" class="reproducir">{% trans %} Reproducir vídeo {% endtrans %}</button>
+                        
+                        <!--Características del vídeo-->
+                        <button type="button" class="mostrarCaracteristicas">{% trans %} Características {% endtrans %}</button>
+                        <div class="caracteristicas" style="display: none;">
+                            <p> <strong> {% trans %} Velocidad media: {% endtrans %} </strong> {{ video.velocidad_media }}</p>
+                            <p> <strong> {% trans %} Frecuencia de máximos: {% endtrans %} </strong> {{ video.frecuencia_max }}</p>
+                            <p> <strong> {% trans %} Frecuencia de mínimos: {% endtrans %} </strong> {{ video.frecuencia_min }}</p>
+                            <p> <strong> {% trans %} Promedio de máximos: {% endtrans %} </strong> {{ video.promedio_max }}</p>
+                            <p> <strong> {% trans %} Desviación estándar de máximos: {% endtrans %} </strong> {{ video.desv_estandar_max }}</p>
+                            <p> <strong> {% trans %} Diferencia ranurada de la frecuencia de mínimos: {% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
+                            <p> <strong> {% trans %} Diferencia ranurada de la frecuencia de máximos: {% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
+                        </div>
                     </div>
                     <br>
                 {% endfor %}
@@ -68,6 +80,19 @@
             reproduccion.pause(); //Pausar el video si está reproduciéndose
             contenedor.style.display = 'none'; //Ocultar
             contenedor.parentElement.querySelector('.reproducir').style.display = 'block'; //Mostrar el botón "Reproducir vídeo"
+        });
+    });
+
+    //Cuando le den al botón de mostrar características se mostrarán
+    document.querySelectorAll('.mostrarCaracteristicas').forEach(button => {
+        button.addEventListener('click', function() {
+            var caracteristicas = this.parentElement.querySelector('.caracteristicas');
+            //Si estaba oculto, lo pone visible y viceversa
+            if (caracteristicas.style.display === 'none') {
+                caracteristicas.style.display = 'block';
+            } else {
+                caracteristicas.style.display = 'none';
+            }
         });
     });
 </script>
