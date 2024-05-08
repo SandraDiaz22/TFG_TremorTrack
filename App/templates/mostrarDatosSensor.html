@@ -11,6 +11,12 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
 
+    <style>
+        .miniatura.resaltado h4 {
+            color: black; /* Cambiar el color del texto */
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Aplicar sombreado */
+        }
+    </style>
     
 {% endblock %}
 
@@ -216,8 +222,22 @@
 
                             //Si dan clic en una miniatura se muestra el gráfico en grande
                             miniaturaCanvas.addEventListener('click', () => {
+                                //Limpiar el resaltado de las otras miniaturas
+                                const miniaturas = document.querySelectorAll('.miniatura');
+                                miniaturas.forEach(miniatura => {
+                                    miniatura.classList.remove('resaltado');
+                                });
+
+                                //Resaltar miniatura elegida
+                                miniaturaDiv.classList.add('resaltado');
+                                
                                 //Limpiar anterior antes de mostrar otro
                                 contenedorGraficoDefinitivo.innerHTML = '';
+
+                                //Titulo gráfico grande
+                                const graficoTitulo = document.createElement('h3');
+                                graficoTitulo.textContent = chart.datasets[0].label;
+                                contenedorGraficoDefinitivo.appendChild(graficoTitulo);
 
                                 //Crear nuevo canvas para el gráfico grande
                                 const graficoDefinitivoCanvas = document.createElement('canvas');
@@ -233,6 +253,9 @@
                                                 display: true,
                                                 text: chart.datasets[0].yAxisID,
                                                 position: 'left'
+                                            },
+                                            legend: {
+                                                display: false, //Quitar opción de ocultar
                                             }
                                         },
                                         elements: {
