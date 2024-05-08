@@ -4,6 +4,13 @@
 
     <title>{% trans %} Vídeos Paciente {% endtrans %}</title>
 
+    <style>
+        /*Estilo para botón "eliminar vídeo"*/
+        .btn-eliminar {
+            background-color: red;
+        }.btn-eliminar:hover {background-color: rgb(141, 2, 2) }
+    </style>
+
 {% endblock %}
 
 
@@ -11,87 +18,106 @@
 {% block body %}
 <!--Contenido de la página-->
 <div class="container mt-4 mb-4">
-    <div class="row justify-content-center">
-
-        <!--Paciente-->
-        <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo"> {% trans %}  Vídeos paciente:  {% endtrans %}  {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
-        
-        <!--Vídeos-->
-        <div>
-            {% if videos %}
-                <!--Por cada video del paciente mostramos su info y permitimos su reproducción-->
+    <!--Paciente-->
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo"> {% trans %}  Vídeos paciente:  {% endtrans %}  {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
+    
+    {% if videos %}
+        <!--Por cada video del paciente mostramos su info y permitimos su reproducción-->
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>{% trans %}Título{% endtrans %}</th>
+                    <th>{% trans %}Mano dominante{% endtrans %}</th>
+                    <th>{% trans %}Fecha{% endtrans %}</th>
+                    <th>{% trans %}Acciones{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
                 {% for video in videos %}
-                    <div class="presentacion"> <!--Tarjetas individuales-->
-                        <!--Info del vídeo-->
-                        <p> <strong> {% trans %} Título del vídeo: {% endtrans %} </strong> {{ video.contenido }}</p>
-                        <p> <strong> {% trans %} Mano dominante: {% endtrans %} </strong> {{ video.mano_dominante }}</p>
-                        <p> <strong> {% trans %} Fecha: {% endtrans %} </strong> {{ video.fecha }}</p>
+                <tr>
+                    <!--Info del vídeo-->
+                    <td>{{ video.contenido }}</td>
+                    <td>{{ video.mano_dominante }}</td>
+                    <td>{{ video.fecha }}</td>
 
-                        <!--Vídeo en cuestión (se muestra al pulsar el botón)-->
+                    <!--Acciones-->
+                    <td>
+                        <!--Vídeo (se muestra al pulsar el botón)-->
+                        <button type="button" class="reproducir">{% trans %} Reproducir vídeo {% endtrans %}</button>
+                        <button type="button" class="ocultar" style="display: none;">{% trans %} Ocultar vídeo {% endtrans %}</button>                        
                         <div class="video" style="display: none;">
                             <video controls width="320">
                                 <source src="/get_video/{{ bbddpaciente.id_paciente }}/{{ video.contenido }}" type="video/mp4">
-                                {% trans %} Tu navegador no soporta la etiqueta de vídeo. {% endtrans %}
                             </video>
-                            <br>
-                            <button type="button" class="ocultar">{% trans %} Ocultar vídeo {% endtrans %}</button>
                         </div>
-                        <button type="button" class="reproducir">{% trans %} Reproducir vídeo {% endtrans %}</button>
-                        
+
                         <!--Características del vídeo-->
                         <button type="button" class="mostrarCaracteristicas">{% trans %} Características {% endtrans %}</button>
                         <div class="caracteristicas" style="display: none;">
-                            <p> <strong> {% trans %} Lentitud: {% endtrans %} </strong> {{ video.lentitud }}</p>
-                            <p> <strong> {% trans %} Amplitud: {% endtrans %} </strong> {{ video.amplitud }}</p>
-                            <p> <strong> {% trans %} Velocidad media: {% endtrans %} </strong> {{ video.velocidad_media }}</p>
-                            <p> <strong> {% trans %} Frecuencia de máximos: {% endtrans %} </strong> {{ video.frecuencia_max }}</p>
-                            <p> <strong> {% trans %} Frecuencia de mínimos: {% endtrans %} </strong> {{ video.frecuencia_min }}</p>
-                            <p> <strong> {% trans %} Promedio de máximos: {% endtrans %} </strong> {{ video.promedio_max }}</p>
-                            <p> <strong> {% trans %} Desviación estándar de máximos: {% endtrans %} </strong> {{ video.desv_estandar_max }}</p>
-                            <p> <strong> {% trans %} Diferencia ranurada de la frecuencia de mínimos: {% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
-                            <p> <strong> {% trans %} Diferencia ranurada de la frecuencia de máximos: {% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
+                            <p><strong> {% trans %} Lentitud: {% endtrans %} </strong> {{ video.lentitud }}</p>
+                            <p><strong> {% trans %} Amplitud: {% endtrans %} </strong> {{ video.amplitud }}</p>
+                            <p><strong> {% trans %} Velocidad media: {% endtrans %} </strong> {{ video.velocidad_media }}</p>
+                            <p><strong> {% trans %} Frecuencia de máximos: {% endtrans %} </strong> {{ video.frecuencia_max }}</p>
+                            <p><strong> {% trans %} Frecuencia de mínimos: {% endtrans %} </strong> {{ video.frecuencia_min }}</p>
+                            <p><strong> {% trans %} Promedio de máximos: {% endtrans %} </strong> {{ video.promedio_max }}</p>
+                            <p><strong> {% trans %} Desviación estándar de máximos: {% endtrans %} </strong> {{ video.desv_estandar_max }}</p>
+                            <p><strong> {% trans %} Diferencia ranurada de la frecuencia de mínimos: {% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
+                            <p><strong> {% trans %} Diferencia ranurada de la frecuencia de máximos: {% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
                         </div>
 
                         <!--Eliminar vídeo-->
                         <button type="button" class="btn-eliminar" onclick="eliminarVideo('{{ video.id_video }}')">{% trans %} Eliminar vídeo {% endtrans %}</button>
-                    </div>
-                    <br>
-                {% endfor %}
+                    </td>
 
-            <!--Si ese paciente no tiene videos-->
-            {% else %}
-                <p>{% trans %} No hay vídeos disponibles para mostrar. {% endtrans %}</p>
-            {% endif %}
-        </div>
-        
-    </div>
+                {% endfor %}
+            </tbody>
+        </table>     
+    <!--Si ese paciente no tiene videos-->
+    {% else %}
+    <p>{% trans %} No hay vídeos disponibles para mostrar. {% endtrans %}</p>
+    {% endif %}
+
 </div>
 
 <script>
     //Cuando le den al botón de reproducir se mostrará el vídeo
-    document.querySelectorAll('.reproducir').forEach(button => {
-        button.addEventListener('click', function() {
-            const reproduccion = this.parentElement.querySelector('.video');
-            reproduccion.style.display = 'block'; //Mostrar
-            this.style.display = 'none'; //Ocultar el botón después de hacer clic
+    document.querySelectorAll('.reproducir').forEach(botonReproducir => {
+        botonReproducir.addEventListener('click', function() {
+            const contenedorVideo = this.parentElement.querySelector('.video');
+            const botonOcultar = this.parentElement.querySelector('.ocultar');
+            
+            //Mostrar el vídeo y el botón "Ocultar vídeo"
+            contenedorVideo.style.display = 'block';
+            botonOcultar.style.display = 'block';
+            
+            //Ocultar el botón "Reproducir vídeo"
+            this.style.display = 'none';
         });
     });
 
-    //Cuando le den al botón de ocultar se dejará de mostrar el vídeo
-    document.querySelectorAll('.ocultar').forEach(button => {
-        button.addEventListener('click', function() {
-            const contenedor = this.parentElement;
-            const reproduccion = contenedor.querySelector('video');
-            reproduccion.pause(); //Pausar el video si está reproduciéndose
-            contenedor.style.display = 'none'; //Ocultar
-            contenedor.parentElement.querySelector('.reproducir').style.display = 'block'; //Mostrar el botón "Reproducir vídeo"
+    //Cuando le den al botón de ocultar se ocultará
+    document.querySelectorAll('.ocultar').forEach(botonOcultar => {
+        botonOcultar.addEventListener('click', function() {
+            const contenedorVideo = this.parentElement.querySelector('.video');
+            const video = contenedorVideo.querySelector('video');
+            const botonReproducir = this.parentElement.querySelector('.reproducir');
+            
+            //Pausar y ocultar el vídeo
+            video.pause();
+            contenedorVideo.style.display = 'none';
+            
+            //Ocultar el botón "Ocultar vídeo"
+            this.style.display = 'none';
+            //Mostrar el botón "Reproducir vídeo"
+            botonReproducir.style.display = 'block';
         });
     });
 
     //Cuando le den al botón de mostrar características se mostrarán
-    document.querySelectorAll('.mostrarCaracteristicas').forEach(button => {
-        button.addEventListener('click', function() {
-            var caracteristicas = this.parentElement.querySelector('.caracteristicas');
+    document.querySelectorAll('.mostrarCaracteristicas').forEach(botonCaracteristicas => {
+        botonCaracteristicas.addEventListener('click', function() {
+            const caracteristicas = this.parentElement.querySelector('.caracteristicas');
+            
             //Si estaba oculto, lo pone visible y viceversa
             if (caracteristicas.style.display === 'none') {
                 caracteristicas.style.display = 'block';
@@ -100,7 +126,6 @@
             }
         });
     });
-
 
     //Cuando le den al botón de eliminar vídeo de la bbdd
     function eliminarVideo(id_video) {
