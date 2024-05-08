@@ -29,7 +29,8 @@
                     <th>{% trans %}Título{% endtrans %}</th>
                     <th>{% trans %}Mano dominante{% endtrans %}</th>
                     <th>{% trans %}Fecha{% endtrans %}</th>
-                    <th>{% trans %}Acciones{% endtrans %}</th>
+                    <th>{% trans %}Reproducir{% endtrans %}</th>
+                    <th>{% trans %}Eliminar{% endtrans %}</th>
                 </tr>
             </thead>
             <tbody>
@@ -40,7 +41,7 @@
                     <td>{{ video.mano_dominante }}</td>
                     <td>{{ video.fecha }}</td>
 
-                    <!--Acciones-->
+                    <!--Reproducir vídeo-->
                     <td>
                         <!--Vídeo (se muestra al pulsar el botón)-->
                         <button type="button" class="reproducir">{% trans %} Reproducir vídeo {% endtrans %}</button>
@@ -50,8 +51,9 @@
                                 <source src="/get_video/{{ bbddpaciente.id_paciente }}/{{ video.contenido }}" type="video/mp4">
                             </video>
                         </div>
-
-                        <!--Características del vídeo-->
+                    </td>
+                                            
+                    <!-- Características del vídeo
                         <button type="button" class="mostrarCaracteristicas">{% trans %} Características {% endtrans %}</button>
                         <div class="caracteristicas" style="display: none;">
                             <p><strong> {% trans %} Lentitud: {% endtrans %} </strong> {{ video.lentitud }}</p>
@@ -63,9 +65,11 @@
                             <p><strong> {% trans %} Desviación estándar de máximos: {% endtrans %} </strong> {{ video.desv_estandar_max }}</p>
                             <p><strong> {% trans %} Diferencia ranurada de la frecuencia de mínimos: {% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
                             <p><strong> {% trans %} Diferencia ranurada de la frecuencia de máximos: {% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
-                        </div>
+                        </div> -->
 
-                        <!--Eliminar vídeo-->
+
+                    <!--Eliminar vídeo-->
+                    <td>
                         <button type="button" class="btn-eliminar" onclick="eliminarVideo('{{ video.id_video }}')">{% trans %} Eliminar vídeo {% endtrans %}</button>
                     </td>
 
@@ -113,19 +117,19 @@
         });
     });
 
-    //Cuando le den al botón de mostrar características se mostrarán
-    document.querySelectorAll('.mostrarCaracteristicas').forEach(botonCaracteristicas => {
-        botonCaracteristicas.addEventListener('click', function() {
-            const caracteristicas = this.parentElement.querySelector('.caracteristicas');
+    // //Cuando le den al botón de mostrar características se mostrarán
+    // document.querySelectorAll('.mostrarCaracteristicas').forEach(botonCaracteristicas => {
+    //     botonCaracteristicas.addEventListener('click', function() {
+    //         const caracteristicas = this.parentElement.querySelector('.caracteristicas');
             
-            //Si estaba oculto, lo pone visible y viceversa
-            if (caracteristicas.style.display === 'none') {
-                caracteristicas.style.display = 'block';
-            } else {
-                caracteristicas.style.display = 'none';
-            }
-        });
-    });
+    //         //Si estaba oculto, lo pone visible y viceversa
+    //         if (caracteristicas.style.display === 'none') {
+    //             caracteristicas.style.display = 'block';
+    //         } else {
+    //             caracteristicas.style.display = 'none';
+    //         }
+    //     });
+    // });
 
     //Cuando le den al botón de eliminar vídeo de la bbdd
     function eliminarVideo(id_video) {
