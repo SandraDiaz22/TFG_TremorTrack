@@ -33,8 +33,14 @@
     
         /*Estilo para botones de acciones solo para pacientes*/
         .btn-accion-paciente {
-            background-color: #af3ee8;
-        }.btn-accion-paciente:hover {background-color: #7c2ca4 }
+            background-color: rgb(3, 111, 211); 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px auto;
+        }.btn-accion-paciente:hover {background-color: rgb(2, 75, 144) }
         
     
         
@@ -312,10 +318,6 @@
                                     </form>
                                 </div>
 
-                                <!--Mostrar vídeos-->
-                                <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-primary">{% trans %} Mostrar vídeos {% endtrans %}</a>
-
-
                                 <!--Subir registro-->
                                 <button type="button" class="subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
                                 <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
@@ -325,8 +327,14 @@
                                     </form>
                                 </div>
 
+                            </div>
+                            
+                            <div class="acciones-paciente">
+                                <!--Mostrar vídeos-->
+                                <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %} Mostrar vídeos {% endtrans %}</a>
+
                                 <!--Mostrar gráfica-->
-                                <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-primary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
+                                <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %} Mostrar datos sensor {% endtrans %}</a>
                             </div>
 
                             <!--Editar usuario-->
