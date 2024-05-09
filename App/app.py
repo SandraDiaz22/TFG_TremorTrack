@@ -888,7 +888,22 @@ def mostrarVideos(paciente):
     #vídeos de ese paciente
     videos = Videos.query.filter_by(paciente=paciente).all()
 
-    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos)
+    #Las características de los vídeos las convertimos para generar la Gráfica
+    datosVideos = [{
+        'lentitud': video.lentitud,
+        'amplitud': video.amplitud,
+        'velocidad_media': video.velocidad_media,
+        'frecuencia_max': video.frecuencia_max,
+        'frecuencia_min': video.frecuencia_min,
+        'promedio_max': video.promedio_max,
+        'desv_estandar_max': video.desv_estandar_max,
+        'diferencia_ranurada_min': video.diferencia_ranurada_min,
+        'diferencia_ranurada_max': video.diferencia_ranurada_max,
+        'fecha': video.fecha
+    } for video in videos]
+
+
+    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos, datosVideos=datosVideos)
 #----------------------------------------------------------------
 
 

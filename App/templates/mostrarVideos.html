@@ -11,6 +11,8 @@
         }.btn-eliminar:hover {background-color: rgb(141, 2, 2) }
     </style>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 {% endblock %}
 
 
@@ -75,7 +77,125 @@
 
                 {% endfor %}
             </tbody>
-        </table>     
+        </table> 
+        
+        <!--Gráfico con las características-->
+        <h2 style="margin-top: 50px;">{% trans %}  Gráfico con las características de los vídeos  {% endtrans %} </h2>
+        <div style="display: flex; justify-content: center; height: 60vh; ">
+            <canvas id="grafico"></canvas>
+        </div>
+
+
+        <!-- Script para generar el gráfico -->
+        <script>
+            //Videos a JavaScript
+            const datosVideos = JSON.parse('{{ datosVideos | tojson | safe }}');
+
+            //Arrays para cada característica
+            const lentitudData = [];
+            const amplitudData = [];
+            const velocidadMediaData = [];
+            const frecuenciaMaxData = [];
+            const frecuenciaMinData = [];
+            const promedioMaxData = [];
+            const desvEstandarMaxData = [];
+            const diferenciaRanuradaMinData = [];
+            const diferenciaRanuradaMaxData = [];
+            
+            //Array para las fechas
+            const fechas = [];
+
+            //Meter las características de cada vídeo en su array correspondiente
+            datosVideos.forEach(video => {
+                lentitudData.push(video.lentitud);
+                amplitudData.push(video.amplitud);
+                velocidadMediaData.push(video.velocidad_media);
+                frecuenciaMaxData.push(video.frecuencia_max);
+                frecuenciaMinData.push(video.frecuencia_min);
+                promedioMaxData.push(video.promedio_max);
+                desvEstandarMaxData.push(video.desv_estandar_max);
+                diferenciaRanuradaMinData.push(video.diferencia_ranurada_min);
+                diferenciaRanuradaMaxData.push(video.diferencia_ranurada_max);
+
+                const fechaFormateada = new Date(video.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                fechas.push(fechaFormateada);
+            });
+
+            //Especificar el título y el color de cada Dataset
+            const datasets = [
+            {   
+                label: 'Lentitud',
+                data: lentitudData,
+                borderColor: 'rgba(255, 99, 132, 1)',    },
+            {
+                label: 'Amplitud',
+                data: amplitudData,
+                borderColor: 'rgba(54, 162, 235, 1)',    },
+            {
+                label: 'Velocidad Media',
+                data: velocidadMediaData,
+                borderColor: 'rgba(255, 205, 86, 1)',    },
+            {
+                label: 'Frecuencia de Máximos',
+                data: frecuenciaMaxData,
+                borderColor: 'rgba(75, 192, 192, 1)',    },
+            {
+                label: 'Frecuencia de Mínimos',
+                data: frecuenciaMinData,
+                borderColor: 'rgba(153, 102, 255, 1)',   },
+            {
+                label: 'Promedio de Máximos',
+                data: promedioMaxData,
+                borderColor: 'rgba(255, 159, 64, 1)',    },
+            {
+                label: 'Desviación Estándar de Máximos',
+                data: desvEstandarMaxData,
+                borderColor: 'rgba(255, 192, 203, 1)',   },
+            {
+                label: 'Diferencia Ranurada de la Frecuencia de Mínimos',
+                data: diferenciaRanuradaMinData,
+                borderColor: 'rgba(0, 0, 0, 1)',         },
+            {
+                label: 'Diferencia Ranurada de la Frecuencia de Máximos',
+                data: diferenciaRanuradaMaxData,
+                borderColor: 'rgba(128, 64, 0, 1)',      }
+            ];
+
+            //prueba
+            console.log(datasets);
+
+
+
+
+            //Ubicacion del gráfico
+            const ctx = document.getElementById('grafico').getContext('2d');
+
+            //Crear gráfico con Chart.js
+            const myChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: fechas,
+                    datasets: datasets
+                },
+                options: {
+                    scales: {
+                        y: { //Eje Y siempre del 0 al 4
+                            min: -1,
+                            max: 6
+                        },
+                        x: { //Eje X para las fechas
+                            title: {
+                                display: true,
+                                text: 'Fechas de los vídeos'
+                            }
+                        }
+                    }
+                }
+            });
+        </script>
+
+
+
     <!--Si ese paciente no tiene videos-->
     {% else %}
     <p>{% trans %} No hay vídeos disponibles para mostrar. {% endtrans %}</p>
