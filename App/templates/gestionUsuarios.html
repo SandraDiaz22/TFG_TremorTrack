@@ -309,9 +309,9 @@
                                             <option value="4">{% trans %} 4 {% endtrans %}</option>
                                         </select>
                                         <br>
-                                        <button type="submit" class="btn btn-primary mt-2" id="subirFormVideo">{% trans %} Subir vídeo {% endtrans %}</button>
+                                        <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %} Subir vídeo {% endtrans %}</button>
 
-                                        <div id="subiendo" style="display: none;">
+                                        <div class="subiendo" style="display: none;">
                                             <p>{% trans %} Subiendo...(esto podría tardar unos minutos) {% endtrans %}</p>
                                         </div>
                                         
@@ -489,17 +489,17 @@
         //Lógica para mostrar mensajes al usuario mientras se analiza el 
         //vídeo que se sube en el formulario
         $(document).ready(function() {
-            $('#subirFormVideo').on('click', function(e) {
+            $('.subirFormVideo').on('click', function(e) {
                 e.preventDefault(); //Evitar que se envie el formulario todavia
                 
                 //Mostrar mensaje subiendo...
-                var subiendo = $('#subiendo');
+                var subiendo = $(this).closest('form').find('.subiendo');
                 subiendo.show();
 
                 //URL donde subir los datos
-                var URLformulario = $('#formularioSubirVideo').attr('action');
+                var URLformulario = $(this).closest('form').attr('action');
                 //Datos del formulario
-                var formData = new FormData($('#formularioSubirVideo')[0]);
+                var formData = new FormData($(this).closest('form')[0]);
 
                 //Enviar formulario mediante AJAX
                 $.ajax({
