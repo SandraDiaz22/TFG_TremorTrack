@@ -23,6 +23,26 @@
 
 
 {% block body %}
+<!--Contenido de la página-->
+<div class="container mt-4 mb-4">
+
+    <!--Migas de pan-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="/">Página Principal</a></li>
+            <li class="breadcrumb-item"><a href="/login">Inicio de Sesión</a></li>
+            {% if es_admin %}
+                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">Bienvenido</a></li>
+                <li class="breadcrumb-item"><a href="/gestionUsuarios">Gestión de Usuarios</a></li>
+            {% elif es_medico %}
+                <li class="breadcrumb-item"><a href="/BienvenidaMedico">Bienvenido</a></li>
+                <li class="breadcrumb-item"><a href="/listadoPacientes">Listado de Pacientes</a></li>
+            {% elif es_paciente %}
+                <li class="breadcrumb-item"><a href="/BienvenidaPaciente">Bienvenido</a></li>  
+            {% endif %}
+            <li aria-current="page" class="breadcrumb-item active">Mostrar Datos Sensor</li>
+        </ol>
+    </nav>
     
     <!--Paciente-->
     <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">{% trans %} Paciente: {% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
@@ -284,5 +304,7 @@
             });
         });
     </script>
+    
+</div>
 
 {% endblock %}

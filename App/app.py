@@ -73,13 +73,6 @@ def pagina_actual():
     if request.endpoint:
         g.page = request.endpoint.split('.')[-1]
 
-#Función para generar las migas de pan o breadcrumbs
-def generar_breadcrumbs():
-    breadcrumbs = []
-    for path in session.get('navigation_path', []):
-        breadcrumbs.append({'url': path[1], 'label': path[0]})
-    return breadcrumbs
-
 
 
 #----------------------------------------------------------------
@@ -267,8 +260,7 @@ def page_not_found(e):
 #       - Logos
 @app.route('/', methods = ['GET', 'POST'])
 def paginaprincipal():
-    session['navigation_path'] = [('Página Principal', '/')]
-    return render_template('paginaprincipal.html', breadcrumbs=generar_breadcrumbs())
+    return render_template('paginaprincipal.html')
 #----------------------------------------------------------------
 
 
@@ -280,8 +272,7 @@ def paginaprincipal():
 #       - Logos
 @app.route('/sobreNosotros', methods = ['GET', 'POST'])
 def sobreNosotros():
-    session.setdefault('navigation_path', []).append(('Sobre Nosotros', '/sobreNosotros'))
-    return render_template('sobreNosotros.html', breadcrumbs=generar_breadcrumbs())
+    return render_template('sobreNosotros.html')
 #----------------------------------------------------------------
 
 
@@ -293,8 +284,7 @@ def sobreNosotros():
 #       - Logos
 @app.route('/contacto', methods = ['GET', 'POST'])
 def contacto():
-    session.setdefault('navigation_path', []).append(('Contacto', '/contacto'))
-    return render_template('contacto.html', breadcrumbs=generar_breadcrumbs())
+    return render_template('contacto.html')
 #----------------------------------------------------------------
 
 
@@ -306,9 +296,7 @@ def contacto():
 #       - Formulario
 #       - Logos
 @app.route('/login', methods=['GET', 'POST'])
-def login():
-    session.setdefault('navigation_path', []).append(('Inicio de sesión', '/login'))
-    
+def login():    
     #formulario de form.py
     formulario = form.FormularioAcceso(request.form)
 
@@ -353,7 +341,7 @@ def login():
             flash(error, 'error')  #Mostrar error al usuario
     
 
-    return render_template('login.html', form=formulario, breadcrumbs=generar_breadcrumbs())
+    return render_template('login.html', form=formulario)
 #----------------------------------------------------------------
 
 
@@ -374,8 +362,6 @@ def logout():
 #Por ahora solo contiene el tipo de usuario
 @app.route('/BienvenidaAdmin')
 def BienvenidaAdmin():
-    session.setdefault('navigation_path', []).append(('Bienvenido', '/BienvenidaAdmin'))
-
     #Verificar si el usuario está logueado como admin
     if 'username' not in session or session.get('rol') != 'administrador':
         print('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
@@ -392,7 +378,7 @@ def BienvenidaAdmin():
         print('No se encontró ese usuario en la base de datos', 'error')
         return redirect(url_for('paginaprincipal'))
     
-    return render_template('BienvenidaAdmin.html', breadcrumbs=generar_breadcrumbs())
+    return render_template('BienvenidaAdmin.html')
 #----------------------------------------------------------------
 
 
@@ -402,8 +388,6 @@ def BienvenidaAdmin():
 #Página que muestra todos los usuarios de la aplicación para hacer su gestión
 @app.route('/gestionUsuarios')
 def gestionUsuarios():
-    session.setdefault('navigation_path', []).append(('Gestión de Usuarios', '/gestionUsuarios'))
-
     #Verificar si el usuario está logueado como admin
     if 'username' not in session or session.get('rol') != 'administrador':
         print('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
@@ -416,7 +400,7 @@ def gestionUsuarios():
     #Consulta para obtener todos los pacientes de la aplicación
     listadoPacientes = Paciente.query.all()
 
-    return render_template('gestionUsuarios.html', admins=listadoAdministradores, medicos=listadoMedicos ,pacientes=listadoPacientes, breadcrumbs=generar_breadcrumbs())
+    return render_template('gestionUsuarios.html', admins=listadoAdministradores, medicos=listadoMedicos ,pacientes=listadoPacientes)
 #----------------------------------------------------------------
 
 
@@ -627,8 +611,6 @@ def editar_usuario():
 #Por ahora solo contiene foto y dos botones
 @app.route('/BienvenidaMedico')
 def BienvenidaMedico():
-    session.setdefault('navigation_path', []).append(('Bienvenido', '/BienvenidaMedico'))
-
     #Verificar si el usuario está logueado como médico
     if 'username' not in session or session.get('rol') != 'medico':
         print('Se debe iniciar sesión como médico para acceder a esta página', 'error')
@@ -645,7 +627,7 @@ def BienvenidaMedico():
         print('No se encontró ese usuario en la base de datos', 'error')
         return redirect(url_for('login'))
     
-    return render_template('BienvenidaMedico.html', breadcrumbs=generar_breadcrumbs())
+    return render_template('BienvenidaMedico.html')
 #----------------------------------------------------------------
 
 
@@ -655,7 +637,6 @@ def BienvenidaMedico():
 #Por ahora la lista con los botones pero feo
 @app.route('/listadoPacientes')
 def listadoPacientes():
-    session.setdefault('navigation_path', []).append(('Listado Pacientes', '/listadoPacientes'))
     #Verificar si el usuario está logueado como médico
     if 'username' not in session or session.get('rol') != 'medico':
         print('Se debe iniciar sesión como médico para acceder a esta página', 'error')
@@ -668,7 +649,7 @@ def listadoPacientes():
     #Consulta para obtener todos los pacientes del médico logeado
     listadoPacientes = Paciente.query.filter_by(id_medico=medico.id_medico).all()
 
-    return render_template('listadoPacientes.html', pacientes=listadoPacientes, breadcrumbs=generar_breadcrumbs())
+    return render_template('listadoPacientes.html', pacientes=listadoPacientes)
 #----------------------------------------------------------------
 
 
@@ -678,8 +659,6 @@ def listadoPacientes():
 #Sacamos todos los registros de ese paciente en las fechas selecionadas y creamos la gráfica TODO
 @app.route('/mostrarDatosSensor/<paciente>', methods=['GET', 'POST'])
 def mostrarDatosSensor(paciente):
-    session.setdefault('navigation_path', []).append(('Mostrar Datos Sensor', '/mostrarDatosSensor/' + paciente))
-
     #Verificar si el usuario está logueado
     if 'username' not in session:
         print('Se debe iniciar sesión para acceder a esta página', 'error')
@@ -690,9 +669,15 @@ def mostrarDatosSensor(paciente):
 
     #Si es administrador, puede ver las gráficas de todos
     if rol_usuario == 'administrador':
+        es_admin = True
+        es_paciente = False
+        es_medico = False
         pass
     #Si es paciente, solo puede acceder si coincide con el paciente pasado en la URL
     elif rol_usuario == 'paciente':
+        es_admin = False
+        es_paciente = True
+        es_medico = False
         username_paciente = session.get('username')
         #Objeto de ese paciente en la bbdd
         pacienteSesion = Paciente.query.filter_by(nombre_de_usuario=username_paciente).first()
@@ -703,6 +688,9 @@ def mostrarDatosSensor(paciente):
             return redirect(url_for('paginaprincipal'))
     #Si es médico, verificar si el paciente está en su lista de pacientes asociados
     elif rol_usuario == 'medico':
+        es_admin = False
+        es_paciente = False
+        es_medico = True
         username_medico = session.get('username')
         #Objeto de ese medico en la bbdd
         medico = Medico.query.filter_by(nombre_de_usuario=username_medico).first()
@@ -728,7 +716,7 @@ def mostrarDatosSensor(paciente):
     #Convertir a una cadena JSON
     fechas_json = json.dumps(fechas)
 
-    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, fechas=fechas_json, breadcrumbs=generar_breadcrumbs())
+    return render_template('mostrarDatosSensor.html', bbddpaciente=bbddpaciente, fechas=fechas_json, es_admin=es_admin, es_medico=es_medico, es_paciente=es_paciente)
 #----------------------------------------------------------------
 
 
@@ -869,8 +857,6 @@ def crearGrafico():
 #Página que muestra los vídeos del paciente a los médicos (admins y ese paciente).
 @app.route('/mostrarVideos/<paciente>', methods=['GET', 'POST'])
 def mostrarVideos(paciente):
-    session.setdefault('navigation_path', []).append(('Mostrar Vídeos', '/mostrarVideos' + paciente))
-
     #Verificar si el usuario está logueado
     if 'username' not in session:
         print('Se debe iniciar sesión para acceder a esta página', 'error')
@@ -881,9 +867,15 @@ def mostrarVideos(paciente):
 
     #Si es administrador, puede ver las gráficas de todos
     if rol_usuario == 'administrador':
+        es_admin = True
+        es_paciente = False
+        es_medico = False
         pass
     #Si es paciente, solo puede acceder si coincide con el paciente pasado en la URL
     elif rol_usuario == 'paciente':
+        es_admin = False
+        es_paciente = True
+        es_medico = False
         username_paciente = session.get('username')
         #Objeto de ese paciente en la bbdd
         pacienteSesion = Paciente.query.filter_by(nombre_de_usuario=username_paciente).first()
@@ -894,6 +886,9 @@ def mostrarVideos(paciente):
             return redirect(url_for('paginaprincipal'))
     #Si es médico, verificar si el paciente está en su lista de pacientes asociados
     elif rol_usuario == 'medico':
+        es_admin = False
+        es_paciente = False
+        es_medico = True
         username_medico = session.get('username')
         #Objeto de ese medico en la bbdd
         medico = Medico.query.filter_by(nombre_de_usuario=username_medico).first()
@@ -925,7 +920,7 @@ def mostrarVideos(paciente):
     } for video in videos]
 
 
-    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos, datosVideos=datosVideos, breadcrumbs=generar_breadcrumbs())
+    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos, datosVideos=datosVideos, es_admin=es_admin, es_medico=es_medico, es_paciente=es_paciente)
 #----------------------------------------------------------------
 
 
@@ -964,8 +959,6 @@ def eliminarVideo():
 #Por ahora solo contiene el tipo de usuario
 @app.route('/BienvenidaPaciente') #, methods=['GET', 'POST'])
 def BienvenidaPaciente():
-    session.setdefault('navigation_path', []).append(('Bienvenido', '/BienvenidaPaciente'))
-
     #Verificar si el usuario está logueado como paciente
     if 'username' not in session or session.get('rol') != 'paciente':
         print('Se debe iniciar sesión como paciente para acceder a esta página', 'error')
@@ -985,7 +978,7 @@ def BienvenidaPaciente():
     #Su medico asignado
     medico = Medico.query.get(paciente.id_medico)
 
-    return render_template('BienvenidaPaciente.html', medico=medico, breadcrumbs=generar_breadcrumbs())
+    return render_template('BienvenidaPaciente.html', medico=medico)
 #----------------------------------------------------------------
 
 
