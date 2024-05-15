@@ -221,8 +221,15 @@
     <p>{% trans %} No hay vídeos disponibles para mostrar. {% endtrans %}</p>
     {% endif %}
 
+
+    <!--Predicciones-->    
+    <h2 style="margin-top: 50px;">{% trans %}  Predicciones del avance de la enfermedad {% endtrans %} </h2>
+    <button type="button" class="predecirLentitud" onclick="predecir('lentitud', '{{bbddpaciente.id_paciente}}')">{% trans %} Predecir Lentitud {% endtrans %}</button>
+    <button type="button" class="predecirAmplitud" onclick="predecir('amplitud', '{{bbddpaciente.id_paciente}}')">{% trans %} Predecir Amplitud {% endtrans %}</button>
+
 </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script>
     //Cuando le den al botón de reproducir se mostrará el vídeo
     document.querySelectorAll('.reproducir').forEach(botonReproducir => {
@@ -295,6 +302,24 @@
             });
         }
     }
+
+    //Cuando le den a los botones de las predicciones
+    function predecir(tipo, id_paciente) {
+        $.ajax({
+            url: "/predecirVideo",
+            type: "POST",
+            data: { tipo: tipo, id_paciente: id_paciente },
+            success: function(response) {
+                //bien
+            },
+            error: function(xhr, status, error) {
+                //mal
+            }
+        });
+    }
+
+
+
 </script>
 
 

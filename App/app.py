@@ -27,6 +27,9 @@ import io
 import base64
 
 
+from statsmodels.tsa.holtwinters import SimpleExpSmoothing
+
+
 
 
 #Inicializar aplicación
@@ -927,7 +930,7 @@ def mostrarVideos(paciente):
 
 
 #----------------------------------------------------------------
-#Página que elimina el vídeo seleccionado
+#Función que elimina el vídeo seleccionado
 @app.route('/eliminarVideo', methods=['POST'])
 def eliminarVideo():
     if request.method == 'POST':
@@ -950,6 +953,59 @@ def eliminarVideo():
     else:
         return 'Método no permitido', 405
 #----------------------------------------------------------------
+
+
+
+
+
+#----------------------------------------------------------------
+#Función que predice la lentitud o amplitud con IA a partir de los datos disponibles
+@app.route('/predecirVideo', methods=['POST'])
+def predecirVideo():
+    id_paciente = request.form.get('id_paciente')  #ID del paciente
+    #vídeos de ese paciente
+    videos = Videos.query.filter_by(paciente=id_paciente).all()
+
+
+    tipo = request.form.get('tipo')  #Obtener el tipo de predicción (lentitud o amplitud)
+
+    #Obtener fecha y (lentitud o amplitud) de los vídeos del paciente
+    if tipo == 'lentitud':
+        datos_videos = [(video.fecha, int(video.lentitud)) for video in videos]
+    elif tipo == 'amplitud':
+        datos_videos = [(video.fecha, int(video.amplitud)) for video in videos]
+        
+    
+    #Genera fechas futuras
+    # fecha_actual = datetime.now().date()
+    # n_pasos = 4  # Número de pasos hacia adelante para predecir
+    # fechas_futuras = [fecha_actual + timedelta(days=i) for i in range(1, n_pasos + 1)]
+
+    # #Datos + fechas predicción sin datos
+    # datos_ampliados = datos_videos + [(fecha, None) for fecha in fechas_futuras]
+
+
+    #Ajustar el modelo de suavizado exponencial simple
+    modelo = SimpleExpSmoothing([dato[1] for dato in datos_videos]) #datos_ampliados
+    modelo_fit = modelo.fit()
+
+    #Realizar la predicción para los próximos 'n_pasos' pasos
+    n_pasos = 22
+    predicciones = modelo_fit.forecast(n_pasos)
+
+    #Devolver las predicciones como una lista de tuplas (fecha, predicción)
+    #resultados_prediccion = list(zip(fechas_futuras, predicciones))
+    fechas_prediccion = [dato[0] for dato in datos_videos]
+    resultados_prediccion = list(zip(fechas_prediccion, predicciones))
+
+    print(resultados_prediccion)
+
+    #Devolver la predicción convertida a cadena json para poder mostrarla con chart.js en el html
+    return jsonify(resultados_prediccion)
+    
+    
+#----------------------------------------------------------------
+
 
 
 
