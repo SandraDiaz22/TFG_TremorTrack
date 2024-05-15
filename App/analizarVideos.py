@@ -5,6 +5,7 @@ from modelosbbdd import Videos
 
 #Importar funcion de Catalin
 from paddel.src.paddel.preprocessing.input.poses import extract_poses_ts
+from paddel.src.paddel.preprocessing.input.fresh import extract_fresh_features
 from paddel.src.paddel.preprocessing.input.classic import extract_classic_features
 from paddel.src.paddel.preprocessing.input.time_series import extract_time_series
 
@@ -28,6 +29,7 @@ def analizarVideos():
             time_series = extract_time_series(poses_ts)
             time_series["id"] = 0  # id for tsfresh
 
+            #Características básicas
             caracteristicas = extract_classic_features(time_series)
 
             #Actualizar bbdd con las 7 características devueltas por la función
@@ -38,6 +40,14 @@ def analizarVideos():
             video.desv_estandar_max = str(caracteristicas["angle__std_of_maximums"])
             video.diferencia_ranurada_min = str(caracteristicas["angle__slotted_difference_of_frequency_of_minimums"])
             video.diferencia_ranurada_max = str(caracteristicas["angle__slotted_difference_of_average_of_maximums"])
+
+            #Más características
+            caracteristicas_fresh = extract_fresh_features(time_series)
+            #Convertir las características a JSON
+            caracteristicas_fresh_json = caracteristicas_fresh.to_json()
+
+            #Actualizar bbdd
+            video.caracteristicas = str(caracteristicas_fresh_json)
 
             session.commit()
 

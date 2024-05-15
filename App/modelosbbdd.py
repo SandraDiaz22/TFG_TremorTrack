@@ -58,5 +58,6 @@ class Videos(db.Model):
     desv_estandar_max = db.Column(db.String(50), nullable=True)
     diferencia_ranurada_min = db.Column(db.String(50), nullable=True)
     diferencia_ranurada_max = db.Column(db.String(50), nullable=True)
+    caracteristicas = db.Column(db.String(65535), nullable=True)
 
     
