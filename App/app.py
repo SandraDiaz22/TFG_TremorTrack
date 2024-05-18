@@ -258,7 +258,7 @@ def page_not_found(e):
 
 #----------------------------------------------------------------
 #Página principal de la aplicación. Contiene:
-#       - Barra superior con diferentes funcionalidades (Sobre nosotros, Contacto, Idioma, Iniciar Sesión)
+#       - Barra superior con diferentes funcionalidades (Contacto, Idioma, Iniciar Sesión)
 #       - Información sobre las funciones de TremorTrack
 #       - Logos
 @app.route('/', methods = ['GET', 'POST'])
@@ -268,23 +268,12 @@ def paginaprincipal():
 
 
 
+
 #----------------------------------------------------------------
-#Página con información sobre los creadores de la página. Contiene:
-#       - Barra superior con diferentes funcionalidades (Sobre nosotros, Contacto, Idioma, Página principal, Iniciar Sesión)
+#Página con información sobre los creadores de la página y de contacto. Contiene:
+#       - Barra superior con diferentes funcionalidades
 #       - Información sobre nosotros
-#       - Logos
-@app.route('/sobreNosotros', methods = ['GET', 'POST'])
-def sobreNosotros():
-    return render_template('sobreNosotros.html')
-#----------------------------------------------------------------
-
-
-
-#----------------------------------------------------------------
-#Página con información de contacto. Contiene:
-#       - Barra superior con diferentes funcionalidades (Sobre nosotros, Contacto, Idioma, Página principal, Iniciar Sesión)
 #       - Información de contacto
-#       - Logos
 @app.route('/contacto', methods = ['GET', 'POST'])
 def contacto():
     return render_template('contacto.html')
@@ -294,10 +283,9 @@ def contacto():
 
 #----------------------------------------------------------------
 #Página de inicio de sesión. Contiene:
-#       - Barra superior con diferentes funcionalidades (Sobre nosotros, Contacto, Idioma, Página principal)
+#       - Barra superior con diferentes funcionalidades
 #       - Datos de admin, médico y paciente para las pruebas
 #       - Formulario
-#       - Logos
 @app.route('/login', methods=['GET', 'POST'])
 def login():    
     #formulario de form.py

@@ -15,9 +15,39 @@
 
 {% block body %}
 
-  <!--Contenido de la página-->
+<!--Contenido de la página-->
+<div class="container mt-4 mb-4">
 
-  <div class="container mt-5">
+
+    <!--Apartado Sobre nosotros-->
+    <h1>{% trans %}Conócenos{% endtrans %}</h1> 
+      
+        <div class="presentacion shadow-lg"> <!--Sombreado-->
+            <div class="row no-gutters"><!--Foto y texto seguidos-->
+                <div class="col-md-4"><!--Foto-->
+                    <img src="/get_image/yo3.jpg" class="rounded-circle" style="max-width: 200px;" alt="{% trans %}Sandra{% endtrans %}">
+                </div>
+                <div class="col-md-8" style=" padding: 2rem;"><!--Mi info-->
+                        <h3>{% trans %}¡Hola! Soy Sandra{% endtrans %}</h3>
+                        <p class="card-text">{% trans %}Me presento: soy estudiante de Ingeniería Informática en la Universidad de Burgos y, junto con mi tutor Álvar Arnaiz, somos los creadores de esta aplicación web.{% endtrans %}</p>
+                </div>
+            </div>
+        </div>
+  
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="info-adicional">
+                    <p>{% trans %}Este proyecto forma parte de mi trabajo de fin de grado y espero que sea de utilidad a muchas personas.{% endtrans %}</p>
+                    <p>{% trans %}Trabajamos junto con la Asociación de Parkinson de Burgos para hacer un poco más fácil la vida de las personas que sufren esta enfermedad.{% endtrans %}</p>
+                </div>
+            </div>
+        </div>
+
+
+    <br>
+
+    
+    <!--Apartado Contacto-->
     <h1 class="mb-4">{% trans %}Contacta con nosotros{% endtrans %}</h1>
 
     <div class="row"> <!--Columnas responsivas de Bootstrap-->
@@ -36,19 +66,25 @@
             <div id="map" style="height: 400px;"></div>
         </div>
     </div>
-  </div>
 
-  <script>
-      //Código en JavaScript para mostrar la ubicación de la UBU
-      var map = L.map('map').setView([42.351164, -3.688673], 15); //Coordenadas y zoom
 
-      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-          attribution: '{% trans %}© OpenStreetMap contributors{% endtrans %}' //Créditos a OpenStreetMap :)
-      }).addTo(map);
+</div>
 
-      L.marker([42.351164, -3.688673]).addTo(map) //Coordenadas politecnica
-          .bindPopup('{% trans %}Avenida Cantabria, s/n, 09006 Burgos (España){% endtrans %}') //Mensaje
-          .openPopup();
-  </script>
+
+
+
+
+<script>
+    //Código en JavaScript para mostrar la ubicación de la UBU
+    var map = L.map('map').setView([42.351164, -3.688673], 15); //Coordenadas y zoom
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '{% trans %}© OpenStreetMap contributors{% endtrans %}' //Créditos a OpenStreetMap :)
+    }).addTo(map);
+
+    L.marker([42.351164, -3.688673]).addTo(map) //Coordenadas politecnica
+        .bindPopup('{% trans %}Avenida Cantabria, s/n, 09006 Burgos (España){% endtrans %}') //Mensaje
+        .openPopup();
+</script>
 
 {% endblock %}
