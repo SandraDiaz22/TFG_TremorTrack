@@ -288,37 +288,46 @@
                                 <button type="button" class="subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
                                 <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
                                     <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data" id="formularioSubirVideo">
-                                        <input type="file" name="archivo_video" accept="video/*" required>
-                                        <label for="fecha_video">{% trans %} Fecha del vídeo: {% endtrans %}</label>
-                                        <input type="date" id="fecha_video" name="fecha_video" required>
-                                        <br>
-                                        <label for="mano">{% trans %} Mano dominante: {% endtrans %}</label>
-                                        <select id="mano" name="mano" required>
-                                            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-                                            <option value="derecha">{% trans %} Derecha {% endtrans %}</option>
-                                            <option value="izquierda">{% trans %} Izquierda {% endtrans %}</option>
-                                        </select>
-                                        <br>
-                                        <label for="lentitud">{% trans %} Lentitud: {% endtrans %}</label>
-                                        <select id="lentitud" name="lentitud" required>
-                                            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-                                            <option value="0">{% trans %} 0 {% endtrans %}</option>
-                                            <option value="1">{% trans %} 1 {% endtrans %}</option>
-                                            <option value="2">{% trans %} 2 {% endtrans %}</option>
-                                            <option value="3">{% trans %} 3 {% endtrans %}</option>
-                                            <option value="4">{% trans %} 4 {% endtrans %}</option>
-                                        </select>
-                                        <br>
-                                        <label for="amplitud">{% trans %} Amplitud: {% endtrans %}</label>
-                                        <select id="amplitud" name="amplitud" required>
-                                            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-                                            <option value="0">{% trans %} 0 {% endtrans %}</option>
-                                            <option value="1">{% trans %} 1 {% endtrans %}</option>
-                                            <option value="2">{% trans %} 2 {% endtrans %}</option>
-                                            <option value="3">{% trans %} 3 {% endtrans %}</option>
-                                            <option value="4">{% trans %} 4 {% endtrans %}</option>
-                                        </select>
-                                        <br>
+                                        <div class="form-group">
+                                            <label for="archivo_video">{% trans %}Archivo de vídeo:{% endtrans %}</label>
+                                            <input type="file" name="archivo_video" accept="video/*" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fecha_video">{% trans %}Fecha del vídeo:{% endtrans %}</label>
+                                            <input type="date" id="fecha_video" name="fecha_video" required>
+                                        </div>
+                                        <div class="form-group flex-container">
+                                            <div class="flex-item">
+                                                <label for="mano">{% trans %}Mano del vídeo:{% endtrans %}</label>
+                                                <select id="mano" name="mano" required>
+                                                    <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+                                                    <option value="derecha">{% trans %}Derecha{% endtrans %}</option>
+                                                    <option value="izquierda">{% trans %}Izquierda{% endtrans %}</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex-item">
+                                                <label for="lentitud">{% trans %}Lentitud:{% endtrans %}</label>
+                                                <select id="lentitud" name="lentitud" required>
+                                                    <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+                                                    <option value="0">{% trans %}0{% endtrans %}</option>
+                                                    <option value="1">{% trans %}1{% endtrans %}</option>
+                                                    <option value="2">{% trans %}2{% endtrans %}</option>
+                                                    <option value="3">{% trans %}3{% endtrans %}</option>
+                                                    <option value="4">{% trans %}4{% endtrans %}</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex-item">
+                                                <label for="amplitud">{% trans %}Amplitud:{% endtrans %}</label>
+                                                <select id="amplitud" name="amplitud" required>
+                                                    <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+                                                    <option value="0">{% trans %}0{% endtrans %}</option>
+                                                    <option value="1">{% trans %}1{% endtrans %}</option>
+                                                    <option value="2">{% trans %}2{% endtrans %}</option>
+                                                    <option value="3">{% trans %}3{% endtrans %}</option>
+                                                    <option value="4">{% trans %}4{% endtrans %}</option>
+                                                </select>
+                                            </div>
+                                        </div>
                                         <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %} Subir vídeo {% endtrans %}</button>
 
                                         <div class="subiendo" style="display: none;">
@@ -332,7 +341,11 @@
                                 <button type="button" class="subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
                                 <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
                                     <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
-                                        <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
+                                        <div class="form-group">
+                                            <label for="archivo_sensor">{% trans %}Archivo CSV:{% endtrans %}</label>
+                                            <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
+                                        </div>
+
                                         <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
                                     </form>
                                 </div>
@@ -502,14 +515,27 @@
             $('.subirFormVideo').on('click', function(e) {
                 e.preventDefault(); //Evitar que se envie el formulario todavia
                 
+                //Validación de campos
+                let form = $(this).closest('form');
+                let fileInput = form.find('input[type="file"]');
+                let dateInput = form.find('#fecha_video');
+                let manoSelect = form.find('#mano');
+                let lentitudSelect = form.find('#lentitud');
+                let amplitudSelect = form.find('#amplitud');
+
+                if (!fileInput.val() || !dateInput.val() || !manoSelect.val() || !lentitudSelect.val() || !amplitudSelect.val()) {
+                    alert('{% trans %}Por favor, complete todos los campos.{% endtrans %}');
+                    return;
+                }
+
                 //Mostrar mensaje subiendo...
-                var subiendo = $(this).closest('form').find('.subiendo');
+                var subiendo = form.find('.subiendo');
                 subiendo.show();
 
                 //URL donde subir los datos
-                var URLformulario = $(this).closest('form').attr('action');
+                var URLformulario = form.attr('action');
                 //Datos del formulario
-                var formData = new FormData($(this).closest('form')[0]);
+                var formData = new FormData(form[0]);
 
                 //Enviar formulario mediante AJAX
                 $.ajax({
@@ -532,7 +558,7 @@
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
                         subiendo.hide(); //Ocultamos botón
-                        alert('Error al subir el archivo de vídeo.');
+                        alert('{% trans %} Error al subir el archivo de vídeo.{% endtrans %}');
                     }
                 });
             });
