@@ -580,16 +580,16 @@
                 .then(response => {
                     if (response.ok) {
                         //Funcionó
-                        alert('Usuario eliminado con éxito');
+                        alert('{% trans %} Usuario eliminado con éxito {% endtrans %}');
                         //Recargar la página
                         setTimeout(function(){ location.reload(); }, 1000);
                     } else {
-                        alert('Error al eliminar el usuario');
+                        alert('{% trans %} Error al eliminar el usuario {% endtrans %}');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('Error al eliminar el usuario');
+                    alert('{% trans %} Error al eliminar el usuario {% endtrans %}');
                 });
             }
         }
@@ -655,7 +655,7 @@
 
             //Validar campos obligatorios
             if (!nombre || !apellido || !nombre_de_usuario || !contraseña || !correo_electronico || !foto) {
-                alert('Por favor, complete todos los campos obligatorios.');
+                alert('{% trans %} Por favor, complete todos los campos obligatorios.{% endtrans %}');
                 return;
             }
             
@@ -703,15 +703,15 @@
             })
             .then(response => {
                 if (response.ok) {
-                    alert('Usuario agregado correctamente');
+                    alert('{% trans %}Usuario agregado correctamente{% endtrans %}');
                     setTimeout(function(){ location.reload(); }, 1000);
                 } else {
-                    alert('Error al agregar el usuario1');
+                    alert('{% trans %}Error al agregar el usuario{% endtrans %}');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error al agregar el usuario');
+                alert('{% trans %}Error al agregar el usuario{% endtrans %}');
             });
         }
         //----------------------------------------------------------------
@@ -785,15 +785,15 @@
                     })
                     .then(response => {
                         if (response.ok) {
-                            alert('Usuario editado correctamente');
+                            alert('{% trans %}Usuario editado correctamente{% endtrans %}');
                             setTimeout(function(){ location.reload(); }, 1000);//Recarga la página
                         } else {
-                            alert('Error al editar el usuario');
+                            alert('{% trans %}Error al editar el usuario{% endtrans %}');
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Error al editar el usuario');
+                        alert('{% trans %}Error al editar el usuario{% endtrans %}');
                     });
                 });
             });
