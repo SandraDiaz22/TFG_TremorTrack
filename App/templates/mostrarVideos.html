@@ -280,7 +280,7 @@
 
     //Cuando le den al botón de eliminar vídeo de la bbdd
     function eliminarVideo(id_video) {
-        if (confirm('¿Estás seguro de que deseas eliminar este vídeo?')) {
+        if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este vídeo?{% endtrans %}')) {
             fetch('/eliminarVideo', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json' },
@@ -289,16 +289,16 @@
             .then(response => {
                 if (response.ok) {
                     //Funcionó
-                    alert('Vídeo eliminado con éxito');
+                    alert('{% trans %} Vídeo eliminado con éxito {% endtrans %}');
                     //Recargar la página
                     setTimeout(function(){ location.reload(); }, 1000);
                 } else {
-                    alert('Error al eliminar el vídeo');
+                    alert('{% trans %} Error al eliminar el vídeo {% endtrans %}');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Error al eliminar el vídeo');
+                alert('{% trans %} Error al eliminar el vídeo {% endtrans %}');
             });
         }
     }
