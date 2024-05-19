@@ -384,6 +384,13 @@ def gestionUsuarios():
         print('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
         return redirect(url_for('paginaprincipal'))
     
+    #Obtener el id del admin logueado
+    #Nombre de usuario del admin logeado
+    username_admin = session.get('username')
+    #Objeto de ese admin en la bbdd
+    admin = Administrador.query.filter_by(nombre_de_usuario=username_admin).first()
+    id_admin_logueado = admin.id_admin
+    
     #Consulta para obtener todos los administradores de la aplicación
     listadoAdministradores = Administrador.query.all()
     #Consulta para obtener todos los medicos de la aplicación
@@ -391,7 +398,7 @@ def gestionUsuarios():
     #Consulta para obtener todos los pacientes de la aplicación
     listadoPacientes = Paciente.query.all()
 
-    return render_template('gestionUsuarios.html', admins=listadoAdministradores, medicos=listadoMedicos ,pacientes=listadoPacientes)
+    return render_template('gestionUsuarios.html', admins=listadoAdministradores, medicos=listadoMedicos ,pacientes=listadoPacientes, id_admin_logueado=id_admin_logueado)
 #----------------------------------------------------------------
 
 

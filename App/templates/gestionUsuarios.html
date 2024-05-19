@@ -196,10 +196,14 @@
                         <td>{{ admin.id_admin }}</td>
                         <td>{{ admin.nombre }}</td>
                         <td><img src="{{ admin.foto }}" alt="Foto del admin" style="max-width: 100px;"></td>
-                        <td>
+                        <td style="width: 500px;">
 
                             <!--Editar usuario-->
-                            <button type="button" class="btn-editar boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <button type="button" class="btn-editar boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>                
+                            <!--Eliminar usuario-->
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador', '{{id_admin_logueado}}')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                    
+                            <!--Formulario edición usuario-->
                             <div class="formulario-edicion-administrador" id="formulario-edicion-administrador-{{ admin.id_admin }}" style="display: none;">
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ admin.id_admin }}"> <!--Para saber quién editar-->
@@ -238,10 +242,7 @@
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
-                            
-                            <!--Eliminar usuario-->
-                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador')">{% trans %} Eliminar Usuario {% endtrans %}</button>
-                    
+
                         </td>
                     {% endfor %}
 
@@ -271,10 +272,14 @@
                         <td>{{ medico.id_medico }}</td>
                         <td>{{ medico.nombre }}</td>
                         <td><img src="{{ medico.foto }}" alt="Foto del medico" style="max-width: 100px;"></td>
-                        <td>
+                        <td style="width: 500px;">
                             
                             <!--Editar usuario-->
                             <button type="button" class="btn-editar boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <!--Eliminar usuario-->
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                    
+                            <!--Formulario edición usuario-->
                             <div class="formulario-edicion-medico" id="formulario-edicion-medico-{{ medico.id_medico }}" style="display: none;">
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ medico.id_medico }}"> <!--Para saber quién editar-->
@@ -314,10 +319,6 @@
                                 </form>
                             </div>
                             
-
-                            <!--Eliminar usuario-->
-                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
-                    
                         </td>
                     {% endfor %}
                 </tbody>
@@ -347,7 +348,7 @@
                         <td>{{ paciente.id_paciente }}</td>
                         <td>{{ paciente.nombre }}</td>
                         <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
-                        <td>
+                        <td style="width: 500px;">
                             <div class="acciones-paciente">
                                 <!--Datos personales no hace falta por repetitivo-->
 
@@ -429,6 +430,10 @@
 
                             <!--Editar usuario-->
                             <button type="button" class="btn-editar boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <!--Eliminar usuario-->
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                            
+                            <!--Formulario edición usuario-->
                             <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
@@ -508,11 +513,7 @@
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
                                 </form>
                             </div>
-                            
 
-                            <!--Eliminar usuario-->
-                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
-                    
                         </td>
                     {% endfor %}
                 </tbody>
@@ -672,8 +673,12 @@
 
         //----------------------------------------------------------------
         //Eliminar usuario de la bbdd
-        function eliminarUsuario(idUsuario, rolUsuario) {
-            if (confirm('¿Estás seguro de que deseas eliminar este usuario?')) {
+        function eliminarUsuario(idUsuario, rolUsuario, adminIdLogueado) {
+            if (idUsuario == adminIdLogueado) {
+                alert('{% trans %} No puedes eliminarte a ti mismo.{% endtrans %} ');
+                return;
+            }
+            if (confirm('{% trans %} ¿Estás seguro de que deseas eliminar este usuario?{% endtrans %} ')) {
                 fetch('/eliminarUsuario/' + rolUsuario + '/' + idUsuario, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json' },

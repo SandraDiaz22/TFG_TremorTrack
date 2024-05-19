@@ -176,12 +176,12 @@
             //Validar selección del gráfico
             if (seleccionGrafico.value === "") {
                 valid = false;
-                errorMessage.textContent += 'Seleccione un tipo de gráfico.\n'; 
+                errorMessage.textContent += '{% trans %} Seleccione un tipo de gráfico.\n {% endtrans %} '; 
             }
             //Validar selección de la fecha
             if (calendario.value === "") {
                 valid = false;
-                errorMessage.textContent += 'Seleccione una fecha.\n';
+                errorMessage.textContent += '{% trans %} Seleccione una fecha.\n {% endtrans %} ';
             }
 
             //Si no es válido, no se realiza la solicitud ajax
