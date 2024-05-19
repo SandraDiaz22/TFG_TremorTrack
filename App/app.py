@@ -445,7 +445,7 @@ def agregarUsuario(rol):
         #Si se añade un paciente
         if rol == 'paciente':
             #Verifica el resto de campos
-            campos_paciente = ['fecha_de_nacimiento', 'direccion', 'telefono', 'sensor', 'id_medico']
+            campos_paciente = ['fecha_de_nacimiento', 'direccion', 'telefono', 'sensor', 'id_medico', 'lateralidad']
             for campo in campos_paciente:
                 if campo not in datos_usuario:
                     return f'El campo {campo} es obligatorio para el rol de paciente', 400
@@ -455,7 +455,8 @@ def agregarUsuario(rol):
                                         nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
                                         correo_electronico=datos_usuario['correo_electronico'], fecha_de_nacimiento=datos_usuario['fecha_de_nacimiento'],
                                         direccion=datos_usuario['direccion'], telefono=datos_usuario['telefono'], 
-                                        sensor=datos_usuario['sensor'], id_medico=datos_usuario['id_medico'])
+                                        sensor=datos_usuario['sensor'], id_medico=datos_usuario['id_medico'],
+                                        lateralidad=datos_usuario['lateralidad'])
    
             #Lo añade a la bbdd
             db.session.add(nuevo_paciente)
@@ -531,6 +532,8 @@ def actualizar_datos_personales():
     if request.method == 'POST':
         #Recogemos los nuevos datos del paciente
         id_paciente = request.form.get('id_paciente')
+        sensor = request.form.get('sensor')
+        lateralidad = request.form.get('lateralidad')
         fecha_de_nacimiento = request.form.get('fecha_de_nacimientoP')
         direccion = request.form.get('direccionP')
         telefono = request.form.get('telefonoP')
@@ -538,6 +541,8 @@ def actualizar_datos_personales():
         #Editamos al paciente
         paciente = Paciente.query.get(id_paciente)
         if paciente:
+            paciente.sensor = sensor
+            paciente.lateralidad = lateralidad
             paciente.fecha_de_nacimiento = fecha_de_nacimiento
             paciente.direccion = direccion
             paciente.telefono = telefono
@@ -583,6 +588,7 @@ def editar_usuario():
             usuario.direccion = request.form.get('direccion')
             usuario.telefono = request.form.get('telefono')
             usuario.sensor =  request.form.get('sensor')
+            usuario.lateralidad =  request.form.get('lateralidad')
             usuario.id_medico = request.form.get('id_medico')
         
         db.session.commit()

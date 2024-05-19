@@ -144,10 +144,18 @@
                     </div>
                 </div>
 
-                <div class="form-group flex-container"> <!--Médico adignado-->
+                <div class="form-group flex-container"> <!--Médico asignado y lateralidad-->
                     <div class="flex-item">
                         <label for="id_medico">{% trans %}ID médico Asignado:{% endtrans %}</label>
                         <input type="text" id="id_medico" name="id_medico">
+                    </div>
+                    <div class="flex-item">
+                        <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
+                        <br>
+                        <select id="lateralidad" name="lateralidad">
+                            <option value="diestro">{% trans %} Diestro {% endtrans %}</option>
+                            <option value="zurdo">{% trans %} Zurdo {% endtrans %}</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -454,22 +462,22 @@
                                     </div>
 
                                     <div class="form-group flex-container"> <!--Fecha de nacimiento y direccion-->
-                                        <div class="form-item">
+                                        <div class="flex-item">
                                             <label for="fecha_de_nacimiento">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
                                             <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}">
                                         </div>
-                                        <div class="form-item">
+                                        <div class="flex-item">
                                             <label for="direccion">{% trans %} Dirección: {% endtrans %}</label>
                                             <input type="text" id="direccion" name="direccion" value="{{ paciente.direccion }}">
                                         </div>
                                     </div>
                             
                                     <div class="form-group flex-container"> <!--Teléfono y sensor-->
-                                        <div class="form-item">
+                                        <div class="flex-item">
                                             <label for="telefono">{% trans %} Teléfono: {% endtrans %}</label>
                                             <input type="text" id="telefono" name="telefono" value="{{ paciente.telefono }}">
                                         </div>
-                                        <div class="form-item">
+                                        <div class="flex-item">
                                             <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
                                             <br>
                                             <select id="sensor" name="sensor">
@@ -479,12 +487,22 @@
                                         </div>
                                     </div>
                             
-                                    <div class="form-group"> <!--Médico asignado-->
-                                        <label for="id_medico">{% trans %} ID del médico: {% endtrans %}</label>
-                                        <input type="text" id="id_medico" name="id_medico" value="{{ paciente.id_medico }}">
+                                    <div class="form-group flex-container"> <!--Médico asignado y lateralidad-->
+                                        <div class="flex-item">
+                                            <label for="id_medico">{% trans %} ID del médico: {% endtrans %}</label>
+                                            <input type="text" id="id_medico" name="id_medico" value="{{ paciente.id_medico }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="lateralidad">{% trans %} Lateralidad: {% endtrans %}</label>
+                                            <br>
+                                            <select id="lateralidad" name="lateralidad">
+                                                <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %} Diestro {% endtrans %}</option>
+                                                <option value="zurdo" {% if paciente.lateralidad == 'zurdo' %} selected {% endif %}>{% trans %} Zurdo {% endtrans %}</option>
+                                            </select>                                        
+                                        </div>
                                     </div>
                             
-                                    <!--Falta foto-->
+                                    <!--Falta foto--> 
                                 
                                     <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente">{% trans %} Guardar cambios {% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
@@ -758,6 +776,7 @@
                 const telefono = document.getElementById('telefono').value;
                 const sensor = document.getElementById('sensor').value;
                 const id_medico = document.getElementById('id_medico').value;
+                const lateralidad = document.getElementById('lateralidad').value;
 
                 //Agregarlos al objeto
                 datos_usuario.fecha_de_nacimiento = fecha_de_nacimiento;
@@ -765,6 +784,7 @@
                 datos_usuario.telefono = telefono;
                 datos_usuario.sensor = sensor;
                 datos_usuario.id_medico = id_medico;
+                datos_usuario.lateralidad = lateralidad;
             }
 
             //Convertir los datos a FormData

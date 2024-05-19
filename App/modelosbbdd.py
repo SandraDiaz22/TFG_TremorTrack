@@ -34,6 +34,7 @@ class Paciente(db.Model):
     direccion = db.Column(db.String(255), nullable=False)
     telefono = db.Column(db.String(15), nullable=False)
     id_medico = db.Column(db.Integer, db.ForeignKey('medico.id_medico'), nullable=True)
+    lateralidad = db.Column(db.Enum('diestro', 'zurdo'), nullable=True)
 
 
 class Registros(db.Model):

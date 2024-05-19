@@ -39,6 +39,7 @@
                     <p>{% trans %} Nombre completo: {% endtrans %} {{ usuario.nombre }} {{ usuario.apellido }}</p>
                     <p>{% trans %} Médico asignado: {% endtrans %} {{ medico.nombre }}</p>
                     <p>{% trans %} Sensor: {% endtrans %} {{ usuario.sensor }}</p>
+                    <p>{% trans %} Lateralidad: {% endtrans %} {{ usuario.lateralidad }}</p>
                     <p>{% trans %} Fecha de nacimiento: {% endtrans %} {{ usuario.fecha_de_nacimiento }}</p>
                     <p>{% trans %} Dirección: {% endtrans %} {{ usuario.direccion }}</p>
                     <p>{% trans %} Teléfono: {% endtrans %} {{ usuario.telefono }}</p>
@@ -50,7 +51,7 @@
                 <!-- Botón para editar los datos personales -->
                 <button class="btn btn-primary btn-lg mostrar-editables" data-id="{{ usuario.id_paciente }}">{% trans %} Editar datos personales {% endtrans %}</button>
                         <div class="datos-editables" style="display: none;"> <!--Datos invisibles-->
-                            <form id="formulario-datos-editables"><!--Muestra los datos y permite cambiarlos-->
+                            <form id="formulario-datos-editables" style="margin-bottom: 40px;"><!--Muestra los datos y permite cambiarlos-->
                                 <input type="hidden" name="id_paciente" value="{{ usuario.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
                                 
                                 <label for="fecha_de_nacimientoP">{% trans %} Fecha de nacimiento: {% endtrans %}</label>

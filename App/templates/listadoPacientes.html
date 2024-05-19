@@ -45,6 +45,25 @@
                             <form id="formulario-datos-personales"><!--Muestra los datos y permite cambiarlos-->
                                 <input type="hidden" name="id_paciente" value="{{ paciente.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
                                 
+                                <div class="form-group flex-container"> <!--Lateralidad y sensor-->
+                                    <div class="flex-item">
+                                        <label for="lateralidad">{% trans %} Lateralidad: {% endtrans %}</label>
+                                        <br>
+                                        <select id="lateralidad" name="lateralidad">
+                                            <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %} Diestro {% endtrans %}</option>
+                                            <option value="zurdo" {% if paciente.lateralidad == 'zurdo' %} selected {% endif %}>{% trans %} Zurdo {% endtrans %}</option>
+                                        </select>                                        
+                                    </div>
+                                    <div class="flex-item">
+                                        <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
+                                        <br>
+                                        <select id="sensor" name="sensor">
+                                            <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
+                                            <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <label for="fecha_de_nacimientoP">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
                                 <input type="date" id="fecha_de_nacimientoP" name="fecha_de_nacimientoP" value="{{ paciente.fecha_de_nacimiento }}"><br>
                             
@@ -277,7 +296,6 @@
             }
 
 
-
             //Validar fecha de nacimiento
             var fechaNacimiento = formData.get("fecha_de_nacimientoP");
             //Convertir a Date
@@ -295,7 +313,6 @@
                 alert("{% trans %} La fecha de nacimiento debe estar entre {% endtrans %}" + fechaMaxima.getFullYear() + "{% trans %} y {% endtrans %}" + fechaMinima.getFullYear() + ".");
                 return false;
             }
-
 
 
             //Validar direccion
