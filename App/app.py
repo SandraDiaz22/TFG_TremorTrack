@@ -585,11 +585,15 @@ def editar_usuario():
         usuario.nombre = request.form.get('nombre')
         usuario.apellido = request.form.get('apellido')
         usuario.nombre_de_usuario = request.form.get('nombre_de_usuario')
+
         contraseña = request.form.get('contraseña')
-        #Hashear la contraseña
-        contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
-        usuario.contraseña = contraseña_hasheada
+        if contraseña:
+            #Hashear la contraseña
+            contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
+            usuario.contraseña = contraseña_hasheada
+
         usuario.correo_electronico = request.form.get('correo_electronico')
+        
         if tipo_usuario == 'paciente':
             usuario.fecha_de_nacimiento = request.form.get('fecha_de_nacimiento')
             usuario.direccion = request.form.get('direccion')

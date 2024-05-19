@@ -878,6 +878,24 @@
                     //Obtener el formulario asociado al botón
                     const formulario = event.target.closest('form');
                     const formData = new FormData(formulario); //Datos del formulario
+
+                    //Validar si hay cambios en el formulario (contraseña vacía)
+                    let cambios = false;
+                    formulario.querySelectorAll('input').forEach(input => {
+                        if (input.type !== 'password' && input.value !== input.defaultValue) {
+                            cambios = true;
+                        }
+                    });
+
+                    //Si la contraseña no está vacía, es que hubo cambios
+                    if (formData.get('contraseña')) {cambios = true;}
+
+                    //Si no han realizado cambios
+                    if (!cambios) {
+                        alert('{% trans %}No hay cambios para guardar.{% endtrans %}');
+                        return;
+                    }
+
                     //Obtener el rol del usuario
                     const rol = boton.dataset.rol;
 
@@ -956,10 +974,12 @@
 
             //Validar contraseña
             var contraseña = formData.get("contraseña");
-            if (contraseña.length > 50) {
-                return "La contraseña es demasiado larga."; //Demasiado larga
-            }else if (contraseña.length < 8) {
-                return "La contraseña es demasiado corta."; //Demasiado corta
+            if (contraseña.length > 0) {
+                if (contraseña.length > 50) {
+                    return "La contraseña es demasiado larga."; //Demasiado larga
+                }else if (contraseña.length < 8) {
+                    return "La contraseña es demasiado corta."; //Demasiado corta
+                }
             }
 
 
