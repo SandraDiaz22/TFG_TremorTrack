@@ -49,7 +49,7 @@
     
 
     <!--Formulario para saber qué gráfica mostrar-->
-    <form id="formulario" action="" method="post">
+    <form id="formulario" action="" method="post" novalidate>
         <label for="seleccionGrafico">{% trans %} Selecciona la gráfica a mostrar: {% endtrans %}</label>
         
         <select id="seleccionGrafico" name="seleccionGrafico" required>
@@ -69,6 +69,7 @@
         <input type="hidden" name="id_paciente" value="{{ bbddpaciente.id_paciente }}"> <!--Para saber qué paciente es-->
 
         <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
+        <p id="errorMessage" style="color:red;"></p> <!-- Para mostrar mensajes de error -->
     </form>
 
     <br>
@@ -164,6 +165,27 @@
         //Listener que muestra el gráfico cuando se da a "Mostrar datos"
         document.getElementById('formulario').addEventListener('submit', function(event) { 
             event.preventDefault();
+            //Obtener los elementos del formulario
+            const seleccionGrafico = document.getElementById('seleccionGrafico');
+            const calendario = document.getElementById('calendario');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = ''; //Limpiar error previo
+
+            let valid = true;
+
+            //Validar selección del gráfico
+            if (seleccionGrafico.value === "") {
+                valid = false;
+                errorMessage.textContent += 'Seleccione un tipo de gráfico.\n'; 
+            }
+            //Validar selección de la fecha
+            if (calendario.value === "") {
+                valid = false;
+                errorMessage.textContent += 'Seleccione una fecha.\n';
+            }
+
+            //Si no es válido, no se realiza la solicitud ajax
+            if (!valid) { return; }
 
             //Datos del formulario (seleccion + fechas)
             const formData = new FormData(document.getElementById('formulario'));
