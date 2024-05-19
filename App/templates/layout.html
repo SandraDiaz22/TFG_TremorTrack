@@ -172,9 +172,17 @@
     <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--Se contrae al hacer bastante pequeño-->
         <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
             
-            <a class="navbar-brand" href="/">
-            <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
-            </a>
+            {% if session['rol'] == 'administrador' %}
+                <a class="navbar-brand" href="/BienvenidaAdmin">
+            {% elif session['rol'] == 'medico' %}
+                <a class="navbar-brand" href="/BienvenidaMedico">
+            {% elif session['rol'] == 'paciente' %}
+                <a class="navbar-brand" href="/BienvenidaPaciente">
+            {% else %}
+                <a class="navbar-brand" href="/">
+            {% endif %}
+                    <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
+                </a>
             
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="{% trans %}Toggle navigation{% endtrans %}">
             <span class="navbar-toggler-icon"></span><!--Tres rayas al contraerse-->
@@ -243,6 +251,6 @@
 
     {% block body %}{% endblock %}
 
-    </body>
+</body>
 
 </html>
