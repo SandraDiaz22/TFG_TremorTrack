@@ -117,8 +117,8 @@
             const frecuenciaMinData = [];
             const promedioMaxData = [];
             const desvEstandarMaxData = [];
-            const diferenciaRanuradaMinData = [];
-            const diferenciaRanuradaMaxData = [];
+            //const diferenciaRanuradaMinData = [];
+            //const diferenciaRanuradaMaxData = [];
             
             //Array para las fechas
             const fechas = [];
@@ -132,8 +132,8 @@
                 frecuenciaMinData.push(video.frecuencia_min);
                 promedioMaxData.push(video.promedio_max);
                 desvEstandarMaxData.push(video.desv_estandar_max);
-                diferenciaRanuradaMinData.push(video.diferencia_ranurada_min);
-                diferenciaRanuradaMaxData.push(video.diferencia_ranurada_max);
+                //diferenciaRanuradaMinData.push(video.diferencia_ranurada_min);
+                //diferenciaRanuradaMaxData.push(video.diferencia_ranurada_max);
 
                 const fechaFormateada = new Date(video.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
                 fechas.push(fechaFormateada);
@@ -168,15 +168,16 @@
             {
                 label: 'Desviación Estándar de Máximos',
                 data: desvEstandarMaxData,
-                borderColor: 'rgba(255, 192, 203, 1)',   },
-            {
-                label: 'Diferencia Ranurada de la Frecuencia de Mínimos',
-                data: diferenciaRanuradaMinData,
-                borderColor: 'rgba(0, 0, 0, 1)',         },
-            {
-                label: 'Diferencia Ranurada de la Frecuencia de Máximos',
-                data: diferenciaRanuradaMaxData,
-                borderColor: 'rgba(128, 64, 0, 1)',      }
+                borderColor: 'rgba(255, 192, 203, 1)',   }
+                //,
+            // {
+            //     label: 'Diferencia Ranurada de la Frecuencia de Mínimos',
+            //     data: diferenciaRanuradaMinData,
+            //     borderColor: 'rgba(0, 0, 0, 1)',         },
+            // {
+            //     label: 'Diferencia Ranurada de la Frecuencia de Máximos',
+            //     data: diferenciaRanuradaMaxData,
+            //     borderColor: 'rgba(128, 64, 0, 1)',      }
             ];
 
             //prueba

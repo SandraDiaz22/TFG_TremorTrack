@@ -922,8 +922,8 @@ def mostrarVideos(paciente):
         'frecuencia_min': video.frecuencia_min,
         'promedio_max': video.promedio_max,
         'desv_estandar_max': video.desv_estandar_max,
-        'diferencia_ranurada_min': video.diferencia_ranurada_min,
-        'diferencia_ranurada_max': video.diferencia_ranurada_max,
+        # 'diferencia_ranurada_min': video.diferencia_ranurada_min,
+        # 'diferencia_ranurada_max': video.diferencia_ranurada_max,
         'fecha': video.fecha
     } for video in videos]
 
@@ -995,7 +995,7 @@ def predecirVideo():
     modelo_fit = modelo.fit()
 
     #Realizar la predicción para los próximos 'n_pasos' pasos
-    n_pasos = 22
+    n_pasos = 4
     predicciones = modelo_fit.forecast(n_pasos)
 
     #Devolver las predicciones como una lista de tuplas (fecha, predicción)
