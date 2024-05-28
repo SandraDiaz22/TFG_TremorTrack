@@ -912,9 +912,12 @@ def mostrarVideos(paciente):
 
     #vídeos de ese paciente
     videos = Videos.query.filter_by(paciente=paciente).all()
+    #filtrar por mano del video
+    videos_dcha = [video for video in videos if video.mano_dominante == 'derecha']
+    videos_izq = [video for video in videos if video.mano_dominante == 'izquierda']
 
     #Las características de los vídeos las convertimos para generar la Gráfica
-    datosVideos = [{
+    datosVideos_dcha = [{
         'lentitud': video.lentitud,
         'amplitud': video.amplitud,
         'velocidad_media': video.velocidad_media,
@@ -925,10 +928,23 @@ def mostrarVideos(paciente):
         # 'diferencia_ranurada_min': video.diferencia_ranurada_min,
         # 'diferencia_ranurada_max': video.diferencia_ranurada_max,
         'fecha': video.fecha
-    } for video in videos]
+    } for video in videos_dcha]
+
+    datosVideos_izq = [{
+        'lentitud': video.lentitud,
+        'amplitud': video.amplitud,
+        'velocidad_media': video.velocidad_media,
+        'frecuencia_max': video.frecuencia_max,
+        'frecuencia_min': video.frecuencia_min,
+        'promedio_max': video.promedio_max,
+        'desv_estandar_max': video.desv_estandar_max,
+        # 'diferencia_ranurada_min': video.diferencia_ranurada_min,
+        # 'diferencia_ranurada_max': video.diferencia_ranurada_max,
+        'fecha': video.fecha
+    } for video in videos_izq]
 
 
-    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos, datosVideos=datosVideos, es_admin=es_admin, es_medico=es_medico, es_paciente=es_paciente)
+    return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos, datosVideos_dcha=datosVideos_dcha, datosVideos_izq=datosVideos_izq, es_admin=es_admin, es_medico=es_medico, es_paciente=es_paciente)
 #----------------------------------------------------------------
 
 
@@ -972,13 +988,9 @@ def predecirVideo():
     videos = Videos.query.filter_by(paciente=id_paciente).all()
 
 
-    tipo = request.form.get('tipo')  #Obtener el tipo de predicción (lentitud o amplitud)
+    #Obtener fecha y características de los vídeos del paciente
+    datos_videos = [(video.fecha, int(video.lentitud), int(video.amplitud), float(video.velocidad_media), float(video.frecuencia_max), float(video.frecuencia_min), float(video.promedio_max), float(video.desv_estandar_max)) for video in videos]
 
-    #Obtener fecha y (lentitud o amplitud) de los vídeos del paciente
-    if tipo == 'lentitud':
-        datos_videos = [(video.fecha, int(video.lentitud)) for video in videos]
-    elif tipo == 'amplitud':
-        datos_videos = [(video.fecha, int(video.amplitud)) for video in videos]
         
     
     #Genera fechas futuras
