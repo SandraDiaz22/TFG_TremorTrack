@@ -101,11 +101,11 @@
         <h2 style="margin-top: 50px;">{% trans %}Gráficos con las características de los vídeos{% endtrans %}</h2>
         
         <!--Predicciones--> 
-        <button type="button" class="predecir" onclick="predecir('{{bbddpaciente.id_paciente}}')">{% trans %}Predecir{% endtrans %}</button>
+        <button type="button" class="predecir" onclick="predecir()">{% trans %}Predecir{% endtrans %}</button>
 
         <div class="row">
             <!-- Gráfico mano izquierda -->
-            <div class="col-md-6">
+            <div class="col-md-6 col-12">
                 <h3 style="margin-top: 50px;">{% trans %}Gráfico mano izquierda{% endtrans %}</h3>
                 <div style="display: flex; justify-content: center; height: 60vh;">
                     <canvas id="grafico_izq"></canvas>
@@ -113,7 +113,7 @@
             </div>
 
             <!-- Gráfico mano derecha -->
-            <div class="col-md-6">
+            <div class="col-md-6 col-12">
                 <h3 style="margin-top: 50px;">{% trans %}Gráfico mano derecha{% endtrans %}</h3>
                 <div style="display: flex; justify-content: center; height: 60vh;">
                     <canvas id="grafico_dcha"></canvas>
@@ -342,16 +342,22 @@
     }
 
     //Cuando le den a los botones de las predicciones
-    function predecir(id_paciente) {
+    function predecir() {
         $.ajax({
             url: "/predecirVideo",
             type: "POST",
-            data: {id_paciente: id_paciente},
+            contentType: "application/json",
+            data: JSON.stringify({
+                datosVideos_izq: datosVideos_izq,
+                datosVideos_dcha: datosVideos_dcha
+            }),
             success: function(response) {
                 //bien
+                console.log(response);
             },
             error: function(xhr, status, error) {
                 //mal
+                console.error(error);
             }
         });
     }

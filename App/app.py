@@ -983,14 +983,12 @@ def eliminarVideo():
 #Función que predice la lentitud o amplitud con IA a partir de los datos disponibles
 @app.route('/predecirVideo', methods=['POST'])
 def predecirVideo():
-    id_paciente = request.form.get('id_paciente')  #ID del paciente
-    #vídeos de ese paciente
-    videos = Videos.query.filter_by(paciente=id_paciente).all()
+    data = request.get_json()
+    datos_videos_izq = data['datosVideos_izq']
+    datos_videos_dcha = data['datosVideos_dcha']
 
-
-    #Obtener fecha y características de los vídeos del paciente
-    datos_videos = [(video.fecha, int(video.lentitud), int(video.amplitud), float(video.velocidad_media), float(video.frecuencia_max), float(video.frecuencia_min), float(video.promedio_max), float(video.desv_estandar_max)) for video in videos]
-
+    predicciones_izq = {}
+    predicciones_dcha = {}
         
     
     #Genera fechas futuras
@@ -1001,24 +999,54 @@ def predecirVideo():
     # #Datos + fechas predicción sin datos
     # datos_ampliados = datos_videos + [(fecha, None) for fecha in fechas_futuras]
 
+    #Predecir los datos de la mano izquierda
+    for key in datos_videos_izq[0].keys():
+        if key == 'fecha':
+            continue
+        #Por cada carcaterística 
+        serie_tiempo_izq = [dato[key] for dato in datos_videos_izq]
+        serie_tiempo_izq = [float(valor) for valor in serie_tiempo_izq]  # Convertir a float
+        modelo_izq = SimpleExpSmoothing(serie_tiempo_izq) #Ajustar el modelo
+        modelo_fit_izq = modelo_izq.fit()
+        
+        #Realizar la predicción para los próximos 'n_pasos' pasos
+        n_pasos = 4
+        prediccion_izq = modelo_fit_izq.forecast(n_pasos)
+        
+        #Guardar las predicciones para esa carcaterística
+        predicciones_izq[key] = list(prediccion_izq)
 
-    #Ajustar el modelo de suavizado exponencial simple
-    modelo = SimpleExpSmoothing([dato[1] for dato in datos_videos]) #datos_ampliados
-    modelo_fit = modelo.fit()
+    #Predecir los datos de la mano derecha
+    for key in datos_videos_dcha[0].keys():
+        if key == 'fecha':
+            continue
+        #Por cada carcaterística
+        serie_tiempo_dcha = [dato[key] for dato in datos_videos_dcha]
+        serie_tiempo_dcha = [float(valor) for valor in serie_tiempo_dcha]  # Convertir a float
+        modelo_dcha = SimpleExpSmoothing(serie_tiempo_dcha) #Ajustar el modelo
+        modelo_fit_dcha = modelo_dcha.fit()
 
-    #Realizar la predicción para los próximos 'n_pasos' pasos
-    n_pasos = 4
-    predicciones = modelo_fit.forecast(n_pasos)
+        #Realizar la predicción para los próximos 'n_pasos' pasos
+        n_pasos = 4 
+        prediccion_dcha = modelo_fit_dcha.forecast(n_pasos)
 
-    #Devolver las predicciones como una lista de tuplas (fecha, predicción)
-    #resultados_prediccion = list(zip(fechas_futuras, predicciones))
-    fechas_prediccion = [dato[0] for dato in datos_videos]
-    resultados_prediccion = list(zip(fechas_prediccion, predicciones))
+        #Guardar las predicciones para esa carcaterística
+        predicciones_dcha[key] = list(prediccion_dcha)
 
-    print(resultados_prediccion)
 
-    #Devolver la predicción convertida a cadena json para poder mostrarla con chart.js en el html
-    return jsonify(resultados_prediccion)
+    #Generar fechas futuras
+    fechas_prediccion_izq = [dato['fecha'] for dato in datos_videos_izq] + [None] * n_pasos
+    fechas_prediccion_dcha = [dato['fecha'] for dato in datos_videos_dcha] + [None] * n_pasos
+
+    #Juntar las predicciones con las fechas para cada mano
+    resultados_prediccion_izq = [{'fecha': fechas_prediccion_izq[i], **{key: predicciones_izq[key][i] for key in predicciones_izq.keys()}} for i in range(n_pasos)]
+    resultados_prediccion_dcha = [{'fecha': fechas_prediccion_dcha[i], **{key: predicciones_dcha[key][i] for key in predicciones_dcha.keys()}} for i in range(n_pasos)]
+
+    print(resultados_prediccion_izq)
+    print(resultados_prediccion_dcha)
+
+    #Devolver las predicciones de ambas manos convertidas a cadena json para poder mostrarla con chart.js en el html
+    return jsonify({'izquierda': resultados_prediccion_izq, 'derecha': resultados_prediccion_dcha})
     
     
 #----------------------------------------------------------------
