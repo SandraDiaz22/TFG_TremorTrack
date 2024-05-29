@@ -107,7 +107,7 @@
             <!-- Gráfico mano izquierda -->
             <div class="col-md-6 col-12">
                 <h3 style="margin-top: 50px;">{% trans %}Gráfico mano izquierda{% endtrans %}</h3>
-                <div style="display: flex; justify-content: center; height: 60vh;">
+                <div style="display: flex; justify-content: center; height: 40vh;">
                     <canvas id="grafico_izq"></canvas>
                 </div>
             </div>
@@ -115,8 +115,26 @@
             <!-- Gráfico mano derecha -->
             <div class="col-md-6 col-12">
                 <h3 style="margin-top: 50px;">{% trans %}Gráfico mano derecha{% endtrans %}</h3>
-                <div style="display: flex; justify-content: center; height: 60vh;">
+                <div style="display: flex; justify-content: center; height: 40vh;">
                     <canvas id="grafico_dcha"></canvas>
+                </div>          
+            </div>
+        </div>
+
+        <div class="row" id="graficosPredicciones" style="display: none;">
+            <!-- Gráfico mano izquierda -->
+            <div class="col-md-6 col-12">
+                <h3 style="margin-top: 50px;">{% trans %}Gráfico predicción mano izquierda{% endtrans %}</h3>
+                <div style="display: flex; justify-content: center; height: 40vh;">
+                    <canvas id="grafico_izq_prediccion"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico mano derecha -->
+            <div class="col-md-6 col-12">
+                <h3 style="margin-top: 50px;">{% trans %}Gráfico predicción mano derecha{% endtrans %}</h3>
+                <div style="display: flex; justify-content: center; height: 40vh;">
+                    <canvas id="grafico_dcha_prediccion"></canvas>
                 </div>          
             </div>
 
@@ -352,8 +370,164 @@
                 datosVideos_dcha: datosVideos_dcha
             }),
             success: function(response) {
-                //bien
-                console.log(response);
+                //Mostrar gráficos
+                $("#graficosPredicciones").show();
+
+                //Arrays para cada característica
+                const lentitudData_izq = [], amplitudData_izq = [], velocidadMediaData_izq = [], frecuenciaMaxData_izq = [], frecuenciaMinData_izq = [], promedioMaxData_izq = [], desvEstandarMaxData_izq = [];
+                const lentitudData_dcha = [], amplitudData_dcha = [], velocidadMediaData_dcha = [], frecuenciaMaxData_dcha = [], frecuenciaMinData_dcha = [], promedioMaxData_dcha = [], desvEstandarMaxData_dcha = [];
+                //Array para las fechas
+                const fechas_izq = [], fechas_dcha = [];
+
+                // Procesar datos para la mano izquierda
+                procesarDatosVideos(response.izquierda, lentitudData_izq, amplitudData_izq, velocidadMediaData_izq, frecuenciaMaxData_izq, frecuenciaMinData_izq, promedioMaxData_izq, desvEstandarMaxData_izq, fechas_izq);
+                // Procesar datos para la mano derecha
+                procesarDatosVideos(response.derecha, lentitudData_dcha, amplitudData_dcha, velocidadMediaData_dcha, frecuenciaMaxData_dcha, frecuenciaMinData_dcha, promedioMaxData_dcha, desvEstandarMaxData_dcha, fechas_dcha);
+
+                // Especificar el título y el color de cada Dataset
+                const datasets_izq = [{
+                        label: 'Lentitud',
+                        data: lentitudData_izq,
+                        borderColor: 'rgba(255, 99, 132, 1)'
+                    },
+                    {
+                        label: 'Amplitud',
+                        data: amplitudData_izq,
+                        borderColor: 'rgba(54, 162, 235, 1)'
+                    },
+                    {
+                        label: 'Velocidad Media',
+                        data: velocidadMediaData_izq,
+                        borderColor: 'rgba(255, 205, 86, 1)'
+                    },
+                    {
+                        label: 'Frecuencia de Máximos',
+                        data: frecuenciaMaxData_izq,
+                        borderColor: 'rgba(75, 192, 192, 1)'
+                    },
+                    {
+                        label: 'Frecuencia de Mínimos',
+                        data: frecuenciaMinData_izq,
+                        borderColor: 'rgba(153, 102, 255, 1)'
+                    },
+                    {
+                        label: 'Promedio de Máximos',
+                        data: promedioMaxData_izq,
+                        borderColor: 'rgba(255, 159, 64, 1)'
+                    },
+                    {
+                        label: 'Desviación Estándar de Máximos',
+                        data: desvEstandarMaxData_izq,
+                        borderColor: 'rgba(255, 192, 203, 1)'
+                    }
+                ];
+
+                const datasets_dcha = [{
+                        label: 'Lentitud',
+                        data: lentitudData_dcha,
+                        borderColor: 'rgba(255, 99, 132, 1)'
+                    },
+                    {
+                        label: 'Amplitud',
+                        data: amplitudData_dcha,
+                        borderColor: 'rgba(54, 162, 235, 1)'
+                    },
+                    {
+                        label: 'Velocidad Media',
+                        data: velocidadMediaData_dcha,
+                        borderColor: 'rgba(255, 205, 86, 1)'
+                    },
+                    {
+                        label: 'Frecuencia de Máximos',
+                        data: frecuenciaMaxData_dcha,
+                        borderColor: 'rgba(75, 192, 192, 1)'
+                    },
+                    {
+                        label: 'Frecuencia de Mínimos',
+                        data: frecuenciaMinData_dcha,
+                        borderColor: 'rgba(153, 102, 255, 1)'
+                    },
+                    {
+                        label: 'Promedio de Máximos',
+                        data: promedioMaxData_dcha,
+                        borderColor: 'rgba(255, 159, 64, 1)'
+                    },
+                    {
+                        label: 'Desviación Estándar de Máximos',
+                        data: desvEstandarMaxData_dcha,
+                        borderColor: 'rgba(255, 192, 203, 1)'
+                    }
+                ];
+
+
+                //Creamos gráficos con las predicciones
+                //Ubicacion de los gráficos
+                const ctx_izq = document.getElementById('grafico_izq_prediccion').getContext('2d');
+                const ctx_dcha = document.getElementById('grafico_dcha_prediccion').getContext('2d');
+
+                //Crear gráfico mano izquierda con Chart.js
+                const myChart_izq = new Chart(ctx_izq, {
+                    type: 'line',
+                    data: {
+                        labels: fechas_izq,
+                        datasets: datasets_izq
+                    },
+                    options: {
+                        scales: {
+                            y: { //Eje Y siempre del -1 al 6
+                                min: -1,
+                                max: 6
+                            },
+                            x: { //Eje X para las fechas
+                                title: {
+                                    display: true,
+                                    text: 'Fechas de los vídeos'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                //Crear gráfico mano derecha con Chart.js
+                const myChart_dcha = new Chart(ctx_dcha, {
+                    type: 'line',
+                    data: {
+                        labels: fechas_dcha,
+                        datasets: datasets_dcha
+                    },
+                    options: {
+                        scales: {
+                            y: { //Eje Y siempre del -1 al 6
+                                min: -1,
+                                max: 6
+                            },
+                            x: { //Eje X para las fechas
+                                title: {
+                                    display: true,
+                                    text: 'Fechas de los vídeos'
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             },
             error: function(xhr, status, error) {
                 //mal

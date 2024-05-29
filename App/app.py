@@ -989,15 +989,7 @@ def predecirVideo():
 
     predicciones_izq = {}
     predicciones_dcha = {}
-        
-    
-    #Genera fechas futuras
-    # fecha_actual = datetime.now().date()
-    # n_pasos = 4  # Número de pasos hacia adelante para predecir
-    # fechas_futuras = [fecha_actual + timedelta(days=i) for i in range(1, n_pasos + 1)]
-
-    # #Datos + fechas predicción sin datos
-    # datos_ampliados = datos_videos + [(fecha, None) for fecha in fechas_futuras]
+    n_pasos = 4 #Número de pasos hacia adelante para predecir
 
     #Predecir los datos de la mano izquierda
     for key in datos_videos_izq[0].keys():
@@ -1010,7 +1002,6 @@ def predecirVideo():
         modelo_fit_izq = modelo_izq.fit()
         
         #Realizar la predicción para los próximos 'n_pasos' pasos
-        n_pasos = 4
         prediccion_izq = modelo_fit_izq.forecast(n_pasos)
         
         #Guardar las predicciones para esa carcaterística
@@ -1027,26 +1018,46 @@ def predecirVideo():
         modelo_fit_dcha = modelo_dcha.fit()
 
         #Realizar la predicción para los próximos 'n_pasos' pasos
-        n_pasos = 4 
         prediccion_dcha = modelo_fit_dcha.forecast(n_pasos)
 
         #Guardar las predicciones para esa carcaterística
         predicciones_dcha[key] = list(prediccion_dcha)
 
 
-    #Generar fechas futuras
-    fechas_prediccion_izq = [dato['fecha'] for dato in datos_videos_izq] + [None] * n_pasos
-    fechas_prediccion_dcha = [dato['fecha'] for dato in datos_videos_dcha] + [None] * n_pasos
+    #Generar fechas futuras a partir de la última fecha en los datos
+    def generar_fechas_futuras(fechas_existentes, n_pasos):
+        #Convierte a datatime para trabajar con ellas
+        fechas_existentes_dt = [datetime.strptime(fecha, '%a, %d %b %Y %H:%M:%S %Z') for fecha in fechas_existentes]
+        #Calcula el intervalo entre fechas restando la primera y la última y dividiendo entre el número de fechas
+        intervalo = (fechas_existentes_dt[-1] - fechas_existentes_dt[0]) / (len(fechas_existentes_dt) - 1)
+        #Genera tantas fechas futuras como n pasos
+        fechas_futuras = [(fechas_existentes_dt[-1] + intervalo * (i + 1)).strftime('%a, %d %b %Y %H:%M:%S %Z') for i in range(n_pasos)]
+        return fechas_futuras
 
-    #Juntar las predicciones con las fechas para cada mano
-    resultados_prediccion_izq = [{'fecha': fechas_prediccion_izq[i], **{key: predicciones_izq[key][i] for key in predicciones_izq.keys()}} for i in range(n_pasos)]
-    resultados_prediccion_dcha = [{'fecha': fechas_prediccion_dcha[i], **{key: predicciones_dcha[key][i] for key in predicciones_dcha.keys()}} for i in range(n_pasos)]
 
-    print(resultados_prediccion_izq)
-    print(resultados_prediccion_dcha)
+    #Fechas existentes en los datos
+    fechas_existentes_izq = [dato['fecha'] for dato in datos_videos_izq]
+    fechas_existentes_dcha = [dato['fecha'] for dato in datos_videos_dcha]
+
+    #Llamar a la función para ampliar las fechas con fechas futuras
+    fechas_futuras_izq = generar_fechas_futuras(fechas_existentes_izq, n_pasos)
+    fechas_futuras_dcha = generar_fechas_futuras(fechas_existentes_dcha, n_pasos)
+
+    #Juntar las predicciones con las fechas
+    resultados_prediccion_izq = [{'fecha': fechas_futuras_izq[i], **{key: predicciones_izq[key][i] for key in predicciones_izq.keys()}} for i in range(n_pasos)]
+    resultados_prediccion_dcha = [{'fecha': fechas_futuras_dcha[i], **{key: predicciones_dcha[key][i] for key in predicciones_dcha.keys()}} for i in range(n_pasos)]
+
+    #Juntar las predicciones a los datos originales
+    datos_con_prediccion_izq = datos_videos_izq + resultados_prediccion_izq
+    datos_con_prediccion_dcha = datos_videos_dcha + resultados_prediccion_dcha
+
+
+    print(datos_con_prediccion_izq)
+    print(datos_con_prediccion_dcha)
+
 
     #Devolver las predicciones de ambas manos convertidas a cadena json para poder mostrarla con chart.js en el html
-    return jsonify({'izquierda': resultados_prediccion_izq, 'derecha': resultados_prediccion_dcha})
+    return jsonify({'izquierda': datos_con_prediccion_izq, 'derecha': datos_con_prediccion_dcha})
     
     
 #----------------------------------------------------------------
