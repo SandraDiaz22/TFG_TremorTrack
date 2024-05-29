@@ -136,17 +136,22 @@
                         <label for="sensor">{% trans %}¿Tiene Sensor?{% endtrans %}</label>
                         <br>
                         <select id="sensor" name="sensor">
-                            <option value="si">{% trans %}Sí{% endtrans %}</option>
-                            <option value="no">{% trans %}No{% endtrans %}</option>
+                            <option value="SI">{% trans %}Sí{% endtrans %}</option>
+                            <option value="NO">{% trans %}No{% endtrans %}</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group flex-container"> <!--Médico asignado y lateralidad-->
                     <div class="flex-item">
-                        <label for="id_medico">{% trans %}ID médico Asignado:{% endtrans %}</label>
-                        <input type="text" id="id_medico" name="id_medico">
+                        <label for="id_medico">{% trans %}Médico Asignado:{% endtrans %}</label>
+                        <select id="id_medico" name="id_medico">
+                            {% for medico in medicos %}
+                                <option value="{{ medico.id_medico }}">{{ medico.nombre }} {{ medico.apellido }}</option>
+                            {% endfor %}
+                        </select>
                     </div>
+                    
                     <div class="flex-item">
                         <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
                         <br>
@@ -484,23 +489,29 @@
                                             <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
                                             <br>
                                             <select id="sensor" name="sensor">
-                                                <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
-                                                <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
+                                                <option value="SI" {% if paciente.sensor == 'SI' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
+                                                <option value="NO" {% if paciente.sensor == 'NO' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
                                             </select>
                                         </div>
                                     </div>
                             
                                     <div class="form-group flex-container"> <!--Médico asignado y lateralidad-->
                                         <div class="flex-item">
-                                            <label for="id_medico">{% trans %} ID del médico: {% endtrans %}</label>
-                                            <input type="text" id="id_medico" name="id_medico" value="{{ paciente.id_medico }}">
+                                            <label for="id_medico">{% trans %}Médico Asignado:{% endtrans %}</label>
+                                            <select id="id_medico" name="id_medico">
+                                                {% for medico in medicos %}
+                                                    <option value="{{ medico.id_medico }}" {% if paciente.id_medico == medico.id_medico %}selected{% endif %}>
+                                                        {{ medico.nombre }} {{ medico.apellido }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
                                         </div>
                                         <div class="flex-item">
                                             <label for="lateralidad">{% trans %} Lateralidad: {% endtrans %}</label>
                                             <br>
                                             <select id="lateralidad" name="lateralidad">
-                                                <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %} Diestro {% endtrans %}</option>
-                                                <option value="zurdo" {% if paciente.lateralidad == 'zurdo' %} selected {% endif %}>{% trans %} Zurdo {% endtrans %}</option>
+                                                <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %}Diestro{% endtrans %}</option>
+                                                <option value="zurdo" {% if paciente.lateralidad == 'zurdo' %} selected {% endif %}>{% trans %}Zurdo{% endtrans %}</option>
                                             </select>                                        
                                         </div>
                                     </div>
@@ -877,10 +888,17 @@
                     const formulario = event.target.closest('form');
                     const formData = new FormData(formulario); //Datos del formulario
 
-                    //Validar si hay cambios en el formulario (contraseña vacía)
+                    //Validar si hay cambios en el formulario para cambios input(contraseña vacía)
                     let cambios = false;
                     formulario.querySelectorAll('input').forEach(input => {
                         if (input.type !== 'password' && input.value !== input.defaultValue) {
+                            cambios = true;
+                        }
+                    });
+
+                    //Validar si hay cambios en campos select
+                    formulario.querySelectorAll('select').forEach(select => {
+                        if (select.value !== select.defaultValue) {
                             cambios = true;
                         }
                     });
