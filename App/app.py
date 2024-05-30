@@ -28,7 +28,8 @@ import base64
 
 
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing
-
+from statsmodels.tsa.holtwinters import Holt
+from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 
 
@@ -993,6 +994,7 @@ def predecirVideo():
 
     # Definir los valores iniciales para modo known
     initial_level = 0.0
+    initial_trend = 1.0 
 
     #Predecir los datos de la mano izquierda
     for key in datos_videos_izq[0].keys():
@@ -1001,11 +1003,27 @@ def predecirVideo():
         #Por cada carcaterística 
         serie_tiempo_izq = [dato[key] for dato in datos_videos_izq]
         serie_tiempo_izq = [float(valor) for valor in serie_tiempo_izq]  # Convertir a float
-        modelo_izq = SimpleExpSmoothing(serie_tiempo_izq) #Ajustar el modelo sin metodo
+
+        #Suavizado exponencial simple
+        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq) #Ajustar el modelo sin metodo
         # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'estimated') #Modelo Estimated
         # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'heuristic') #Modelo Heuristic
         # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'legacy-heuristic') #Modelo Legacy-heuristic
         # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'known', initial_level=initial_level) #Modelo Known
+
+
+        #Suavizado exponencial de Holt
+        modelo_izq = Holt(serie_tiempo_izq) 
+        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'estimated') #Modelo Estimated
+        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'heuristic') #Modelo Heuristic
+        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'legacy-heuristic') #Modelo Legacy-heuristic
+        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'known', initial_level=initial_level, initial_trend=initial_trend) #Modelo Known
+
+
+        #Suavizado exponencial de Holt-Winters
+        # modelo_izq = ExponentialSmoothing(serie_tiempo_izq, trend='add', seasonal=None)
+
+        #Entrenar modelo
         modelo_fit_izq = modelo_izq.fit()
         
         #Realizar la predicción para los próximos 'n_pasos' pasos
@@ -1021,7 +1039,14 @@ def predecirVideo():
         #Por cada carcaterística
         serie_tiempo_dcha = [dato[key] for dato in datos_videos_dcha]
         serie_tiempo_dcha = [float(valor) for valor in serie_tiempo_dcha]  # Convertir a float
-        modelo_dcha = SimpleExpSmoothing(serie_tiempo_dcha) #Ajustar el modelo
+
+        #Suavizado exponencial simple
+        #modelo_dcha = SimpleExpSmoothing(serie_tiempo_dcha) #Ajustar el modelo
+
+        #Suavizado exponencial de Holt
+        modelo_dcha = Holt(serie_tiempo_dcha) 
+
+        #Entrenar modelo
         modelo_fit_dcha = modelo_dcha.fit()
 
         #Realizar la predicción para los próximos 'n_pasos' pasos
@@ -1057,11 +1082,6 @@ def predecirVideo():
     #Juntar las predicciones a los datos originales
     datos_con_prediccion_izq = datos_videos_izq + resultados_prediccion_izq
     datos_con_prediccion_dcha = datos_videos_dcha + resultados_prediccion_dcha
-
-
-    print(datos_con_prediccion_izq)
-    print(datos_con_prediccion_dcha)
-
 
     #Devolver las predicciones de ambas manos convertidas a cadena json para poder mostrarla con chart.js en el html
     return jsonify({'izquierda': datos_con_prediccion_izq, 'derecha': datos_con_prediccion_dcha})
