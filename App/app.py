@@ -991,6 +991,9 @@ def predecirVideo():
     predicciones_dcha = {}
     n_pasos = 4 #Número de pasos hacia adelante para predecir
 
+    # Definir los valores iniciales para modo known
+    initial_level = 0.0
+
     #Predecir los datos de la mano izquierda
     for key in datos_videos_izq[0].keys():
         if key == 'fecha':
@@ -998,7 +1001,11 @@ def predecirVideo():
         #Por cada carcaterística 
         serie_tiempo_izq = [dato[key] for dato in datos_videos_izq]
         serie_tiempo_izq = [float(valor) for valor in serie_tiempo_izq]  # Convertir a float
-        modelo_izq = SimpleExpSmoothing(serie_tiempo_izq) #Ajustar el modelo
+        modelo_izq = SimpleExpSmoothing(serie_tiempo_izq) #Ajustar el modelo sin metodo
+        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'estimated') #Modelo Estimated
+        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'heuristic') #Modelo Heuristic
+        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'legacy-heuristic') #Modelo Legacy-heuristic
+        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'known', initial_level=initial_level) #Modelo Known
         modelo_fit_izq = modelo_izq.fit()
         
         #Realizar la predicción para los próximos 'n_pasos' pasos
