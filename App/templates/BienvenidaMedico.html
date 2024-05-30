@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>{% trans %} Bienvenido {% endtrans %}</title>
+    <title>{% trans %}Bienvenido{% endtrans %}</title>
 
 {% endblock %}
 
@@ -15,7 +15,7 @@
         <div class="row justify-content-center">
 
             <!-- Título de bienvenida + nombre médico-->
-            <h1>{% trans %}Bienvenido de nuevo {% endtrans %}{{usuario.nombre}}</h1>
+            <h1>{% trans %}Bienvenido de nuevo{% endtrans %} {{usuario.nombre}}</h1>
         
             <div class="col-md-8 border rounded shadow-lg p-3 mb-5 bg-white rounded align-items-center" style="max-width: 600px;"> <!--Perfil del usuario (con foto, username y cerrar sesión)-->
                 <img src="{{usuario.foto}}" alt="Imagen del médico" class="img-fluid rounded-circle mb-3 logo">

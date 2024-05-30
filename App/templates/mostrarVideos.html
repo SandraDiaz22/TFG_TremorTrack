@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>{% trans %} Vídeos Paciente {% endtrans %}</title>
+    <title>{% trans %}Vídeos Paciente{% endtrans %}</title>
 
     <style>
         /*Estilo para botón "eliminar vídeo"*/
@@ -39,7 +39,7 @@
 
 
     <!--Paciente-->
-    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo"> {% trans %}  Vídeos paciente:  {% endtrans %}  {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo"> {% trans %}Vídeos paciente:{% endtrans %}  {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
     
     {% if videos %}
         <!--Por cada video del paciente mostramos su info y permitimos su reproducción-->
@@ -64,8 +64,8 @@
                     <!--Reproducir vídeo-->
                     <td style="width:340px;">
                         <!--Vídeo (se muestra al pulsar el botón)-->
-                        <button type="button" class="reproducir">{% trans %} Reproducir vídeo {% endtrans %}</button>
-                        <button type="button" class="ocultar" style="display: none;">{% trans %} Ocultar vídeo {% endtrans %}</button>                        
+                        <button type="button" class="reproducir">{% trans %}Reproducir vídeo{% endtrans %}</button>
+                        <button type="button" class="ocultar" style="display: none;">{% trans %}Ocultar vídeo{% endtrans %}</button>                        
                         <div class="video" style="display: none;">
                             <video controls width="320">
                                 <source src="/get_video/{{ bbddpaciente.id_paciente }}/{{ video.contenido }}" type="video/mp4">
@@ -74,23 +74,23 @@
                     </td>
                                             
                     <!-- Características del vídeo
-                        <button type="button" class="mostrarCaracteristicas">{% trans %} Características {% endtrans %}</button>
+                        <button type="button" class="mostrarCaracteristicas">{% trans %}Características{% endtrans %}</button>
                         <div class="caracteristicas" style="display: none;">
-                            <p><strong> {% trans %} Lentitud: {% endtrans %} </strong> {{ video.lentitud }}</p>
-                            <p><strong> {% trans %} Amplitud: {% endtrans %} </strong> {{ video.amplitud }}</p>
-                            <p><strong> {% trans %} Velocidad media: {% endtrans %} </strong> {{ video.velocidad_media }}</p>
-                            <p><strong> {% trans %} Frecuencia de máximos: {% endtrans %} </strong> {{ video.frecuencia_max }}</p>
-                            <p><strong> {% trans %} Frecuencia de mínimos: {% endtrans %} </strong> {{ video.frecuencia_min }}</p>
-                            <p><strong> {% trans %} Promedio de máximos: {% endtrans %} </strong> {{ video.promedio_max }}</p>
-                            <p><strong> {% trans %} Desviación estándar de máximos: {% endtrans %} </strong> {{ video.desv_estandar_max }}</p>
-                            <p><strong> {% trans %} Diferencia ranurada de la frecuencia de mínimos: {% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
-                            <p><strong> {% trans %} Diferencia ranurada de la frecuencia de máximos: {% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
+                            <p><strong> {% trans %}Lentitud:{% endtrans %} </strong> {{ video.lentitud }}</p>
+                            <p><strong> {% trans %}Amplitud:{% endtrans %} </strong> {{ video.amplitud }}</p>
+                            <p><strong> {% trans %}Velocidad media:{% endtrans %} </strong> {{ video.velocidad_media }}</p>
+                            <p><strong> {% trans %}Frecuencia de máximos:{% endtrans %} </strong> {{ video.frecuencia_max }}</p>
+                            <p><strong> {% trans %}Frecuencia de mínimos:{% endtrans %} </strong> {{ video.frecuencia_min }}</p>
+                            <p><strong> {% trans %}Promedio de máximos:{% endtrans %} </strong> {{ video.promedio_max }}</p>
+                            <p><strong> {% trans %}Desviación estándar de máximos:{% endtrans %} </strong> {{ video.desv_estandar_max }}</p>
+                            <p><strong> {% trans %}Diferencia ranurada de la frecuencia de mínimos:{% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
+                            <p><strong> {% trans %}Diferencia ranurada de la frecuencia de máximos:{% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
                         </div> -->
 
 
                     <!--Eliminar vídeo-->
                     <td>
-                        <button type="button" class="btn-eliminar" onclick="eliminarVideo('{{ video.id_video }}')">{% trans %} Eliminar vídeo {% endtrans %}</button>
+                        <button type="button" class="btn-eliminar" onclick="eliminarVideo('{{ video.id_video }}')">{% trans %}Eliminar vídeo{% endtrans %}</button>
                     </td>
 
                 {% endfor %}
@@ -280,7 +280,7 @@
 
     <!--Si ese paciente no tiene videos-->
     {% else %}
-    <p>{% trans %} No hay vídeos disponibles para mostrar. {% endtrans %}</p>
+    <p>{% trans %}No hay vídeos disponibles para mostrar.{% endtrans %}</p>
     {% endif %}
 
 </div>
@@ -345,16 +345,16 @@
             .then(response => {
                 if (response.ok) {
                     //Funcionó
-                    alert('{% trans %} Vídeo eliminado con éxito {% endtrans %}');
+                    alert('{% trans %}Vídeo eliminado con éxito{% endtrans %}');
                     //Recargar la página
                     setTimeout(function(){ location.reload(); }, 1000);
                 } else {
-                    alert('{% trans %} Error al eliminar el vídeo {% endtrans %}');
+                    alert('{% trans %}Error al eliminar el vídeo{% endtrans %}');
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('{% trans %} Error al eliminar el vídeo {% endtrans %}');
+                alert('{% trans %}Error al eliminar el vídeo{% endtrans %}');
             });
         }
     }

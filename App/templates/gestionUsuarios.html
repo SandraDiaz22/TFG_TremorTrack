@@ -64,14 +64,14 @@
             </ol>
         </nav>
 
-        <h1>{% trans %} Gestión de usuarios {% endtrans %}</h1>
+        <h1>{% trans %}Gestión de usuarios{% endtrans %}</h1>
         
         <!--Botones para mostrar las diferentes tablas-->
-        <h3>{% trans %} Elige la tabla a gestionar: {% endtrans %}</h3>
+        <h3>{% trans %}Elige la tabla a gestionar:{% endtrans %}</h3>
         <div class="botones-container">
-            <button type="button" class="btn-seleccion" id="btnAdmins">{% trans %} Administradores {% endtrans %}</button>
-            <button type="button" class="btn-seleccion" id="btnMedicos">{% trans %} Médicos {% endtrans %}</button>
-            <button type="button" class="btn-seleccion" id="btnPacientes">{% trans %} Pacientes {% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnAdmins">{% trans %}Administradores{% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnMedicos">{% trans %}Médicos{% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnPacientes">{% trans %}Pacientes{% endtrans %}</button>
         </div>
 
 
@@ -156,8 +156,8 @@
                         <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
                         <br>
                         <select id="lateralidad" name="lateralidad">
-                            <option value="diestro">{% trans %} Diestro {% endtrans %}</option>
-                            <option value="zurdo">{% trans %} Zurdo {% endtrans %}</option>
+                            <option value="diestro">{% trans %}Diestro{% endtrans %}</option>
+                            <option value="zurdo">{% trans %}Zurdo{% endtrans %}</option>
                         </select>
                     </div>
                 </div>
@@ -182,7 +182,7 @@
 
         <!--Tabla de administradores-->
         <h2 id="tituloAdmins" style="display: none;">{% trans %}Tabla de Administradores{% endtrans %}</h2>
-        <button type="button" class="btn-add" id="botonAgregarAdministrador" onclick="mostrarFormulario('administrador')" style="display: none;">{% trans %} Añadir Administrador {% endtrans %}</button>
+        <button type="button" class="btn-add" id="botonAgregarAdministrador" onclick="mostrarFormulario('administrador')" style="display: none;">{% trans %}Añadir Administrador{% endtrans %}</button>
         <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
             <table class="table" id="tablaAdmins" style=" display: none; ">
                 <thead>
@@ -202,9 +202,9 @@
                         <td style="width: 500px;">
 
                             <!--Editar usuario-->
-                            <button type="button" class="btn-editar boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %} Editar usuario {% endtrans %}</button>                
+                            <button type="button" class="btn-editar boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %}Editar usuario{% endtrans %}</button>                
                             <!--Eliminar usuario-->
-                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador', '{{id_admin_logueado}}')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador', '{{id_admin_logueado}}')">{% trans %}Eliminar Usuario{% endtrans %}</button>
                     
                             <!--Formulario edición usuario-->
                             <div class="formulario-edicion-administrador" id="formulario-edicion-administrador-{{ admin.id_admin }}" style="display: none;">
@@ -214,35 +214,35 @@
                                 
                                     <div class="form-group flex-container"> <!--Nombre y apellido-->
                                         <div class="flex-item">
-                                            <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                            <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
                                             <input type="text" id="nombre" name="nombre" value="{{ admin.nombre }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                            <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
                                             <input type="text" id="apellido" name="apellido" value="{{ admin.apellido }}">
                                         </div>
                                     </div>
                             
                                     <div class="form-group flex-container"> <!--Nombre de usuario y contraseña-->
                                         <div class="flex-item">
-                                            <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                            <label for="nombre_de_usuario">{% trans %}Nombre de usuario:{% endtrans %}</label>
                                             <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ admin.nombre_de_usuario }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                            <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
                                             <input type="password" id="contraseña" name="contraseña">
                                         </div>
                                     </div>
                             
                                     <div class="form-group"> <!--Correo-->
-                                        <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                        <label for="correo_electronico">{% trans %}Correo electrónico:{% endtrans %}</label>
                                         <input type="email" id="correo_electronico" name="correo_electronico" value="{{ admin.correo_electronico }}">
                                     </div>
                             
                                     <!--Falta la foto-->
                             
-                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="administrador">{% trans %} Guardar cambios {% endtrans %}</button>
-                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="administrador">{% trans %}Guardar cambios{% endtrans %}</button>
+                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
                                 </form>
                             </div>
 
@@ -258,7 +258,7 @@
 
         <!--Tabla de médicos-->
         <h2 id="tituloMedicos" style="display: none;">{% trans %}Tabla de Médicos{% endtrans %}</h2>
-        <button type="button" class="btn-add" id="botonAgregarMedico" onclick="mostrarFormulario('medico')" style="display: none;">{% trans %} Añadir Médico {% endtrans %}</button>
+        <button type="button" class="btn-add" id="botonAgregarMedico" onclick="mostrarFormulario('medico')" style="display: none;">{% trans %}Añadir Médico{% endtrans %}</button>
         <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
             <table class="table" id="tablaMedicos" style="display: none;">
                 <thead>
@@ -278,9 +278,9 @@
                         <td style="width: 500px;">
                             
                             <!--Editar usuario-->
-                            <button type="button" class="btn-editar boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <button type="button" class="btn-editar boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %}Editar usuario{% endtrans %}</button>
                             <!--Eliminar usuario-->
-                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %}Eliminar Usuario{% endtrans %}</button>
                     
                             <!--Formulario edición usuario-->
                             <div class="formulario-edicion-medico" id="formulario-edicion-medico-{{ medico.id_medico }}" style="display: none;">
@@ -290,35 +290,35 @@
                                 
                                     <div class="form-group flex-container"> <!--Nombre y apellido-->
                                         <div class="flex-item">
-                                            <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                            <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
                                             <input type="text" id="nombre" name="nombre" value="{{ medico.nombre }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                            <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
                                             <input type="text" id="apellido" name="apellido" value="{{ medico.apellido }}">
                                         </div>
                                     </div>
                             
                                     <div class="form-group flex-container"> <!--Nombre de usuario y contraseña-->
                                         <div class="flex-item">
-                                            <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                            <label for="nombre_de_usuario">{% trans %}Nombre de usuario:{% endtrans %}</label>
                                             <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ medico.nombre_de_usuario }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                            <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
                                             <input type="password" id="contraseña" name="contraseña">
                                         </div>
                                     </div>
                             
                                     <div class="form-group"> <!--Correo-->
-                                        <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                        <label for="correo_electronico">{% trans %}Correo electrónico:{% endtrans %}</label>
                                         <input type="email" id="correo_electronico" name="correo_electronico" value="{{ medico.correo_electronico }}">
                                     </div>
                             
                                     <!--Falta foto-->
                             
-                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="medico">{% trans %} Guardar cambios {% endtrans %}</button>
-                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="medico">{% trans %}Guardar cambios{% endtrans %}</button>
+                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
                                 </form>
                             </div>
                             
@@ -334,7 +334,7 @@
 
         <!--Tabla de pacientes-->
         <h2 id="tituloPacientes" style="display: none;">{% trans %}Tabla de Pacientes{% endtrans %}</h2>
-        <button type="button" class="btn-add" id="botonAgregarPaciente" onclick="mostrarFormulario('paciente')" style="display: none;">{% trans %} Añadir Paciente {% endtrans %}</button>
+        <button type="button" class="btn-add" id="botonAgregarPaciente" onclick="mostrarFormulario('paciente')" style="display: none;">{% trans %}Añadir Paciente{% endtrans %}</button>
         <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
             <table class="table" id="tablaPacientes" style="display: none;">
                 <thead>
@@ -356,7 +356,7 @@
                                 <!--Datos personales no hace falta por repetitivo-->
 
                                 <!--Subir vídeo-->
-                                <button type="button" class="subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
+                                <button type="button" class="subir-videos">{% trans %}Subir vídeo{% endtrans %}</button>
                                 <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
                                     <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data" id="formularioSubirVideo">
                                         <div class="form-group">
@@ -399,17 +399,17 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %} Subir vídeo {% endtrans %}</button>
+                                        <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %}Subir vídeo{% endtrans %}</button>
 
                                         <div class="subiendo" style="display: none;">
-                                            <p>{% trans %} Subiendo...(esto podría tardar unos minutos) {% endtrans %}</p>
+                                            <p>{% trans %}Subiendo...(esto podría tardar unos minutos){% endtrans %}</p>
                                         </div>
                                         
                                     </form>
                                 </div>
 
                                 <!--Subir registro-->
-                                <button type="button" class="subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
+                                <button type="button" class="subir-datos">{% trans %}Subir datos sensor{% endtrans %}</button>
                                 <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
                                     <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
                                         <div class="form-group">
@@ -417,7 +417,7 @@
                                             <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
+                                        <button type="submit" class="btn btn-primary mt-2">{% trans %}Subir archivo CSV{% endtrans %}</button>
                                     </form>
                                 </div>
 
@@ -425,16 +425,16 @@
                             
                             <div class="acciones-paciente">
                                 <!--Mostrar vídeos-->
-                                <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %} Mostrar vídeos {% endtrans %}</a>
+                                <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %}Mostrar vídeos{% endtrans %}</a>
 
                                 <!--Mostrar gráfica-->
-                                <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %} Mostrar datos sensor {% endtrans %}</a>
+                                <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %}Mostrar datos sensor{% endtrans %}</a>
                             </div>
 
                             <!--Editar usuario-->
-                            <button type="button" class="btn-editar boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %} Editar usuario {% endtrans %}</button>
+                            <button type="button" class="btn-editar boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %}Editar usuario{% endtrans %}</button>
                             <!--Eliminar usuario-->
-                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %} Eliminar Usuario {% endtrans %}</button>
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %}Eliminar Usuario{% endtrans %}</button>
                             
                             <!--Formulario edición usuario-->
                             <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
@@ -444,53 +444,53 @@
                                 
                                     <div class="form-group flex-container"> <!--Nombre y apellido-->
                                         <div class="flex-item">
-                                            <label for="nombre">{% trans %} Nombre: {% endtrans %}</label>
+                                            <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
                                             <input type="text" id="nombre" name="nombre" value="{{ paciente.nombre }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="apellido">{% trans %} Apellido: {% endtrans %}</label>
+                                            <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
                                             <input type="text" id="apellido" name="apellido" value="{{ paciente.apellido }}">
                                         </div>
                                     </div>
                             
                                     <div class="form-group flex-container"> <!--Nombre de usuario y contraseña-->
                                         <div class="flex-item">
-                                            <label for="nombre_de_usuario">{% trans %} Nombre de usuario: {% endtrans %}</label>
+                                            <label for="nombre_de_usuario">{% trans %}Nombre de usuario:{% endtrans %}</label>
                                             <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ paciente.nombre_de_usuario }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="contraseña">{% trans %} Contraseña: {% endtrans %}</label>
+                                            <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
                                             <input type="password" id="contraseña" name="contraseña">
                                         </div>
                                     </div>
                             
                                     <div class="form-group"> <!--Correo-->
-                                        <label for="correo_electronico">{% trans %} Correo electrónico: {% endtrans %}</label>
+                                        <label for="correo_electronico">{% trans %}Correo electrónico:{% endtrans %}</label>
                                         <input type="email" id="correo_electronico" name="correo_electronico" value="{{ paciente.correo_electronico }}">
                                     </div>
 
                                     <div class="form-group flex-container"> <!--Fecha de nacimiento y direccion-->
                                         <div class="flex-item">
-                                            <label for="fecha_de_nacimiento">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
+                                            <label for="fecha_de_nacimiento">{% trans %}Fecha de nacimiento:{% endtrans %}</label>
                                             <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="direccion">{% trans %} Dirección: {% endtrans %}</label>
+                                            <label for="direccion">{% trans %}Dirección:{% endtrans %}</label>
                                             <input type="text" id="direccion" name="direccion" value="{{ paciente.direccion }}">
                                         </div>
                                     </div>
                             
                                     <div class="form-group flex-container"> <!--Teléfono y sensor-->
                                         <div class="flex-item">
-                                            <label for="telefono">{% trans %} Teléfono: {% endtrans %}</label>
+                                            <label for="telefono">{% trans %}Teléfono:{% endtrans %}</label>
                                             <input type="text" id="telefono" name="telefono" value="{{ paciente.telefono }}">
                                         </div>
                                         <div class="flex-item">
-                                            <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
+                                            <label for="sensor">{% trans %}Sensor:{% endtrans %}</label>
                                             <br>
                                             <select id="sensor" name="sensor">
-                                                <option value="SI" {% if paciente.sensor == 'SI' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
-                                                <option value="NO" {% if paciente.sensor == 'NO' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
+                                                <option value="SI" {% if paciente.sensor == 'SI' %} selected {% endif %}>{% trans %}Sí{% endtrans %}</option>
+                                                <option value="NO" {% if paciente.sensor == 'NO' %} selected {% endif %}>{% trans %}No{% endtrans %}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -507,7 +507,7 @@
                                             </select>
                                         </div>
                                         <div class="flex-item">
-                                            <label for="lateralidad">{% trans %} Lateralidad: {% endtrans %}</label>
+                                            <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
                                             <br>
                                             <select id="lateralidad" name="lateralidad">
                                                 <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %}Diestro{% endtrans %}</option>
@@ -518,8 +518,8 @@
                             
                                     <!--Falta foto--> 
                                 
-                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente">{% trans %} Guardar cambios {% endtrans %}</button>
-                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente">{% trans %}Guardar cambios{% endtrans %}</button>
+                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
                                 </form>
                             </div>
 
@@ -670,7 +670,7 @@
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
                         subiendo.hide(); //Ocultamos botón
-                        alert('{% trans %} Error al subir el archivo de vídeo.{% endtrans %}');
+                        alert('{% trans %}Error al subir el archivo de vídeo.{% endtrans %}');
                     }
                 });
             });
@@ -684,10 +684,10 @@
         //Eliminar usuario de la bbdd
         function eliminarUsuario(idUsuario, rolUsuario, adminIdLogueado) {
             if (idUsuario == adminIdLogueado) {
-                alert('{% trans %} No puedes eliminarte a ti mismo.{% endtrans %} ');
+                alert('{% trans %}No puedes eliminarte a ti mismo.{% endtrans %} ');
                 return;
             }
-            if (confirm('{% trans %} ¿Estás seguro de que deseas eliminar este usuario?{% endtrans %} ')) {
+            if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este usuario?{% endtrans %} ')) {
                 fetch('/eliminarUsuario/' + rolUsuario + '/' + idUsuario, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json' },
@@ -696,16 +696,16 @@
                 .then(response => {
                     if (response.ok) {
                         //Funcionó
-                        alert('{% trans %} Usuario eliminado con éxito {% endtrans %}');
+                        alert('{% trans %}Usuario eliminado con éxito{% endtrans %}');
                         //Recargar la página
                         setTimeout(function(){ location.reload(); }, 1000);
                     } else {
-                        alert('{% trans %} Error al eliminar el usuario {% endtrans %}');
+                        alert('{% trans %}Error al eliminar el usuario{% endtrans %}');
                     }
                 })
                 .catch(error => {
                     console.error('Error:', error);
-                    alert('{% trans %} Error al eliminar el usuario {% endtrans %}');
+                    alert('{% trans %}Error al eliminar el usuario{% endtrans %}');
                 });
             }
         }
@@ -771,7 +771,7 @@
 
             //Validar campos obligatorios
             if (!nombre || !apellido || !nombre_de_usuario || !contraseña || !correo_electronico || !foto) {
-                alert('{% trans %} Por favor, complete todos los campos obligatorios.{% endtrans %}');
+                alert('{% trans %}Por favor, complete todos los campos obligatorios.{% endtrans %}');
                 return;
             }
             

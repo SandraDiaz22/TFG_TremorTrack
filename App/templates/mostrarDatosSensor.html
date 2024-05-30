@@ -2,7 +2,7 @@
 
 {% block head %}
 
-    <title>{% trans %} Datos sensor {% endtrans %}</title>
+    <title>{% trans %}Datos sensor{% endtrans %}</title>
 
     <!--Biblioteca para los gráficos-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -43,19 +43,19 @@
     </nav>
     
     <!--Paciente-->
-    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">{% trans %} Paciente: {% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">{% trans %}Paciente:{% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
     
 
     <!--Formulario para saber qué gráfica mostrar-->
     <form id="formulario" action="" method="post" novalidate>
-        <label for="seleccionGrafico">{% trans %} Selecciona la gráfica a mostrar: {% endtrans %}</label>
+        <label for="seleccionGrafico">{% trans %}Selecciona la gráfica a mostrar:{% endtrans %}</label>
         
         <select id="seleccionGrafico" name="seleccionGrafico" required>
-            <option value="">{% trans %} Seleccionar {% endtrans %}</option>
-            <option value="1">{% trans %} Parámetros de Bradicinesia {% endtrans %}</option>
-            <option value="2">{% trans %} Parámetros de FoG y Discinesia {% endtrans %}</option>
-            <option value="3">{% trans %} Información de los pasos {% endtrans %}</option>
-            <option value="4">{% trans %} Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min {% endtrans %}</option>
+            <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+            <option value="1">{% trans %}Parámetros de Bradicinesia{% endtrans %}</option>
+            <option value="2">{% trans %}Parámetros de FoG y Discinesia{% endtrans %}</option>
+            <option value="3">{% trans %}Información de los pasos{% endtrans %}</option>
+            <option value="4">{% trans %}Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min{% endtrans %}</option>
         </select>
 
         <div class="flatpickr">
@@ -66,7 +66,7 @@
 
         <input type="hidden" name="id_paciente" value="{{ bbddpaciente.id_paciente }}"> <!--Para saber qué paciente es-->
 
-        <button type="submit" class="btn btn-primary mt-2">{% trans %} Mostrar datos {% endtrans %}</button>
+        <button type="submit" class="btn btn-primary mt-2">{% trans %}Mostrar datos{% endtrans %}</button>
         <p id="errorMessage" style="color:red;"></p> <!-- Para mostrar mensajes de error -->
     </form>
 
@@ -174,12 +174,12 @@
             //Validar selección del gráfico
             if (seleccionGrafico.value === "") {
                 valid = false;
-                errorMessage.textContent += '{% trans %} Seleccione un tipo de gráfico.\n {% endtrans %} '; 
+                errorMessage.textContent += '{% trans %}Seleccione un tipo de gráfico.\n{% endtrans %} '; 
             }
             //Validar selección de la fecha
             if (calendario.value === "") {
                 valid = false;
-                errorMessage.textContent += '{% trans %} Seleccione una fecha.\n {% endtrans %} ';
+                errorMessage.textContent += '{% trans %}Seleccione una fecha.\n{% endtrans %} ';
             }
 
             //Si no es válido, no se realiza la solicitud ajax

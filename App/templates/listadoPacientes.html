@@ -21,7 +21,7 @@
             </ol>
         </nav>
 
-        <h1>{% trans %} Listado pacientes {% endtrans %}</h1>
+        <h1>{% trans %}Listado pacientes{% endtrans %}</h1>
         <table class="table">
             <thead>
                 <tr>
@@ -38,46 +38,46 @@
                     <td>{{ paciente.nombre }}</td>
                     <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
                     <td>
-                        <button class="btn btn-info mostrar-info" data-id="{{ paciente.id_paciente }}">{% trans %} Información personal {% endtrans %}</button>
+                        <button class="btn btn-info mostrar-info" data-id="{{ paciente.id_paciente }}">{% trans %}Información personal{% endtrans %}</button>
                         <div class="datos-personales" style="display: none;"> <!--Datos invisibles-->
                             <form id="formulario-datos-personales"><!--Muestra los datos y permite cambiarlos-->
                                 <input type="hidden" name="id_paciente" value="{{ paciente.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
                                 
                                 <div class="form-group flex-container"> <!--Lateralidad y sensor-->
                                     <div class="flex-item">
-                                        <label for="lateralidad">{% trans %} Lateralidad: {% endtrans %}</label>
+                                        <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
                                         <br>
                                         <select id="lateralidad" name="lateralidad">
-                                            <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %} Diestro {% endtrans %}</option>
-                                            <option value="zurdo" {% if paciente.lateralidad == 'zurdo' %} selected {% endif %}>{% trans %} Zurdo {% endtrans %}</option>
+                                            <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %}Diestro{% endtrans %}</option>
+                                            <option value="zurdo" {% if paciente.lateralidad == 'zurdo' %} selected {% endif %}>{% trans %}Zurdo{% endtrans %}</option>
                                         </select>                                        
                                     </div>
                                     <div class="flex-item">
-                                        <label for="sensor">{% trans %} Sensor: {% endtrans %}</label>
+                                        <label for="sensor">{% trans %}Sensor:{% endtrans %}</label>
                                         <br>
                                         <select id="sensor" name="sensor">
-                                            <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %} Sí {% endtrans %}</option>
-                                            <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %} No {% endtrans %}</option>
+                                            <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %}Sí{% endtrans %}</option>
+                                            <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %}No{% endtrans %}</option>
                                         </select>
                                     </div>
                                 </div>
 
-                                <label for="fecha_de_nacimientoP">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
+                                <label for="fecha_de_nacimientoP">{% trans %}Fecha de Nacimiento:{% endtrans %}</label>
                                 <input type="date" id="fecha_de_nacimientoP" name="fecha_de_nacimientoP" value="{{ paciente.fecha_de_nacimiento }}"><br>
                             
-                                <label for="direccionP">{% trans %} Dirección: {% endtrans %}</label>
+                                <label for="direccionP">{% trans %}Dirección:{% endtrans %}</label>
                                 <input type="text" id="direccionP" name="direccionP" value="{{ paciente.direccion }}"><br>
                             
-                                <label for="telefonoP">{% trans %} Teléfono: {% endtrans %}</label>
+                                <label for="telefonoP">{% trans %}Teléfono:{% endtrans %}</label>
                                 <input type="text" id="telefonoP" name="telefonoP" value="{{ paciente.telefono }}"><br>
                                 
-                                <button type="submit" class="boton-guardar" style="padding: 10px 20px; background-color: #2fa94c;">{% trans %} Guardar cambios {% endtrans %}</button>
-                                <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
+                                <button type="submit" class="boton-guardar" style="padding: 10px 20px; background-color: #2fa94c;">{% trans %}Guardar cambios{% endtrans %}</button>
+                                <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
                             </form>
                         </div>
                         <br>
 
-                        <button class="btn btn-primary subir-videos">{% trans %} Subir vídeo {% endtrans %}</button>
+                        <button class="btn btn-primary subir-videos">{% trans %}Subir vídeo{% endtrans %}</button>
                         <div class="formulario-videos" style="display: none;">
                             <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data" id="formularioSubirVideo">
                                 <div class="form-group">
@@ -129,10 +129,10 @@
                         
                         
                         
-                        <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar vídeos {% endtrans %}</a>
+                        <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %}Mostrar vídeos{% endtrans %}</a>
 
 
-                        <button class="btn btn-success subir-datos">{% trans %} Subir datos sensor {% endtrans %}</button>
+                        <button class="btn btn-success subir-datos">{% trans %}Subir datos sensor{% endtrans %}</button>
                         <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
                             <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
@@ -140,12 +140,12 @@
                                     <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
                                 </div>
 
-                                <button type="submit" class="btn btn-primary mt-2">{% trans %} Subir archivo CSV {% endtrans %}</button>
+                                <button type="submit" class="btn btn-primary mt-2">{% trans %}Subir archivo CSV{% endtrans %}</button>
                             </form>
                         </div>
 
 
-                        <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %} Mostrar datos sensor {% endtrans %}</a>
+                        <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %}Mostrar datos sensor{% endtrans %}</a>
 
                     </td>
 
@@ -228,7 +228,7 @@
                     error: function(xhr, status, error) {
                         console.error(xhr.responseText);
                         subiendo.hide(); //Ocultamos botón
-                        alert('{% trans %} Error al subir el archivo de vídeo. {% endtrans %}');
+                        alert('{% trans %}Error al subir el archivo de vídeo.{% endtrans %}');
                     }
                 });
             });
@@ -261,15 +261,15 @@
                     })
                     .then(response => {
                         if (response.ok) {
-                            alert('{% trans %} Paciente editado correctamente {% endtrans %}'); //Bien
+                            alert('{% trans %}Paciente editado correctamente{% endtrans %}'); //Bien
                             location.reload(); //Recargar la página
                         } else {
-                            alert('{% trans %} Error al editar el paciente {% endtrans %}');
+                            alert('{% trans %}Error al editar el paciente{% endtrans %}');
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('{% trans %} Error al editar el paciente {% endtrans %}');
+                        alert('{% trans %}Error al editar el paciente{% endtrans %}');
                     });
                 });
             });
@@ -289,7 +289,7 @@
             var telefono = formData.get("telefonoP");
             var telefonoRegex = /^[0-9]{9}$/; //RE para 9 números
             if (!telefonoRegex.test(telefono)) { //Si no tiene 9 números mostramos error y cancelamos form
-                alert("{% trans %} El teléfono debe contener exactamente 9 números.{% endtrans %}");
+                alert("{% trans %}El teléfono debe contener exactamente 9 números.{% endtrans %}");
                 return false;
             }
 
@@ -308,7 +308,7 @@
 
             //Si la fecha no está en el rango permitido, error y cancelamos form
             if (fechaNacimientoDate < fechaMinima || fechaNacimientoDate > fechaMaxima) {
-                alert("{% trans %} La fecha de nacimiento debe estar entre {% endtrans %}" + fechaMaxima.getFullYear() + "{% trans %} y {% endtrans %}" + fechaMinima.getFullYear() + ".");
+                alert("{% trans %}La fecha de nacimiento debe estar entre{% endtrans %}" + fechaMaxima.getFullYear() + "{% trans %}y{% endtrans %}" + fechaMinima.getFullYear() + ".");
                 return false;
             }
 
@@ -316,13 +316,13 @@
             //Validar direccion
             var direccion = formData.get("direccionP");
             if (direccion.length > 100) {
-                alert("{% trans %} La dirección es demasiado larga. {% endtrans %}");
+                alert("{% trans %}La dirección es demasiado larga.{% endtrans %}");
                 return false; //Demasiado larga
             }
             //Si tiene caracteres que no son propios de una direccion, error y cancelamos form
             var direccionRegex = /^[A-Za-z0-9áéíóúÁÉÍÓÚ.,ºª\-# ]+$/;
             if (!direccionRegex.test(direccion)) {
-                alert("{% trans %} La dirección tiene caracteres no permitidos. {% endtrans %}");
+                alert("{% trans %}La dirección tiene caracteres no permitidos.{% endtrans %}");
                 return false;
             }
 

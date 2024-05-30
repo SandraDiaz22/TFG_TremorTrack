@@ -16,7 +16,7 @@
         <div class="row justify-content-center">
 
             <!-- Título de bienvenida + nombre paciente-->
-            <h1>{% trans %}Bienvenido de nuevo {% endtrans %}{{usuario.nombre}}</h1>
+            <h1>{% trans %}Bienvenido de nuevo{% endtrans %} {{usuario.nombre}}</h1>
         
             <!--Tarjeta del perfil-->
             <div class="row border rounded shadow-lg p-3 mb-5 bg-white rounded align-items-center" style="max-width: 600px;"> <!--Columnas responsivas de Bootstrap-->
@@ -27,35 +27,35 @@
                 </div>
         
                 <div class="col-md-8"><!--Informacion del perfil-->
-                    <p>{% trans %} Nombre completo: {% endtrans %} {{ usuario.nombre }} {{ usuario.apellido }}</p>
-                    <p>{% trans %} Médico asignado: {% endtrans %} {{ medico.nombre }}</p>
-                    <p>{% trans %} Sensor: {% endtrans %} {{ usuario.sensor }}</p>
-                    <p>{% trans %} Lateralidad: {% endtrans %} {{ usuario.lateralidad }}</p>
-                    <p>{% trans %} Fecha de nacimiento: {% endtrans %} {{ usuario.fecha_de_nacimiento }}</p>
-                    <p>{% trans %} Dirección: {% endtrans %} {{ usuario.direccion }}</p>
-                    <p>{% trans %} Teléfono: {% endtrans %} {{ usuario.telefono }}</p>
+                    <p>{% trans %}Nombre Completo:{% endtrans %} {{ usuario.nombre }} {{ usuario.apellido }}</p>
+                    <p>{% trans %}Médico Asignado:{% endtrans %} {{ medico.nombre }}</p>
+                    <p>{% trans %}Sensor:{% endtrans %} {{ usuario.sensor }}</p>
+                    <p>{% trans %}Lateralidad:{% endtrans %} {{ usuario.lateralidad }}</p>
+                    <p>{% trans %}Fecha de Nacimiento:{% endtrans %} {{ usuario.fecha_de_nacimiento }}</p>
+                    <p>{% trans %}Dirección:{% endtrans %} {{ usuario.direccion }}</p>
+                    <p>{% trans %}Teléfono:{% endtrans %} {{ usuario.telefono }}</p>
                 </div>
             </div>
 
             <!--Acciones del paciente-->
             <div class="col-md-8 mb-4">
                 <!-- Botón para editar los datos personales -->
-                <button class="btn btn-primary btn-lg mostrar-editables" data-id="{{ usuario.id_paciente }}">{% trans %} Editar datos personales {% endtrans %}</button>
+                <button class="btn btn-primary btn-lg mostrar-editables" data-id="{{ usuario.id_paciente }}">{% trans %}Editar datos personales{% endtrans %}</button>
                         <div class="datos-editables" style="display: none;"> <!--Datos invisibles-->
                             <form id="formulario-datos-editables" style="margin-bottom: 40px;"><!--Muestra los datos y permite cambiarlos-->
                                 <input type="hidden" name="id_paciente" value="{{ usuario.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
                                 
-                                <label for="fecha_de_nacimientoP">{% trans %} Fecha de nacimiento: {% endtrans %}</label>
+                                <label for="fecha_de_nacimientoP">{% trans %}Fecha de Nacimiento:{% endtrans %}</label>
                                 <input type="date" id="fecha_de_nacimientoP" name="fecha_de_nacimientoP" value="{{ usuario.fecha_de_nacimiento }}"><br>
                             
-                                <label for="direccionP">{% trans %} Dirección: {% endtrans %}</label>
+                                <label for="direccionP">{% trans %}Dirección:{% endtrans %}</label>
                                 <input type="text" id="direccionP" name="direccionP" value="{{ usuario.direccion }}"><br>
                             
-                                <label for="telefonoP">{% trans %} Teléfono: {% endtrans %}</label>
+                                <label for="telefonoP">{% trans %}Teléfono:{% endtrans %}</label>
                                 <input type="text" id="telefonoP" name="telefonoP" value="{{ usuario.telefono }}"><br>
                                 
-                                <button type="submit" class="boton-guardar" style="padding: 10px 20px; background-color: #2fa94c;">{% trans %} Guardar cambios {% endtrans %}</button>
-                                <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %} Cancelar {% endtrans %}</button>
+                                <button type="submit" class="boton-guardar" style="padding: 10px 20px; background-color: #2fa94c;">{% trans %}Guardar cambios{% endtrans %}</button>
+                                <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
                             </form>
                         </div>
 
@@ -63,7 +63,7 @@
                 <a href="/mostrarDatosSensor/{{ usuario.id_paciente }}" class="btn btn-primary btn-lg">{% trans %}Revisar mi evolución{% endtrans %}</a>
 
                 <!--Boton de mostrar videos para ir a una ventana con los videos -->
-                <a href="/mostrarVideos/{{ usuario.id_paciente }}" class="btn btn-primary btn-lg">{% trans %} Mostrar vídeos {% endtrans %}</a>
+                <a href="/mostrarVideos/{{ usuario.id_paciente }}" class="btn btn-primary btn-lg">{% trans %}Mostrar vídeos{% endtrans %}</a>
 
             </div>
         </div>
