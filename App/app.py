@@ -37,7 +37,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 app = Flask(__name__, static_url_path='/static')
 babel= Babel(app)
 
-#Configuracion
+#Configuración
 app.config.from_object(DevelopmentConfig)
 app.secret_key = b'claveSuperMegaSecreta' #Clave secreta para las sesiones
 app.permanent_session_lifetime = timedelta(hours=1) #Duración limitada de las sesiones(1 hora de inactividad)
@@ -192,7 +192,7 @@ def subir_video(id_paciente):
 
 
 #----------------------------------------------------------------
-#Traduccion
+#Traducción
 
 #Idioma predeterminado (español)
 app.config['BABEL_DEFAULT_LOCALE'] = 'es'
@@ -203,7 +203,7 @@ app.config['LANGUAGES'] = {
     'fr': 'Francés'
 }
 
-#Funcion que obtiene el idioma preferido del navegador del usuario
+#Función que obtiene el idioma preferido del navegador del usuario
 #y sino pone el idioma predeterminado
 def get_locale():
     idioma_navegador = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
@@ -243,13 +243,12 @@ def get_image(filename):
 @app.route('/get_video/<int:id_paciente>/<filename>')
 def get_video(id_paciente, filename):
     return send_from_directory('static/videos/{}/'.format(id_paciente), filename)
-
 #----------------------------------------------------------------
 
 
 
 #----------------------------------------------------------------
-#Mensaje personalizado en las paginas no existentes (error 404)
+#Mensaje personalizado en las páginas no existentes (error 404)
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
@@ -285,7 +284,7 @@ def contacto():
 #----------------------------------------------------------------
 #Página de inicio de sesión. Contiene:
 #       - Barra superior con diferentes funcionalidades
-#       - Datos de admin, médico y paciente para las pruebas
+#       - Datos de admin, médico y paciente (solo en las pruebas)
 #       - Formulario
 @app.route('/login', methods=['GET', 'POST'])
 def login():    
@@ -348,10 +347,11 @@ def logout():
 
 
 
-
 #----------------------------------------------------------------
-#Página de bienvenida para administradores.
-#Por ahora solo contiene el tipo de usuario
+#Página de bienvenida para administradores. Contiene:
+#       - Barra superior con el perfil del usuario
+#       - Datos de admin y botón para cerrar sesión
+#       - Botón de acceso a la gestión de usuarios
 @app.route('/BienvenidaAdmin')
 def BienvenidaAdmin():
     #Verificar si el usuario está logueado como admin
@@ -372,7 +372,6 @@ def BienvenidaAdmin():
     
     return render_template('BienvenidaAdmin.html')
 #----------------------------------------------------------------
-
 
 
 
@@ -404,7 +403,6 @@ def gestionUsuarios():
 
 
 
-
 #----------------------------------------------------------------
 #Página que elimina al usuario con el id indicado
 @app.route('/eliminarUsuario/<rol>/<int:idUsuario>', methods=['POST'])
@@ -419,13 +417,12 @@ def eliminarUsuario(rol, idUsuario):
         elif rol == 'administrador':
             usuario = Administrador.query.get_or_404(idUsuario)
         
-        db.session.delete(usuario)
+        db.session.delete(usuario) #Eliminamos usuario
         db.session.commit()
         return 'Usuario eliminado correctamente', 200
     else:
         return 'Método no permitido', 405
 #----------------------------------------------------------------
-
 
 
 
@@ -531,8 +528,6 @@ def agregarUsuario(rol):
 
 
 
-
-
 #----------------------------------------------------------------
 #Función que actualiza la informacion personal de los pacientes en la bbdd
 @app.route('/actualizar_datos_personales', methods=['POST'])
@@ -564,9 +559,6 @@ def actualizar_datos_personales():
 
 
 
-
-
-
 #----------------------------------------------------------------
 #Función para editar todos los campos de la bbdd de cada usuario
 @app.route('/editar_usuario', methods=['POST'])
@@ -595,7 +587,7 @@ def editar_usuario():
 
         usuario.correo_electronico = request.form.get('correo_electronico')
         
-        if tipo_usuario == 'paciente':
+        if tipo_usuario == 'paciente': #Campos extra de los pacientes
             usuario.fecha_de_nacimiento = request.form.get('fecha_de_nacimiento')
             usuario.direccion = request.form.get('direccion')
             usuario.telefono = request.form.get('telefono')
@@ -611,13 +603,11 @@ def editar_usuario():
 
 
 
-
-
-
-
 #----------------------------------------------------------------
-#Página de bienvenida para médicos.
-#Por ahora solo contiene foto y dos botones
+#Página de bienvenida para médicos. Contiene:
+#       - Barra superior con el perfil del usuario
+#       - Datos de médico y botón para cerrar sesión
+#       - Botón de acceso al listado de sus pacientes
 @app.route('/BienvenidaMedico')
 def BienvenidaMedico():
     #Verificar si el usuario está logueado como médico
@@ -642,8 +632,8 @@ def BienvenidaMedico():
 
 
 #----------------------------------------------------------------
-#Página que muestra el listado de pacientes a los médicos.
-#Por ahora la lista con los botones pero feo
+#Página que muestra el listado de sus pacientes a los médicos,
+#permitiendo realizar ciertas acciones sobre ellos
 @app.route('/listadoPacientes')
 def listadoPacientes():
     #Verificar si el usuario está logueado como médico
@@ -664,8 +654,9 @@ def listadoPacientes():
 
 
 #----------------------------------------------------------------
-#Página que muestra los datos del sensor del paciente a los médicos.
-#Sacamos todos los registros de ese paciente en las fechas selecionadas y creamos la gráfica TODO
+#Página que muestra los datos del sensor del paciente.
+#Filtra por usuario logueado y obtiene las fechas en las que hay
+#registros del paciente para mostrarlas en el calendario
 @app.route('/mostrarDatosSensor/<paciente>', methods=['GET', 'POST'])
 def mostrarDatosSensor(paciente):
     #Verificar si el usuario está logueado
@@ -730,7 +721,6 @@ def mostrarDatosSensor(paciente):
 
 
 
-
 #----------------------------------------------------------------
 #Función para generar un rango de fechas entre dos fechas pasadas por parámetro
 def generar_rango_fechas(fecha_inicial, fecha_final):
@@ -740,7 +730,6 @@ def generar_rango_fechas(fecha_inicial, fecha_final):
         yield fecha_actual
         fecha_actual += delta
 #----------------------------------------------------------------
-
 
 
 
@@ -775,17 +764,11 @@ def plot3Axis(dataP, data, title, ylabel, xlabel, GeneralTitle, dayIni, dayFin):
 
 
 
-
-
 #----------------------------------------------------------------
 #Alteracion de la funcion programada por los creadores del sensor para 
 #preparar los datos para la funcion plot3Axis, filtrando los datos por fechas
 def returnByDatas(data, ini, fin):
     if ini != -1 and fin != -1: #Si no son -1 
-        #Filtrar datos por fecha (ini y fin son 2019-07-24 00:00:00 2019-07-26 23:59:59.999999)
-        #datosFiltrados = data[(data['EPO'] >= ini.timestamp() * 1000) & (data['EPO'] <= fin.timestamp() * 1000)] #saca del 23 al 26
-        #datosFiltrados = data[(data['EPO'] >= (ini.timestamp() * 1000) + 86400000) & (data['EPO'] <= (fin.timestamp() * 1000) + 86400000)] #saca del 24 al 27
-
         #Transformamos los EPO a fecha y comparamos con ini y fin
         fechas_epo = [datetime.utcfromtimestamp(epo/1000) for epo in data['EPO']]
         fechas_df = pd.DataFrame({'EPO': fechas_epo})
@@ -795,7 +778,6 @@ def returnByDatas(data, ini, fin):
         datosFiltrados = data  #Sino devuelve todos los datos sin filtrar
     return datosFiltrados
 #----------------------------------------------------------------
-
 
 
 
@@ -850,20 +832,18 @@ def crearGrafico():
             break
     dataFrame_registro = pd.read_csv(registro_seleccionado.datos_en_crudo)
 
-
-    #Llamada genérica a la función hecha por S4C SDK
+    #Llamada a la función hecha por S4C SDK
     datos_grafico = plot3Axis(dataFrame_registro, ColumnasAEstudiar, TitulosGraficas, EjeYMedidas, 'Data', TituloGeneral, diaIni, diaFin)
 
     return jsonify(datos_grafico = datos_grafico)
-
 #----------------------------------------------------------------     
-
-
 
 
 
 #----------------------------------------------------------------
 #Página que muestra los vídeos del paciente a los médicos (admins y ese paciente).
+#Muestra también gráficas con las características de los datos en el tiempo
+#y permite predecirlas
 @app.route('/mostrarVideos/<paciente>', methods=['GET', 'POST'])
 def mostrarVideos(paciente):
     #Verificar si el usuario está logueado
@@ -944,10 +924,8 @@ def mostrarVideos(paciente):
         'fecha': video.fecha
     } for video in videos_izq]
 
-
     return render_template('mostrarVideos.html', bbddpaciente=bbddpaciente, videos=videos, datosVideos_dcha=datosVideos_dcha, datosVideos_izq=datosVideos_izq, es_admin=es_admin, es_medico=es_medico, es_paciente=es_paciente)
 #----------------------------------------------------------------
-
 
 
 
@@ -978,10 +956,10 @@ def eliminarVideo():
 
 
 
-
-
 #----------------------------------------------------------------
-#Función que predice la lentitud o amplitud con IA a partir de los datos disponibles
+#Función que predice las características de los videos con IA
+#a partir de los datos disponibles utilizando el modelo 
+#de suavizado exponencial de Holt
 @app.route('/predecirVideo', methods=['POST'])
 def predecirVideo():
     data = request.get_json()
@@ -1011,14 +989,12 @@ def predecirVideo():
         # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'legacy-heuristic') #Modelo Legacy-heuristic
         # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'known', initial_level=initial_level) #Modelo Known
 
-
         #Suavizado exponencial de Holt
         modelo_izq = Holt(serie_tiempo_izq) 
         # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'estimated') #Modelo Estimated
         # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'heuristic') #Modelo Heuristic
         # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'legacy-heuristic') #Modelo Legacy-heuristic
         # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'known', initial_level=initial_level, initial_trend=initial_trend) #Modelo Known
-
 
         #Suavizado exponencial de Holt-Winters
         # modelo_izq = ExponentialSmoothing(serie_tiempo_izq, trend='add', seasonal=None)
@@ -1085,17 +1061,17 @@ def predecirVideo():
 
     #Devolver las predicciones de ambas manos convertidas a cadena json para poder mostrarla con chart.js en el html
     return jsonify({'izquierda': datos_con_prediccion_izq, 'derecha': datos_con_prediccion_dcha})
-    
-    
 #----------------------------------------------------------------
 
 
 
-
-
 #----------------------------------------------------------------
-#Página de bienvenida para pacientes.
-#Por ahora solo contiene el tipo de usuario
+#Página de bienvenida para pacientes. Contiene:
+#       - Barra superior con el perfil del usuario
+#       - Datos de paciente y botón para cerrar sesión
+#       - Botón para editar sus datos
+#       - Botón de acceso a las gráficas del sensor
+#       - Botón de acceso a la página de los vídeos
 @app.route('/BienvenidaPaciente') #, methods=['GET', 'POST'])
 def BienvenidaPaciente():
     #Verificar si el usuario está logueado como paciente
@@ -1119,78 +1095,6 @@ def BienvenidaPaciente():
 
     return render_template('BienvenidaPaciente.html', medico=medico)
 #----------------------------------------------------------------
-
-
-
-
-
-#@app.route('/upload', methods=['POST'])
-#def upload_file():
-#    file = request.files['file']
-#    if file:
-#        filename = secure_filename(file.filename)
-#        file.save(os.path.join(app.root_path, 'static', 'registros', filename))
-#        # Actualiza la base de datos con la ruta del archivo
-#        registro = Registro.query.get(tu_id_registro)
-#        registro.ruta_archivo = 'static/registros/' + filename
-#        db.session.commit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#Antiguo. Para saber como coger datos del csv en el futuro
-@app.route('/acceso', methods=['POST'])
-def acceso():
-   
-    formulario = form.FormularioAcceso(request.form)
-    if request.method == 'POST' and formulario.validate(): #formulario correcto
-        #imprimo datos formulario
-        print(formulario.username.data)
-        print(formulario.contraseña.data)
-        #creo sesion
-        session['username'] = formulario.username.data
-
-    else:
-        print("Error en el formulario.")
-
-    #Obtener nombre y contraseña del formulario
-    nombrePaciente = request.form.get("username")
-    contraseña = request.form.get("contraseña")
-    
-    #base de datos
-    administrador = Administrador.query.get(1)
-    medico = Medico.query.get(1)
-    paciente = Paciente.query.get(1)
-
-
-     # Obtener la ruta completa al archivo CSV
-    csv_path = os.path.join(os.path.dirname(__file__), 'prueba.csv')
-
-
-    with open(csv_path, 'r') as file: #Abrir el CSV para leer los datos
-        reader = csv.reader(file)
-        data = [row for row in reader] #Convertir los datos a una lista de diccionarios
-
-    return render_template('acceso.html', contraseña=contraseña, username=nombrePaciente, data=data, administrador=administrador, medico=medico, paciente=paciente)
 
 
 
