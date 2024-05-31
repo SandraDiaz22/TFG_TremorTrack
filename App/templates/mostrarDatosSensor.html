@@ -313,14 +313,14 @@
                         });//Fin for each
 
                     } catch (error) {
-                        console.error('{% trans %}Error al analizar los datos:{% endtrans %}', error);
+                        console.error('Error al analizar los datos:', error);
                     }
                 } else {
-                    console.error('{% trans %}No hay datos.{% endtrans %}');
+                    console.error('No hay datos.');
                 }
             })
             .catch(error => {
-                console.error('{% trans %}Error al procesar la respuesta:{% endtrans %}', error);
+                console.error('Error al procesar la respuesta:', error);
             });
         });
     </script>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-31 13:55+0200\n"
+"POT-Creation-Date: 2024-05-31 18:35+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -75,9 +75,29 @@ msgstr ""
 msgid "Sensor:"
 msgstr ""
 
+#: templates/BienvenidaPaciente.html:32 templates/gestionUsuarios.html:139
+#: templates/gestionUsuarios.html:492 templates/listadoPacientes.html:59
+msgid "Sí"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:32 templates/gestionUsuarios.html:140
+#: templates/gestionUsuarios.html:493 templates/listadoPacientes.html:60
+msgid "No"
+msgstr ""
+
 #: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:156
 #: templates/gestionUsuarios.html:510 templates/listadoPacientes.html:48
 msgid "Lateralidad:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:159
+#: templates/gestionUsuarios.html:513 templates/listadoPacientes.html:51
+msgid "Diestro"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:160
+#: templates/gestionUsuarios.html:514 templates/listadoPacientes.html:52
+msgid "Zurdo"
 msgstr ""
 
 #: templates/BienvenidaPaciente.html:34 templates/BienvenidaPaciente.html:48
@@ -120,6 +140,14 @@ msgstr ""
 #: templates/BienvenidaPaciente.html:66 templates/gestionUsuarios.html:428
 #: templates/listadoPacientes.html:132
 msgid "Mostrar vídeos"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:111
+msgid "Los datos se han actualizado correctamente"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:114 templates/BienvenidaPaciente.html:119
+msgid "Error al editar los datos"
 msgstr ""
 
 #: templates/contacto.html:5 templates/layout.html:196
@@ -241,26 +269,6 @@ msgstr ""
 
 #: templates/gestionUsuarios.html:136
 msgid "¿Tiene Sensor?"
-msgstr ""
-
-#: templates/gestionUsuarios.html:139 templates/gestionUsuarios.html:492
-#: templates/listadoPacientes.html:59
-msgid "Sí"
-msgstr ""
-
-#: templates/gestionUsuarios.html:140 templates/gestionUsuarios.html:493
-#: templates/listadoPacientes.html:60
-msgid "No"
-msgstr ""
-
-#: templates/gestionUsuarios.html:159 templates/gestionUsuarios.html:513
-#: templates/listadoPacientes.html:51
-msgid "Diestro"
-msgstr ""
-
-#: templates/gestionUsuarios.html:160 templates/gestionUsuarios.html:514
-#: templates/listadoPacientes.html:52
-msgid "Zurdo"
 msgstr ""
 
 #: templates/gestionUsuarios.html:169
@@ -606,6 +614,14 @@ msgstr ""
 msgid "Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min"
 msgstr ""
 
+#: templates/mostrarDatosSensor.html:62
+msgid "Selecciona las fechas a mostrar:"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:63
+msgid "Seleciona fechas..."
+msgstr ""
+
 #: templates/mostrarDatosSensor.html:69
 msgid "Mostrar datos"
 msgstr ""
@@ -620,18 +636,6 @@ msgstr ""
 
 #: templates/mostrarDatosSensor.html:182
 msgid "Seleccione una fecha.\\n"
-msgstr ""
-
-#: templates/mostrarDatosSensor.html:316
-msgid "Error al analizar los datos:"
-msgstr ""
-
-#: templates/mostrarDatosSensor.html:319
-msgid "No hay datos."
-msgstr ""
-
-#: templates/mostrarDatosSensor.html:323
-msgid "Error al procesar la respuesta:"
 msgstr ""
 
 #: templates/mostrarVideos.html:5

@@ -78,10 +78,30 @@ msgstr "Assigned Doctor:"
 msgid "Sensor:"
 msgstr "Sensor:"
 
+#: templates/BienvenidaPaciente.html:32 templates/gestionUsuarios.html:139
+#: templates/gestionUsuarios.html:492 templates/listadoPacientes.html:59
+msgid "Sí"
+msgstr "Yes"
+
+#: templates/BienvenidaPaciente.html:32 templates/gestionUsuarios.html:140
+#: templates/gestionUsuarios.html:493 templates/listadoPacientes.html:60
+msgid "No"
+msgstr "No"
+
 #: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:156
 #: templates/gestionUsuarios.html:510 templates/listadoPacientes.html:48
 msgid "Lateralidad:"
 msgstr "Laterality:"
+
+#: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:159
+#: templates/gestionUsuarios.html:513 templates/listadoPacientes.html:51
+msgid "Diestro"
+msgstr "Right handed"
+
+#: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:160
+#: templates/gestionUsuarios.html:514 templates/listadoPacientes.html:52
+msgid "Zurdo"
+msgstr "Left handed"
 
 #: templates/BienvenidaPaciente.html:34 templates/BienvenidaPaciente.html:48
 #: templates/gestionUsuarios.html:121 templates/listadoPacientes.html:65
@@ -124,6 +144,14 @@ msgstr "Review my progress"
 #: templates/listadoPacientes.html:132
 msgid "Mostrar vídeos"
 msgstr "Show videos"
+
+#: templates/BienvenidaPaciente.html:111
+msgid "Los datos se han actualizado correctamente"
+msgstr "Data has been updated successfully"
+
+#: templates/BienvenidaPaciente.html:114 templates/BienvenidaPaciente.html:119
+msgid "Error al editar los datos"
+msgstr "Error editing data"
 
 #: templates/contacto.html:5 templates/layout.html:196
 msgid "Contacto"
@@ -617,6 +645,14 @@ msgstr "Step information"
 msgid "Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min"
 msgstr "Motor state, dyskinesia, and bradykinesia parameters at 10 min"
 
+#: templates/mostrarDatosSensor.html:62
+msgid "Selecciona las fechas a mostrar:"
+msgstr "Select the dates to display:"
+
+#: templates/mostrarDatosSensor.html:63
+msgid "Seleciona fechas..."
+msgstr "Select dates..."
+
 #: templates/mostrarDatosSensor.html:69
 msgid "Mostrar datos"
 msgstr "Show data"
@@ -632,18 +668,6 @@ msgstr "Select a type of chart.\\n"
 #: templates/mostrarDatosSensor.html:182
 msgid "Seleccione una fecha.\\n"
 msgstr "Select a date.\\n"
-
-#: templates/mostrarDatosSensor.html:316
-msgid "Error al analizar los datos:"
-msgstr "Error parsing data:"
-
-#: templates/mostrarDatosSensor.html:319
-msgid "No hay datos."
-msgstr "No data available."
-
-#: templates/mostrarDatosSensor.html:323
-msgid "Error al procesar la respuesta:"
-msgstr "Error processing the response:"
 
 #: templates/mostrarVideos.html:5
 msgid "Vídeos Paciente"

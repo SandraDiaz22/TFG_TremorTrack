@@ -29,8 +29,8 @@
                 <div class="col-md-8"><!--Informacion del perfil-->
                     <p>{% trans %}Nombre Completo:{% endtrans %} {{ usuario.nombre }} {{ usuario.apellido }}</p>
                     <p>{% trans %}Médico Asignado:{% endtrans %} {{ medico.nombre }}</p>
-                    <p>{% trans %}Sensor:{% endtrans %} {{ usuario.sensor }}</p>
-                    <p>{% trans %}Lateralidad:{% endtrans %} {{ usuario.lateralidad }}</p>
+                    <p>{% trans %}Sensor:{% endtrans %} {% if usuario.sensor == 'SI' %} {% trans %}Sí{% endtrans %} {% elif usuario.sensor == 'NO' %} {% trans %}No{% endtrans %} {% endif %}</p>
+                    <p>{% trans %}Lateralidad:{% endtrans %} {% if usuario.lateralidad == 'diestro' %} {% trans %}Diestro{% endtrans %} {% elif usuario.lateralidad == 'zurdo' %} {% trans %}Zurdo{% endtrans %} {% endif %}</p>
                     <p>{% trans %}Fecha de Nacimiento:{% endtrans %} {{ usuario.fecha_de_nacimiento }}</p>
                     <p>{% trans %}Dirección:{% endtrans %} {{ usuario.direccion }}</p>
                     <p>{% trans %}Teléfono:{% endtrans %} {{ usuario.telefono }}</p>
@@ -108,15 +108,15 @@
                     })
                     .then(response => {
                         if (response.ok) {
-                            alert('Los datos se han actualizado correctamente'); //Bien
+                            alert('{% trans %}Los datos se han actualizado correctamente{% endtrans %}'); //Bien
                             location.reload(); //Recargar la página
                         } else {
-                            alert('Error al editar los datos');
+                            alert('{% trans %}Error al editar los datos{% endtrans %}');
                         }
                     })
                     .catch(error => {
                         console.error('Error:', error);
-                        alert('Error al editar los datos');
+                        alert('{% trans %}Error al editar los datos{% endtrans %}');
                     });
                 });
             });
