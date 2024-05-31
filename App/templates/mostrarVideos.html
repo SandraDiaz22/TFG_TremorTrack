@@ -174,51 +174,50 @@
 
 
 
-            //Especificar el título y el color de cada Dataset
             const datasets_dcha = [
-                {   label: 'Lentitud',
+                {   label: '{% trans %}Lentitud{% endtrans %}',
                     data: lentitudData_dcha,
                     borderColor: 'rgba(255, 99, 132, 1)', },
-                {   label: 'Amplitud',
+                {   label: '{% trans %}Amplitud{% endtrans %}',
                     data: amplitudData_dcha,
                     borderColor: 'rgba(54, 162, 235, 1)', },
-                {   label: 'Velocidad Media',
+                {   label: '{% trans %}Velocidad Media{% endtrans %}',
                     data: velocidadMediaData_dcha,
                     borderColor: 'rgba(255, 205, 86, 1)', },
-                {   label: 'Frecuencia de Máximos',
+                {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
                     data: frecuenciaMaxData_dcha,
                     borderColor: 'rgba(75, 192, 192, 1)', },
-                {   label: 'Frecuencia de Mínimos',
+                {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
                     data: frecuenciaMinData_dcha,
                     borderColor: 'rgba(153, 102, 255, 1)', },
-                {   label: 'Promedio de Máximos',
+                {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
                     data: promedioMaxData_dcha,
                     borderColor: 'rgba(255, 159, 64, 1)', },
-                {   label: 'Desviación Estándar de Máximos',
+                {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
                     data: desvEstandarMaxData_dcha,
                     borderColor: 'rgba(255, 192, 203, 1)', }
             ];
 
             const datasets_izq = [
-                {   label: 'Lentitud',
+                {   label: '{% trans %}Lentitud{% endtrans %}',
                     data: lentitudData_izq,
                     borderColor: 'rgba(255, 99, 132, 1)', },
-                {   label: 'Amplitud',
+                {   label: '{% trans %}Amplitud{% endtrans %}',
                     data: amplitudData_izq,
                     borderColor: 'rgba(54, 162, 235, 1)', },
-                {   label: 'Velocidad Media',
+                {   label: '{% trans %}Velocidad Media{% endtrans %}',
                     data: velocidadMediaData_izq,
                     borderColor: 'rgba(255, 205, 86, 1)', },
-                {   label: 'Frecuencia de Máximos',
+                {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
                     data: frecuenciaMaxData_izq,
                     borderColor: 'rgba(75, 192, 192, 1)', },
-                {   label: 'Frecuencia de Mínimos',
+                {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
                     data: frecuenciaMinData_izq,
                     borderColor: 'rgba(153, 102, 255, 1)', },
-                {   label: 'Promedio de Máximos',
+                {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
                     data: promedioMaxData_izq,
                     borderColor: 'rgba(255, 159, 64, 1)', },
-                {   label: 'Desviación Estándar de Máximos',
+                {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
                     data: desvEstandarMaxData_izq,
                     borderColor: 'rgba(255, 192, 203, 1)', }
             ];
@@ -245,7 +244,7 @@
                         x: { //Eje X para las fechas
                             title: {
                                 display: true,
-                                text: 'Fechas de los vídeos'
+                                text: '{% trans %}Fechas de los vídeos{% endtrans %}'
                             }
                         }
                     }
@@ -268,7 +267,7 @@
                         x: { //Eje X para las fechas
                             title: {
                                 display: true,
-                                text: 'Fechas de los vídeos'
+                                text: '{% trans %}Fechas de los vídeos{% endtrans %}'
                             }
                         }
                     }
@@ -385,78 +384,52 @@
                 procesarDatosVideos(response.derecha, lentitudData_dcha, amplitudData_dcha, velocidadMediaData_dcha, frecuenciaMaxData_dcha, frecuenciaMinData_dcha, promedioMaxData_dcha, desvEstandarMaxData_dcha, fechas_dcha);
 
                 // Especificar el título y el color de cada Dataset
-                const datasets_izq = [{
-                        label: 'Lentitud',
-                        data: lentitudData_izq,
-                        borderColor: 'rgba(255, 99, 132, 1)'
-                    },
-                    {
-                        label: 'Amplitud',
-                        data: amplitudData_izq,
-                        borderColor: 'rgba(54, 162, 235, 1)'
-                    },
-                    {
-                        label: 'Velocidad Media',
-                        data: velocidadMediaData_izq,
-                        borderColor: 'rgba(255, 205, 86, 1)'
-                    },
-                    {
-                        label: 'Frecuencia de Máximos',
-                        data: frecuenciaMaxData_izq,
-                        borderColor: 'rgba(75, 192, 192, 1)'
-                    },
-                    {
-                        label: 'Frecuencia de Mínimos',
-                        data: frecuenciaMinData_izq,
-                        borderColor: 'rgba(153, 102, 255, 1)'
-                    },
-                    {
-                        label: 'Promedio de Máximos',
-                        data: promedioMaxData_izq,
-                        borderColor: 'rgba(255, 159, 64, 1)'
-                    },
-                    {
-                        label: 'Desviación Estándar de Máximos',
-                        data: desvEstandarMaxData_izq,
-                        borderColor: 'rgba(255, 192, 203, 1)'
-                    }
+                const datasets_dcha = [
+                    {   label: '{% trans %}Lentitud{% endtrans %}',
+                        data: lentitudData_dcha,
+                        borderColor: 'rgba(255, 99, 132, 1)', },
+                    {   label: '{% trans %}Amplitud{% endtrans %}',
+                        data: amplitudData_dcha,
+                        borderColor: 'rgba(54, 162, 235, 1)', },
+                    {   label: '{% trans %}Velocidad Media{% endtrans %}',
+                        data: velocidadMediaData_dcha,
+                        borderColor: 'rgba(255, 205, 86, 1)', },
+                    {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
+                        data: frecuenciaMaxData_dcha,
+                        borderColor: 'rgba(75, 192, 192, 1)', },
+                    {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
+                        data: frecuenciaMinData_dcha,
+                        borderColor: 'rgba(153, 102, 255, 1)', },
+                    {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
+                        data: promedioMaxData_dcha,
+                        borderColor: 'rgba(255, 159, 64, 1)', },
+                    {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
+                        data: desvEstandarMaxData_dcha,
+                        borderColor: 'rgba(255, 192, 203, 1)', }
                 ];
 
-                const datasets_dcha = [{
-                        label: 'Lentitud',
-                        data: lentitudData_dcha,
-                        borderColor: 'rgba(255, 99, 132, 1)'
-                    },
-                    {
-                        label: 'Amplitud',
-                        data: amplitudData_dcha,
-                        borderColor: 'rgba(54, 162, 235, 1)'
-                    },
-                    {
-                        label: 'Velocidad Media',
-                        data: velocidadMediaData_dcha,
-                        borderColor: 'rgba(255, 205, 86, 1)'
-                    },
-                    {
-                        label: 'Frecuencia de Máximos',
-                        data: frecuenciaMaxData_dcha,
-                        borderColor: 'rgba(75, 192, 192, 1)'
-                    },
-                    {
-                        label: 'Frecuencia de Mínimos',
-                        data: frecuenciaMinData_dcha,
-                        borderColor: 'rgba(153, 102, 255, 1)'
-                    },
-                    {
-                        label: 'Promedio de Máximos',
-                        data: promedioMaxData_dcha,
-                        borderColor: 'rgba(255, 159, 64, 1)'
-                    },
-                    {
-                        label: 'Desviación Estándar de Máximos',
-                        data: desvEstandarMaxData_dcha,
-                        borderColor: 'rgba(255, 192, 203, 1)'
-                    }
+                const datasets_izq = [
+                    {   label: '{% trans %}Lentitud{% endtrans %}',
+                        data: lentitudData_izq,
+                        borderColor: 'rgba(255, 99, 132, 1)', },
+                    {   label: '{% trans %}Amplitud{% endtrans %}',
+                        data: amplitudData_izq,
+                        borderColor: 'rgba(54, 162, 235, 1)', },
+                    {   label: '{% trans %}Velocidad Media{% endtrans %}',
+                        data: velocidadMediaData_izq,
+                        borderColor: 'rgba(255, 205, 86, 1)', },
+                    {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
+                        data: frecuenciaMaxData_izq,
+                        borderColor: 'rgba(75, 192, 192, 1)', },
+                    {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
+                        data: frecuenciaMinData_izq,
+                        borderColor: 'rgba(153, 102, 255, 1)', },
+                    {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
+                        data: promedioMaxData_izq,
+                        borderColor: 'rgba(255, 159, 64, 1)', },
+                    {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
+                        data: desvEstandarMaxData_izq,
+                        borderColor: 'rgba(255, 192, 203, 1)', }
                 ];
 
 
@@ -481,7 +454,7 @@
                             x: { //Eje X para las fechas
                                 title: {
                                     display: true,
-                                    text: 'Fechas de los vídeos'
+                                    text: '{% trans %}Fechas de los vídeos{% endtrans %}'
                                 }
                             }
                         }
@@ -504,7 +477,7 @@
                             x: { //Eje X para las fechas
                                 title: {
                                     display: true,
-                                    text: 'Fechas de los vídeos'
+                                    text: '{% trans %}Fechas de los vídeos{% endtrans %}'
                                 }
                             }
                         }
