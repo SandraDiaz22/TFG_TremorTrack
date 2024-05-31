@@ -30,15 +30,15 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             {% if es_admin %}
-                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">Bienvenido</a></li>
-                <li class="breadcrumb-item"><a href="/gestionUsuarios">Gestión de Usuarios</a></li>
+                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/gestionUsuarios">{% trans %}Gestión de Usuarios{% endtrans %}</a></li>
             {% elif es_medico %}
-                <li class="breadcrumb-item"><a href="/BienvenidaMedico">Bienvenido</a></li>
-                <li class="breadcrumb-item"><a href="/listadoPacientes">Listado de Pacientes</a></li>
+                <li class="breadcrumb-item"><a href="/BienvenidaMedico">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/listadoPacientes">{% trans %}Listado de Pacientes{% endtrans %}</a></li>
             {% elif es_paciente %}
-                <li class="breadcrumb-item"><a href="/BienvenidaPaciente">Bienvenido</a></li>  
+                <li class="breadcrumb-item"><a href="/BienvenidaPaciente">{% trans %}Bienvenido{% endtrans %}</a></li>  
             {% endif %}
-            <li aria-current="page" class="breadcrumb-item active">Mostrar Datos Sensor</li>
+            <li aria-current="page" class="breadcrumb-item active">{% trans %}Mostrar Datos Sensor{% endtrans %}</li>
         </ol>
     </nav>
     
@@ -59,9 +59,9 @@
         </select>
 
         <div class="flatpickr">
-            <label for="calendario">Selecciona las fechas a mostrar:</label>
-            <input type="text" placeholder="Seleciona fechas..." id="calendario" name="calendario" required>
-            <p id="mensaje-fechas-disponibles">Fechas disponibles: cargando...</p>
+            <label for="calendario">{% trans %}Selecciona las fechas a mostrar:{% endtrans %}</label>
+            <input type="text" placeholder="{% trans %}Seleciona fechas...{% endtrans %}" id="calendario" name="calendario" required>
+            <p id="mensaje-fechas-disponibles"></p>
         </div>
 
         <input type="hidden" name="id_paciente" value="{{ bbddpaciente.id_paciente }}"> <!--Para saber qué paciente es-->

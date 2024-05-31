@@ -35,7 +35,11 @@ msgid "Ir a la página principal"
 msgstr "Go to the main page"
 
 #: templates/BienvenidaAdmin.html:5 templates/BienvenidaMedico.html:5
-#: templates/BienvenidaPaciente.html:5
+#: templates/BienvenidaPaciente.html:5 templates/gestionUsuarios.html:62
+#: templates/listadoPacientes.html:19 templates/mostrarDatosSensor.html:33
+#: templates/mostrarDatosSensor.html:36 templates/mostrarDatosSensor.html:39
+#: templates/mostrarVideos.html:28 templates/mostrarVideos.html:31
+#: templates/mostrarVideos.html:34
 msgid "Bienvenido"
 msgstr "Welcome"
 
@@ -198,6 +202,11 @@ msgstr "Avenida Cantabria, s/n, 09006 Burgos (Spain)"
 msgid "Gestión Usuarios"
 msgstr "User Management"
 
+#: templates/gestionUsuarios.html:63 templates/mostrarDatosSensor.html:34
+#: templates/mostrarVideos.html:29
+msgid "Gestión de Usuarios"
+msgstr "User Management"
+
 #: templates/gestionUsuarios.html:70
 msgid "Elige la tabla a gestionar:"
 msgstr "Choose the table to manage:"
@@ -358,15 +367,17 @@ msgid "Seleccionar"
 msgstr "Select"
 
 #: templates/gestionUsuarios.html:375 templates/listadoPacientes.html:96
+#: templates/mostrarVideos.html:63
 msgid "Derecha"
 msgstr "Right"
 
 #: templates/gestionUsuarios.html:376 templates/listadoPacientes.html:97
+#: templates/mostrarVideos.html:65
 msgid "Izquierda"
 msgstr "Left"
 
 #: templates/gestionUsuarios.html:380 templates/listadoPacientes.html:101
-#: templates/mostrarVideos.html:79
+#: templates/mostrarVideos.html:85
 msgid "Lentitud:"
 msgstr "Slowness:"
 
@@ -396,7 +407,7 @@ msgid "4"
 msgstr "4"
 
 #: templates/gestionUsuarios.html:391 templates/listadoPacientes.html:112
-#: templates/mostrarVideos.html:80
+#: templates/mostrarVideos.html:86
 msgid "Amplitud:"
 msgstr "Amplitude:"
 
@@ -513,6 +524,11 @@ msgstr "Login"
 msgid "Listado pacientes"
 msgstr "Patient list"
 
+#: templates/listadoPacientes.html:20 templates/mostrarDatosSensor.html:37
+#: templates/mostrarVideos.html:32
+msgid "Listado de Pacientes"
+msgstr "Patient list"
+
 #: templates/listadoPacientes.html:41
 msgid "Información personal"
 msgstr "Personal information"
@@ -573,6 +589,10 @@ msgstr "Submit"
 msgid "Datos sensor"
 msgstr "Sensor data"
 
+#: templates/mostrarDatosSensor.html:41
+msgid "Mostrar Datos Sensor"
+msgstr "Show Sensor Data"
+
 #: templates/mostrarDatosSensor.html:46
 msgid "Paciente:"
 msgstr "Patient:"
@@ -629,6 +649,10 @@ msgstr "Error processing the response:"
 msgid "Vídeos Paciente"
 msgstr "Patient Videos"
 
+#: templates/mostrarVideos.html:36
+msgid "Mostrar Vídeos"
+msgstr "Show videos"
+
 #: templates/mostrarVideos.html:42
 msgid "Vídeos paciente:"
 msgstr "Patient videos:"
@@ -653,127 +677,127 @@ msgstr "Play"
 msgid "Eliminar"
 msgstr "Delete"
 
-#: templates/mostrarVideos.html:67
+#: templates/mostrarVideos.html:73
 msgid "Reproducir vídeo"
 msgstr "Play video"
 
-#: templates/mostrarVideos.html:68
+#: templates/mostrarVideos.html:74
 msgid "Ocultar vídeo"
 msgstr "Hide video"
 
-#: templates/mostrarVideos.html:77
+#: templates/mostrarVideos.html:83
 msgid "Características"
 msgstr "Characteristics"
 
-#: templates/mostrarVideos.html:81
+#: templates/mostrarVideos.html:87
 msgid "Velocidad media:"
 msgstr "Average speed:"
 
-#: templates/mostrarVideos.html:82
+#: templates/mostrarVideos.html:88
 msgid "Frecuencia de máximos:"
 msgstr "Peak frequency:"
 
-#: templates/mostrarVideos.html:83
+#: templates/mostrarVideos.html:89
 msgid "Frecuencia de mínimos:"
 msgstr "Trough frequency:"
 
-#: templates/mostrarVideos.html:84
+#: templates/mostrarVideos.html:90
 msgid "Promedio de máximos:"
 msgstr "Peak average:"
 
-#: templates/mostrarVideos.html:85
+#: templates/mostrarVideos.html:91
 msgid "Desviación estándar de máximos:"
 msgstr "Standard deviation of peaks:"
 
-#: templates/mostrarVideos.html:86
+#: templates/mostrarVideos.html:92
 msgid "Diferencia ranurada de la frecuencia de mínimos:"
 msgstr "Smoothed trough frequency difference:"
 
-#: templates/mostrarVideos.html:87
+#: templates/mostrarVideos.html:93
 msgid "Diferencia ranurada de la frecuencia de máximos:"
 msgstr "Smoothed peak frequency difference:"
 
-#: templates/mostrarVideos.html:93
+#: templates/mostrarVideos.html:99
 msgid "Eliminar vídeo"
 msgstr "Delete video"
 
-#: templates/mostrarVideos.html:101
+#: templates/mostrarVideos.html:107
 msgid "Gráficos con las características de los vídeos"
 msgstr "Charts with video characteristics"
 
-#: templates/mostrarVideos.html:104
+#: templates/mostrarVideos.html:110
 msgid "Predecir"
 msgstr "Predict"
 
-#: templates/mostrarVideos.html:109
+#: templates/mostrarVideos.html:115
 msgid "Gráfico mano izquierda"
 msgstr "Left hand chart"
 
-#: templates/mostrarVideos.html:117
+#: templates/mostrarVideos.html:123
 msgid "Gráfico mano derecha"
 msgstr "Right hand chart"
 
-#: templates/mostrarVideos.html:127
+#: templates/mostrarVideos.html:133
 msgid "Gráfico predicción mano izquierda"
 msgstr "Left hand prediction chart"
 
-#: templates/mostrarVideos.html:135
+#: templates/mostrarVideos.html:141
 msgid "Gráfico predicción mano derecha"
 msgstr "Right hand prediction chart"
 
-#: templates/mostrarVideos.html:178 templates/mostrarVideos.html:202
-#: templates/mostrarVideos.html:388 templates/mostrarVideos.html:412
+#: templates/mostrarVideos.html:178 templates/mostrarVideos.html:208
+#: templates/mostrarVideos.html:388 templates/mostrarVideos.html:418
 msgid "Lentitud"
 msgstr "Slowness"
 
-#: templates/mostrarVideos.html:181 templates/mostrarVideos.html:205
-#: templates/mostrarVideos.html:391 templates/mostrarVideos.html:415
+#: templates/mostrarVideos.html:181 templates/mostrarVideos.html:211
+#: templates/mostrarVideos.html:391 templates/mostrarVideos.html:421
 msgid "Amplitud"
 msgstr "Amplitude"
 
-#: templates/mostrarVideos.html:184 templates/mostrarVideos.html:208
-#: templates/mostrarVideos.html:394 templates/mostrarVideos.html:418
+#: templates/mostrarVideos.html:184 templates/mostrarVideos.html:214
+#: templates/mostrarVideos.html:394 templates/mostrarVideos.html:424
 msgid "Velocidad Media"
 msgstr "Average Speed"
 
-#: templates/mostrarVideos.html:187 templates/mostrarVideos.html:211
-#: templates/mostrarVideos.html:397 templates/mostrarVideos.html:421
+#: templates/mostrarVideos.html:187 templates/mostrarVideos.html:217
+#: templates/mostrarVideos.html:397 templates/mostrarVideos.html:427
 msgid "Frecuencia de Máximos"
 msgstr "Peak Frequency"
 
-#: templates/mostrarVideos.html:190 templates/mostrarVideos.html:214
-#: templates/mostrarVideos.html:400 templates/mostrarVideos.html:424
+#: templates/mostrarVideos.html:190 templates/mostrarVideos.html:220
+#: templates/mostrarVideos.html:400 templates/mostrarVideos.html:430
 msgid "Frecuencia de Mínimos"
 msgstr "Trough Frequency"
 
-#: templates/mostrarVideos.html:193 templates/mostrarVideos.html:217
-#: templates/mostrarVideos.html:403 templates/mostrarVideos.html:427
+#: templates/mostrarVideos.html:193 templates/mostrarVideos.html:223
+#: templates/mostrarVideos.html:403 templates/mostrarVideos.html:433
 msgid "Promedio de Máximos"
 msgstr "Peak Average"
 
-#: templates/mostrarVideos.html:196 templates/mostrarVideos.html:220
-#: templates/mostrarVideos.html:406 templates/mostrarVideos.html:430
+#: templates/mostrarVideos.html:196 templates/mostrarVideos.html:226
+#: templates/mostrarVideos.html:406 templates/mostrarVideos.html:436
 msgid "Desviación Estándar de Máximos"
 msgstr "Standard Deviation of Peaks"
 
-#: templates/mostrarVideos.html:247 templates/mostrarVideos.html:270
-#: templates/mostrarVideos.html:457 templates/mostrarVideos.html:480
+#: templates/mostrarVideos.html:247 templates/mostrarVideos.html:276
+#: templates/mostrarVideos.html:457 templates/mostrarVideos.html:486
 msgid "Fechas de los vídeos"
 msgstr "Video Dates"
 
-#: templates/mostrarVideos.html:282
+#: templates/mostrarVideos.html:288
 msgid "No hay vídeos disponibles para mostrar."
 msgstr "No videos available to display."
 
-#: templates/mostrarVideos.html:338
+#: templates/mostrarVideos.html:344
 msgid "¿Estás seguro de que deseas eliminar este vídeo?"
 msgstr "Are you sure you want to delete this video?"
 
-#: templates/mostrarVideos.html:347
+#: templates/mostrarVideos.html:353
 msgid "Vídeo eliminado con éxito"
 msgstr "Video successfully deleted"
 
-#: templates/mostrarVideos.html:351 templates/mostrarVideos.html:356
+#: templates/mostrarVideos.html:351 templates/mostrarVideos.html:362
 msgid "Error al eliminar el vídeo"
 msgstr "Error deleting video"
 

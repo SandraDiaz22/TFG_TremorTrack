@@ -203,14 +203,22 @@ app.config['LANGUAGES'] = {
     'fr': 'Francés'
 }
 
-#Función que obtiene el idioma preferido del navegador del usuario
+#Función que obtiene el idioma elegido por el usuario en la cookie
+#sino el preferido del navegador del usuario
 #y sino pone el idioma predeterminado
 def get_locale():
+    # Intenta obtener el idioma almacenado en la cookie
+    idioma_cookie = request.cookies.get('idioma')
+    if idioma_cookie:
+        return idioma_cookie
+    
+    # Si no hay idioma almacenado en la cookie, utiliza el idioma preferido del navegador
     idioma_navegador = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
     if idioma_navegador is not None:
         return idioma_navegador
-    else:
-        return app.config['BABEL_DEFAULT_LOCALE']
+    
+    # Si el navegador no especifica un idioma preferido, utiliza el idioma predeterminado
+    return app.config['BABEL_DEFAULT_LOCALE']
 
 
 #Inicializar babel con get_locale como selector de idioma
@@ -220,6 +228,17 @@ babel = Babel(app, locale_selector=get_locale)
 @app.context_processor
 def inject_get_locale():
     return dict(get_locale=get_locale)
+
+#Ruta para cambiar el idioma y guardar el elegido en una cookie
+@app.route('/cambiar_idioma/<idioma>')
+def cambiar_idioma(idioma):
+    if idioma in app.config['LANGUAGES']:
+        #Mete el idioma en una cookie con una duración de 1 día
+        respuesta = make_response(redirect(request.referrer))
+        respuesta.set_cookie('idioma', value=idioma, max_age=86400)
+        return respuesta
+    return 'Idioma no válido'
+
 #----------------------------------------------------------------
 
 

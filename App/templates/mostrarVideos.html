@@ -25,15 +25,15 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             {% if es_admin %}
-                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">Bienvenido</a></li>
-                <li class="breadcrumb-item"><a href="/gestionUsuarios">Gestión de Usuarios</a></li>
+                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/gestionUsuarios">{% trans %}Gestión de Usuarios{% endtrans %}</a></li>
             {% elif es_medico %}
-                <li class="breadcrumb-item"><a href="/BienvenidaMedico">Bienvenido</a></li>
-                <li class="breadcrumb-item"><a href="/listadoPacientes">Listado de Pacientes</a></li>
+                <li class="breadcrumb-item"><a href="/BienvenidaMedico">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/listadoPacientes">{% trans %}Listado de Pacientes{% endtrans %}</a></li>
             {% elif es_paciente %}
-                <li class="breadcrumb-item"><a href="/BienvenidaPaciente">Bienvenido</a></li>  
+                <li class="breadcrumb-item"><a href="/BienvenidaPaciente">{% trans %}Bienvenido{% endtrans %}</a></li>  
             {% endif %}
-            <li aria-current="page" class="breadcrumb-item active">Mostrar Vídeos</li>
+            <li aria-current="page" class="breadcrumb-item active">{% trans %}Mostrar Vídeos{% endtrans %}</li>
         </ol>
     </nav>
 
@@ -58,7 +58,13 @@
                 <tr>
                     <!--Info del vídeo-->
                     <td>{{ video.contenido }}</td>
-                    <td>{{ video.mano_dominante }}</td>
+                    <td>
+                        {% if video.mano_dominante == 'derecha' %}
+                            {% trans %}Derecha{% endtrans %}
+                        {% elif video.mano_dominante == 'izquierda' %}
+                            {% trans %}Izquierda{% endtrans %}
+                        {% endif %}
+                    </td>
                     <td>{{ video.fecha }}</td>
 
                     <!--Reproducir vídeo-->
