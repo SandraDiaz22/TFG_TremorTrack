@@ -322,6 +322,18 @@ def eliminarUsuario(rol, idUsuario):
     if request.method == 'POST':
         if rol == 'paciente':
             usuario = Paciente.query.get_or_404(idUsuario)
+            #Eliminar sus vídeos asociados
+            videos = Videos.query.filter_by(paciente=idUsuario).all()
+            if videos:
+                for video in videos:
+                    db.session.delete(video)
+                db.session.commit()
+            #Eliminar sus registros asociados
+            registros = Registros.query.filter_by(paciente=idUsuario).all()
+            if registros:
+                for registro in registros:
+                    db.session.delete(registro)
+                db.session.commit()
         
         elif rol == 'medico':
             usuario = Medico.query.get_or_404(idUsuario)
