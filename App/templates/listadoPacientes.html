@@ -120,9 +120,9 @@
                                         </select>
                                     </div>
                                 </div>
-                                <button type="submit" class="btn btn-primary mt-2" id="subirFormVideo">{% trans %}Subir vídeo{% endtrans %}</button>
-                                <div id="subiendo" style="display: none;">
-                                    <p>{% trans %}Subiendo...(esto podría tardar unos minutos){% endtrans %}</p>
+                                <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %}Subir vídeo{% endtrans %}</button>
+                                <div class="subiendo" style="display: none;">
+                                    <p>{% trans %}Subiendo...(esto podría tardar unos minutos){% endtrans %}</p><!--TODO-->
                                 </div>
                             </form>
                         </div>
@@ -183,29 +183,29 @@
         //Lógica para mostrar mensajes al usuario mientras se analiza el 
         //vídeo que se sube en el formulario
         $(document).ready(function() {
-            $('#subirFormVideo').on('click', function(e) {
+            $('.subirFormVideo').on('click', function(e) {
                 e.preventDefault(); //Evitar que se envie el formulario todavia
-                
+                let form = $(this).closest('form');
                 //Validación de campos
-                let fileInput = document.querySelector('input[type="file"]');
-                let dateInput = document.getElementById('fecha_video');
-                let manoSelect = document.getElementById('mano');
-                let lentitudSelect = document.getElementById('lentitud');
-                let amplitudSelect = document.getElementById('amplitud');
+                let fileInput = form.find('input[type="file"]');
+                let dateInput = form.find('#fecha_video');
+                let manoSelect = form.find('#mano');
+                let lentitudSelect = form.find('#lentitud');
+                let amplitudSelect = form.find('#amplitud');
 
-                if (!fileInput.value || !dateInput.value || !manoSelect.value || !lentitudSelect.value || !amplitudSelect.value) {
+                if (!fileInput.val() || !dateInput.val() || !manoSelect.val() || !lentitudSelect.val() || !amplitudSelect.val()) {
                     alert('{% trans %}Por favor, complete todos los campos.{% endtrans %}');
                     return;
                 }
                 
                 //Mostrar mensaje subiendo...
-                var subiendo = $('#subiendo');
+                var subiendo = form.find('.subiendo');
                 subiendo.show();
 
                 //URL donde subir los datos
-                var URLformulario = $('#formularioSubirVideo').attr('action');
+                var URLformulario = form.attr('action');
                 //Datos del formulario
-                var formData = new FormData($('#formularioSubirVideo')[0]);
+                var formData = new FormData(form[0]);
 
                 //Enviar formulario mediante AJAX
                 $.ajax({
