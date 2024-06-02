@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-05-31 18:35+0200\n"
+"POT-Creation-Date: 2024-06-02 12:21+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -456,7 +456,8 @@ msgstr ""
 msgid "Error al eliminar el usuario"
 msgstr ""
 
-#: templates/gestionUsuarios.html:774
+#: templates/gestionUsuarios.html:774 templates/gestionUsuarios.html:1022
+#: templates/gestionUsuarios.html:1043
 msgid "Por favor, complete todos los campos obligatorios."
 msgstr ""
 
@@ -468,7 +469,7 @@ msgstr ""
 msgid "Error al agregar el usuario"
 msgstr ""
 
-#: templates/gestionUsuarios.html:911
+#: templates/gestionUsuarios.html:911 templates/listadoPacientes.html:270
 msgid "No hay cambios para guardar."
 msgstr ""
 
@@ -478,6 +479,62 @@ msgstr ""
 
 #: templates/gestionUsuarios.html:934 templates/gestionUsuarios.html:939
 msgid "Error al editar el usuario"
+msgstr ""
+
+#: templates/gestionUsuarios.html:959
+msgid "El nombre es demasiado largo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:965
+msgid "El nombre tiene caracteres no permitidos."
+msgstr ""
+
+#: templates/gestionUsuarios.html:973
+msgid "El apellido es demasiado largo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:978
+msgid "El apellido tiene caracteres no permitidos."
+msgstr ""
+
+#: templates/gestionUsuarios.html:986
+msgid "El nombre de usuario es demasiado largo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:992
+msgid "El nombre de usuario tiene caracteres no permitidos."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1001
+msgid "La contraseña es demasiado larga."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1004
+msgid "La contraseña es demasiado corta."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1015 templates/listadoPacientes.html:313
+msgid "El teléfono debe contener exactamente 9 números."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1035 templates/listadoPacientes.html:332
+msgid "La fecha de nacimiento debe estar entre"
+msgstr ""
+
+#: templates/gestionUsuarios.html:1035 templates/listadoPacientes.html:332
+msgid " y "
+msgstr ""
+
+#: templates/gestionUsuarios.html:1047
+msgid "El ID del médico debe ser un número."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1055 templates/listadoPacientes.html:340
+msgid "La dirección es demasiado larga."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1061 templates/listadoPacientes.html:346
+msgid "La dirección tiene caracteres no permitidos."
 msgstr ""
 
 #: templates/layout.html:184
@@ -530,32 +587,12 @@ msgstr ""
 msgid "Información personal"
 msgstr ""
 
-#: templates/listadoPacientes.html:264
+#: templates/listadoPacientes.html:285
 msgid "Paciente editado correctamente"
 msgstr ""
 
-#: templates/listadoPacientes.html:267 templates/listadoPacientes.html:272
+#: templates/listadoPacientes.html:288 templates/listadoPacientes.html:293
 msgid "Error al editar el paciente"
-msgstr ""
-
-#: templates/listadoPacientes.html:292
-msgid "El teléfono debe contener exactamente 9 números."
-msgstr ""
-
-#: templates/listadoPacientes.html:311
-msgid "La fecha de nacimiento debe estar entre"
-msgstr ""
-
-#: templates/listadoPacientes.html:311
-msgid "y"
-msgstr ""
-
-#: templates/listadoPacientes.html:319
-msgid "La dirección es demasiado larga."
-msgstr ""
-
-#: templates/listadoPacientes.html:325
-msgid "La dirección tiene caracteres no permitidos."
 msgstr ""
 
 #: templates/login.html:5

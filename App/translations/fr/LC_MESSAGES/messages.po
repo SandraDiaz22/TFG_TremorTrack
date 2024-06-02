@@ -466,7 +466,8 @@ msgstr "Utilisateur supprimé avec succès"
 msgid "Error al eliminar el usuario"
 msgstr "Erreur lors de la suppression de utilisateur"
 
-#: templates/gestionUsuarios.html:774
+#: templates/gestionUsuarios.html:774 templates/gestionUsuarios.html:1022
+#: templates/gestionUsuarios.html:1043
 msgid "Por favor, complete todos los campos obligatorios."
 msgstr "Veuillez remplir tous les champs obligatoires."
 
@@ -478,7 +479,7 @@ msgstr "Utilisateur ajouté avec succès"
 msgid "Error al agregar el usuario"
 msgstr "Erreur lors de ajout de utilisateur"
 
-#: templates/gestionUsuarios.html:911
+#: templates/gestionUsuarios.html:911 templates/listadoPacientes.html:270
 msgid "No hay cambios para guardar."
 msgstr "Aucun changement à enregistrer."
 
@@ -489,6 +490,62 @@ msgstr "Utilisateur modifié avec succès"
 #: templates/gestionUsuarios.html:934 templates/gestionUsuarios.html:939
 msgid "Error al editar el usuario"
 msgstr "Erreur lors de la modification de utilisateur"
+
+#: templates/gestionUsuarios.html:959
+msgid "El nombre es demasiado largo."
+msgstr "Le nom est trop long."
+
+#: templates/gestionUsuarios.html:965
+msgid "El nombre tiene caracteres no permitidos."
+msgstr "Le nom contient des caractères non autorisés."
+
+#: templates/gestionUsuarios.html:973
+msgid "El apellido es demasiado largo."
+msgstr "Le prénom est trop long."
+
+#: templates/gestionUsuarios.html:978
+msgid "El apellido tiene caracteres no permitidos."
+msgstr "Le prénom contient des caractères non autorisés."
+
+#: templates/gestionUsuarios.html:986
+msgid "El nombre de usuario es demasiado largo."
+msgstr "Le nom de utilisateur est trop long."
+
+#: templates/gestionUsuarios.html:992
+msgid "El nombre de usuario tiene caracteres no permitidos."
+msgstr "Le nom de utilisateur contient des caractères non autorisés."
+
+#: templates/gestionUsuarios.html:1001
+msgid "La contraseña es demasiado larga."
+msgstr "Le mot de passe est trop long."
+
+#: templates/gestionUsuarios.html:1004
+msgid "La contraseña es demasiado corta."
+msgstr "Le mot de passe est trop court."
+
+#: templates/gestionUsuarios.html:1015 templates/listadoPacientes.html:313
+msgid "El teléfono debe contener exactamente 9 números."
+msgstr "Le numéro de téléphone doit contenir exactement 9 chiffres."
+
+#: templates/gestionUsuarios.html:1035 templates/listadoPacientes.html:332
+msgid "La fecha de nacimiento debe estar entre"
+msgstr "La date de naissance doit être comprise entre"
+
+#: templates/gestionUsuarios.html:1035 templates/listadoPacientes.html:332
+msgid " y "
+msgstr " et "
+
+#: templates/gestionUsuarios.html:1047
+msgid "El ID del médico debe ser un número."
+msgstr "Le ID du médecin doit être un numéro."
+
+#: templates/gestionUsuarios.html:1055 templates/listadoPacientes.html:340
+msgid "La dirección es demasiado larga."
+msgstr "Le adresse est trop longue."
+
+#: templates/gestionUsuarios.html:1061 templates/listadoPacientes.html:346
+msgid "La dirección tiene caracteres no permitidos."
+msgstr "Le adresse contient des caractères non autorisés."
 
 #: templates/layout.html:184
 msgid "Logo APP"
@@ -540,33 +597,13 @@ msgstr "Liste des patients"
 msgid "Información personal"
 msgstr "Informations personnelles"
 
-#: templates/listadoPacientes.html:264
+#: templates/listadoPacientes.html:285
 msgid "Paciente editado correctamente"
 msgstr "Patient modifié avec succès"
 
-#: templates/listadoPacientes.html:267 templates/listadoPacientes.html:272
+#: templates/listadoPacientes.html:288 templates/listadoPacientes.html:293
 msgid "Error al editar el paciente"
 msgstr "Erreur lors de la modification du patient"
-
-#: templates/listadoPacientes.html:292
-msgid "El teléfono debe contener exactamente 9 números."
-msgstr "Le numéro de téléphone doit contenir exactement 9 chiffres."
-
-#: templates/listadoPacientes.html:311
-msgid "La fecha de nacimiento debe estar entre"
-msgstr "La date de naissance doit être comprise entre"
-
-#: templates/listadoPacientes.html:311
-msgid "y"
-msgstr "et"
-
-#: templates/listadoPacientes.html:319
-msgid "La dirección es demasiado larga."
-msgstr "Le adresse est trop longue."
-
-#: templates/listadoPacientes.html:325
-msgid "La dirección tiene caracteres no permitidos."
-msgstr "Le adresse contient des caractères non autorisés."
 
 #: templates/login.html:5
 msgid "Login"

@@ -56,8 +56,8 @@
                                         <label for="sensor">{% trans %}Sensor:{% endtrans %}</label>
                                         <br>
                                         <select id="sensor" name="sensor">
-                                            <option value="si" {% if paciente.sensor == 'si' %} selected {% endif %}>{% trans %}Sí{% endtrans %}</option>
-                                            <option value="no" {% if paciente.sensor == 'no' %} selected {% endif %}>{% trans %}No{% endtrans %}</option>
+                                            <option value="si" {% if paciente.sensor == 'SI' %} selected {% endif %}>{% trans %}Sí{% endtrans %}</option>
+                                            <option value="no" {% if paciente.sensor == 'NO' %} selected {% endif %}>{% trans %}No{% endtrans %}</option>
                                         </select>
                                     </div>
                                 </div>
@@ -246,10 +246,31 @@
                 boton.addEventListener('click', function(event) {
                     event.preventDefault();
 
-                    // Encuentra el formulario asociado a este botón
+                    //Encuentra el formulario asociado a este botón
                     const formulario = boton.closest('form');
                     const formData = new FormData(formulario);
                     
+                    //Validar si hay cambios en el formulario para cambios input(contraseña vacía)
+                    let cambios = false;
+                    formulario.querySelectorAll('input').forEach(input => {
+                        if (input.value !== input.defaultValue) {
+                            cambios = true;
+                        }
+                    });
+
+                    //Validar si hay cambios en campos select
+                    formulario.querySelectorAll('select').forEach(select => {
+                        if (select.value !== select.defaultValue) {
+                            cambios = true;
+                        }
+                    });
+
+                    //Si no han realizado cambios
+                    if (!cambios) {
+                        alert('{% trans %}No hay cambios para guardar.{% endtrans %}');
+                        return;
+                    }
+
                     //Validar los datos
                     if (!validarDatos(formData)) {
                         return; //Detener el envío del formulario
@@ -308,7 +329,7 @@
 
             //Si la fecha no está en el rango permitido, error y cancelamos form
             if (fechaNacimientoDate < fechaMinima || fechaNacimientoDate > fechaMaxima) {
-                alert("{% trans %}La fecha de nacimiento debe estar entre{% endtrans %}" + fechaMaxima.getFullYear() + "{% trans %}y{% endtrans %}" + fechaMinima.getFullYear() + ".");
+                alert("{% trans %}La fecha de nacimiento debe estar entre{% endtrans %}" + fechaMaxima.getFullYear() + "{% trans %} y {% endtrans %}" + fechaMinima.getFullYear() + ".");
                 return false;
             }
 
