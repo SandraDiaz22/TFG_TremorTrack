@@ -438,7 +438,7 @@
                             
                             <!--Formulario edición usuario-->
                             <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
-                                <form action="/editar_usuario" method="POST">
+                                <form class="formulario-edicion" id="formulario-edicion-{{ paciente.id_paciente }}" action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
                                     <input type="hidden" name="editar_tipo" value="paciente">
                                 
@@ -518,7 +518,7 @@
                             
                                     <!--Falta foto--> 
                                 
-                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente">{% trans %}Guardar cambios{% endtrans %}</button>
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente" data-id-paciente="{{ paciente.id_paciente }}">{% trans %}Guardar cambios{% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
                                 </form>
                             </div>
@@ -838,8 +838,7 @@
 
 
         //----------------------------------------------------------------
-        //Lógica para mostrar el formulario de editar datos de usuarios
-        //dependiendo qué usuario le den
+        //Lógica para mostrar el form de editar datos del usuario solicitado
         $(document).ready(function(){
             //Administradores
             $(".boton-editar-administrador").click(function(){
@@ -875,36 +874,55 @@
 
 
 
+
         //----------------------------------------------------------------
         //Cuando se pulsa el botón de guardar cambios al editar los datos de 
         //los usuarios se llama a la función que actualiza esos datos en la 
         //base de datos y dependiendo del resultado se alerta al usuario
         document.addEventListener('DOMContentLoaded', function() {
+            let valoresIniciales = {};
+            // Capturar valores iniciales para cada formulario de pacientes
+            document.querySelectorAll('.formulario-edicion').forEach(formulario => {
+                let idPaciente = formulario.querySelector('input[name="usuario_id"]').value;
+                valoresIniciales[idPaciente] = {};
+                formulario.querySelectorAll('select').forEach(select => {
+                    valoresIniciales[idPaciente][select.name] = select.value;
+                });
+            });
+            //Cuando le den a guardar
             document.querySelectorAll('#boton-guardarCambios').forEach(function(boton) {
                 boton.addEventListener('click', function(event) {
                     event.preventDefault();
-
-                    //Obtener el formulario asociado al botón
+                    //Formulario que se ha clicado
                     const formulario = event.target.closest('form');
                     const formData = new FormData(formulario); //Datos del formulario
-
-                    //Validar si hay cambios en el formulario para cambios input(contraseña vacía)
+                    
+                    //Validar si hay cambios en el formulario
                     let cambios = false;
+
+                    //Para cambios input(contraseña vacía)
                     formulario.querySelectorAll('input').forEach(input => {
                         if (input.type !== 'password' && input.value !== input.defaultValue) {
-                            cambios = true;
-                        }
-                    });
-
-                    //Validar si hay cambios en campos select
-                    formulario.querySelectorAll('select').forEach(select => {
-                        if (select.value !== select.defaultValue) {
-                            cambios = true;
+                            cambios = true; 
                         }
                     });
 
                     //Si la contraseña no está vacía, es que hubo cambios
-                    if (formData.get('contraseña')) {cambios = true;}
+                    if (formData.get('contraseña')) {cambios = true;} 
+
+                    //Obtener el rol del usuario
+                    const rol = boton.dataset.rol;
+                    
+                    if (rol=='paciente'){
+                        //Obtener el id del paciente asociado al botón
+                        let idPaciente = this.getAttribute('data-id-paciente');
+                        //Validar si hay cambios en campos select
+                        formulario.querySelectorAll('select').forEach(select => {
+                            if (select.value !== valoresIniciales[idPaciente][select.name]) {
+                                 cambios = true; 
+                            } 
+                        });
+                    }
 
                     //Si no han realizado cambios
                     if (!cambios) {
@@ -912,15 +930,11 @@
                         return;
                     }
 
-                    //Obtener el rol del usuario
-                    const rol = boton.dataset.rol;
-
                     //Validar los datos
                     if (!validarDatos(formData, rol)) {
                         //Detener el envío del formulario
                         return;
                     }
-
 
                     fetch('/editar_usuario', {
                         method: 'POST',
@@ -940,6 +954,7 @@
                     });
                 });
             });
+            
             //Si decide cancelar los cambios, limpia el form
             document.querySelectorAll('.boton-cancelarCambios').forEach(function(botonCancelar) {
                 botonCancelar.addEventListener('click', function(event) {

@@ -487,8 +487,8 @@ msgstr "User successfully deleted"
 msgid "Error al eliminar el usuario"
 msgstr "Error deleting user"
 
-#: templates/gestionUsuarios.html:774 templates/gestionUsuarios.html:1022
-#: templates/gestionUsuarios.html:1043
+#: templates/gestionUsuarios.html:774 templates/gestionUsuarios.html:1037
+#: templates/gestionUsuarios.html:1058
 msgid "Por favor, complete todos los campos obligatorios."
 msgstr "Please complete all required fields."
 
@@ -500,71 +500,71 @@ msgstr "User successfully added"
 msgid "Error al agregar el usuario"
 msgstr "Error adding user"
 
-#: templates/gestionUsuarios.html:911 templates/listadoPacientes.html:270
+#: templates/gestionUsuarios.html:929 templates/listadoPacientes.html:270
 msgid "No hay cambios para guardar."
 msgstr "No changes to save."
 
-#: templates/gestionUsuarios.html:931
+#: templates/gestionUsuarios.html:945
 msgid "Usuario editado correctamente"
 msgstr "User successfully edited"
 
-#: templates/gestionUsuarios.html:934 templates/gestionUsuarios.html:939
+#: templates/gestionUsuarios.html:948 templates/gestionUsuarios.html:953
 msgid "Error al editar el usuario"
 msgstr "Error editing user"
 
-#: templates/gestionUsuarios.html:959
+#: templates/gestionUsuarios.html:974
 msgid "El nombre es demasiado largo."
 msgstr "The name is too long."
 
-#: templates/gestionUsuarios.html:965
+#: templates/gestionUsuarios.html:980
 msgid "El nombre tiene caracteres no permitidos."
 msgstr "The name contains invalid characters."
 
-#: templates/gestionUsuarios.html:973
+#: templates/gestionUsuarios.html:988
 msgid "El apellido es demasiado largo."
 msgstr "The last name is too long."
 
-#: templates/gestionUsuarios.html:978
+#: templates/gestionUsuarios.html:993
 msgid "El apellido tiene caracteres no permitidos."
 msgstr "The last name contains invalid characters."
 
-#: templates/gestionUsuarios.html:986
+#: templates/gestionUsuarios.html:1001
 msgid "El nombre de usuario es demasiado largo."
 msgstr "The username is too long."
 
-#: templates/gestionUsuarios.html:992
+#: templates/gestionUsuarios.html:1007
 msgid "El nombre de usuario tiene caracteres no permitidos."
 msgstr "The username contains invalid characters."
 
-#: templates/gestionUsuarios.html:1001
+#: templates/gestionUsuarios.html:1016
 msgid "La contraseña es demasiado larga."
 msgstr "The password is too long."
 
-#: templates/gestionUsuarios.html:1004
+#: templates/gestionUsuarios.html:1019
 msgid "La contraseña es demasiado corta."
 msgstr "The password is too short."
 
-#: templates/gestionUsuarios.html:1015 templates/listadoPacientes.html:313
+#: templates/gestionUsuarios.html:1030 templates/listadoPacientes.html:313
 msgid "El teléfono debe contener exactamente 9 números."
 msgstr "The phone number must contain exactly 9 digits."
 
-#: templates/gestionUsuarios.html:1035 templates/listadoPacientes.html:332
+#: templates/gestionUsuarios.html:1050 templates/listadoPacientes.html:332
 msgid "La fecha de nacimiento debe estar entre"
 msgstr "The date of birth must be between"
 
-#: templates/gestionUsuarios.html:1035 templates/listadoPacientes.html:332
+#: templates/gestionUsuarios.html:1050 templates/listadoPacientes.html:332
 msgid " y "
 msgstr " and "
 
-#: templates/gestionUsuarios.html:1047
+#: templates/gestionUsuarios.html:1062
 msgid "El ID del médico debe ser un número."
 msgstr "The doctor ID must be a number."
 
-#: templates/gestionUsuarios.html:1055 templates/listadoPacientes.html:340
+#: templates/gestionUsuarios.html:1070 templates/listadoPacientes.html:340
 msgid "La dirección es demasiado larga."
 msgstr "The address is too long."
 
-#: templates/gestionUsuarios.html:1061 templates/listadoPacientes.html:346
+#: templates/gestionUsuarios.html:1076 templates/listadoPacientes.html:346
 msgid "La dirección tiene caracteres no permitidos."
 msgstr "The address contains invalid characters."
 
