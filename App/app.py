@@ -1,39 +1,40 @@
 from flask import Flask, jsonify, render_template, request, make_response, session, redirect, url_for, send_from_directory, g, flash
-
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
 
-from config import DevelopmentConfig
-from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
-import hashlib
-from flask_babel import Babel, _
+#Traducciones
+from flask_babel import Babel, _ 
+
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta, time
-
-from fechasRegistros import actualizar_fechas_registros, obtener_fechas_registro
-from analizarVideos import analizarVideos
-
 import form
-import csv
 import os
 import json
 import pandas as pd
-import numpy as np
-import matplotlib
-matplotlib.use('agg')
-import matplotlib.pyplot as plt
 
-import io
-import base64
+#Librería para encriptar contraseñas
+import hashlib
 
+#Configuración app
+from config import DevelopmentConfig
 
+#Base de datos
+from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
+
+#Funciones creadas por la alumna
+from fechasRegistros import actualizar_fechas_registros, obtener_fechas_registro
+from analizarVideos import analizarVideos
+
+#Librerías de machine learning para las predicciones
 from statsmodels.tsa.holtwinters import SimpleExpSmoothing
 from statsmodels.tsa.holtwinters import Holt
 from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 
 
-#Inicializar aplicación
+
+#----------------------------------------------------------------
+#Inicializar aplicación y traducciones
 app = Flask(__name__, static_url_path='/static')
 babel= Babel(app)
 
@@ -41,6 +42,7 @@ babel= Babel(app)
 app.config.from_object(DevelopmentConfig)
 app.secret_key = b'claveSuperMegaSecreta' #Clave secreta para las sesiones
 app.permanent_session_lifetime = timedelta(hours=1) #Duración limitada de las sesiones(1 hora de inactividad)
+
 
 #Conexion base de datos
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:maria@localhost/parkinson'
@@ -67,126 +69,16 @@ def usuarioActual():
     return dict(usuario=usuario)
 
 
-
 #Fotos
 app.static_folder = 'fotos'
+
 
 #Determina la página en la que nos encontramos(para el navbar)
 @app.before_request
 def pagina_actual():
     if request.endpoint:
         g.page = request.endpoint.split('.')[-1]
-
-
-
 #----------------------------------------------------------------
-#Subida de archivos a la bbdd
-
-#Configurar directorio donde se guardarán los archivos subidos
-app.config['RUTA_REGISTROS'] = 'static/registros'
-app.config['RUTA_VIDEOS'] = 'static/videos'
-#Limitar el tamaño máximo
-app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB
-        
-#Extensiones de archivo permitidas
-EXTENSION_CSV = {'csv'}
-EXTENSION_VIDEO = {'mp4'}
-
-#Funciones que verifican que el archivo pasado tiene la extensión permitida
-def CSVpermitido(archivo):
-    return '.' in archivo and \
-           archivo.rsplit('.', 1)[1].lower() in EXTENSION_CSV
-
-def VIDEOpermitido(archivo):
-    return '.' in archivo and \
-           archivo.rsplit('.', 1)[1].lower() in EXTENSION_VIDEO
-
-
-@app.route('/subirDatosSensor/<id_paciente>', methods=['POST'])
-def subir_datos_sensor(id_paciente):
-    archivo = request.files['archivo_sensor'] #Archivo introducido por el médico 
-    print(archivo)
-    if archivo and CSVpermitido(archivo.filename):
-        #Obtener la fecha y hora actual(con segundos)
-        fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-        # Obtener fecha inicial y final del registro
-        fecha_ini, fecha_fin = obtener_fechas_registro(archivo)
-        fecha_ini_str = fecha_ini.strftime("%Y-%m-%d")
-        fecha_fin_str = fecha_fin.strftime("%Y-%m-%d")
-
-        #Generar un nombre único para el archivo
-        nombre_archivo = f"stat_on_ID{id_paciente}_{fecha_ini_str}_a_{fecha_fin_str}_{fecha_subida}.csv"
-        
-        #Ruta de la carpeta del usuario dentro de static/registros
-        ruta_usuario = os.path.join(app.config['RUTA_REGISTROS'], str(id_paciente))
-        #Si no existe carpeta para ese usurio la crea
-        os.makedirs(ruta_usuario, exist_ok=True)
-
-        #Ruta completa del archivo
-        ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
-        #Guardamos el archivo
-        archivo.seek(0)  #Puntero al principio del archivo
-        archivo.save(ruta_archivo)
-
-        #Crea una instancia del modelo Registros
-        nuevo_registro = Registros(paciente=id_paciente, datos_en_crudo=ruta_archivo)
-        #Y la añade a la base de datos
-        db.session.add(nuevo_registro)
-        db.session.commit()
-
-        print('Archivo CSV subido con éxito.')
-        
-        #Rellenar fecha inicial y final del registro en la bbdd
-        actualizar_fechas_registros()
-        print('Fechas actualizadas en la base de datos con éxito.')
-
-        #Redireccionar al usuario(medico/admin) a la página anterior
-        return redirect(request.referrer)
-
-
-
-
-@app.route('/subirVideo/<id_paciente>', methods=['POST'])
-def subir_video(id_paciente):
-    if request.method == 'POST':
-        archivo_video = request.files['archivo_video']  #Archivo introducido por el médico 
-        if archivo_video and VIDEOpermitido(archivo_video.filename):
-            #Extrae la fecha, mano dominante, lentitud y amplitud del formulario
-            fecha_video = request.form['fecha_video']
-            mano_dominante = request.form['mano']
-            lentitud = request.form['lentitud']
-            amplitud = request.form['amplitud']
-
-            #Obtener la fecha y hora actual(con segundos)
-            fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-            
-            #Generar un nombre único para el archivo
-            # ID_id_paciente_FECHA_MANO_FechaDeSubida.mp4
-            nombre_archivo = f"ID{id_paciente}_{fecha_video}_{mano_dominante}_{fecha_subida}.mp4"
-
-            #Carpeta donde se van a guardar los vídeos
-            ruta_usuario = os.path.join(app.config['RUTA_VIDEOS'], str(id_paciente))
-            #Si no existe carpeta para ese usurio la crea
-            os.makedirs(ruta_usuario, exist_ok=True)
-    
-            #Ruta completa del archivo
-            ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
-            #Guardamos el archivo
-            archivo_video.save(ruta_archivo)
-
-            #Crea una nueva instancia del modelo Videos
-            nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante, lentitud=lentitud, amplitud=amplitud)
-            #Y la añade a la base de datos
-            db.session.add(nuevo_video)
-            db.session.commit()
-
-            #Analizar vídeo subido para sacar sus características
-            analizarVideos()
-
-            print('Archivo de vídeo subido con éxito.')
-            return jsonify({'message': 'Archivo de vídeo subido con éxito.'})
-    return '', 400
-
 
 
 
@@ -207,17 +99,17 @@ app.config['LANGUAGES'] = {
 #sino el preferido del navegador del usuario
 #y sino pone el idioma predeterminado
 def get_locale():
-    # Intenta obtener el idioma almacenado en la cookie
+    #Intenta obtener el idioma almacenado en la cookie
     idioma_cookie = request.cookies.get('idioma')
     if idioma_cookie:
         return idioma_cookie
     
-    # Si no hay idioma almacenado en la cookie, utiliza el idioma preferido del navegador
+    #Si no hay idioma almacenado en la cookie, utiliza el idioma preferido del navegador
     idioma_navegador = request.accept_languages.best_match(app.config['LANGUAGES'].keys())
     if idioma_navegador is not None:
         return idioma_navegador
     
-    # Si el navegador no especifica un idioma preferido, utiliza el idioma predeterminado
+    #Si el navegador no especifica, utiliza el predeterminado, español
     return app.config['BABEL_DEFAULT_LOCALE']
 
 
@@ -238,7 +130,6 @@ def cambiar_idioma(idioma):
         respuesta.set_cookie('idioma', value=idioma, max_age=86400)
         return respuesta
     return 'Idioma no válido'
-
 #----------------------------------------------------------------
 
 
@@ -251,12 +142,16 @@ def cambiar_idioma(idioma):
             #<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> -->
 
 
+
 #----------------------------------------------------------------
 #Ruta para poder mostrar las imágenes
 @app.route('/get_image/<filename>')
 def get_image(filename):
     return send_from_directory('static/fotos', filename)
 #----------------------------------------------------------------
+
+
+
 #----------------------------------------------------------------
 #Ruta para poder mostrar los vídeos
 @app.route('/get_video/<int:id_paciente>/<filename>')
@@ -284,7 +179,6 @@ def page_not_found(e):
 def paginaprincipal():
     return render_template('paginaprincipal.html')
 #----------------------------------------------------------------
-
 
 
 
@@ -324,7 +218,6 @@ def login():
         usuario_medico = Medico.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
         usuario_administrador = Administrador.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
         usuario_paciente = Paciente.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
-
 
         #Diferentes páginas de bienvenida según el usuario
         #Si es administrador
@@ -403,7 +296,7 @@ def gestionUsuarios():
         print('Se debe iniciar sesión como administrador para acceder a esta página', 'error')
         return redirect(url_for('paginaprincipal'))
     
-    #Obtener el id del admin logueado
+    #Obtener el id del admin logueado:
     #Nombre de usuario del admin logeado
     username_admin = session.get('username')
     #Objeto de ese admin en la bbdd
@@ -520,7 +413,6 @@ def agregarUsuario(rol):
 
         #Si es otro admin
         elif rol == 'administrador':
-
             #Crea un nuevo Administrador(sin foto)
             nuevo_administrador = Administrador(nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
                                                 nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
@@ -563,11 +455,15 @@ def actualizar_datos_personales():
         #Editamos al paciente
         paciente = Paciente.query.get(id_paciente)
         if paciente:
-            paciente.sensor = sensor
-            paciente.lateralidad = lateralidad
             paciente.fecha_de_nacimiento = fecha_de_nacimiento
             paciente.direccion = direccion
             paciente.telefono = telefono
+
+            #Si es un paciente no puede editar los campos de sensor y lateralidad
+            if sensor:
+                paciente.sensor = sensor
+                paciente.lateralidad = lateralidad
+
             db.session.commit() #Subir a la bbdd
             return 'Paciente editado correctamente', 200
         else:
@@ -618,6 +514,118 @@ def editar_usuario():
         return 'Usuario editado correctamente', 200
     else:
         return 'Usuario no encontrado', 404
+#----------------------------------------------------------------
+
+
+
+#----------------------------------------------------------------
+#Subida de archivos a la bbdd
+
+#Configurar directorio donde se guardarán los archivos subidos
+app.config['RUTA_REGISTROS'] = 'static/registros'
+app.config['RUTA_VIDEOS'] = 'static/videos'
+#Limitar el tamaño máximo
+app.config['MAX_CONTENT_LENGTH'] = 100 * 1024 * 1024  # 100MB
+#Extensiones de archivo permitidas
+EXTENSION_CSV = {'csv'}
+EXTENSION_VIDEO = {'mp4'}
+
+#Funciones que verifican que el archivo pasado tiene la extensión permitida
+def CSVpermitido(archivo):
+    return '.' in archivo and \
+           archivo.rsplit('.', 1)[1].lower() in EXTENSION_CSV
+
+def VIDEOpermitido(archivo):
+    return '.' in archivo and \
+           archivo.rsplit('.', 1)[1].lower() in EXTENSION_VIDEO
+
+
+#Función que guarda en los archivos y sube a la base de datos el archivo
+#del sensor introducido en la app
+@app.route('/subirDatosSensor/<id_paciente>', methods=['POST'])
+def subir_datos_sensor(id_paciente):
+    archivo = request.files['archivo_sensor'] #Archivo introducido por el médico 
+    print(archivo)
+    if archivo and CSVpermitido(archivo.filename):
+        #Obtener la fecha y hora actual(con segundos)
+        fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+        # Obtener fecha inicial y final del registro
+        fecha_ini, fecha_fin = obtener_fechas_registro(archivo)
+        fecha_ini_str = fecha_ini.strftime("%Y-%m-%d")
+        fecha_fin_str = fecha_fin.strftime("%Y-%m-%d")
+
+        #Generar un nombre único para el archivo
+        nombre_archivo = f"stat_on_ID{id_paciente}_{fecha_ini_str}_a_{fecha_fin_str}_{fecha_subida}.csv"
+        
+        #Ruta de la carpeta del usuario dentro de static/registros
+        ruta_usuario = os.path.join(app.config['RUTA_REGISTROS'], str(id_paciente))
+        #Si no existe carpeta para ese usurio la crea
+        os.makedirs(ruta_usuario, exist_ok=True)
+
+        #Ruta completa del archivo
+        ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
+        #Guardamos el archivo
+        archivo.seek(0)  #Puntero al principio del archivo
+        archivo.save(ruta_archivo)
+
+        #Crea una instancia del modelo Registros
+        nuevo_registro = Registros(paciente=id_paciente, datos_en_crudo=ruta_archivo)
+        #Y la añade a la base de datos
+        db.session.add(nuevo_registro)
+        db.session.commit()
+
+        print('Archivo CSV subido con éxito.')
+        
+        #Rellenar fecha inicial y final del registro en la bbdd
+        actualizar_fechas_registros()
+        print('Fechas actualizadas en la base de datos con éxito.')
+
+        #Redireccionar al usuario(medico/admin) a la página anterior
+        return redirect(request.referrer)
+
+
+#Función que guarda en los archivos y sube a la base de datos el vídeo
+#del sensor introducido en la app
+@app.route('/subirVideo/<id_paciente>', methods=['POST'])
+def subir_video(id_paciente):
+    if request.method == 'POST':
+        archivo_video = request.files['archivo_video']  #Archivo introducido por el médico 
+        if archivo_video and VIDEOpermitido(archivo_video.filename):
+            #Extrae la fecha, mano dominante, lentitud y amplitud del formulario
+            fecha_video = request.form['fecha_video']
+            mano_dominante = request.form['mano']
+            lentitud = request.form['lentitud']
+            amplitud = request.form['amplitud']
+
+            #Obtener la fecha y hora actual(con segundos)
+            fecha_subida = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+            
+            #Generar un nombre único para el archivo
+            # ID_id_paciente_FECHA_MANO_FechaDeSubida.mp4
+            nombre_archivo = f"ID{id_paciente}_{fecha_video}_{mano_dominante}_{fecha_subida}.mp4"
+
+            #Carpeta donde se van a guardar los vídeos
+            ruta_usuario = os.path.join(app.config['RUTA_VIDEOS'], str(id_paciente))
+            #Si no existe carpeta para ese usurio la crea
+            os.makedirs(ruta_usuario, exist_ok=True)
+    
+            #Ruta completa del archivo
+            ruta_archivo = os.path.join(ruta_usuario, nombre_archivo).replace('\\', '/')
+            #Guardamos el archivo
+            archivo_video.save(ruta_archivo)
+
+            #Crea una nueva instancia del modelo Videos
+            nuevo_video = Videos(paciente=id_paciente, fecha=fecha_video, contenido=nombre_archivo, mano_dominante=mano_dominante, lentitud=lentitud, amplitud=amplitud)
+            #Y la añade a la base de datos
+            db.session.add(nuevo_video)
+            db.session.commit()
+
+            #Analizar vídeo subido para sacar sus características
+            analizarVideos()
+
+            print('Archivo de vídeo subido con éxito.')
+            return jsonify({'message': 'Archivo de vídeo subido con éxito.'})
+    return '', 400
 #----------------------------------------------------------------
 
 
@@ -990,8 +998,8 @@ def predecirVideo():
     n_pasos = 4 #Número de pasos hacia adelante para predecir
 
     # Definir los valores iniciales para modo known
-    initial_level = 0.0
-    initial_trend = 1.0 
+    # initial_level = 0.0
+    # initial_trend = 1.0 
 
     #Predecir los datos de la mano izquierda
     for key in datos_videos_izq[0].keys():
