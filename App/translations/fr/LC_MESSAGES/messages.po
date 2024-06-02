@@ -145,13 +145,43 @@ msgstr "Revoir mon évolution"
 msgid "Mostrar vídeos"
 msgstr "Afficher les vidéos"
 
-#: templates/BienvenidaPaciente.html:111
+#: templates/BienvenidaPaciente.html:107 templates/gestionUsuarios.html:929
+#: templates/listadoPacientes.html:270
+msgid "No hay cambios para guardar."
+msgstr "Aucun changement à enregistrer."
+
+#: templates/BienvenidaPaciente.html:122
 msgid "Los datos se han actualizado correctamente"
 msgstr "Les données ont été mises à jour avec succès"
 
-#: templates/BienvenidaPaciente.html:114 templates/BienvenidaPaciente.html:119
+#: templates/BienvenidaPaciente.html:125 templates/BienvenidaPaciente.html:130
 msgid "Error al editar los datos"
 msgstr "Erreur lors de la modification des données"
+
+#: templates/BienvenidaPaciente.html:150 templates/gestionUsuarios.html:1030
+#: templates/listadoPacientes.html:313
+msgid "El teléfono debe contener exactamente 9 números."
+msgstr "Le numéro de téléphone doit contenir exactement 9 chiffres."
+
+#: templates/BienvenidaPaciente.html:169 templates/gestionUsuarios.html:1050
+#: templates/listadoPacientes.html:332
+msgid "La fecha de nacimiento debe estar entre"
+msgstr "La date de naissance doit être comprise entre"
+
+#: templates/BienvenidaPaciente.html:169 templates/gestionUsuarios.html:1050
+#: templates/listadoPacientes.html:332
+msgid " y "
+msgstr " et "
+
+#: templates/BienvenidaPaciente.html:177 templates/gestionUsuarios.html:1070
+#: templates/listadoPacientes.html:340
+msgid "La dirección es demasiado larga."
+msgstr "Le adresse est trop longue."
+
+#: templates/BienvenidaPaciente.html:183 templates/gestionUsuarios.html:1076
+#: templates/listadoPacientes.html:346
+msgid "La dirección tiene caracteres no permitidos."
+msgstr "Le adresse contient des caractères non autorisés."
 
 #: templates/contacto.html:5 templates/layout.html:196
 msgid "Contacto"
@@ -479,10 +509,6 @@ msgstr "Utilisateur ajouté avec succès"
 msgid "Error al agregar el usuario"
 msgstr "Erreur lors de ajout de utilisateur"
 
-#: templates/gestionUsuarios.html:929 templates/listadoPacientes.html:270
-msgid "No hay cambios para guardar."
-msgstr "Aucun changement à enregistrer."
-
 #: templates/gestionUsuarios.html:945
 msgid "Usuario editado correctamente"
 msgstr "Utilisateur modifié avec succès"
@@ -523,29 +549,9 @@ msgstr "Le mot de passe est trop long."
 msgid "La contraseña es demasiado corta."
 msgstr "Le mot de passe est trop court."
 
-#: templates/gestionUsuarios.html:1030 templates/listadoPacientes.html:313
-msgid "El teléfono debe contener exactamente 9 números."
-msgstr "Le numéro de téléphone doit contenir exactement 9 chiffres."
-
-#: templates/gestionUsuarios.html:1050 templates/listadoPacientes.html:332
-msgid "La fecha de nacimiento debe estar entre"
-msgstr "La date de naissance doit être comprise entre"
-
-#: templates/gestionUsuarios.html:1050 templates/listadoPacientes.html:332
-msgid " y "
-msgstr " et "
-
 #: templates/gestionUsuarios.html:1062
 msgid "El ID del médico debe ser un número."
 msgstr "Le ID du médecin doit être un numéro."
-
-#: templates/gestionUsuarios.html:1070 templates/listadoPacientes.html:340
-msgid "La dirección es demasiado larga."
-msgstr "Le adresse est trop longue."
-
-#: templates/gestionUsuarios.html:1076 templates/listadoPacientes.html:346
-msgid "La dirección tiene caracteres no permitidos."
-msgstr "Le adresse contient des caractères non autorisés."
 
 #: templates/layout.html:184
 msgid "Logo APP"

@@ -92,10 +92,21 @@
             document.querySelectorAll('.boton-guardar').forEach(function(boton) {
                 boton.addEventListener('click', function(event) {
                     event.preventDefault();
-                    
                     //Encuentra el formulario asociado a este botón
                     const formulario = boton.closest('form');
                     const formData = new FormData(formulario);
+
+                    //Validar si hay cambios en el formulario para cambios input
+                    let cambios = false;
+                    formulario.querySelectorAll('input').forEach(input => {
+                        if (input.value !== input.defaultValue) {
+                            cambios = true; } });
+                    
+                    //Si no han realizado cambios
+                    if (!cambios) { 
+                        alert('{% trans %}No hay cambios para guardar.{% endtrans %}');
+                        return;
+                    }
 
                     //Validar los datos
                     if (!validarDatos(formData)) {
@@ -108,7 +119,7 @@
                     })
                     .then(response => {
                         if (response.ok) {
-                            alert('{% trans %}Los datos se han actualizado correctamente{% endtrans %}'); //Bien
+                            alert('{% trans %}Los datos se han actualizado correctamente{% endtrans %}'); //Bien 111
                             location.reload(); //Recargar la página
                         } else {
                             alert('{% trans %}Error al editar los datos{% endtrans %}');
@@ -136,10 +147,9 @@
             var telefono = formData.get("telefonoP");
             var telefonoRegex = /^[0-9]{9}$/; //RE para 9 números
             if (!telefonoRegex.test(telefono)) { //Si no tiene 9 números mostramos error y cancelamos form
-                alert("El teléfono debe contener exactamente 9 números.");
+                alert("{% trans %}El teléfono debe contener exactamente 9 números.{% endtrans %}");
                 return false;
             }
-
 
 
             //Validar fecha de nacimiento
@@ -156,25 +166,23 @@
 
             //Si la fecha no está en el rango permitido, error y cancelamos form
             if (fechaNacimientoDate < fechaMinima || fechaNacimientoDate > fechaMaxima) {
-                alert("La fecha de nacimiento debe estar entre " + fechaMaxima.getFullYear() + " y " + fechaMinima.getFullYear() + ".");
+                alert("{% trans %}La fecha de nacimiento debe estar entre{% endtrans %}" + fechaMaxima.getFullYear() + "{% trans %} y {% endtrans %}" + fechaMinima.getFullYear() + ".");
                 return false;
             }
-
 
 
             //Validar direccion
             var direccion = formData.get("direccionP");
             if (direccion.length > 100) {
-                alert("La dirección es demasiado larga.");
+                alert("{% trans %}La dirección es demasiado larga.{% endtrans %}");
                 return false; //Demasiado larga
             }
             //Si tiene caracteres que no son propios de una direccion, error y cancelamos form
             var direccionRegex = /^[A-Za-z0-9áéíóúÁÉÍÓÚ.,ºª\-# ]+$/;
             if (!direccionRegex.test(direccion)) {
-                alert("La dirección tiene caracteres no permitidos.");
+                alert("{% trans %}La dirección tiene caracteres no permitidos.{% endtrans %}");
                 return false;
             }
-
 
             
             //Si todo está bien
