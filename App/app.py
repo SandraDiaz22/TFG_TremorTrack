@@ -824,28 +824,86 @@ def returnByDatas(data, ini, fin):
 #Funcion que crea la gráfica a partir de lo enviado en el formulario
 @app.route('/crearGrafico', methods=['POST'])
 def crearGrafico():
+    #Idioma actual 
+    idioma_cookie = request.cookies.get('idioma')
+
     #Qué gráfico mostrar dependiendo de la seleccion del formulario        
     seleccion_grafico = request.form.get('seleccionGrafico')
     if seleccion_grafico == '1':
-        ColumnasAEstudiar = ['W_MEAN_FILT', 'W_STD', 'NUM_WALK']
-        TitulosGraficas = ['Marcha media filtrada', 'Desviación estándar media de la marcha', 'Número de pasos considerados']
-        EjeYMedidas = ['m/s\u00b2','m/s\u00b2','nº pasos']
-        TituloGeneral = 'Parámetros de Bradicinesia'
+        if idioma_cookie == 'en':
+            ColumnasAEstudiar = ['W_MEAN_FILT', 'W_STD', 'NUM_WALK']
+            TitulosGraficas = ['Filtered Mean Gait', 'Standard Deviation of Gait', 'Number of Considered Steps']
+            EjeYMedidas = ['m/s\u00b2','m/s\u00b2','Number of steps']
+            TituloGeneral = 'Bradykinesia parameters'
+        
+        elif idioma_cookie == 'fr':
+            ColumnasAEstudiar = ['W_MEAN_FILT', 'W_STD', 'NUM_WALK']
+            TitulosGraficas = ['Marche moyenne filtrée', 'Écart-type moyen de la marche', 'Nombre de pas considérés']
+            EjeYMedidas = ['m/s\u00b2','m/s\u00b2','Nombre de pas']
+            TituloGeneral = 'Paramètres de bradykinésie'
+
+        else:
+            ColumnasAEstudiar = ['W_MEAN_FILT', 'W_STD', 'NUM_WALK']
+            TitulosGraficas = ['Marcha media filtrada', 'Desviación estándar media de la marcha', 'Número de pasos considerados']
+            EjeYMedidas = ['m/s\u00b2','m/s\u00b2','nº pasos']
+            TituloGeneral = 'Parámetros de Bradicinesia'
+
     elif seleccion_grafico == '2':
-        ColumnasAEstudiar = ['FOG_EP', 'DYSKP', 'DYSKC']
-        TitulosGraficas = ['Episodios de FoG', 'Probabilidad de discinesia','Confianza en la discinesia']
-        EjeYMedidas = ['Episodios','Probabilidad','Confianza']
-        TituloGeneral = 'Parámetros de FoG y Discinesia'
+        if idioma_cookie == 'en':
+            ColumnasAEstudiar = ['FOG_EP', 'DYSKP', 'DYSKC']
+            TitulosGraficas = ['FoG Episodes', 'Probability of Dyskinesia', 'Confidence in Dyskinesia']
+            EjeYMedidas = ['Episodes', 'Probability', 'Confidence']
+            TituloGeneral = 'FoG and dyskinesia parameters'
+        
+        elif idioma_cookie == 'fr':
+            ColumnasAEstudiar = ['FOG_EP', 'DYSKP', 'DYSKC']
+            TitulosGraficas = ['Épisodes de FoG', 'Probabilité de dyskinésie', 'Confiance en la dyskinésie']
+            EjeYMedidas = ['Épisodes', 'Probabilité', 'Confiance']
+            TituloGeneral = 'Paramètres de FoG et de dyskinésie'
+
+        else:
+            ColumnasAEstudiar = ['FOG_EP', 'DYSKP', 'DYSKC']
+            TitulosGraficas = ['Episodios de FoG', 'Probabilidad de discinesia','Confianza en la discinesia']
+            EjeYMedidas = ['Episodios','Probabilidad','Confianza']
+            TituloGeneral = 'Parámetros de FoG y Discinesia'
+
     elif seleccion_grafico == '3':
-        ColumnasAEstudiar = ['LEN', 'NUM_STEPS', 'SPEED', 'CAD']
-        TitulosGraficas = ['Longitud de los pasos', 'Número de pasos', 'Velocidad de zancada', 'Cadencia de los pasos']
-        EjeYMedidas = ['m','nº pasos','m/s','pasos/min']
-        TituloGeneral = 'Información de los pasos'
+        if idioma_cookie == 'en':
+            ColumnasAEstudiar = ['LEN', 'NUM_STEPS', 'SPEED', 'CAD']
+            TitulosGraficas = ['Step Length', 'Number of Steps', 'Stride Speed', 'Step Cadence']
+            EjeYMedidas = ['m', 'Number of steps', 'm/s', 'steps/min']
+            TituloGeneral = 'Step information'
+            
+        elif idioma_cookie == 'fr':
+            ColumnasAEstudiar = ['LEN', 'NUM_STEPS', 'SPEED', 'CAD']
+            TitulosGraficas = ['Longueur des pas', 'Nombre de pas', 'Vitesse de pas', 'Cadence des pas']
+            EjeYMedidas = ['m', 'Nombre de pas', 'm/s', 'pas/min']
+            TituloGeneral = 'Informations sur les pas'
+
+        else:
+            ColumnasAEstudiar = ['LEN', 'NUM_STEPS', 'SPEED', 'CAD']
+            TitulosGraficas = ['Longitud de los pasos', 'Número de pasos', 'Velocidad de zancada', 'Cadencia de los pasos']
+            EjeYMedidas = ['m','nº pasos','m/s','pasos/min']
+            TituloGeneral = 'Información de los pasos'
+
     elif seleccion_grafico == '4':
-        ColumnasAEstudiar = ['MOTOR10', 'DYSK10', 'BRADY10']
-        TitulosGraficas = ['Estado motor 10 min', 'Discinesia 10 min', 'Bradicinesia 10 min']
-        EjeYMedidas = ['0=OFF 1=ON 2=INT 3=NaN','0,3=NaN 1=Dysk yes 2=No Dysk','0=OFF 1=ON 2=INT 3=NaN']
-        TituloGeneral = 'Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min'
+        if idioma_cookie == 'en':
+            ColumnasAEstudiar = ['MOTOR10', 'DYSK10', 'BRADY10']
+            TitulosGraficas = ['Motor State 10 min', 'Dyskinesia 10 min', 'Bradykinesia 10 min']
+            EjeYMedidas = ['0=OFF 1=ON 2=INT 3=NaN','0,3=NaN 1=Dysk yes 2=No Dysk','0=OFF 1=ON 2=INT 3=NaN']
+            TituloGeneral = 'Motor state, dyskinesia, and bradykinesia parameters at 10 min' 
+
+        elif idioma_cookie == 'fr':
+            ColumnasAEstudiar = ['MOTOR10', 'DYSK10', 'BRADY10']
+            TitulosGraficas = ['État moteur 10 min', 'Dyskinésie 10 min', 'Bradykinésie 10 min']
+            EjeYMedidas = ['0=OFF 1=ON 2=INT 3=NaN','0,3=NaN 1=Dysk yes 2=No Dysk','0=OFF 1=ON 2=INT 3=NaN']
+            TituloGeneral = 'Paramètres de le état moteur, dyskinésie et bradykinésie à 10 min'
+        
+        else:
+            ColumnasAEstudiar = ['MOTOR10', 'DYSK10', 'BRADY10']
+            TitulosGraficas = ['Estado motor 10 min', 'Discinesia 10 min', 'Bradicinesia 10 min']
+            EjeYMedidas = ['0=OFF 1=ON 2=INT 3=NaN','0,3=NaN 1=Dysk yes 2=No Dysk','0=OFF 1=ON 2=INT 3=NaN']
+            TituloGeneral = 'Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min'
 
     #Fecha inicio y fin del gráfico
     fecha_desde = request.form.get('fechaInicio')
