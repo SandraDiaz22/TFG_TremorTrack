@@ -24,7 +24,7 @@
         <h1>{% trans %}Listado pacientes{% endtrans %}</h1>
         <table class="table">
             <thead>
-                <tr>
+                <tr> <!--Títulos tabla-->
                     <th>{% trans %}ID{% endtrans %}</th>
                     <th>{% trans %}Nombre{% endtrans %}</th>
                     <th>{% trans %}Foto{% endtrans %}</th>
@@ -32,7 +32,7 @@
                 </tr>
             </thead>
             <tbody>
-                {% for paciente in pacientes %}
+                {% for paciente in pacientes %} <!--Por cada paciente del médico-->
                 <tr>
                     <td>{{ paciente.id_paciente }}</td>
                     <td>{{ paciente.nombre }}</td>
@@ -61,7 +61,7 @@
                                         </select>
                                     </div>
                                 </div>
-
+                                <!--Fecha de nacimiento, dirección, teléfono-->
                                 <label for="fecha_de_nacimientoP">{% trans %}Fecha de Nacimiento:{% endtrans %}</label>
                                 <input type="date" id="fecha_de_nacimientoP" name="fecha_de_nacimientoP" value="{{ paciente.fecha_de_nacimiento }}"><br>
                             
@@ -78,19 +78,19 @@
                         <br>
 
                         <button class="btn btn-primary subir-videos">{% trans %}Subir vídeo{% endtrans %}</button>
-                        <div class="formulario-videos" style="display: none;">
+                        <div class="formulario-videos" style="display: none;"> <!--Formulario subir vídeo-->
                             <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data" id="formularioSubirVideo">
                                 <div class="form-group">
-                                    <label for="archivo_video">{% trans %}Archivo de vídeo:{% endtrans %}</label>
+                                    <label for="archivo_video">{% trans %}Archivo de vídeo:{% endtrans %}</label> <!--Vídeo-->
                                     <input type="file" name="archivo_video" accept="video/*" required>
                                 </div>
                                 <div class="form-group">
-                                    <label for="fecha_video">{% trans %}Fecha del vídeo:{% endtrans %}</label>
+                                    <label for="fecha_video">{% trans %}Fecha del vídeo:{% endtrans %}</label> <!--Fecha del vídeo-->
                                     <input type="date" id="fecha_video" name="fecha_video" required>
                                 </div>
                                 <div class="form-group flex-container">
                                     <div class="flex-item">
-                                        <label for="mano">{% trans %}Mano del vídeo:{% endtrans %}</label>
+                                        <label for="mano">{% trans %}Mano del vídeo:{% endtrans %}</label> <!--Mano del vídeo-->
                                         <select id="mano" name="mano" required>
                                             <option value="">{% trans %}Seleccionar{% endtrans %}</option>
                                             <option value="derecha">{% trans %}Derecha{% endtrans %}</option>
@@ -98,7 +98,7 @@
                                         </select>
                                     </div>
                                     <div class="flex-item">
-                                        <label for="lentitud">{% trans %}Lentitud:{% endtrans %}</label>
+                                        <label for="lentitud">{% trans %}Lentitud:{% endtrans %}</label> <!--Lentitud del vídeo-->
                                         <select id="lentitud" name="lentitud" required>
                                             <option value="">{% trans %}Seleccionar{% endtrans %}</option>
                                             <option value="0">{% trans %}0{% endtrans %}</option>
@@ -109,7 +109,7 @@
                                         </select>
                                     </div>
                                     <div class="flex-item">
-                                        <label for="amplitud">{% trans %}Amplitud:{% endtrans %}</label>
+                                        <label for="amplitud">{% trans %}Amplitud:{% endtrans %}</label> <!--Amplitud del vídeo-->
                                         <select id="amplitud" name="amplitud" required>
                                             <option value="">{% trans %}Seleccionar{% endtrans %}</option>
                                             <option value="0">{% trans %}0{% endtrans %}</option>
@@ -122,7 +122,7 @@
                                 </div>
                                 <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %}Subir vídeo{% endtrans %}</button>
                                 <div class="subiendo" style="display: none;">
-                                    <p>{% trans %}Subiendo...(esto podría tardar unos minutos){% endtrans %}</p><!--TODO-->
+                                    <p>{% trans %}Subiendo...(esto podría tardar unos minutos){% endtrans %}</p><!--Mensaje mientras se sube el vídeo-->
                                 </div>
                             </form>
                         </div>
@@ -132,7 +132,7 @@
                         <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %}Mostrar vídeos{% endtrans %}</a>
 
 
-                        <button class="btn btn-success subir-datos">{% trans %}Subir datos sensor{% endtrans %}</button>
+                        <button class="btn btn-success subir-datos">{% trans %}Subir datos sensor{% endtrans %}</button> <!--Subir datos sensor-->
                         <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
                             <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
                                 <div class="form-group">
@@ -144,7 +144,7 @@
                             </form>
                         </div>
 
-
+                        <!--Mostrar datos sensor-->
                         <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-secondary">{% trans %}Mostrar datos sensor{% endtrans %}</a>
 
                     </td>

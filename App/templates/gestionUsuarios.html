@@ -194,7 +194,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for admin in admins %}
+                    {% for admin in admins %} <!--Por cada admin de la bbdd-->
                     <tr>
                         <td>{{ admin.id_admin }}</td>
                         <td>{{ admin.nombre }}</td>
@@ -239,7 +239,7 @@
                                         <input type="email" id="correo_electronico" name="correo_electronico" value="{{ admin.correo_electronico }}">
                                     </div>
                             
-                                    <!--Falta la foto-->
+                                    
                             
                                     <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="administrador">{% trans %}Guardar cambios{% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
@@ -315,7 +315,7 @@
                                         <input type="email" id="correo_electronico" name="correo_electronico" value="{{ medico.correo_electronico }}">
                                     </div>
                             
-                                    <!--Falta foto-->
+                                    
                             
                                     <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="medico">{% trans %}Guardar cambios{% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
@@ -361,15 +361,15 @@
                                     <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data" id="formularioSubirVideo">
                                         <div class="form-group">
                                             <label for="archivo_video">{% trans %}Archivo de vídeo:{% endtrans %}</label>
-                                            <input type="file" name="archivo_video" accept="video/*" required>
+                                            <input type="file" name="archivo_video" accept="video/*" required> <!--Vídeo-->
                                         </div>
                                         <div class="form-group">
                                             <label for="fecha_video">{% trans %}Fecha del vídeo:{% endtrans %}</label>
-                                            <input type="date" id="fecha_video" name="fecha_video" required>
+                                            <input type="date" id="fecha_video" name="fecha_video" required> <!--Fecha vídeo-->
                                         </div>
                                         <div class="form-group flex-container">
                                             <div class="flex-item">
-                                                <label for="mano">{% trans %}Mano del vídeo:{% endtrans %}</label>
+                                                <label for="mano">{% trans %}Mano del vídeo:{% endtrans %}</label> <!--Mano vídeo-->
                                                 <select id="mano" name="mano" required>
                                                     <option value="">{% trans %}Seleccionar{% endtrans %}</option>
                                                     <option value="derecha">{% trans %}Derecha{% endtrans %}</option>
@@ -377,7 +377,7 @@
                                                 </select>
                                             </div>
                                             <div class="flex-item">
-                                                <label for="lentitud">{% trans %}Lentitud:{% endtrans %}</label>
+                                                <label for="lentitud">{% trans %}Lentitud:{% endtrans %}</label> <!--Lentitud-->
                                                 <select id="lentitud" name="lentitud" required>
                                                     <option value="">{% trans %}Seleccionar{% endtrans %}</option>
                                                     <option value="0">{% trans %}0{% endtrans %}</option>
@@ -388,7 +388,7 @@
                                                 </select>
                                             </div>
                                             <div class="flex-item">
-                                                <label for="amplitud">{% trans %}Amplitud:{% endtrans %}</label>
+                                                <label for="amplitud">{% trans %}Amplitud:{% endtrans %}</label> <!--Amplitud-->
                                                 <select id="amplitud" name="amplitud" required>
                                                     <option value="">{% trans %}Seleccionar{% endtrans %}</option>
                                                     <option value="0">{% trans %}0{% endtrans %}</option>
@@ -401,7 +401,7 @@
                                         </div>
                                         <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %}Subir vídeo{% endtrans %}</button>
 
-                                        <div class="subiendo" style="display: none;">
+                                        <div class="subiendo" style="display: none;"> <!--Mensaje que aparece mientras se sube el vídeo a la bbdd-->
                                             <p>{% trans %}Subiendo...(esto podría tardar unos minutos){% endtrans %}</p>
                                         </div>
                                         
@@ -516,7 +516,7 @@
                                         </div>
                                     </div>
                             
-                                    <!--Falta foto--> 
+                                     
                                 
                                     <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente" data-id-paciente="{{ paciente.id_paciente }}">{% trans %}Guardar cambios{% endtrans %}</button>
                                     <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
@@ -683,11 +683,11 @@
         //----------------------------------------------------------------
         //Eliminar usuario de la bbdd
         function eliminarUsuario(idUsuario, rolUsuario, adminIdLogueado) {
-            if (idUsuario == adminIdLogueado) {
+            if (idUsuario == adminIdLogueado) { //Si tratas de eliminarte a ti mismo
                 alert('{% trans %}No puedes eliminarte a ti mismo.{% endtrans %} ');
                 return;
             }
-            if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este usuario?{% endtrans %} ')) {
+            if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este usuario?{% endtrans %} ')) { //Si confirman
                 fetch('/eliminarUsuario/' + rolUsuario + '/' + idUsuario, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json' },

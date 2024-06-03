@@ -12,7 +12,7 @@ session = Session()
 
 
 
-#Función que guarda en la base de datos una imagen de una persona aleatoria no existente
+#Función que guarda en la base de datos de médicos una imagen de una persona aleatoria no existente
 #de la página 'thispersondoesnotexist.com' 
 def guardar_imagen(id_medico):
     try:

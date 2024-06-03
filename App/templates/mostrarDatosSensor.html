@@ -26,23 +26,23 @@
 <!--Contenido de la página-->
 <div class="container mt-4 mb-4">
 
-    <!--Migas de pan-->
+    <!--Migas de pan dependiendo qué usuario acceda-->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            {% if es_admin %}
+            {% if es_admin %} <!--Administrador-->
                 <li class="breadcrumb-item"><a href="/BienvenidaAdmin">{% trans %}Bienvenido{% endtrans %}</a></li>
                 <li class="breadcrumb-item"><a href="/gestionUsuarios">{% trans %}Gestión de Usuarios{% endtrans %}</a></li>
-            {% elif es_medico %}
+            {% elif es_medico %} <!--Médico-->
                 <li class="breadcrumb-item"><a href="/BienvenidaMedico">{% trans %}Bienvenido{% endtrans %}</a></li>
                 <li class="breadcrumb-item"><a href="/listadoPacientes">{% trans %}Listado de Pacientes{% endtrans %}</a></li>
-            {% elif es_paciente %}
+            {% elif es_paciente %} <!--Paciente-->
                 <li class="breadcrumb-item"><a href="/BienvenidaPaciente">{% trans %}Bienvenido{% endtrans %}</a></li>  
             {% endif %}
             <li aria-current="page" class="breadcrumb-item active">{% trans %}Mostrar Datos Sensor{% endtrans %}</li>
         </ol>
     </nav>
     
-    <!--Paciente-->
+    <!--Paciente del que se muestran los datos-->
     <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">{% trans %}Paciente:{% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
     
 
@@ -50,7 +50,7 @@
     <form id="formulario" action="" method="post" novalidate>
         <label for="seleccionGrafico">{% trans %}Selecciona la gráfica a mostrar:{% endtrans %}</label>
         
-        <select id="seleccionGrafico" name="seleccionGrafico" required>
+        <select id="seleccionGrafico" name="seleccionGrafico" required> <!--Tipo de gráfico-->
             <option value="">{% trans %}Seleccionar{% endtrans %}</option>
             <option value="1">{% trans %}Parámetros de Bradicinesia{% endtrans %}</option>
             <option value="2">{% trans %}Parámetros de FoG y Discinesia{% endtrans %}</option>
@@ -58,7 +58,7 @@
             <option value="4">{% trans %}Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min{% endtrans %}</option>
         </select>
 
-        <div class="flatpickr">
+        <div class="flatpickr"> <!--Fechas a mostrar-->
             <label for="calendario">{% trans %}Selecciona las fechas a mostrar:{% endtrans %}</label>
             <input type="text" placeholder="{% trans %}Seleciona fechas...{% endtrans %}" id="calendario" name="calendario" required>
             <p id="mensaje-fechas-disponibles"></p>
@@ -80,7 +80,7 @@
         <!--Miniaturas gráficas-->
         <div id="miniaturas" class="miniaturas-contenedor"></div>
     
-        <!-- Hueco para la gráfica grande-->
+        <!--Hueco para la gráfica grande-->
         <div id="graficoDefinitivo"></div>
     </div>
 

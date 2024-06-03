@@ -12,8 +12,8 @@ session = Session()
 
 
 
-#Función que guarda en la base de datos una imagen de una persona aleatoria no existente
-#de la página 'thispersondoesnotexist.com' 
+#Función que guarda en la base de datos de pacientes una imagen de una persona aleatoria no existente
+#de la página 'thispersondoesnotexist.com'
 def guardar_imagen(id_paciente):
     try:
         response = requests.get("https://thispersondoesnotexist.com/")

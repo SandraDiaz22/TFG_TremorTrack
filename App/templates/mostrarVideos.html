@@ -21,16 +21,16 @@
 <!--Contenido de la página-->
 <div class="container mt-4 mb-4">
 
-    <!--Migas de pan-->
+    <!--Migas de pan dependiendo qué usuario acceda-->
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            {% if es_admin %}
+            {% if es_admin %} <!--Administrador-->
                 <li class="breadcrumb-item"><a href="/BienvenidaAdmin">{% trans %}Bienvenido{% endtrans %}</a></li>
                 <li class="breadcrumb-item"><a href="/gestionUsuarios">{% trans %}Gestión de Usuarios{% endtrans %}</a></li>
-            {% elif es_medico %}
+            {% elif es_medico %} <!--Médico-->
                 <li class="breadcrumb-item"><a href="/BienvenidaMedico">{% trans %}Bienvenido{% endtrans %}</a></li>
                 <li class="breadcrumb-item"><a href="/listadoPacientes">{% trans %}Listado de Pacientes{% endtrans %}</a></li>
-            {% elif es_paciente %}
+            {% elif es_paciente %} <!--Paciente-->
                 <li class="breadcrumb-item"><a href="/BienvenidaPaciente">{% trans %}Bienvenido{% endtrans %}</a></li>  
             {% endif %}
             <li aria-current="page" class="breadcrumb-item active">{% trans %}Mostrar Vídeos{% endtrans %}</li>
@@ -128,7 +128,7 @@
         </div>
 
         <div class="row" id="graficosPredicciones" style="display: none;">
-            <!-- Gráfico mano izquierda -->
+            <!-- Gráfico predicción mano izquierda -->
             <div class="col-md-6 col-12">
                 <h3 style="margin-top: 50px;">{% trans %}Gráfico predicción mano izquierda{% endtrans %}</h3>
                 <div style="display: flex; justify-content: center; height: 40vh;">
@@ -136,7 +136,7 @@
                 </div>
             </div>
 
-            <!-- Gráfico mano derecha -->
+            <!-- Gráfico predicción mano derecha -->
             <div class="col-md-6 col-12">
                 <h3 style="margin-top: 50px;">{% trans %}Gráfico predicción mano derecha{% endtrans %}</h3>
                 <div style="display: flex; justify-content: center; height: 40vh;">
@@ -179,7 +179,7 @@
 
 
 
-
+            //Colores y label para cada dato
             const datasets_dcha = [
                 {   label: '{% trans %}Lentitud{% endtrans %}',
                     data: lentitudData_dcha,

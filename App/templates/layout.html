@@ -50,7 +50,7 @@
 
 
 
-                /*-----------------------*/
+        /*Tarjeta coninformacion*/
         .presentacion {  
             margin: 0 auto; max-width: 600px;
             border: 2px solid #ccc; /*Bordes*/
@@ -171,14 +171,14 @@
     <!--Barra superior de navegación-->
     <nav class="navbar navbar-expand-md" style="font-size: 18px; background-color:#489eee40;"><!--Se contrae al hacer bastante pequeño-->
         <div class="container-fluid"> <!--Contenedor para no estar pegado a los bordes-->
-            
+            <!--Si ya están logeados, el logo lleva a la página de bienvenida de ese usuario-->
             {% if session['rol'] == 'administrador' %}
                 <a class="navbar-brand" href="/BienvenidaAdmin">
             {% elif session['rol'] == 'medico' %}
                 <a class="navbar-brand" href="/BienvenidaMedico">
             {% elif session['rol'] == 'paciente' %}
                 <a class="navbar-brand" href="/BienvenidaPaciente">
-            {% else %}
+            {% else %}<!--Si no están logeados, el logo lleva a la página principal de la app-->
                 <a class="navbar-brand" href="/">
             {% endif %}
                     <img src="/get_image/logoSinFondo.png" alt="{% trans %}Logo APP{% endtrans %}" style="max-width: 50px; height: auto;"> <!--Logo-->
@@ -192,11 +192,11 @@
             
             <ul class="navbar-nav"><!--A la izq-->
                 
-                <li class="nav-item" style="width: 200px;">
+                <li class="nav-item" style="width: 200px;"> <!--Contacto-->
                     <a class="nav-link {% if g.page == 'contacto' %}active text-primary{% endif %}" href="/contacto">{% trans %}Contacto{% endtrans %}</a>
                 </li>
                 
-                <li class="nav-item dropdown" style="width: 200px;">
+                <li class="nav-item dropdown" style="width: 200px;"> <!--Idioma-->
                     <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         {% trans %}Idioma{% endtrans %}
                     </a>
@@ -236,7 +236,7 @@
                         </ul>
                     </li>
 
-                {% else %} <!--Si no está logueado-->
+                {% else %} <!--Si no está logueado muestra la pp y la de login-->
                     <li class="nav-item" style="width: 200px;">
                         <a class="nav-link {% if g.page == 'paginaprincipal' %}active text-primary{% endif %}" href="/">{% trans %}Página principal{% endtrans %}</a><!--Lleva a la página principal-->
                     </li>
