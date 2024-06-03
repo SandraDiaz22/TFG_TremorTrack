@@ -1009,10 +1009,6 @@ def predecirVideo():
     predicciones_dcha = {}
     n_pasos = 4 #Número de pasos hacia adelante para predecir
 
-    # Definir los valores iniciales para modo known
-    # initial_level = 0.0
-    # initial_trend = 1.0 
-
     #Predecir los datos de la mano izquierda
     for key in datos_videos_izq[0].keys():
         if key == 'fecha':
@@ -1021,22 +1017,8 @@ def predecirVideo():
         serie_tiempo_izq = [dato[key] for dato in datos_videos_izq]
         serie_tiempo_izq = [float(valor) for valor in serie_tiempo_izq]  # Convertir a float
 
-        #Suavizado exponencial simple
-        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq) #Ajustar el modelo sin metodo
-        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'estimated') #Modelo Estimated
-        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'heuristic') #Modelo Heuristic
-        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'legacy-heuristic') #Modelo Legacy-heuristic
-        # modelo_izq = SimpleExpSmoothing(serie_tiempo_izq, initialization_method = 'known', initial_level=initial_level) #Modelo Known
-
         #Suavizado exponencial de Holt
         modelo_izq = Holt(serie_tiempo_izq) 
-        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'estimated') #Modelo Estimated
-        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'heuristic') #Modelo Heuristic
-        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'legacy-heuristic') #Modelo Legacy-heuristic
-        # modelo_izq = Holt(serie_tiempo_izq, initialization_method = 'known', initial_level=initial_level, initial_trend=initial_trend) #Modelo Known
-
-        #Suavizado exponencial de Holt-Winters
-        # modelo_izq = ExponentialSmoothing(serie_tiempo_izq, trend='add', seasonal=None)
 
         #Entrenar modelo
         modelo_fit_izq = modelo_izq.fit()
@@ -1054,9 +1036,6 @@ def predecirVideo():
         #Por cada carcaterística
         serie_tiempo_dcha = [dato[key] for dato in datos_videos_dcha]
         serie_tiempo_dcha = [float(valor) for valor in serie_tiempo_dcha]  # Convertir a float
-
-        #Suavizado exponencial simple
-        #modelo_dcha = SimpleExpSmoothing(serie_tiempo_dcha) #Ajustar el modelo
 
         #Suavizado exponencial de Holt
         modelo_dcha = Holt(serie_tiempo_dcha) 
