@@ -109,7 +109,7 @@
         <!--Predicciones--> 
         <button type="button" class="predecir" onclick="predecir()">{% trans %}Predecir{% endtrans %}</button>
 
-        <div class="row">
+        <div class="row" id="graficosSinPredicciones">
             <!-- Gráfico mano izquierda -->
             <div class="col-md-6 col-12">
                 <h3 style="margin-top: 50px;">{% trans %}Gráfico mano izquierda{% endtrans %}</h3>
@@ -375,9 +375,9 @@
                 datosVideos_dcha: datosVideos_dcha
             }),
             success: function(response) {
-                //Mostrar gráficos
+                //Mostrar gráficos predicciones y ocultar los antiguos
                 $("#graficosPredicciones").show();
-
+                $("#graficosSinPredicciones").hide()
                 //Arrays para cada característica
                 const lentitudData_izq = [], amplitudData_izq = [], velocidadMediaData_izq = [], frecuenciaMaxData_izq = [], frecuenciaMinData_izq = [], promedioMaxData_izq = [], desvEstandarMaxData_izq = [];
                 const lentitudData_dcha = [], amplitudData_dcha = [], velocidadMediaData_dcha = [], frecuenciaMaxData_dcha = [], frecuenciaMinData_dcha = [], promedioMaxData_dcha = [], desvEstandarMaxData_dcha = [];
@@ -489,22 +489,6 @@
                         }
                     }
                 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
             },
