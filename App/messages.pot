@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-02 22:13+0200\n"
+"POT-Creation-Date: 2024-06-04 20:23+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -614,14 +614,22 @@ msgid "Inicio sesión"
 msgstr ""
 
 #: templates/login.html:28
+msgid "Nombre de usuario"
+msgstr ""
+
+#: templates/login.html:29
 msgid "Ingresa tu nombre de usuario"
 msgstr ""
 
-#: templates/login.html:35
+#: templates/login.html:37
+msgid "Contraseña"
+msgstr ""
+
+#: templates/login.html:38
 msgid "Ingresa tu contraseña"
 msgstr ""
 
-#: templates/login.html:55
+#: templates/login.html:65
 msgid "Enviar"
 msgstr ""
 

@@ -624,14 +624,22 @@ msgid "Inicio sesión"
 msgstr "Connexion"
 
 #: templates/login.html:28
+msgid "Nombre de usuario"
+msgstr "Nom de utilisateur"
+
+#: templates/login.html:29
 msgid "Ingresa tu nombre de usuario"
 msgstr "Entrez votre nom de utilisateur"
 
-#: templates/login.html:35
+#: templates/login.html:37
+msgid "Contraseña"
+msgstr "Mot de passe"
+
+#: templates/login.html:38
 msgid "Ingresa tu contraseña"
 msgstr "Entrez votre mot de passe"
 
-#: templates/login.html:55
+#: templates/login.html:65
 msgid "Enviar"
 msgstr "Envoyer"
 

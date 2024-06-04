@@ -7,7 +7,6 @@ from flask_babel import Babel, _
 
 from werkzeug.utils import secure_filename
 from datetime import datetime, timedelta, time
-import form
 import os
 import json
 import pandas as pd
@@ -201,15 +200,12 @@ def contacto():
 #       - Formulario
 @app.route('/login', methods=['GET', 'POST'])
 def login():    
-    #formulario de form.py
-    formulario = form.FormularioAcceso(request.form)
-
     #cuando den al botón de iniciar sesión
     if request.method == 'POST':
 
         #Obtener datos del formulario
         username = request.form.get('username')
-        contraseña = request.form.get('contraseña')
+        contraseña = request.form.get('password')
 
         #Hashear la contraseña
         contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
@@ -240,11 +236,19 @@ def login():
         
         #Si no es ninguno
         else:
-            error = 'Credenciales incorrectas. Inténtalo de nuevo.'
+            idioma_cookie = request.cookies.get('idioma')
+            #Dependiendo del idioma se muestra un mensaje de error o otro
+            if idioma_cookie == 'en':
+                error = 'Incorrect credentials. Please try again.'
+            elif idioma_cookie == 'fr':
+                error = 'Identifiants incorrects. Veuillez réessayer.'
+            else:
+                error = 'Credenciales incorrectas. Inténtalo de nuevo.'
+            
             flash(error, 'error')  #Mostrar error al usuario
     
 
-    return render_template('login.html', form=formulario)
+    return render_template('login.html')
 #----------------------------------------------------------------
 
 

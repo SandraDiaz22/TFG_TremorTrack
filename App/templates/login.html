@@ -19,23 +19,35 @@
   <h1>{% trans %}Inicio sesión{% endtrans %}</h1>
 
 
-  <!--Formulario de inicio de sesión, randerizando de form.py-->
-  {% from "camposform.html" import render_field %}
+  <!--Formulario de inicio de sesión-->
 
   <form action="/login" method="post" >
 
     <!-- Casilla para el nombre -->
-    {{ render_field(form.username, class='form-control', placeholder=_('Ingresa tu nombre de usuario')) }}
-    <!-- Para mostrar mensajes de error -->
-    {% for error in form.username.errors %}
-        <p class="help-block text-danger">{{ error }}</p>
-    {% endfor %}
+    <div>
+      <label for="username" style="font-size: 1.2em; margin-bottom: 15px;">{% trans %}Nombre de usuario{% endtrans %}</label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="{% trans %}Ingresa tu nombre de usuario{% endtrans %}" required>
+      {% if 'username' in errors %}
+          <p class="help-block text-danger">{{ errors['username'] }}</p>
+      {% endif %}
+    </div>
+
+    <br>
 
     <!-- Casilla para la contraseña -->
-    {{ render_field(form.contraseña, type='password', class='form-control', placeholder=_('Ingresa tu contraseña')) }}
-    {% for error in form.contraseña.errors %}
-        <p class="help-block text-danger">{{ error }}</p>
-    {% endfor %}
+    <div>
+        <label for="password" style="font-size: 1.2em; margin-bottom: 15px;">{% trans %}Contraseña{% endtrans %}</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="{% trans %}Ingresa tu contraseña{% endtrans %}" required>
+        {% if 'password' in errors %}
+            <p class="help-block text-danger">{{ errors['password'] }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Honeypot (campo oculto) -->
+    <div style="display:none;">
+        <label for="honeypot">Campo oculto</label>
+        <input type="text" id="honeypot" name="honeypot">
+    </div>
 
     <br>
     
@@ -54,8 +66,6 @@
 
     <button type="submit">{% trans %}Enviar{% endtrans %}</button>
 
-
- 
   </form>
   <br>
 
