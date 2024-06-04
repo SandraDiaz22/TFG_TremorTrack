@@ -699,7 +699,11 @@
                         alert('{% trans %}Usuario eliminado con éxito{% endtrans %}');
                         //Recargar la página
                         setTimeout(function(){ location.reload(); }, 1000);
-                    } else {
+                        
+                    } else if (response.status === 400) {
+                        alert('{% trans %}No se puede eliminar al médico porque tiene pacientes a su cargo.{% endtrans %}');
+
+                    }else{
                         alert('{% trans %}Error al eliminar el usuario{% endtrans %}');
                     }
                 })
@@ -710,8 +714,6 @@
             }
         }
         //----------------------------------------------------------------
-
-
 
 
         //----------------------------------------------------------------
@@ -742,7 +744,6 @@
 
 
 
-
         //----------------------------------------------------------------
         //Pasar los datos del formulario a app.py para añadir a la
         //bbdd un usuario con esos datos
@@ -753,7 +754,6 @@
             document.getElementById("formulario-agregar-usuario").style.display = "none";
         }
         //----------------------------------------------------------------
-
 
 
 

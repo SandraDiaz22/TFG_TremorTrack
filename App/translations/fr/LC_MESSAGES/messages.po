@@ -492,7 +492,11 @@ msgstr "Êtes-vous sûr de vouloir supprimer cet utilisateur ?"
 msgid "Usuario eliminado con éxito"
 msgstr "Utilisateur supprimé avec succès"
 
-#: templates/gestionUsuarios.html:703 templates/gestionUsuarios.html:708
+#: templates/gestionUsuarios.html:704
+msgid "No se puede eliminar al médico porque tiene pacientes a su cargo."
+msgstr "Vous ne pouvez pas éliminer le médecin parce que il a des patients sous sa garde."
+
+#: templates/gestionUsuarios.html:707 templates/gestionUsuarios.html:712
 msgid "Error al eliminar el usuario"
 msgstr "Erreur lors de la suppression de utilisateur"
 
@@ -631,15 +635,15 @@ msgstr "Nom de utilisateur"
 msgid "Ingresa tu nombre de usuario"
 msgstr "Entrez votre nom de utilisateur"
 
-#: templates/login.html:37
+#: templates/login.html:39
 msgid "Contraseña"
 msgstr "Mot de passe"
 
-#: templates/login.html:38
+#: templates/login.html:40
 msgid "Ingresa tu contraseña"
 msgstr "Entrez votre mot de passe"
 
-#: templates/login.html:65
+#: templates/login.html:67
 msgid "Enviar"
 msgstr "Envoyer"
 

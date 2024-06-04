@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, render_template, request, make_response, session, redirect, url_for, send_from_directory, g, flash
 from flask_wtf import CSRFProtect
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
 
 #Traducciones
 from flask_babel import Babel, _ 
@@ -324,30 +325,35 @@ def gestionUsuarios():
 @app.route('/eliminarUsuario/<rol>/<int:idUsuario>', methods=['POST'])
 def eliminarUsuario(rol, idUsuario):
     if request.method == 'POST':
-        if rol == 'paciente':
-            usuario = Paciente.query.get_or_404(idUsuario)
-            #Eliminar sus vídeos asociados
-            videos = Videos.query.filter_by(paciente=idUsuario).all()
-            if videos:
-                for video in videos:
-                    db.session.delete(video)
-                db.session.commit()
-            #Eliminar sus registros asociados
-            registros = Registros.query.filter_by(paciente=idUsuario).all()
-            if registros:
-                for registro in registros:
-                    db.session.delete(registro)
-                db.session.commit()
+        try:
+            if rol == 'paciente':
+                usuario = Paciente.query.get_or_404(idUsuario)
+                #Eliminar sus vídeos asociados
+                videos = Videos.query.filter_by(paciente=idUsuario).all()
+                if videos:
+                    for video in videos:
+                        db.session.delete(video)
+                    db.session.commit()
+                #Eliminar sus registros asociados
+                registros = Registros.query.filter_by(paciente=idUsuario).all()
+                if registros:
+                    for registro in registros:
+                        db.session.delete(registro)
+                    db.session.commit()
+            
+            elif rol == 'medico':
+                usuario = Medico.query.get_or_404(idUsuario)
+            
+            elif rol == 'administrador':
+                usuario = Administrador.query.get_or_404(idUsuario)
+            
+            db.session.delete(usuario) #Eliminamos usuario
+            db.session.commit()
+            return 'Usuario eliminado correctamente', 200
         
-        elif rol == 'medico':
-            usuario = Medico.query.get_or_404(idUsuario)
-        
-        elif rol == 'administrador':
-            usuario = Administrador.query.get_or_404(idUsuario)
-        
-        db.session.delete(usuario) #Eliminamos usuario
-        db.session.commit()
-        return 'Usuario eliminado correctamente', 200
+        except IntegrityError as e:
+            if rol == 'medico' and 'a foreign key constraint fails' in str(e.orig):
+                return 'No se puede eliminar al médico porque tiene pacientes a su cargo', 400
     else:
         return 'Método no permitido', 405
 #----------------------------------------------------------------

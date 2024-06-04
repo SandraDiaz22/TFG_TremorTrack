@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-04 20:23+0200\n"
+"POT-Creation-Date: 2024-06-04 21:46+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -482,7 +482,11 @@ msgstr ""
 msgid "Usuario eliminado con éxito"
 msgstr ""
 
-#: templates/gestionUsuarios.html:703 templates/gestionUsuarios.html:708
+#: templates/gestionUsuarios.html:704
+msgid "No se puede eliminar al médico porque tiene pacientes a su cargo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:707 templates/gestionUsuarios.html:712
 msgid "Error al eliminar el usuario"
 msgstr ""
 
@@ -621,15 +625,15 @@ msgstr ""
 msgid "Ingresa tu nombre de usuario"
 msgstr ""
 
-#: templates/login.html:37
+#: templates/login.html:39
 msgid "Contraseña"
 msgstr ""
 
-#: templates/login.html:38
+#: templates/login.html:40
 msgid "Ingresa tu contraseña"
 msgstr ""
 
-#: templates/login.html:65
+#: templates/login.html:67
 msgid "Enviar"
 msgstr ""
 
