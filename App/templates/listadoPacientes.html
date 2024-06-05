@@ -198,6 +198,16 @@
                     return;
                 }
                 
+                //Validación de la fecha
+                let fechaSeleccionada = new Date(dateInput.val());
+                let hoy = new Date();
+                hoy.setHours(23, 59, 59, 999); // Ajustar la hora a 23:59:59
+
+                if (fechaSeleccionada > hoy) {
+                    alert('{% trans %}La fecha del vídeo no puede ser posterior a la fecha actual.{% endtrans %}');
+                    return;
+                }
+                
                 //Mostrar mensaje subiendo...
                 var subiendo = form.find('.subiendo');
                 subiendo.show();
