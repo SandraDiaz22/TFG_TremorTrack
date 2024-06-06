@@ -13,6 +13,9 @@ import os
 import json
 import pandas as pd
 
+#Configuración con clave secreta
+from config import Config 
+
 #Librería para encriptar contraseñas
 import hashlib
 
@@ -36,7 +39,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 app = Flask(__name__, static_url_path='/static')
 
 #Clave secreta para CSRF y sesiones
-app.config['SECRET_KEY'] = 'contraseña_super_mega_secreta'
+app.config.from_object(Config)
 #Iniciar CSRFProtect
 csrf = CSRFProtect(app)
 
