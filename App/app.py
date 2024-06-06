@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, render_template, request, make_response, session, redirect, url_for, send_from_directory, g, flash
 from flask_wtf import CSRFProtect
+from forms import LoginForm
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 
@@ -14,9 +15,6 @@ import pandas as pd
 
 #Librería para encriptar contraseñas
 import hashlib
-
-#Configuración app
-from config import DevelopmentConfig
 
 #Base de datos
 from modelosbbdd import db, Administrador, Medico, Paciente, Registros, Videos
@@ -34,13 +32,18 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 
 
 #----------------------------------------------------------------
-#Inicializar aplicación y traducciones
+#Inicializar aplicación
 app = Flask(__name__, static_url_path='/static')
+
+#Clave secreta para CSRF y sesiones
+app.config['SECRET_KEY'] = 'contraseña_super_mega_secreta'
+#Iniciar CSRFProtect
+csrf = CSRFProtect(app)
+
+#Iniciar traducciones
 babel= Babel(app)
 
-#Configuración
-app.config.from_object(DevelopmentConfig)
-app.secret_key = b'claveSuperMegaSecreta' #Clave secreta para las sesiones
+#Configuración de duración de las sesiones
 app.permanent_session_lifetime = timedelta(hours=1) #Duración limitada de las sesiones(1 hora de inactividad)
 
 
@@ -127,19 +130,10 @@ def cambiar_idioma(idioma):
     if idioma in app.config['LANGUAGES']:
         #Mete el idioma en una cookie con una duración de 1 día
         respuesta = make_response(redirect(request.referrer))
-        respuesta.set_cookie('idioma', value=idioma, max_age=86400)
+        respuesta.set_cookie('idioma', value=idioma, max_age=86400, secure=True, httponly=True)
         return respuesta
     return 'Idioma no válido'
 #----------------------------------------------------------------
-
-
-
-#Proteccion anti cross-site request forgery
-#csrf = CSRFProtect()
-#quitado de login porque daba error aunque antes funcionaba
-            #<!-- Campos ocultos vs ataques
-            #{{ form.honeypot }}
-            #<input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/> -->
 
 
 
@@ -201,12 +195,11 @@ def contacto():
 #       - Formulario
 @app.route('/login', methods=['GET', 'POST'])
 def login():    
-    #cuando den al botón de iniciar sesión
-    if request.method == 'POST':
-
+    form = LoginForm()
+    if form.validate_on_submit():
         #Obtener datos del formulario
-        username = request.form.get('username')
-        contraseña = request.form.get('password')
+        username = form.username.data
+        contraseña = form.password.data
 
         #Hashear la contraseña
         contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
@@ -249,7 +242,7 @@ def login():
             flash(error, 'error')  #Mostrar error al usuario
     
 
-    return render_template('login.html')
+    return render_template('login.html', form=form)
 #----------------------------------------------------------------
 
 
@@ -567,6 +560,7 @@ def VIDEOpermitido(archivo):
 @app.route('/subirDatosSensor/<id_paciente>', methods=['POST'])
 def subir_datos_sensor(id_paciente):
     archivo = request.files['archivo_sensor'] #Archivo introducido por el médico 
+    csrf_token = request.form['csrf_token'] # Token CSRF enviado desde el formulario
     print(archivo)
     if archivo and CSVpermitido(archivo.filename):
         #Obtener la fecha y hora actual(con segundos)
@@ -1185,6 +1179,4 @@ def BienvenidaPaciente():
 
 
 if __name__=='__main__':
-    #csrf.init_app(app) #Proteccion anti csrf
-
-    app.run(debug=True) #Ejecutar
+    app.run(debug=False) #Ejecutar

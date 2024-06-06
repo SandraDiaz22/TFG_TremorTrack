@@ -42,7 +42,7 @@
                         <div class="datos-personales" style="display: none;"> <!--Datos invisibles-->
                             <form class="formulario-edicion" id="formulario-datos-personales-{{ paciente.id_paciente }}"><!--Muestra los datos y permite cambiarlos-->
                                 <input type="hidden" name="id_paciente" value="{{ paciente.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
-                                
+                                <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}"> <!--Campo oculto para el csrf-->
                                 <div class="form-group flex-container"> <!--Lateralidad y sensor-->
                                     <div class="flex-item">
                                         <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
@@ -139,7 +139,7 @@
                                     <label for="archivo_sensor">{% trans %}Archivo CSV:{% endtrans %}</label>
                                     <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
                                 </div>
-
+                                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                 <button type="submit" class="btn btn-primary mt-2">{% trans %}Subir archivo CSV{% endtrans %}</button>
                             </form>
                         </div>
@@ -178,13 +178,13 @@
                 $(this).next(".formulario-datos").toggle(); //Muestra el formulario para subir csv
             });
         });
-
         //----------------------------------------------------------------
         //Lógica para mostrar mensajes al usuario mientras se analiza el 
         //vídeo que se sube en el formulario
         $(document).ready(function() {
             $('.subirFormVideo').on('click', function(e) {
                 e.preventDefault(); //Evitar que se envie el formulario todavia
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); //Token csrf
                 let form = $(this).closest('form');
                 //Validación de campos
                 let fileInput = form.find('input[type="file"]');
@@ -222,9 +222,9 @@
                     url: URLformulario,
                     type: 'POST',
                     data: formData,
+                    headers: { "X-CSRFToken": csrfToken },
                     processData: false,
                     contentType: false,
-
                     //Si sale todo bien
                     success: function(response) {
                         subiendo.hide(); //Ocultamos botón
@@ -263,7 +263,7 @@
                     event.preventDefault();
                     const formulario = boton.closest('form'); //formulario asociado a este botón
                     const formData = new FormData(formulario);
-                    
+                    const csrfToken = formData.get('csrf_token'); // Obtén el token CSRF del formulario
                     //Validar si hay cambios en el formulario para cambios input(contraseña vacía)
                     let cambios = false;
                     formulario.querySelectorAll('input').forEach(input => {
@@ -285,10 +285,10 @@
                     if (!validarDatos(formData)) {
                         return; //Detener el envío del formulario
                     }
-
                     fetch('/actualizar_datos_personales', {
                         method: 'POST',
-                        body: formData //Lo mandamos por aqui
+                        body: formData, //Lo mandamos por aqui
+                        headers: { "X-CSRFToken": csrfToken }
                     })
                     .then(response => {
                         if (response.ok) {

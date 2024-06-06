@@ -130,7 +130,7 @@ msgstr "Edit personal data"
 msgid "Guardar cambios"
 msgstr "Save changes"
 
-#: templates/BienvenidaPaciente.html:58 templates/gestionUsuarios.html:170
+#: templates/BienvenidaPaciente.html:58 templates/gestionUsuarios.html:171
 #: templates/gestionUsuarios.html:245 templates/gestionUsuarios.html:321
 #: templates/gestionUsuarios.html:522 templates/listadoPacientes.html:75
 msgid "Cancelar"
@@ -312,27 +312,7 @@ msgstr "Photo:"
 msgid "¿Tiene Sensor?"
 msgstr "Has Sensor?"
 
-#: templates/gestionUsuarios.html:139 templates/gestionUsuarios.html:492
-#: templates/listadoPacientes.html:59
-msgid "Sí"
-msgstr "Yes"
-
-#: templates/gestionUsuarios.html:140 templates/gestionUsuarios.html:493
-#: templates/listadoPacientes.html:60
-msgid "No"
-msgstr "No"
-
-#: templates/gestionUsuarios.html:159 templates/gestionUsuarios.html:513
-#: templates/listadoPacientes.html:51
-msgid "Diestro"
-msgstr "Right-handed"
-
-#: templates/gestionUsuarios.html:160 templates/gestionUsuarios.html:514
-#: templates/listadoPacientes.html:52
-msgid "Zurdo"
-msgstr "Left-handed"
-
-#: templates/gestionUsuarios.html:169
+#: templates/gestionUsuarios.html:170
 msgid "Agregar Usuario"
 msgstr "Add User"
 

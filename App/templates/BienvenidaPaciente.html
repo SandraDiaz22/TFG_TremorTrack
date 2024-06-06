@@ -44,7 +44,7 @@
                         <div class="datos-editables" style="display: none;"> <!--Datos invisibles-->
                             <form id="formulario-datos-editables" style="margin-bottom: 40px;"><!--Muestra los datos y permite cambiarlos-->
                                 <input type="hidden" name="id_paciente" value="{{ usuario.id_paciente }}"><!--Para identificar qué paciente es en la funcion-->
-                                
+                                <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}"> <!--Campo oculto para el csrf-->
                                 <label for="fecha_de_nacimientoP">{% trans %}Fecha de Nacimiento:{% endtrans %}</label>
                                 <input type="date" id="fecha_de_nacimientoP" name="fecha_de_nacimientoP" value="{{ usuario.fecha_de_nacimiento }}"><br>
                             
@@ -95,7 +95,7 @@
                     //Encuentra el formulario asociado a este botón
                     const formulario = boton.closest('form');
                     const formData = new FormData(formulario);
-
+                    const csrfToken = formData.get('csrf_token'); //Obtener el token CSRF del formulario
                     //Validar si hay cambios en el formulario para cambios input
                     let cambios = false;
                     formulario.querySelectorAll('input').forEach(input => {
@@ -112,10 +112,10 @@
                     if (!validarDatos(formData)) {
                         return; //Detener el envío del formulario
                     }
-
                     fetch('/actualizar_datos_personales', {
                         method: 'POST',
-                        body: formData //Lo mandamos por aqui
+                        body: formData, //Lo mandamos por aqui
+                        headers: { "X-CSRFToken": csrfToken }
                     })
                     .then(response => {
                         if (response.ok) {

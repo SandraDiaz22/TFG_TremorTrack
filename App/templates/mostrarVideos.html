@@ -338,13 +338,13 @@
     //         }
     //     });
     // });
-
     //Cuando le den al botón de eliminar vídeo de la bbdd
     function eliminarVideo(id_video) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este vídeo?{% endtrans %}')) {
             fetch('/eliminarVideo', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json' },
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
                 body: JSON.stringify({ id_video: id_video })
             })
             .then(response => {
@@ -363,17 +363,17 @@
             });
         }
     }
-
     //Cuando le den a los botones de las predicciones
     function predecir() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
         $.ajax({
             url: "/predecirVideo",
             type: "POST",
             contentType: "application/json",
-            data: JSON.stringify({
-                datosVideos_izq: datosVideos_izq,
-                datosVideos_dcha: datosVideos_dcha
-            }),
+            data: JSON.stringify({ datosVideos_izq: datosVideos_izq, datosVideos_dcha: datosVideos_dcha }),
+            headers: {
+                    "X-CSRFToken": csrfToken
+                },
             success: function(response) {
                 //Mostrar gráficos predicciones y ocultar los antiguos
                 $("#graficosPredicciones").show();

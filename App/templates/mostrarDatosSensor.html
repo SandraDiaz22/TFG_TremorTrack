@@ -65,7 +65,7 @@
         </div>
 
         <input type="hidden" name="id_paciente" value="{{ bbddpaciente.id_paciente }}"> <!--Para saber qué paciente es-->
-
+        <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}"> <!--Campo oculto para el csrf-->
         <button type="submit" class="btn btn-primary mt-2">{% trans %}Mostrar datos{% endtrans %}</button>
         <p id="errorMessage" style="color:red;"></p> <!-- Para mostrar mensajes de error -->
     </form>
@@ -168,7 +168,7 @@
             const calendario = document.getElementById('calendario');
             const errorMessage = document.getElementById('errorMessage');
             errorMessage.textContent = ''; //Limpiar error previo
-
+            const csrfToken = document.getElementById('csrf_token').value;
             let valid = true;
 
             //Validar selección del gráfico

@@ -130,7 +130,7 @@ msgstr "Modifier les données personnelles"
 msgid "Guardar cambios"
 msgstr "Enregistrer les modifications"
 
-#: templates/BienvenidaPaciente.html:58 templates/gestionUsuarios.html:170
+#: templates/BienvenidaPaciente.html:58 templates/gestionUsuarios.html:171
 #: templates/gestionUsuarios.html:245 templates/gestionUsuarios.html:321
 #: templates/gestionUsuarios.html:522 templates/listadoPacientes.html:75
 msgid "Cancelar"
@@ -311,7 +311,7 @@ msgstr "Photo :"
 msgid "¿Tiene Sensor?"
 msgstr "A-t-il un capteur ?"
 
-#: templates/gestionUsuarios.html:169
+#: templates/gestionUsuarios.html:170
 msgid "Agregar Usuario"
 msgstr "Ajouter un utilisateur"
 

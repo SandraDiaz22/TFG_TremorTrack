@@ -66,6 +66,9 @@
 
     <button type="submit">{% trans %}Enviar{% endtrans %}</button>
 
+    <!-- Incluir token CSRF -->
+    {{ form.hidden_tag() }}
+
   </form>
   <br>
 

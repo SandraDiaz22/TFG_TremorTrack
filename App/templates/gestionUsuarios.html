@@ -164,12 +164,12 @@
             </div>
 
             <input type="hidden" id="rol_usuario" name="rol_usuario">  <!--Campo oculto para el rol-->
+            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}"> <!--Campo oculto para el csrf-->
 
             <!--Botones para agregar el usuario -->
             <button type="button" class="btn-add" onclick="agregarUsuario()">{% trans %}Agregar Usuario{% endtrans %}</button>
             <button type="button" class="btn-cancelar" onclick="cancelarAgregado()">{% trans %}Cancelar{% endtrans %}</button>
         </form>
-
 
 
 
@@ -211,7 +211,7 @@
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ admin.id_admin }}"> <!--Para saber quién editar-->
                                     <input type="hidden" name="editar_tipo" value="administrador">
-                                
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <div class="form-group flex-container"> <!--Nombre y apellido-->
                                         <div class="flex-item">
                                             <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
@@ -287,7 +287,7 @@
                                 <form action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ medico.id_medico }}"> <!--Para saber quién editar-->
                                     <input type="hidden" name="editar_tipo" value="medico">
-                                
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <div class="form-group flex-container"> <!--Nombre y apellido-->
                                         <div class="flex-item">
                                             <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
@@ -416,7 +416,7 @@
                                             <label for="archivo_sensor">{% trans %}Archivo CSV:{% endtrans %}</label>
                                             <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
                                         </div>
-
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                         <button type="submit" class="btn btn-primary mt-2">{% trans %}Subir archivo CSV{% endtrans %}</button>
                                     </form>
                                 </div>
@@ -441,7 +441,7 @@
                                 <form class="formulario-edicion" id="formulario-edicion-{{ paciente.id_paciente }}" action="/editar_usuario" method="POST">
                                     <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
                                     <input type="hidden" name="editar_tipo" value="paciente">
-                                
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                                     <div class="form-group flex-container"> <!--Nombre y apellido-->
                                         <div class="flex-item">
                                             <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
@@ -626,7 +626,7 @@
         $(document).ready(function() {
             $('.subirFormVideo').on('click', function(e) {
                 e.preventDefault(); //Evitar que se envie el formulario todavia
-                
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); //Token csrf
                 //Validación de campos
                 let form = $(this).closest('form');
                 let fileInput = form.find('input[type="file"]');
@@ -664,9 +664,9 @@
                     url: URLformulario,
                     type: 'POST',
                     data: formData,
+                    headers: { "X-CSRFToken": csrfToken },
                     processData: false,
                     contentType: false,
-
                     //Si sale todo bien
                     success: function(response) {
                         subiendo.hide(); //Ocultamos botón
@@ -695,12 +695,12 @@
         function eliminarUsuario(idUsuario, rolUsuario, adminIdLogueado) {
             if (idUsuario == adminIdLogueado) { //Si tratas de eliminarte a ti mismo
                 alert('{% trans %}No puedes eliminarte a ti mismo.{% endtrans %} ');
-                return;
-            }
+                return; }
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este usuario?{% endtrans %} ')) { //Si confirman
                 fetch('/eliminarUsuario/' + rolUsuario + '/' + idUsuario, {
                     method: 'POST',
-                    headers: {'Content-Type': 'application/json' },
+                    headers: {'Content-Type': 'application/json', "X-CSRFToken": csrfToken },
                     body: JSON.stringify({ id: idUsuario })
                 })
                 .then(response => {
@@ -778,7 +778,7 @@
             const contraseña = document.getElementById('contraseña').value;
             const correo_electronico = document.getElementById('correo_electronico').value;
             const foto = document.getElementById('foto').files[0];
-
+            const csrfToken = document.getElementById('csrf_token').value;
             //Validar campos obligatorios
             if (!nombre || !apellido || !nombre_de_usuario || !contraseña || !correo_electronico || !foto) {
                 alert('{% trans %}Por favor, complete todos los campos obligatorios.{% endtrans %}');
@@ -816,18 +816,18 @@
             for (const dato in datos_usuario) {
                 formData.append(dato, datos_usuario[dato]);
             }
-
+            
             //Validar los datos
             var mensajeError = validarDatos(formData, rol);
             if (mensajeError !== true) {
                 alert(mensajeError); //Mostrar error
                 return; //Detener el envío del formulario
             }
-
             //Enviar los datos del usuario como un objeto FormData en la solicitud POST
             fetch('/agregarUsuario/' + rol, {
                 method: 'POST',
-                body: formData
+                body: formData,
+                headers: { "X-CSRFToken": csrfToken }
             })
             .then(response => {
                 if (response.ok) {
@@ -906,7 +906,7 @@
                     //Formulario que se ha clicado
                     const formulario = event.target.closest('form');
                     const formData = new FormData(formulario); //Datos del formulario
-                    
+                    const csrfToken = formData.get('csrf_token'); //Obtener el token CSRF del formulario
                     //Validar si hay cambios en el formulario
                     let cambios = false;
 
@@ -945,10 +945,10 @@
                         //Detener el envío del formulario
                         return;
                     }
-
                     fetch('/editar_usuario', {
                         method: 'POST',
-                        body: formData //Lo mandamos por aqui
+                        body: formData, //Lo mandamos por aqui
+                        headers: { "X-CSRFToken": csrfToken }
                     })
                     .then(response => {
                         if (response.ok) {

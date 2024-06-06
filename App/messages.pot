@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-05 21:07+0200\n"
+"POT-Creation-Date: 2024-06-06 21:06+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -127,7 +127,7 @@ msgstr ""
 msgid "Guardar cambios"
 msgstr ""
 
-#: templates/BienvenidaPaciente.html:58 templates/gestionUsuarios.html:170
+#: templates/BienvenidaPaciente.html:58 templates/gestionUsuarios.html:171
 #: templates/gestionUsuarios.html:245 templates/gestionUsuarios.html:321
 #: templates/gestionUsuarios.html:522 templates/listadoPacientes.html:75
 msgid "Cancelar"
@@ -301,7 +301,7 @@ msgstr ""
 msgid "¿Tiene Sensor?"
 msgstr ""
 
-#: templates/gestionUsuarios.html:169
+#: templates/gestionUsuarios.html:170
 msgid "Agregar Usuario"
 msgstr ""
 
