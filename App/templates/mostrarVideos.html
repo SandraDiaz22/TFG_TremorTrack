@@ -40,10 +40,10 @@
 
     <!--Paciente-->
     <h1> <img src="{{bbddpaciente.foto}}" alt="Paciente" class="logo"> {% trans %}Vídeos paciente:{% endtrans %}  {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
-    
     {% if videos %}
         <!--Por cada video del paciente mostramos su info y permitimos su reproducción-->
         <table class="table">
+            <caption>{% trans %}Esta tabla muestra los vídeos del paciente, con su título, mano, fecha y permitiendo reproducir o eliminar.{% endtrans %}</caption>
             <thead>
                 <tr>
                     <th>{% trans %}Título{% endtrans %}</th>
