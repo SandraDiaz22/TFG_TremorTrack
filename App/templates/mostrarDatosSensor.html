@@ -43,7 +43,7 @@
     </nav>
     
     <!--Paciente del que se muestran los datos-->
-    <h1> <img src="{{bbddpaciente.foto}}" alt="Imagen del paciente" class="logo">{% trans %}Paciente:{% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Paciente" class="logo">{% trans %}Paciente:{% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
     
 
     <!--Formulario para saber qué gráfica mostrar-->
@@ -195,11 +195,11 @@
             formData.append('fechaInicio', fechaInicioAjustada.toISOString().split('T')[0]);
             formData.append('fechaFin', fechaFinAjustada.toISOString().split('T')[0]);
 
-
             //Solicitud AJAX al servidor Flask
             fetch('/crearGrafico', {
                 method: 'POST',
-                body: formData //Le pasamos los datos del formulario
+                body: formData, //Le pasamos los datos del formulario
+                headers: { "X-CSRFToken": csrfToken }
             })
             .then(response => response.json())
             .then(data => {
