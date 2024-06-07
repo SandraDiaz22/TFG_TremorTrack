@@ -2,6 +2,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import json
 from modelosbbdd import Videos
+from config import Config 
 
 #Importar funcion de Catalin
 from paddel.src.paddel.preprocessing.input.poses import extract_poses_ts
@@ -9,8 +10,14 @@ from paddel.src.paddel.preprocessing.input.fresh import extract_fresh_features
 from paddel.src.paddel.preprocessing.input.classic import extract_classic_features
 from paddel.src.paddel.preprocessing.input.time_series import extract_time_series
 
+#Obtener las credenciales de la base de datos desde Config.py (más seguro)
+user = Config.DB_USER
+password = Config.DB_PASSWORD
+host = Config.DB_HOST
+database = Config.DB_NAME
+conexionbbdd = f'mysql+pymysql://{user}:{password}@{host}/{database}'
 #Conexión a la base de datos
-engine = create_engine('mysql+pymysql://root:maria@localhost/parkinson')
+engine = create_engine(conexionbbdd)
 Session = sessionmaker(bind=engine)
 session = Session()
 

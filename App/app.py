@@ -38,7 +38,7 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 #Inicializar aplicación
 app = Flask(__name__, static_url_path='/static')
 
-#Clave secreta para CSRF y sesiones
+#Clave secreta para CSRF y sesiones en Config (más seguro)
 app.config.from_object(Config)
 #Iniciar CSRFProtect
 csrf = CSRFProtect(app)
@@ -50,8 +50,14 @@ babel= Babel(app)
 app.permanent_session_lifetime = timedelta(hours=1) #Duración limitada de las sesiones(1 hora de inactividad)
 
 
+#Obtener las credenciales de la base de datos desde Config.py (más seguro)
+user = Config.DB_USER
+password = Config.DB_PASSWORD
+host = Config.DB_HOST
+database = Config.DB_NAME
+conexionbbdd = f'mysql+pymysql://{user}:{password}@{host}/{database}'
 #Conexion base de datos
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:maria@localhost/parkinson'
+app.config['SQLALCHEMY_DATABASE_URI'] = conexionbbdd
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 db.init_app(app)
 
@@ -202,15 +208,15 @@ def login():
     if form.validate_on_submit():
         #Obtener datos del formulario
         username = form.username.data
-        contraseña = form.password.data
+        contrasena = form.password.data
 
         #Hashear la contraseña
-        contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
+        contrasena_hasheada = hashlib.sha256(contrasena.encode()).hexdigest()
 
         #Buscar en la bbdd las credenciales
-        usuario_medico = Medico.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
-        usuario_administrador = Administrador.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
-        usuario_paciente = Paciente.query.filter_by(nombre_de_usuario=username, contraseña=contraseña_hasheada).first()
+        usuario_medico = Medico.query.filter_by(nombre_de_usuario=username, contraseña=contrasena_hasheada).first()
+        usuario_administrador = Administrador.query.filter_by(nombre_de_usuario=username, contraseña=contrasena_hasheada).first()
+        usuario_paciente = Paciente.query.filter_by(nombre_de_usuario=username, contraseña=contrasena_hasheada).first()
 
         #Diferentes páginas de bienvenida según el usuario
         #Si es administrador
@@ -374,8 +380,8 @@ def agregarUsuario(rol):
                 return f'El campo {campo} es obligatorio', 400
 
         #Hashear la contraseña
-        contraseña = datos_usuario['contraseña']
-        contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
+        contrasena = datos_usuario['contraseña']
+        contrasena_hasheada = hashlib.sha256(contrasena.encode()).hexdigest()
 
         #Si se añade un paciente
         if rol == 'paciente':
@@ -387,7 +393,7 @@ def agregarUsuario(rol):
 
             #Crea un nuevo paciente(sin foto)
             nuevo_paciente = Paciente(  nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
-                                        nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
+                                        nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contrasena_hasheada,
                                         correo_electronico=datos_usuario['correo_electronico'], fecha_de_nacimiento=datos_usuario['fecha_de_nacimiento'],
                                         direccion=datos_usuario['direccion'], telefono=datos_usuario['telefono'], 
                                         sensor=datos_usuario['sensor'], id_medico=datos_usuario['id_medico'],
@@ -412,7 +418,7 @@ def agregarUsuario(rol):
         elif rol == 'medico':
             #Crea un nuevo medico(sin foto)
             nuevo_medico = Medico(  nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
-                                    nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
+                                    nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contrasena_hasheada,
                                     correo_electronico=datos_usuario['correo_electronico'])
    
             #Lo añade a la bbdd
@@ -433,7 +439,7 @@ def agregarUsuario(rol):
         elif rol == 'administrador':
             #Crea un nuevo Administrador(sin foto)
             nuevo_administrador = Administrador(nombre=datos_usuario['nombre'], apellido=datos_usuario['apellido'],
-                                                nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contraseña_hasheada,
+                                                nombre_de_usuario=datos_usuario['nombre_de_usuario'], contraseña=contrasena_hasheada,
                                                 correo_electronico=datos_usuario['correo_electronico'])
    
             #Lo añade a la bbdd
@@ -512,11 +518,11 @@ def editar_usuario():
         usuario.apellido = request.form.get('apellido')
         usuario.nombre_de_usuario = request.form.get('nombre_de_usuario')
 
-        contraseña = request.form.get('contraseña')
-        if contraseña:
+        contrasena = request.form.get('contraseña')
+        if contrasena:
             #Hashear la contraseña
-            contraseña_hasheada = hashlib.sha256(contraseña.encode()).hexdigest()
-            usuario.contraseña = contraseña_hasheada
+            contrasena_hasheada = hashlib.sha256(contrasena.encode()).hexdigest()
+            usuario.contraseña = contrasena_hasheada
 
         usuario.correo_electronico = request.form.get('correo_electronico')
         
@@ -563,7 +569,6 @@ def VIDEOpermitido(archivo):
 @app.route('/subirDatosSensor/<id_paciente>', methods=['POST'])
 def subir_datos_sensor(id_paciente):
     archivo = request.files['archivo_sensor'] #Archivo introducido por el médico 
-    csrf_token = request.form['csrf_token'] # Token CSRF enviado desde el formulario
     print(archivo)
     if archivo and CSVpermitido(archivo.filename):
         #Obtener la fecha y hora actual(con segundos)

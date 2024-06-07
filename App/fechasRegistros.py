@@ -1,14 +1,20 @@
 import pandas as pd
 from datetime import datetime
-
+from config import Config 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from modelosbbdd import Registros
 
 
 def actualizar_fechas_registros():
-    #Conexion base de datos
-    engine = create_engine('mysql+pymysql://root:maria@localhost/parkinson')
+    #Obtener las credenciales de la base de datos desde Config.py (más seguro)
+    user = Config.DB_USER
+    password = Config.DB_PASSWORD
+    host = Config.DB_HOST
+    database = Config.DB_NAME
+    conexionbbdd = f'mysql+pymysql://{user}:{password}@{host}/{database}'
+    #Conexión a la base de datos
+    engine = create_engine(conexionbbdd)
     Session = sessionmaker(bind=engine)
     session = Session()
     
