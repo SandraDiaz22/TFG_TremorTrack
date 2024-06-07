@@ -18,7 +18,7 @@
             <h1>{% trans %}Bienvenido de nuevo administrador{% endtrans %} {{usuario.nombre}}</h1>
         
             <div class="col-md-8 border rounded shadow-lg p-3 mb-5 bg-white rounded align-items-center" style="max-width: 600px;">  <!--Perfil del usuario (con foto, username y cerrar sesión)-->
-                <img src="{{usuario.foto}}" alt="Imagen del administrador" class="img-fluid rounded-circle mb-3 logo">
+                <img src="{{usuario.foto}}" alt="Administrador" class="img-fluid rounded-circle mb-3 logo">
                 <h2>{{ usuario.nombre_de_usuario }}</h2>
                 <a href="/logout" class="btn btn-cancelar">{% trans %}Cerrar sesión{% endtrans %}</a>
             </div>

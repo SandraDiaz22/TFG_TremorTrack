@@ -21,7 +21,7 @@
             <!--Tarjeta del perfil-->
             <div class="row border rounded shadow-lg p-3 mb-5 bg-white rounded align-items-center" style="max-width: 600px;"> <!--Columnas responsivas de Bootstrap-->
                 <div class="col-md-4 text-center"> <!--Perfil del usuario (con foto, username y cerrar sesión)-->
-                    <img src="{{usuario.foto}}" alt="Imagen del paciente" class="img-fluid rounded-circle mb-3 logo">
+                    <img src="{{usuario.foto}}" alt="Paciente" class="img-fluid rounded-circle mb-3 logo">
                     <h2>{{ usuario.nombre_de_usuario }}</h2>
                     <a href="/logout" class="btn btn-cancelar">{% trans %}Cerrar sesión{% endtrans %}</a>
                 </div>
