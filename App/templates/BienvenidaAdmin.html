@@ -1,0 +1,34 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Bienvenido{% endtrans %}</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+ 
+    <!--Contenido de la página-->
+    <div class="container mt-4 mb-4">
+        <div class="row justify-content-center">
+
+            <!-- Título de bienvenida + nombre admin-->
+            <h1>{% trans %}Bienvenido de nuevo administrador{% endtrans %} {{usuario.nombre}}</h1>
+        
+            <div class="col-md-8 border rounded shadow-lg p-3 mb-5 bg-white rounded align-items-center" style="max-width: 600px;">  <!--Perfil del usuario (con foto, username y cerrar sesión)-->
+                <img src="{{usuario.foto}}" alt="Administrador" class="img-fluid rounded-circle mb-3 logo">
+                <h2>{{ usuario.nombre_de_usuario }}</h2>
+                <a href="/logout" class="btn btn-cancelar">{% trans %}Cerrar sesión{% endtrans %}</a>
+            </div>
+
+            <div class="col-md-8 text-center mb-4"> <!--Acciones del administrador-->
+                <a href="{{ url_for('gestionUsuarios') }}" class="btn btn-primary btn-lg">{% trans %}Gestión de usuarios{% endtrans %}</a>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
