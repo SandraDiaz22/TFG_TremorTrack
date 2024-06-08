@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-06 21:06+0200\n"
+"POT-Creation-Date: 2024-06-08 18:36+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -313,6 +313,10 @@ msgstr ""
 msgid "Añadir Administrador"
 msgstr ""
 
+#: templates/gestionUsuarios.html:188
+msgid "Esta tabla muestra la lista de administradores de la aplicación."
+msgstr ""
+
 #: templates/gestionUsuarios.html:190 templates/gestionUsuarios.html:266
 #: templates/gestionUsuarios.html:342 templates/listadoPacientes.html:28
 msgid "ID"
@@ -361,12 +365,20 @@ msgstr ""
 msgid "Añadir Médico"
 msgstr ""
 
+#: templates/gestionUsuarios.html:264
+msgid "Esta tabla muestra la lista de médicos de la aplicación."
+msgstr ""
+
 #: templates/gestionUsuarios.html:336
 msgid "Tabla de Pacientes"
 msgstr ""
 
 #: templates/gestionUsuarios.html:337
 msgid "Añadir Paciente"
+msgstr ""
+
+#: templates/gestionUsuarios.html:340
+msgid "Esta tabla muestra la lista de pacientes de la aplicación."
 msgstr ""
 
 #: templates/gestionUsuarios.html:359 templates/gestionUsuarios.html:402
@@ -588,13 +600,19 @@ msgstr ""
 msgid "Iniciar sesión"
 msgstr ""
 
-#: templates/listadoPacientes.html:5 templates/listadoPacientes.html:24
+#: templates/listadoPacientes.html:5 templates/listadoPacientes.html:23
 msgid "Listado pacientes"
 msgstr ""
 
 #: templates/listadoPacientes.html:20 templates/mostrarDatosSensor.html:37
 #: templates/mostrarVideos.html:32
 msgid "Listado de Pacientes"
+msgstr ""
+
+#: templates/listadoPacientes.html:25
+msgid ""
+"Esta tabla muestra la lista de pacientes del médico con su ID, nombre, "
+"foto y acciones disponibles."
 msgstr ""
 
 #: templates/listadoPacientes.html:41
@@ -707,6 +725,12 @@ msgstr ""
 
 #: templates/mostrarVideos.html:42
 msgid "Vídeos paciente:"
+msgstr ""
+
+#: templates/mostrarVideos.html:46
+msgid ""
+"Esta tabla muestra los vídeos del paciente, con su título, mano, fecha y "
+"permitiendo reproducir o eliminar."
 msgstr ""
 
 #: templates/mostrarVideos.html:49

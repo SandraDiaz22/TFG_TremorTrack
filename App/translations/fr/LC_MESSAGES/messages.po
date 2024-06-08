@@ -323,6 +323,10 @@ msgstr "Table des administrateurs"
 msgid "Añadir Administrador"
 msgstr "Ajouter un administrateur"
 
+#: templates/gestionUsuarios.html:188
+msgid "Esta tabla muestra la lista de administradores de la aplicación."
+msgstr "Ce tableau présente la liste des administrateurs de le application."
+
 #: templates/gestionUsuarios.html:190 templates/gestionUsuarios.html:266
 #: templates/gestionUsuarios.html:342 templates/listadoPacientes.html:28
 msgid "ID"
@@ -371,6 +375,10 @@ msgstr "Table des médecins"
 msgid "Añadir Médico"
 msgstr "Ajouter un médecin"
 
+#: templates/gestionUsuarios.html:264
+msgid "Esta tabla muestra la lista de médicos de la aplicación."
+msgstr "Ce tableau montre la liste des médecins présents dans le application."
+
 #: templates/gestionUsuarios.html:336
 msgid "Tabla de Pacientes"
 msgstr "Table des patients"
@@ -378,6 +386,10 @@ msgstr "Table des patients"
 #: templates/gestionUsuarios.html:337
 msgid "Añadir Paciente"
 msgstr "Ajouter un patient"
+
+#: templates/gestionUsuarios.html:340
+msgid "Esta tabla muestra la lista de pacientes de la aplicación."
+msgstr "Ce tableau montre la liste des patients dans le application."
 
 #: templates/gestionUsuarios.html:359 templates/gestionUsuarios.html:402
 #: templates/listadoPacientes.html:80 templates/listadoPacientes.html:123
@@ -598,7 +610,7 @@ msgstr "Page principale"
 msgid "Iniciar sesión"
 msgstr "Se connecter"
 
-#: templates/listadoPacientes.html:5 templates/listadoPacientes.html:24
+#: templates/listadoPacientes.html:5 templates/listadoPacientes.html:23
 msgid "Listado pacientes"
 msgstr "Liste des patients"
 
@@ -606,6 +618,14 @@ msgstr "Liste des patients"
 #: templates/mostrarVideos.html:32
 msgid "Listado de Pacientes"
 msgstr "Liste des patients"
+
+#: templates/listadoPacientes.html:25
+msgid ""
+"Esta tabla muestra la lista de pacientes del médico con su ID, nombre, "
+"foto y acciones disponibles."
+msgstr ""
+"Ce tableau montre la liste des patients du médecin avec leur ID, nom, "
+"photo et actions disponibles."
 
 #: templates/listadoPacientes.html:41
 msgid "Información personal"
@@ -718,6 +738,14 @@ msgstr "Afficher les vidéos"
 #: templates/mostrarVideos.html:42
 msgid "Vídeos paciente:"
 msgstr "Vidéos du patient :"
+
+#: templates/mostrarVideos.html:46
+msgid ""
+"Esta tabla muestra los vídeos del paciente, con su título, mano, fecha y "
+"permitiendo reproducir o eliminar."
+msgstr ""
+"Ce tableau montre les vidéos du patient, avec leur titre, main, date et "
+"permettant la lecture ou la suppression."
 
 #: templates/mostrarVideos.html:49
 msgid "Título"
