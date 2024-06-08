@@ -1,0 +1,330 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Datos sensor{% endtrans %}</title>
+
+    <!--Biblioteca para los gráficos-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!--Biblioteca para los calendarios-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/material_blue.css">
+
+    <style>
+        .miniatura.resaltado h4 {
+            color: black; /* Cambiar el color del texto */
+            text-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5); /* Aplicar sombreado */
+        }
+    </style>
+    
+{% endblock %}
+
+
+
+{% block body %}
+<!--Contenido de la página-->
+<div class="container mt-4 mb-4">
+
+    <!--Migas de pan dependiendo qué usuario acceda-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% if es_admin %} <!--Administrador-->
+                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/gestionUsuarios">{% trans %}Gestión de Usuarios{% endtrans %}</a></li>
+            {% elif es_medico %} <!--Médico-->
+                <li class="breadcrumb-item"><a href="/BienvenidaMedico">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/listadoPacientes">{% trans %}Listado de Pacientes{% endtrans %}</a></li>
+            {% elif es_paciente %} <!--Paciente-->
+                <li class="breadcrumb-item"><a href="/BienvenidaPaciente">{% trans %}Bienvenido{% endtrans %}</a></li>  
+            {% endif %}
+            <li aria-current="page" class="breadcrumb-item active">{% trans %}Mostrar Datos Sensor{% endtrans %}</li>
+        </ol>
+    </nav>
+    
+    <!--Paciente del que se muestran los datos-->
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Paciente" class="logo">{% trans %}Paciente:{% endtrans %} {{bbddpaciente.nombre}} {{bbddpaciente.apellido}} </h1>
+    
+
+    <!--Formulario para saber qué gráfica mostrar-->
+    <form id="formulario" action="" method="post" novalidate>
+        <label for="seleccionGrafico">{% trans %}Selecciona la gráfica a mostrar:{% endtrans %}</label>
+        
+        <select id="seleccionGrafico" name="seleccionGrafico" required> <!--Tipo de gráfico-->
+            <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+            <option value="1">{% trans %}Parámetros de Bradicinesia{% endtrans %}</option>
+            <option value="2">{% trans %}Parámetros de FoG y Discinesia{% endtrans %}</option>
+            <option value="3">{% trans %}Información de los pasos{% endtrans %}</option>
+            <option value="4">{% trans %}Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min{% endtrans %}</option>
+        </select>
+
+        <div class="flatpickr"> <!--Fechas a mostrar-->
+            <label for="calendario">{% trans %}Selecciona las fechas a mostrar:{% endtrans %}</label>
+            <input type="text" placeholder="{% trans %}Seleciona fechas...{% endtrans %}" id="calendario" name="calendario" required>
+            <p id="mensaje-fechas-disponibles"></p>
+        </div>
+
+        <input type="hidden" name="id_paciente" value="{{ bbddpaciente.id_paciente }}"> <!--Para saber qué paciente es-->
+        <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}"> <!--Campo oculto para el csrf-->
+        <button type="submit" class="btn btn-primary mt-2">{% trans %}Mostrar datos{% endtrans %}</button>
+        <p id="errorMessage" style="color:red;"></p> <!-- Para mostrar mensajes de error -->
+    </form>
+
+    <br>
+
+    <!--Contenedor general gráficos-->
+    <div id="contenedorGeneral">
+        <!--Titulo-->
+        <h2 id="tituloGeneral"></h2>
+   
+        <!--Miniaturas gráficas-->
+        <div id="miniaturas" class="miniaturas-contenedor"></div>
+    
+        <!--Hueco para la gráfica grande-->
+        <div id="graficoDefinitivo"></div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <script>
+        let fechaInicio;
+        let fechaFin;
+        var datos_grafico;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            let fechasDisponibles = JSON.parse('{{ fechas | safe }}'); //Convertir la cadena JSON a un array de JavaScript
+            actualizarMensajeFechasDisponibles(fechasDisponibles);
+
+            //Si hay fechas disponibles se muestra en el calendario la primera fecha disponible, sino la fecha actual.
+            let fechaPredeterminada;
+            if (fechasDisponibles.length > 0) {
+                fechaPredeterminada = fechasDisponibles[0]; //La primera fecha con registros
+            } else {
+                fechaPredeterminada = new Date(); //Fecha actual
+            }
+
+            flatpickr('#calendario', {
+                dateFormat: 'Y-m-d', //Formato de las fechas
+                mode: 'range', //Permite seleccionar un rango de fechas
+                enable: fechasDisponibles, //Permitir solo el rango de fechas en el que hay registros
+                locale:'es', //Español
+                defaultDate: fechaPredeterminada, //Fecha mostrada inicialmente
+
+                onChange: function (selectedDates, dateStr) {//Guardar fechas
+                    //Si solo elige una, es tanto fecha inicio como fin
+                    if (selectedDates.length === 1) {
+                        fechaInicio = selectedDates[0];
+                        fechaFin = selectedDates[0];
+                    
+                    //Si elige un rango
+                    } else if (selectedDates.length === 2) {
+                        fechaInicio = selectedDates[0];
+                        fechaFin = selectedDates[1];
+                    }
+                },
+                onReady: function (selectedDates, dateStr, instance) {
+                    //Limpia la selección automática al principio
+                    instance.clear();
+                }
+            });
+        });
+
+        //Divide las fechas disponibles en rangos y muestra dichos rangos al usuario
+        //para facilitar la seleccion de las fechas
+        function actualizarMensajeFechasDisponibles(fechasDisponibles) {
+            let mensaje = '{% trans %}Fechas disponibles: <br>{% endtrans %}';
+            let rangos = [];
+            let inicioRango = fechasDisponibles[0];
+            let finRango = fechasDisponibles[0];
+            
+            for (let i = 1; i < fechasDisponibles.length; i++) {
+                let fechaActual = fechasDisponibles[i];
+                let fechaAnterior = fechasDisponibles[i - 1];
+                
+                //Si la fecha actual es consecutiva a la fecha anterior
+                if (new Date(fechaActual) - new Date(fechaAnterior) === 86400000) {
+                    finRango = fechaActual; //Actualizar el final del rango
+                } else {
+                    //Sino, finalizar el rango actual y comenzar uno nuevo
+                    rangos.push(inicioRango === finRango ? inicioRango : inicioRango + ' a ' + finRango);
+                    inicioRango = fechaActual;
+                    finRango = fechaActual;
+                }
+            }
+            
+            //Agregar el último rango
+            rangos.push(inicioRango === finRango ? inicioRango : inicioRango + ' a ' + finRango);
+            
+            mensaje += rangos.join('<br>'); //Salto de linea después de cada rango
+            
+            document.getElementById('mensaje-fechas-disponibles').innerHTML = mensaje; //Mostrar mensaje
+        }
+
+
+        //Listener que muestra el gráfico cuando se da a "Mostrar datos"
+        document.getElementById('formulario').addEventListener('submit', function(event) { 
+            event.preventDefault();
+            //Obtener los elementos del formulario
+            const seleccionGrafico = document.getElementById('seleccionGrafico');
+            const calendario = document.getElementById('calendario');
+            const errorMessage = document.getElementById('errorMessage');
+            errorMessage.textContent = ''; //Limpiar error previo
+            const csrfToken = document.getElementById('csrf_token').value;
+            let valid = true;
+
+            //Validar selección del gráfico
+            if (seleccionGrafico.value === "") {
+                valid = false;
+                errorMessage.textContent += '{% trans %}Seleccione un tipo de gráfico.\n{% endtrans %} '; 
+            }
+            //Validar selección de la fecha
+            if (calendario.value === "") {
+                valid = false;
+                errorMessage.textContent += '{% trans %}Seleccione una fecha.\n{% endtrans %} ';
+            }
+
+            //Si no es válido, no se realiza la solicitud ajax
+            if (!valid) { return; }
+
+            //Datos del formulario (seleccion + fechas)
+            const formData = new FormData(document.getElementById('formulario'));
+
+            //Ajustar las fechas globales a la zona horaria (+1 día)
+            const fechaInicioAjustada = new Date(fechaInicio.getTime() - (fechaInicio.getTimezoneOffset() * 60000));
+            const fechaFinAjustada = new Date(fechaFin.getTime() - (fechaFin.getTimezoneOffset() * 60000));
+            //Las añadimos como strings
+            formData.append('fechaInicio', fechaInicioAjustada.toISOString().split('T')[0]);
+            formData.append('fechaFin', fechaFinAjustada.toISOString().split('T')[0]);
+
+            //Solicitud AJAX al servidor Flask
+            fetch('/crearGrafico', {
+                method: 'POST',
+                body: formData, //Le pasamos los datos del formulario
+                headers: { "X-CSRFToken": csrfToken }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Datos recibidos:', data);
+
+                if (data && data.datos_grafico) { 
+                    try {
+                        //Cadena JSON con los datos
+                        const chartData = JSON.parse(data.datos_grafico);
+                        
+                        //Título
+                        const tituloGeneral = document.getElementById('tituloGeneral');
+                        tituloGeneral.textContent = chartData[0].GeneralTitle; //Titulo general seleccionado
+                        chartData.shift(); //Elimina el titulo del json
+
+                        //Contenedor para la miniatura previa
+                        const miniaturasContenedor = document.getElementById('miniaturas');
+                        miniaturasContenedor.innerHTML = ''; //Limpiar seleccion de antes
+                        //Contenedor para el gráfico grande
+                        const contenedorGraficoDefinitivo  = document.getElementById('graficoDefinitivo');
+                        contenedorGraficoDefinitivo.innerHTML = ''; //Limpiar todo
+
+                        //Para cada conjunto de datos crear un gráfico y su miniatura
+                        chartData.forEach(chart => {
+                            //Crear miniaturas dinámicamente
+                            const miniaturaDiv = document.createElement('div');
+                            miniaturaDiv.classList.add('miniatura');
+                            miniaturasContenedor.appendChild(miniaturaDiv);
+
+                            //Titulo miniatura
+                            const miniaturaTitulo = document.createElement('h4');
+                            miniaturaTitulo.textContent = chart.datasets[0].label;
+                            miniaturaDiv.appendChild(miniaturaTitulo);
+
+                            //Mini gráfico
+                            const miniaturaCanvas = document.createElement('canvas');
+                            miniaturaCanvas.width = 150;
+                            miniaturaCanvas.height = 100;
+                            miniaturaDiv.appendChild(miniaturaCanvas);
+                            const miniaturaChart = new Chart(miniaturaCanvas.getContext('2d'), {
+                                type: 'line',
+                                data: chart,
+                                options: {
+                                    maintainAspectRatio: false, //Crece hasta lo que lo deje el tamaño del div
+                                    plugins: {
+                                        legend: {
+                                            display: false
+                                        }
+                                    },
+                                    elements: {
+                                        line: {
+                                            borderWidth: 0.5 //Sin las líneas que unen los puntos
+                                        },
+                                        point: {
+                                            backgroundColor: 'rgba(72, 158, 238, 1)'//Puntos en azul
+                                        }
+                                    }
+                                }
+                            });
+
+                            //Si dan clic en una miniatura se muestra el gráfico en grande
+                            miniaturaCanvas.addEventListener('click', () => {
+                                //Limpiar el resaltado de las otras miniaturas
+                                const miniaturas = document.querySelectorAll('.miniatura');
+                                miniaturas.forEach(miniatura => {
+                                    miniatura.classList.remove('resaltado');
+                                });
+
+                                //Resaltar miniatura elegida
+                                miniaturaDiv.classList.add('resaltado');
+                                
+                                //Limpiar anterior antes de mostrar otro
+                                contenedorGraficoDefinitivo.innerHTML = '';
+
+                                //Titulo gráfico grande
+                                const graficoTitulo = document.createElement('h3');
+                                graficoTitulo.textContent = chart.datasets[0].label;
+                                contenedorGraficoDefinitivo.appendChild(graficoTitulo);
+
+                                //Crear nuevo canvas para el gráfico grande
+                                const graficoDefinitivoCanvas = document.createElement('canvas');
+                                graficoDefinitivoCanvas.id = 'graficoDefinitivoCanvas';
+                                contenedorGraficoDefinitivo.appendChild(graficoDefinitivoCanvas);
+
+                                const chartCompleto = new Chart(graficoDefinitivoCanvas.getContext('2d'), {
+                                    type: 'line',
+                                    data: chart,
+                                    options: {
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: chart.datasets[0].yAxisID,
+                                                position: 'left'
+                                            },
+                                            legend: {
+                                                display: false, //Quitar opción de ocultar
+                                            }
+                                        },
+                                        elements: {
+                                            line: {
+                                                borderWidth: 0.5 //Sin las líneas que unen los puntos
+                                            },
+                                            point: {
+                                                backgroundColor: 'rgba(72, 158, 238, 1)'//Puntos en azul
+                                            }
+                                        }
+                                    }
+                                });
+                            }); //Fin clic
+
+                        });//Fin for each
+
+                    } catch (error) {
+                        console.error('Error al analizar los datos:', error);
+                    }
+                } else {
+                    console.error('No hay datos.');
+                }
+            })
+            .catch(error => {
+                console.error('Error al procesar la respuesta:', error);
+            });
+        });
+    </script>
+    
+</div>
+
+{% endblock %}

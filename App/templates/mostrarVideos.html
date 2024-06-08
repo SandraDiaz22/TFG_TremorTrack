@@ -1,0 +1,506 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Vídeos Paciente{% endtrans %}</title>
+
+    <style>
+        /*Estilo para botón "eliminar vídeo"*/
+        .btn-eliminar {
+            background-color: red;
+        }.btn-eliminar:hover {background-color: rgb(141, 2, 2) }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+{% endblock %}
+
+
+
+{% block body %}
+<!--Contenido de la página-->
+<div class="container mt-4 mb-4">
+
+    <!--Migas de pan dependiendo qué usuario acceda-->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            {% if es_admin %} <!--Administrador-->
+                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/gestionUsuarios">{% trans %}Gestión de Usuarios{% endtrans %}</a></li>
+            {% elif es_medico %} <!--Médico-->
+                <li class="breadcrumb-item"><a href="/BienvenidaMedico">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li class="breadcrumb-item"><a href="/listadoPacientes">{% trans %}Listado de Pacientes{% endtrans %}</a></li>
+            {% elif es_paciente %} <!--Paciente-->
+                <li class="breadcrumb-item"><a href="/BienvenidaPaciente">{% trans %}Bienvenido{% endtrans %}</a></li>  
+            {% endif %}
+            <li aria-current="page" class="breadcrumb-item active">{% trans %}Mostrar Vídeos{% endtrans %}</li>
+        </ol>
+    </nav>
+
+
+    <!--Paciente-->
+    <h1> <img src="{{bbddpaciente.foto}}" alt="Paciente" class="logo"> {% trans %}Vídeos paciente:{% endtrans %}  {{bbddpaciente.nombre}} {{bbddpaciente.apellido}}</h1>
+    {% if videos %}
+        <!--Por cada video del paciente mostramos su info y permitimos su reproducción-->
+        <table class="table">
+            <caption>{% trans %}Esta tabla muestra los vídeos del paciente, con su título, mano, fecha y permitiendo reproducir o eliminar.{% endtrans %}</caption>
+            <thead>
+                <tr>
+                    <th>{% trans %}Título{% endtrans %}</th>
+                    <th>{% trans %}Mano del vídeo{% endtrans %}</th>
+                    <th>{% trans %}Fecha{% endtrans %}</th>
+                    <th>{% trans %}Reproducir{% endtrans %}</th>
+                    <th>{% trans %}Eliminar{% endtrans %}</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for video in videos %}
+                <tr>
+                    <!--Info del vídeo-->
+                    <td>{{ video.contenido }}</td>
+                    <td>
+                        {% if video.mano_dominante == 'derecha' %}
+                            {% trans %}Derecha{% endtrans %}
+                        {% elif video.mano_dominante == 'izquierda' %}
+                            {% trans %}Izquierda{% endtrans %}
+                        {% endif %}
+                    </td>
+                    <td>{{ video.fecha }}</td>
+
+                    <!--Reproducir vídeo-->
+                    <td style="width:340px;">
+                        <!--Vídeo (se muestra al pulsar el botón)-->
+                        <button type="button" class="reproducir">{% trans %}Reproducir vídeo{% endtrans %}</button>
+                        <button type="button" class="ocultar" style="display: none;">{% trans %}Ocultar vídeo{% endtrans %}</button>                        
+                        <div class="video" style="display: none;">
+                            <video controls width="320">
+                                <source src="/get_video/{{ bbddpaciente.id_paciente }}/{{ video.contenido }}" type="video/mp4">
+                            </video>
+                        </div>
+                    </td>
+                                            
+                    <!-- Características del vídeo
+                        <button type="button" class="mostrarCaracteristicas">{% trans %}Características{% endtrans %}</button>
+                        <div class="caracteristicas" style="display: none;">
+                            <p><strong> {% trans %}Lentitud:{% endtrans %} </strong> {{ video.lentitud }}</p>
+                            <p><strong> {% trans %}Amplitud:{% endtrans %} </strong> {{ video.amplitud }}</p>
+                            <p><strong> {% trans %}Velocidad media:{% endtrans %} </strong> {{ video.velocidad_media }}</p>
+                            <p><strong> {% trans %}Frecuencia de máximos:{% endtrans %} </strong> {{ video.frecuencia_max }}</p>
+                            <p><strong> {% trans %}Frecuencia de mínimos:{% endtrans %} </strong> {{ video.frecuencia_min }}</p>
+                            <p><strong> {% trans %}Promedio de máximos:{% endtrans %} </strong> {{ video.promedio_max }}</p>
+                            <p><strong> {% trans %}Desviación estándar de máximos:{% endtrans %} </strong> {{ video.desv_estandar_max }}</p>
+                            <p><strong> {% trans %}Diferencia ranurada de la frecuencia de mínimos:{% endtrans %} </strong> {{ video.diferencia_ranurada_min }}</p>
+                            <p><strong> {% trans %}Diferencia ranurada de la frecuencia de máximos:{% endtrans %} </strong> {{ video.diferencia_ranurada_max }}</p>
+                        </div> -->
+
+
+                    <!--Eliminar vídeo-->
+                    <td>
+                        <button type="button" class="btn-eliminar" onclick="eliminarVideo('{{ video.id_video }}')">{% trans %}Eliminar vídeo{% endtrans %}</button>
+                    </td>
+
+                {% endfor %}
+            </tbody>
+        </table> 
+        
+        <!--Gráfico con las características-->
+        <h2 style="margin-top: 50px;">{% trans %}Gráficos con las características de los vídeos{% endtrans %}</h2>
+        
+        <!--Predicciones--> 
+        <button type="button" class="predecir" onclick="predecir()">{% trans %}Predecir{% endtrans %}</button>
+
+        <div class="row" id="graficosSinPredicciones">
+            <!-- Gráfico mano izquierda -->
+            <div class="col-md-6 col-12">
+                <h3 style="margin-top: 50px;">{% trans %}Gráfico mano izquierda{% endtrans %}</h3>
+                <div style="display: flex; justify-content: center; height: 40vh;">
+                    <canvas id="grafico_izq"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico mano derecha -->
+            <div class="col-md-6 col-12">
+                <h3 style="margin-top: 50px;">{% trans %}Gráfico mano derecha{% endtrans %}</h3>
+                <div style="display: flex; justify-content: center; height: 40vh;">
+                    <canvas id="grafico_dcha"></canvas>
+                </div>          
+            </div>
+        </div>
+
+        <div class="row" id="graficosPredicciones" style="display: none;">
+            <!-- Gráfico predicción mano izquierda -->
+            <div class="col-md-6 col-12">
+                <h3 style="margin-top: 50px;">{% trans %}Gráfico predicción mano izquierda{% endtrans %}</h3>
+                <div style="display: flex; justify-content: center; height: 40vh;">
+                    <canvas id="grafico_izq_prediccion"></canvas>
+                </div>
+            </div>
+
+            <!-- Gráfico predicción mano derecha -->
+            <div class="col-md-6 col-12">
+                <h3 style="margin-top: 50px;">{% trans %}Gráfico predicción mano derecha{% endtrans %}</h3>
+                <div style="display: flex; justify-content: center; height: 40vh;">
+                    <canvas id="grafico_dcha_prediccion"></canvas>
+                </div>          
+            </div>
+
+        </div>
+
+
+
+        <!-- Script para generar el gráfico -->
+        <script>
+            //Videos a JavaScript
+            const datosVideos_izq = JSON.parse('{{ datosVideos_izq | tojson | safe }}');
+            const datosVideos_dcha = JSON.parse('{{ datosVideos_dcha | tojson | safe }}');
+
+            //Arrays para cada característica
+            const lentitudData_izq = [], amplitudData_izq = [], velocidadMediaData_izq = [], frecuenciaMaxData_izq = [], frecuenciaMinData_izq = [], promedioMaxData_izq = [], desvEstandarMaxData_izq = [];
+            const lentitudData_dcha = [], amplitudData_dcha = [], velocidadMediaData_dcha = [], frecuenciaMaxData_dcha = [], frecuenciaMinData_dcha = [], promedioMaxData_dcha = [], desvEstandarMaxData_dcha = [];
+            //Array para las fechas
+            const fechas_izq = [], fechas_dcha = [];
+
+            //Función para procesar los datos de los videos, metiendo cada característica en su array correspondiente
+            function procesarDatosVideos(videos, lentitudData, amplitudData, velocidadMediaData, frecuenciaMaxData, frecuenciaMinData, promedioMaxData, desvEstandarMaxData, fechas) {
+                videos.forEach(video => {
+                    lentitudData.push(video.lentitud);
+                    amplitudData.push(video.amplitud);
+                    velocidadMediaData.push(video.velocidad_media);
+                    frecuenciaMaxData.push(video.frecuencia_max);
+                    frecuenciaMinData.push(video.frecuencia_min);
+                    promedioMaxData.push(video.promedio_max);
+                    desvEstandarMaxData.push(video.desv_estandar_max);
+                    const fechaFormateada = new Date(video.fecha).toLocaleDateString('es-ES', { year: 'numeric', month: '2-digit', day: '2-digit' });
+                    fechas.push(fechaFormateada);
+                });
+            }
+            procesarDatosVideos(datosVideos_izq, lentitudData_izq, amplitudData_izq, velocidadMediaData_izq, frecuenciaMaxData_izq, frecuenciaMinData_izq, promedioMaxData_izq, desvEstandarMaxData_izq, fechas_izq);
+            procesarDatosVideos(datosVideos_dcha, lentitudData_dcha, amplitudData_dcha, velocidadMediaData_dcha, frecuenciaMaxData_dcha, frecuenciaMinData_dcha, promedioMaxData_dcha, desvEstandarMaxData_dcha, fechas_dcha);
+
+
+
+            //Colores y label para cada dato
+            const datasets_dcha = [
+                {   label: '{% trans %}Lentitud{% endtrans %}',
+                    data: lentitudData_dcha,
+                    borderColor: 'rgba(255, 99, 132, 1)', },
+                {   label: '{% trans %}Amplitud{% endtrans %}',
+                    data: amplitudData_dcha,
+                    borderColor: 'rgba(54, 162, 235, 1)', },
+                {   label: '{% trans %}Velocidad Media{% endtrans %}',
+                    data: velocidadMediaData_dcha,
+                    borderColor: 'rgba(255, 205, 86, 1)', },
+                {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
+                    data: frecuenciaMaxData_dcha,
+                    borderColor: 'rgba(75, 192, 192, 1)', },
+                {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
+                    data: frecuenciaMinData_dcha,
+                    borderColor: 'rgba(153, 102, 255, 1)', },
+                {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
+                    data: promedioMaxData_dcha,
+                    borderColor: 'rgba(255, 159, 64, 1)', },
+                {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
+                    data: desvEstandarMaxData_dcha,
+                    borderColor: 'rgba(255, 192, 203, 1)', }
+            ];
+
+            const datasets_izq = [
+                {   label: '{% trans %}Lentitud{% endtrans %}',
+                    data: lentitudData_izq,
+                    borderColor: 'rgba(255, 99, 132, 1)', },
+                {   label: '{% trans %}Amplitud{% endtrans %}',
+                    data: amplitudData_izq,
+                    borderColor: 'rgba(54, 162, 235, 1)', },
+                {   label: '{% trans %}Velocidad Media{% endtrans %}',
+                    data: velocidadMediaData_izq,
+                    borderColor: 'rgba(255, 205, 86, 1)', },
+                {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
+                    data: frecuenciaMaxData_izq,
+                    borderColor: 'rgba(75, 192, 192, 1)', },
+                {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
+                    data: frecuenciaMinData_izq,
+                    borderColor: 'rgba(153, 102, 255, 1)', },
+                {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
+                    data: promedioMaxData_izq,
+                    borderColor: 'rgba(255, 159, 64, 1)', },
+                {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
+                    data: desvEstandarMaxData_izq,
+                    borderColor: 'rgba(255, 192, 203, 1)', }
+            ];
+
+
+
+            //Ubicacion de los gráficos
+            const ctx_izq = document.getElementById('grafico_izq').getContext('2d');
+            const ctx_dcha = document.getElementById('grafico_dcha').getContext('2d');
+
+            //Crear gráfico mano izquierda con Chart.js
+            const myChart_izq = new Chart(ctx_izq, {
+                type: 'line',
+                data: {
+                    labels: fechas_izq,
+                    datasets: datasets_izq
+                },
+                options: {
+                    scales: {
+                        y: { //Eje Y siempre del -1 al 6
+                            min: -1,
+                            max: 6
+                        },
+                        x: { //Eje X para las fechas
+                            title: {
+                                display: true,
+                                text: '{% trans %}Fechas de los vídeos{% endtrans %}'
+                            }
+                        }
+                    }
+                }
+            });
+
+            //Crear gráfico mano derecha con Chart.js
+            const myChart_dcha = new Chart(ctx_dcha, {
+                type: 'line',
+                data: {
+                    labels: fechas_dcha,
+                    datasets: datasets_dcha
+                },
+                options: {
+                    scales: {
+                        y: { //Eje Y siempre del -1 al 6
+                            min: -1,
+                            max: 6
+                        },
+                        x: { //Eje X para las fechas
+                            title: {
+                                display: true,
+                                text: '{% trans %}Fechas de los vídeos{% endtrans %}'
+                            }
+                        }
+                    }
+                }
+            });
+
+
+        </script>
+
+    <!--Si ese paciente no tiene videos-->
+    {% else %}
+    <p>{% trans %}No hay vídeos disponibles para mostrar.{% endtrans %}</p>
+    {% endif %}
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    //Cuando le den al botón de reproducir se mostrará el vídeo
+    document.querySelectorAll('.reproducir').forEach(botonReproducir => {
+        botonReproducir.addEventListener('click', function() {
+            const contenedorVideo = this.parentElement.querySelector('.video');
+            const botonOcultar = this.parentElement.querySelector('.ocultar');
+            
+            //Mostrar el vídeo y el botón "Ocultar vídeo"
+            contenedorVideo.style.display = 'block';
+            botonOcultar.style.display = 'block';
+            
+            //Ocultar el botón "Reproducir vídeo"
+            this.style.display = 'none';
+        });
+    });
+
+    //Cuando le den al botón de ocultar se ocultará
+    document.querySelectorAll('.ocultar').forEach(botonOcultar => {
+        botonOcultar.addEventListener('click', function() {
+            const contenedorVideo = this.parentElement.querySelector('.video');
+            const video = contenedorVideo.querySelector('video');
+            const botonReproducir = this.parentElement.querySelector('.reproducir');
+            
+            //Pausar y ocultar el vídeo
+            video.pause();
+            contenedorVideo.style.display = 'none';
+            
+            //Ocultar el botón "Ocultar vídeo"
+            this.style.display = 'none';
+            //Mostrar el botón "Reproducir vídeo"
+            botonReproducir.style.display = 'block';
+        });
+    });
+
+    // //Cuando le den al botón de mostrar características se mostrarán
+    // document.querySelectorAll('.mostrarCaracteristicas').forEach(botonCaracteristicas => {
+    //     botonCaracteristicas.addEventListener('click', function() {
+    //         const caracteristicas = this.parentElement.querySelector('.caracteristicas');
+            
+    //         //Si estaba oculto, lo pone visible y viceversa
+    //         if (caracteristicas.style.display === 'none') {
+    //             caracteristicas.style.display = 'block';
+    //         } else {
+    //             caracteristicas.style.display = 'none';
+    //         }
+    //     });
+    // });
+    //Cuando le den al botón de eliminar vídeo de la bbdd
+    function eliminarVideo(id_video) {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este vídeo?{% endtrans %}')) {
+            fetch('/eliminarVideo', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': csrfToken },
+                body: JSON.stringify({ id_video: id_video })
+            })
+            .then(response => {
+                if (response.ok) {
+                    //Funcionó
+                    alert('{% trans %}Vídeo eliminado con éxito{% endtrans %}');
+                    //Recargar la página
+                    setTimeout(function(){ location.reload(); }, 1000);
+                } else {
+                    alert('{% trans %}Error al eliminar el vídeo{% endtrans %}');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('{% trans %}Error al eliminar el vídeo{% endtrans %}');
+            });
+        }
+    }
+    //Cuando le den a los botones de las predicciones
+    function predecir() {
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        $.ajax({
+            url: "/predecirVideo",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({ datosVideos_izq: datosVideos_izq, datosVideos_dcha: datosVideos_dcha }),
+            headers: {
+                    "X-CSRFToken": csrfToken
+                },
+            success: function(response) {
+                //Mostrar gráficos predicciones y ocultar los antiguos
+                $("#graficosPredicciones").show();
+                $("#graficosSinPredicciones").hide()
+                //Arrays para cada característica
+                const lentitudData_izq = [], amplitudData_izq = [], velocidadMediaData_izq = [], frecuenciaMaxData_izq = [], frecuenciaMinData_izq = [], promedioMaxData_izq = [], desvEstandarMaxData_izq = [];
+                const lentitudData_dcha = [], amplitudData_dcha = [], velocidadMediaData_dcha = [], frecuenciaMaxData_dcha = [], frecuenciaMinData_dcha = [], promedioMaxData_dcha = [], desvEstandarMaxData_dcha = [];
+                //Array para las fechas
+                const fechas_izq = [], fechas_dcha = [];
+
+                // Procesar datos para la mano izquierda
+                procesarDatosVideos(response.izquierda, lentitudData_izq, amplitudData_izq, velocidadMediaData_izq, frecuenciaMaxData_izq, frecuenciaMinData_izq, promedioMaxData_izq, desvEstandarMaxData_izq, fechas_izq);
+                // Procesar datos para la mano derecha
+                procesarDatosVideos(response.derecha, lentitudData_dcha, amplitudData_dcha, velocidadMediaData_dcha, frecuenciaMaxData_dcha, frecuenciaMinData_dcha, promedioMaxData_dcha, desvEstandarMaxData_dcha, fechas_dcha);
+
+                // Especificar el título y el color de cada Dataset
+                const datasets_dcha = [
+                    {   label: '{% trans %}Lentitud{% endtrans %}',
+                        data: lentitudData_dcha,
+                        borderColor: 'rgba(255, 99, 132, 1)', },
+                    {   label: '{% trans %}Amplitud{% endtrans %}',
+                        data: amplitudData_dcha,
+                        borderColor: 'rgba(54, 162, 235, 1)', },
+                    {   label: '{% trans %}Velocidad Media{% endtrans %}',
+                        data: velocidadMediaData_dcha,
+                        borderColor: 'rgba(255, 205, 86, 1)', },
+                    {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
+                        data: frecuenciaMaxData_dcha,
+                        borderColor: 'rgba(75, 192, 192, 1)', },
+                    {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
+                        data: frecuenciaMinData_dcha,
+                        borderColor: 'rgba(153, 102, 255, 1)', },
+                    {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
+                        data: promedioMaxData_dcha,
+                        borderColor: 'rgba(255, 159, 64, 1)', },
+                    {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
+                        data: desvEstandarMaxData_dcha,
+                        borderColor: 'rgba(255, 192, 203, 1)', }
+                ];
+
+                const datasets_izq = [
+                    {   label: '{% trans %}Lentitud{% endtrans %}',
+                        data: lentitudData_izq,
+                        borderColor: 'rgba(255, 99, 132, 1)', },
+                    {   label: '{% trans %}Amplitud{% endtrans %}',
+                        data: amplitudData_izq,
+                        borderColor: 'rgba(54, 162, 235, 1)', },
+                    {   label: '{% trans %}Velocidad Media{% endtrans %}',
+                        data: velocidadMediaData_izq,
+                        borderColor: 'rgba(255, 205, 86, 1)', },
+                    {   label: '{% trans %}Frecuencia de Máximos{% endtrans %}',
+                        data: frecuenciaMaxData_izq,
+                        borderColor: 'rgba(75, 192, 192, 1)', },
+                    {   label: '{% trans %}Frecuencia de Mínimos{% endtrans %}',
+                        data: frecuenciaMinData_izq,
+                        borderColor: 'rgba(153, 102, 255, 1)', },
+                    {   label: '{% trans %}Promedio de Máximos{% endtrans %}',
+                        data: promedioMaxData_izq,
+                        borderColor: 'rgba(255, 159, 64, 1)', },
+                    {   label: '{% trans %}Desviación Estándar de Máximos{% endtrans %}',
+                        data: desvEstandarMaxData_izq,
+                        borderColor: 'rgba(255, 192, 203, 1)', }
+                ];
+
+
+                //Creamos gráficos con las predicciones
+                //Ubicacion de los gráficos
+                const ctx_izq = document.getElementById('grafico_izq_prediccion').getContext('2d');
+                const ctx_dcha = document.getElementById('grafico_dcha_prediccion').getContext('2d');
+
+                //Crear gráfico mano izquierda con Chart.js
+                const myChart_izq = new Chart(ctx_izq, {
+                    type: 'line',
+                    data: {
+                        labels: fechas_izq,
+                        datasets: datasets_izq
+                    },
+                    options: {
+                        scales: {
+                            y: { //Eje Y siempre del -1 al 6
+                                min: -1,
+                                max: 6
+                            },
+                            x: { //Eje X para las fechas
+                                title: {
+                                    display: true,
+                                    text: '{% trans %}Fechas de los vídeos{% endtrans %}'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                //Crear gráfico mano derecha con Chart.js
+                const myChart_dcha = new Chart(ctx_dcha, {
+                    type: 'line',
+                    data: {
+                        labels: fechas_dcha,
+                        datasets: datasets_dcha
+                    },
+                    options: {
+                        scales: {
+                            y: { //Eje Y siempre del -1 al 6
+                                min: -1,
+                                max: 6
+                            },
+                            x: { //Eje X para las fechas
+                                title: {
+                                    display: true,
+                                    text: '{% trans %}Fechas de los vídeos{% endtrans %}'
+                                }
+                            }
+                        }
+                    }
+                });
+
+
+            },
+            error: function(xhr, status, error) {
+                //mal
+                console.error(error);
+            }
+        });
+    }
+
+</script>
+
+
+
+{% endblock %}

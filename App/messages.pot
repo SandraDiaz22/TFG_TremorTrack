@@ -1,0 +1,907 @@
+# Translations template for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-06-08 18:36+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: templates/404.html:5 templates/404.html:15
+msgid "Error 404 - Página no encontrada"
+msgstr ""
+
+#: templates/404.html:17
+msgid ""
+"¡Ups! Parece que has llegado a un lugar inexplorado. Vamos a buscar un "
+"lugar mejor para ti."
+msgstr ""
+
+#: templates/404.html:19
+msgid "Ir a la página principal"
+msgstr ""
+
+#: templates/BienvenidaAdmin.html:5 templates/BienvenidaMedico.html:5
+#: templates/BienvenidaPaciente.html:5 templates/gestionUsuarios.html:62
+#: templates/listadoPacientes.html:19 templates/mostrarDatosSensor.html:33
+#: templates/mostrarDatosSensor.html:36 templates/mostrarDatosSensor.html:39
+#: templates/mostrarVideos.html:28 templates/mostrarVideos.html:31
+#: templates/mostrarVideos.html:34
+msgid "Bienvenido"
+msgstr ""
+
+#: templates/BienvenidaAdmin.html:18
+msgid "Bienvenido de nuevo administrador"
+msgstr ""
+
+#: templates/BienvenidaAdmin.html:23 templates/BienvenidaMedico.html:23
+#: templates/BienvenidaPaciente.html:26 templates/layout.html:235
+msgid "Cerrar sesión"
+msgstr ""
+
+#: templates/BienvenidaAdmin.html:27 templates/gestionUsuarios.html:67
+msgid "Gestión de usuarios"
+msgstr ""
+
+#: templates/BienvenidaMedico.html:18 templates/BienvenidaPaciente.html:19
+msgid "Bienvenido de nuevo"
+msgstr ""
+
+#: templates/BienvenidaMedico.html:28
+msgid "Mostrar listado pacientes"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:30
+msgid "Nombre Completo:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:31 templates/gestionUsuarios.html:147
+#: templates/gestionUsuarios.html:500
+msgid "Médico Asignado:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:32 templates/gestionUsuarios.html:489
+#: templates/listadoPacientes.html:56
+msgid "Sensor:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:32 templates/gestionUsuarios.html:139
+#: templates/gestionUsuarios.html:492 templates/listadoPacientes.html:59
+msgid "Sí"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:32 templates/gestionUsuarios.html:140
+#: templates/gestionUsuarios.html:493 templates/listadoPacientes.html:60
+msgid "No"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:156
+#: templates/gestionUsuarios.html:510 templates/listadoPacientes.html:48
+msgid "Lateralidad:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:159
+#: templates/gestionUsuarios.html:513 templates/listadoPacientes.html:51
+msgid "Diestro"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:33 templates/gestionUsuarios.html:160
+#: templates/gestionUsuarios.html:514 templates/listadoPacientes.html:52
+msgid "Zurdo"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:34 templates/BienvenidaPaciente.html:48
+#: templates/gestionUsuarios.html:121 templates/listadoPacientes.html:65
+msgid "Fecha de Nacimiento:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:35 templates/BienvenidaPaciente.html:51
+#: templates/gestionUsuarios.html:125 templates/gestionUsuarios.html:478
+#: templates/listadoPacientes.html:68
+msgid "Dirección:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:36 templates/BienvenidaPaciente.html:54
+#: templates/gestionUsuarios.html:132 templates/gestionUsuarios.html:485
+#: templates/listadoPacientes.html:71
+msgid "Teléfono:"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:43
+msgid "Editar datos personales"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:57 templates/gestionUsuarios.html:244
+#: templates/gestionUsuarios.html:320 templates/gestionUsuarios.html:521
+#: templates/listadoPacientes.html:74
+msgid "Guardar cambios"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:58 templates/gestionUsuarios.html:171
+#: templates/gestionUsuarios.html:245 templates/gestionUsuarios.html:321
+#: templates/gestionUsuarios.html:522 templates/listadoPacientes.html:75
+msgid "Cancelar"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:63
+msgid "Revisar mi evolución"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:66 templates/gestionUsuarios.html:428
+#: templates/listadoPacientes.html:132
+msgid "Mostrar vídeos"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:107 templates/gestionUsuarios.html:939
+#: templates/listadoPacientes.html:280
+msgid "No hay cambios para guardar."
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:122
+msgid "Los datos se han actualizado correctamente"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:125 templates/BienvenidaPaciente.html:130
+msgid "Error al editar los datos"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:150 templates/gestionUsuarios.html:1040
+#: templates/listadoPacientes.html:323
+msgid "El teléfono debe contener exactamente 9 números."
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:169 templates/gestionUsuarios.html:1060
+#: templates/listadoPacientes.html:342
+msgid "La fecha de nacimiento debe estar entre"
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:169 templates/gestionUsuarios.html:1060
+#: templates/listadoPacientes.html:342
+msgid " y "
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:177 templates/gestionUsuarios.html:1080
+#: templates/listadoPacientes.html:350
+msgid "La dirección es demasiado larga."
+msgstr ""
+
+#: templates/BienvenidaPaciente.html:183 templates/gestionUsuarios.html:1086
+#: templates/listadoPacientes.html:356
+msgid "La dirección tiene caracteres no permitidos."
+msgstr ""
+
+#: templates/contacto.html:5 templates/layout.html:196
+msgid "Contacto"
+msgstr ""
+
+#: templates/contacto.html:23
+msgid "Conócenos"
+msgstr ""
+
+#: templates/contacto.html:28
+msgid "Sandra"
+msgstr ""
+
+#: templates/contacto.html:31
+msgid "¡Hola!"
+msgstr ""
+
+#: templates/contacto.html:32
+msgid ""
+"Mi nombre es Sandra, soy estudiante de Ingeniería Informática en la "
+"Universidad de Burgos y, junto con mi tutor Álvar Arnaiz, hemos credo "
+"esta aplicación web."
+msgstr ""
+
+#: templates/contacto.html:40
+msgid ""
+"Este proyecto forma parte de mi trabajo de fin de grado y espero que sea "
+"de utilidad a muchas personas."
+msgstr ""
+
+#: templates/contacto.html:41
+msgid ""
+"Trabajamos junto con la Asociación de Parkinson de Burgos para hacer un "
+"poco más fácil la vida de las personas que sufren esta enfermedad."
+msgstr ""
+
+#: templates/contacto.html:51
+msgid "Contacta con nosotros"
+msgstr ""
+
+#: templates/contacto.html:55
+msgid "Preguntas y consultas"
+msgstr ""
+
+#: templates/contacto.html:56
+msgid ""
+"Puedes enviarnos tus preguntas y consultas a través de nuestros correos "
+"electrónicos:"
+msgstr ""
+
+#: templates/contacto.html:64
+msgid "Ubicación"
+msgstr ""
+
+#: templates/contacto.html:65
+msgid "Encuéntranos en:"
+msgstr ""
+
+#: templates/contacto.html:82
+msgid "© OpenStreetMap contributors"
+msgstr ""
+
+#: templates/contacto.html:86
+msgid "Avenida Cantabria, s/n, 09006 Burgos (España)"
+msgstr ""
+
+#: templates/gestionUsuarios.html:5
+msgid "Gestión Usuarios"
+msgstr ""
+
+#: templates/gestionUsuarios.html:63 templates/mostrarDatosSensor.html:34
+#: templates/mostrarVideos.html:29
+msgid "Gestión de Usuarios"
+msgstr ""
+
+#: templates/gestionUsuarios.html:70
+msgid "Elige la tabla a gestionar:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:72
+msgid "Administradores"
+msgstr ""
+
+#: templates/gestionUsuarios.html:73 templates/paginaprincipal.html:28
+msgid "Médicos"
+msgstr ""
+
+#: templates/gestionUsuarios.html:74 templates/paginaprincipal.html:22
+msgid "Pacientes"
+msgstr ""
+
+#: templates/gestionUsuarios.html:83 templates/gestionUsuarios.html:217
+#: templates/gestionUsuarios.html:293 templates/gestionUsuarios.html:447
+msgid "Nombre:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:87 templates/gestionUsuarios.html:221
+#: templates/gestionUsuarios.html:297 templates/gestionUsuarios.html:451
+msgid "Apellido:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:94
+msgid "Nombre de Usuario:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:98 templates/gestionUsuarios.html:232
+#: templates/gestionUsuarios.html:308 templates/gestionUsuarios.html:462
+msgid "Contraseña:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:105
+msgid "Correo Electrónico:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:112
+msgid "Foto:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:136
+msgid "¿Tiene Sensor?"
+msgstr ""
+
+#: templates/gestionUsuarios.html:170
+msgid "Agregar Usuario"
+msgstr ""
+
+#: templates/gestionUsuarios.html:184
+msgid "Tabla de Administradores"
+msgstr ""
+
+#: templates/gestionUsuarios.html:185
+msgid "Añadir Administrador"
+msgstr ""
+
+#: templates/gestionUsuarios.html:188
+msgid "Esta tabla muestra la lista de administradores de la aplicación."
+msgstr ""
+
+#: templates/gestionUsuarios.html:190 templates/gestionUsuarios.html:266
+#: templates/gestionUsuarios.html:342 templates/listadoPacientes.html:28
+msgid "ID"
+msgstr ""
+
+#: templates/gestionUsuarios.html:191 templates/gestionUsuarios.html:267
+#: templates/gestionUsuarios.html:343 templates/listadoPacientes.html:29
+msgid "Nombre"
+msgstr ""
+
+#: templates/gestionUsuarios.html:192 templates/gestionUsuarios.html:268
+#: templates/gestionUsuarios.html:344 templates/listadoPacientes.html:30
+msgid "Foto"
+msgstr ""
+
+#: templates/gestionUsuarios.html:193 templates/gestionUsuarios.html:269
+#: templates/gestionUsuarios.html:345 templates/listadoPacientes.html:31
+msgid "Acciones"
+msgstr ""
+
+#: templates/gestionUsuarios.html:205 templates/gestionUsuarios.html:281
+#: templates/gestionUsuarios.html:435
+msgid "Editar usuario"
+msgstr ""
+
+#: templates/gestionUsuarios.html:207 templates/gestionUsuarios.html:283
+#: templates/gestionUsuarios.html:437
+msgid "Eliminar Usuario"
+msgstr ""
+
+#: templates/gestionUsuarios.html:228 templates/gestionUsuarios.html:304
+#: templates/gestionUsuarios.html:458
+msgid "Nombre de usuario:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:238 templates/gestionUsuarios.html:314
+#: templates/gestionUsuarios.html:468
+msgid "Correo electrónico:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:260
+msgid "Tabla de Médicos"
+msgstr ""
+
+#: templates/gestionUsuarios.html:261
+msgid "Añadir Médico"
+msgstr ""
+
+#: templates/gestionUsuarios.html:264
+msgid "Esta tabla muestra la lista de médicos de la aplicación."
+msgstr ""
+
+#: templates/gestionUsuarios.html:336
+msgid "Tabla de Pacientes"
+msgstr ""
+
+#: templates/gestionUsuarios.html:337
+msgid "Añadir Paciente"
+msgstr ""
+
+#: templates/gestionUsuarios.html:340
+msgid "Esta tabla muestra la lista de pacientes de la aplicación."
+msgstr ""
+
+#: templates/gestionUsuarios.html:359 templates/gestionUsuarios.html:402
+#: templates/listadoPacientes.html:80 templates/listadoPacientes.html:123
+msgid "Subir vídeo"
+msgstr ""
+
+#: templates/gestionUsuarios.html:363 templates/listadoPacientes.html:84
+msgid "Archivo de vídeo:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:367 templates/listadoPacientes.html:88
+msgid "Fecha del vídeo:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:372 templates/listadoPacientes.html:93
+msgid "Mano del vídeo:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:374 templates/gestionUsuarios.html:382
+#: templates/gestionUsuarios.html:393 templates/listadoPacientes.html:95
+#: templates/listadoPacientes.html:103 templates/listadoPacientes.html:114
+#: templates/mostrarDatosSensor.html:54
+msgid "Seleccionar"
+msgstr ""
+
+#: templates/gestionUsuarios.html:375 templates/listadoPacientes.html:96
+#: templates/mostrarVideos.html:63
+msgid "Derecha"
+msgstr ""
+
+#: templates/gestionUsuarios.html:376 templates/listadoPacientes.html:97
+#: templates/mostrarVideos.html:65
+msgid "Izquierda"
+msgstr ""
+
+#: templates/gestionUsuarios.html:380 templates/listadoPacientes.html:101
+#: templates/mostrarVideos.html:85
+msgid "Lentitud:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:383 templates/gestionUsuarios.html:394
+#: templates/listadoPacientes.html:104 templates/listadoPacientes.html:115
+msgid "0"
+msgstr ""
+
+#: templates/gestionUsuarios.html:384 templates/gestionUsuarios.html:395
+#: templates/listadoPacientes.html:105 templates/listadoPacientes.html:116
+msgid "1"
+msgstr ""
+
+#: templates/gestionUsuarios.html:385 templates/gestionUsuarios.html:396
+#: templates/listadoPacientes.html:106 templates/listadoPacientes.html:117
+msgid "2"
+msgstr ""
+
+#: templates/gestionUsuarios.html:386 templates/gestionUsuarios.html:397
+#: templates/listadoPacientes.html:107 templates/listadoPacientes.html:118
+msgid "3"
+msgstr ""
+
+#: templates/gestionUsuarios.html:387 templates/gestionUsuarios.html:398
+#: templates/listadoPacientes.html:108 templates/listadoPacientes.html:119
+msgid "4"
+msgstr ""
+
+#: templates/gestionUsuarios.html:391 templates/listadoPacientes.html:112
+#: templates/mostrarVideos.html:86
+msgid "Amplitud:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:405 templates/listadoPacientes.html:125
+msgid "Subiendo...(esto podría tardar unos minutos)"
+msgstr ""
+
+#: templates/gestionUsuarios.html:412 templates/listadoPacientes.html:135
+msgid "Subir datos sensor"
+msgstr ""
+
+#: templates/gestionUsuarios.html:416 templates/listadoPacientes.html:139
+msgid "Archivo CSV:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:420 templates/listadoPacientes.html:143
+msgid "Subir archivo CSV"
+msgstr ""
+
+#: templates/gestionUsuarios.html:431 templates/listadoPacientes.html:148
+msgid "Mostrar datos sensor"
+msgstr ""
+
+#: templates/gestionUsuarios.html:474
+msgid "Fecha de nacimiento:"
+msgstr ""
+
+#: templates/gestionUsuarios.html:639 templates/listadoPacientes.html:197
+msgid "Por favor, complete todos los campos."
+msgstr ""
+
+#: templates/gestionUsuarios.html:649 templates/listadoPacientes.html:207
+msgid "La fecha del vídeo no puede ser posterior a la fecha actual."
+msgstr ""
+
+#: templates/gestionUsuarios.html:683 templates/listadoPacientes.html:241
+msgid "Error al subir el archivo de vídeo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:697
+msgid "No puedes eliminarte a ti mismo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:700
+msgid "¿Estás seguro de que deseas eliminar este usuario?"
+msgstr ""
+
+#: templates/gestionUsuarios.html:709
+msgid "Usuario eliminado con éxito"
+msgstr ""
+
+#: templates/gestionUsuarios.html:714
+msgid "No se puede eliminar al médico porque tiene pacientes a su cargo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:717 templates/gestionUsuarios.html:722
+msgid "Error al eliminar el usuario"
+msgstr ""
+
+#: templates/gestionUsuarios.html:784 templates/gestionUsuarios.html:1047
+#: templates/gestionUsuarios.html:1068
+msgid "Por favor, complete todos los campos obligatorios."
+msgstr ""
+
+#: templates/gestionUsuarios.html:834
+msgid "Usuario agregado correctamente"
+msgstr ""
+
+#: templates/gestionUsuarios.html:837 templates/gestionUsuarios.html:842
+msgid "Error al agregar el usuario"
+msgstr ""
+
+#: templates/gestionUsuarios.html:955
+msgid "Usuario editado correctamente"
+msgstr ""
+
+#: templates/gestionUsuarios.html:958 templates/gestionUsuarios.html:963
+msgid "Error al editar el usuario"
+msgstr ""
+
+#: templates/gestionUsuarios.html:984
+msgid "El nombre es demasiado largo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:990
+msgid "El nombre tiene caracteres no permitidos."
+msgstr ""
+
+#: templates/gestionUsuarios.html:998
+msgid "El apellido es demasiado largo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1003
+msgid "El apellido tiene caracteres no permitidos."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1011
+msgid "El nombre de usuario es demasiado largo."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1017
+msgid "El nombre de usuario tiene caracteres no permitidos."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1026
+msgid "La contraseña es demasiado larga."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1029
+msgid "La contraseña es demasiado corta."
+msgstr ""
+
+#: templates/gestionUsuarios.html:1072
+msgid "El ID del médico debe ser un número."
+msgstr ""
+
+#: templates/layout.html:184
+msgid "Logo APP"
+msgstr ""
+
+#: templates/layout.html:187
+msgid "Toggle navigation"
+msgstr ""
+
+#: templates/layout.html:201
+msgid "Idioma"
+msgstr ""
+
+#: templates/layout.html:204
+msgid "Inglés"
+msgstr ""
+
+#: templates/layout.html:205
+msgid "Español"
+msgstr ""
+
+#: templates/layout.html:206
+msgid "Francés"
+msgstr ""
+
+#: templates/layout.html:225 templates/layout.html:228
+#: templates/layout.html:231
+msgid "Perfil"
+msgstr ""
+
+#: templates/layout.html:241
+msgid "Página principal"
+msgstr ""
+
+#: templates/layout.html:244
+msgid "Iniciar sesión"
+msgstr ""
+
+#: templates/listadoPacientes.html:5 templates/listadoPacientes.html:23
+msgid "Listado pacientes"
+msgstr ""
+
+#: templates/listadoPacientes.html:20 templates/mostrarDatosSensor.html:37
+#: templates/mostrarVideos.html:32
+msgid "Listado de Pacientes"
+msgstr ""
+
+#: templates/listadoPacientes.html:25
+msgid ""
+"Esta tabla muestra la lista de pacientes del médico con su ID, nombre, "
+"foto y acciones disponibles."
+msgstr ""
+
+#: templates/listadoPacientes.html:41
+msgid "Información personal"
+msgstr ""
+
+#: templates/listadoPacientes.html:295
+msgid "Paciente editado correctamente"
+msgstr ""
+
+#: templates/listadoPacientes.html:298 templates/listadoPacientes.html:303
+msgid "Error al editar el paciente"
+msgstr ""
+
+#: templates/login.html:5
+msgid "Login"
+msgstr ""
+
+#: templates/login.html:16 templates/paginaprincipal.html:15
+msgid "TremorTrack"
+msgstr ""
+
+#: templates/login.html:19
+msgid "Inicio sesión"
+msgstr ""
+
+#: templates/login.html:28
+msgid "Nombre de usuario"
+msgstr ""
+
+#: templates/login.html:29
+msgid "Ingresa tu nombre de usuario"
+msgstr ""
+
+#: templates/login.html:39
+msgid "Contraseña"
+msgstr ""
+
+#: templates/login.html:40
+msgid "Ingresa tu contraseña"
+msgstr ""
+
+#: templates/login.html:67
+msgid "Enviar"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:5
+msgid "Datos sensor"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:41
+msgid "Mostrar Datos Sensor"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:46
+msgid "Paciente:"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:51
+msgid "Selecciona la gráfica a mostrar:"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:55
+msgid "Parámetros de Bradicinesia"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:56
+msgid "Parámetros de FoG y Discinesia"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:57
+msgid "Información de los pasos"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:58
+msgid "Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 min"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:62
+msgid "Selecciona las fechas a mostrar:"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:63
+msgid "Seleciona fechas..."
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:69
+msgid "Mostrar datos"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:134
+msgid "Fechas disponibles: <br>"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:177
+msgid "Seleccione un tipo de gráfico.\\n"
+msgstr ""
+
+#: templates/mostrarDatosSensor.html:182
+msgid "Seleccione una fecha.\\n"
+msgstr ""
+
+#: templates/mostrarVideos.html:5
+msgid "Vídeos Paciente"
+msgstr ""
+
+#: templates/mostrarVideos.html:36
+msgid "Mostrar Vídeos"
+msgstr ""
+
+#: templates/mostrarVideos.html:42
+msgid "Vídeos paciente:"
+msgstr ""
+
+#: templates/mostrarVideos.html:46
+msgid ""
+"Esta tabla muestra los vídeos del paciente, con su título, mano, fecha y "
+"permitiendo reproducir o eliminar."
+msgstr ""
+
+#: templates/mostrarVideos.html:49
+msgid "Título"
+msgstr ""
+
+#: templates/mostrarVideos.html:50
+msgid "Mano del vídeo"
+msgstr ""
+
+#: templates/mostrarVideos.html:51
+msgid "Fecha"
+msgstr ""
+
+#: templates/mostrarVideos.html:52
+msgid "Reproducir"
+msgstr ""
+
+#: templates/mostrarVideos.html:53
+msgid "Eliminar"
+msgstr ""
+
+#: templates/mostrarVideos.html:73
+msgid "Reproducir vídeo"
+msgstr ""
+
+#: templates/mostrarVideos.html:74
+msgid "Ocultar vídeo"
+msgstr ""
+
+#: templates/mostrarVideos.html:83
+msgid "Características"
+msgstr ""
+
+#: templates/mostrarVideos.html:87
+msgid "Velocidad media:"
+msgstr ""
+
+#: templates/mostrarVideos.html:88
+msgid "Frecuencia de máximos:"
+msgstr ""
+
+#: templates/mostrarVideos.html:89
+msgid "Frecuencia de mínimos:"
+msgstr ""
+
+#: templates/mostrarVideos.html:90
+msgid "Promedio de máximos:"
+msgstr ""
+
+#: templates/mostrarVideos.html:91
+msgid "Desviación estándar de máximos:"
+msgstr ""
+
+#: templates/mostrarVideos.html:92
+msgid "Diferencia ranurada de la frecuencia de mínimos:"
+msgstr ""
+
+#: templates/mostrarVideos.html:93
+msgid "Diferencia ranurada de la frecuencia de máximos:"
+msgstr ""
+
+#: templates/mostrarVideos.html:99
+msgid "Eliminar vídeo"
+msgstr ""
+
+#: templates/mostrarVideos.html:107
+msgid "Gráficos con las características de los vídeos"
+msgstr ""
+
+#: templates/mostrarVideos.html:110
+msgid "Predecir"
+msgstr ""
+
+#: templates/mostrarVideos.html:115
+msgid "Gráfico mano izquierda"
+msgstr ""
+
+#: templates/mostrarVideos.html:123
+msgid "Gráfico mano derecha"
+msgstr ""
+
+#: templates/mostrarVideos.html:133
+msgid "Gráfico predicción mano izquierda"
+msgstr ""
+
+#: templates/mostrarVideos.html:141
+msgid "Gráfico predicción mano derecha"
+msgstr ""
+
+#: templates/mostrarVideos.html:184 templates/mostrarVideos.html:208
+#: templates/mostrarVideos.html:394 templates/mostrarVideos.html:418
+msgid "Lentitud"
+msgstr ""
+
+#: templates/mostrarVideos.html:187 templates/mostrarVideos.html:211
+#: templates/mostrarVideos.html:397 templates/mostrarVideos.html:421
+msgid "Amplitud"
+msgstr ""
+
+#: templates/mostrarVideos.html:190 templates/mostrarVideos.html:214
+#: templates/mostrarVideos.html:400 templates/mostrarVideos.html:424
+msgid "Velocidad Media"
+msgstr ""
+
+#: templates/mostrarVideos.html:193 templates/mostrarVideos.html:217
+#: templates/mostrarVideos.html:403 templates/mostrarVideos.html:427
+msgid "Frecuencia de Máximos"
+msgstr ""
+
+#: templates/mostrarVideos.html:196 templates/mostrarVideos.html:220
+#: templates/mostrarVideos.html:406 templates/mostrarVideos.html:430
+msgid "Frecuencia de Mínimos"
+msgstr ""
+
+#: templates/mostrarVideos.html:199 templates/mostrarVideos.html:223
+#: templates/mostrarVideos.html:409 templates/mostrarVideos.html:433
+msgid "Promedio de Máximos"
+msgstr ""
+
+#: templates/mostrarVideos.html:202 templates/mostrarVideos.html:226
+#: templates/mostrarVideos.html:412 templates/mostrarVideos.html:436
+msgid "Desviación Estándar de Máximos"
+msgstr ""
+
+#: templates/mostrarVideos.html:253 templates/mostrarVideos.html:276
+#: templates/mostrarVideos.html:463 templates/mostrarVideos.html:486
+msgid "Fechas de los vídeos"
+msgstr ""
+
+#: templates/mostrarVideos.html:288
+msgid "No hay vídeos disponibles para mostrar."
+msgstr ""
+
+#: templates/mostrarVideos.html:344
+msgid "¿Estás seguro de que deseas eliminar este vídeo?"
+msgstr ""
+
+#: templates/mostrarVideos.html:353
+msgid "Vídeo eliminado con éxito"
+msgstr ""
+
+#: templates/mostrarVideos.html:357 templates/mostrarVideos.html:362
+msgid "Error al eliminar el vídeo"
+msgstr ""
+
+#: templates/paginaprincipal.html:5
+msgid "Página Principal"
+msgstr ""
+
+#: templates/paginaprincipal.html:19
+msgid "Descubre todo lo que puedes hacer con TremorTrack:"
+msgstr ""
+
+#: templates/paginaprincipal.html:23
+msgid "- Realizar el seguimiento de tus datos médicos."
+msgstr ""
+
+#: templates/paginaprincipal.html:24
+msgid "- Predecir con IA cómo va a ser tú evolución."
+msgstr ""
+
+#: templates/paginaprincipal.html:29
+msgid "- Consultar los datos de tus pacientes."
+msgstr ""
+
+#: templates/paginaprincipal.html:30
+msgid "- Realizar predicciones con IA."
+msgstr ""
+
+#: templates/paginaprincipal.html:31
+msgid "- Subir vídeos y datos de tus pacientes."
+msgstr ""
+

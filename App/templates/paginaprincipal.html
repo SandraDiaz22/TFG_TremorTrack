@@ -1,0 +1,49 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Página Principal{% endtrans %}</title>
+
+{% endblock %}
+
+{% block body %}
+
+  <!--Contenido de la página-->
+  <div class="container mt-4 mb-4">
+    
+    <!--Nombre de la aplicación-->
+    <img src="/get_image/logoletras.JPG" alt="{% trans %}TremorTrack{% endtrans %}" style="max-width: 300px; height: auto; margin: 0 10px;" >
+  
+
+    <!--Información para los usuarios-->
+    <h1>{% trans %}Descubre todo lo que puedes hacer con TremorTrack:{% endtrans %}</h1>
+    <div class="columnas">
+        <div class="colum">
+            <h2 style="margin-bottom: 20px;">{% trans %}Pacientes{% endtrans %}</h2>
+            <p>{% trans %}- Realizar el seguimiento de tus datos médicos.{% endtrans %}</p>
+            <p>{% trans %}- Predecir con IA cómo va a ser tú evolución.{% endtrans %}</p>
+        </div>
+
+        <div class="colum">
+            <h2 style="margin-bottom: 20px;">{% trans %}Médicos{% endtrans %}</h2>
+            <p>{% trans %}- Consultar los datos de tus pacientes.{% endtrans %}</p>
+            <p>{% trans %}- Realizar predicciones con IA.{% endtrans %}</p>
+            <p>{% trans %}- Subir vídeos y datos de tus pacientes.{% endtrans %}</p>
+        </div>
+    
+  </div>
+
+  </div>
+        
+
+<footer>
+    <!-- Logos de la ubu y del parkinson al final de la página-->
+    <a target="_blank" href="https://www.ubu.es/">
+        <img src="/get_image/ubu.JPG" alt="Logo UBU" class="logo">
+    </a>
+    <a target="_blank" href="https://parkinsonburgos.org/">
+        <img src="/get_image/parkinson+.JPG" alt="Logo Parkinson" class="logo">
+    </a>
+</footer>
+
+{% endblock %}

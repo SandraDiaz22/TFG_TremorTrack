@@ -1,0 +1,1099 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Gestión Usuarios{% endtrans %}</title>
+
+    <style>
+        /*Estilo para botones de seleccionar qué tabla ver*/
+        .btn-seleccion {
+            border: 2px solid black;/*Borde*/
+        }
+        /*Movimiento cuando pasas por encima*/
+        .btn-seleccion:hover {transform: translateY(-2px);}
+        
+
+        /*Estilo para botones de añadir usuario */
+        .btn-add {
+            background-color: #2fa94c;;
+        }.btn-add:hover {background-color: rgb(24, 84, 38); }
+
+
+        /*Estilo para botón "editar usuario"*/
+        .btn-editar {
+            background-color: #ec8942;
+        }.btn-editar:hover {background-color: #ad632e }
+
+
+        /*Estilo para botón "eliminar usuario"*/
+        .btn-eliminar {
+            background-color: red;
+        }.btn-eliminar:hover {background-color: rgb(141, 2, 2) }
+        
+    
+        /*Estilo para botones de acciones solo para pacientes*/
+        .btn-accion-paciente {
+            background-color: rgb(3, 111, 211); 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 10px auto;
+        }.btn-accion-paciente:hover {background-color: rgb(2, 75, 144) }
+        
+    
+        
+    </style>
+    
+
+{% endblock %}
+
+
+
+{% block body %}
+
+    <!--Contenido de la página-->
+    <div class="container mt-4 mb-4">
+
+        <!--Migas de pan-->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/BienvenidaAdmin">{% trans %}Bienvenido{% endtrans %}</a></li>
+                <li aria-current="page" class="breadcrumb-item active">{% trans %}Gestión de Usuarios{% endtrans %}</li>
+            </ol>
+        </nav>
+
+        <h1>{% trans %}Gestión de usuarios{% endtrans %}</h1>
+        
+        <!--Botones para mostrar las diferentes tablas-->
+        <h3>{% trans %}Elige la tabla a gestionar:{% endtrans %}</h3>
+        <div class="botones-container">
+            <button type="button" class="btn-seleccion" id="btnAdmins">{% trans %}Administradores{% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnMedicos">{% trans %}Médicos{% endtrans %}</button>
+            <button type="button" class="btn-seleccion" id="btnPacientes">{% trans %}Pacientes{% endtrans %}</button>
+        </div>
+
+
+
+        <!--Formulario para agregar nuevos usuarios-->
+        <form id="formulario-agregar-usuario" style="display: none;" enctype="multipart/form-data">
+            <div class="form-group flex-container"> <!--Nombre y apellido-->
+                <div class="flex-item">
+                    <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                </div>
+                <div class="flex-item">
+                    <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
+                    <input type="text" id="apellido" name="apellido" required>
+                </div>
+            </div>
+
+            <div class="form-group flex-container"> <!--Nombre de usuario y contraseña-->
+                <div class="flex-item">
+                    <label for="nombre_de_usuario">{% trans %}Nombre de Usuario:{% endtrans %}</label>
+                    <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" required>
+                </div>
+                <div class="flex-item">
+                    <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
+                    <input type="password" id="contraseña" name="contraseña" required>
+                </div>
+            </div>
+
+            <div class="form-group flex-container"> <!--Correo-->
+                <div class="flex-item">
+                    <label for="correo_electronico">{% trans %}Correo Electrónico:{% endtrans %}</label>
+                    <input type="email" id="correo_electronico" name="correo_electronico" required>
+                </div>
+            </div>
+
+            <div class="form-group flex-container"> <!--Foto de perfil-->
+                <div class="flex-item">
+                    <label for="foto">{% trans %}Foto:{% endtrans %}</label>
+                    <input type="file" id="foto" name="foto" accept="image/*" required>
+                </div>
+            </div>
+
+            <!--Campos solo para pacientes-->
+            <div id="campos-paciente" style="display: none;">  <!--Fecha de nacimiento y direccion-->
+                <div class="form-group flex-container">
+                    <div class="flex-item">
+                        <label for="fecha_de_nacimiento">{% trans %}Fecha de Nacimiento:{% endtrans %}</label>
+                        <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento">
+                    </div>
+                    <div class="flex-item">
+                        <label for="direccion">{% trans %}Dirección:{% endtrans %}</label>
+                        <input type="text" id="direccion" name="direccion">
+                    </div>
+                </div>
+
+                <div class="form-group flex-container"> <!--Teléfono y sensor-->
+                    <div class="flex-item">
+                        <label for="telefono">{% trans %}Teléfono:{% endtrans %}</label>
+                        <input type="tel" id="telefono" name="telefono">
+                    </div>
+                    <div class="flex-item">
+                        <label for="sensor">{% trans %}¿Tiene Sensor?{% endtrans %}</label>
+                        <br>
+                        <select id="sensor" name="sensor">
+                            <option value="SI">{% trans %}Sí{% endtrans %}</option>
+                            <option value="NO">{% trans %}No{% endtrans %}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group flex-container"> <!--Médico asignado y lateralidad-->
+                    <div class="flex-item">
+                        <label for="id_medico">{% trans %}Médico Asignado:{% endtrans %}</label>
+                        <select id="id_medico" name="id_medico">
+                            {% for medico in medicos %}
+                                <option value="{{ medico.id_medico }}">{{ medico.nombre }} {{ medico.apellido }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div class="flex-item">
+                        <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
+                        <br>
+                        <select id="lateralidad" name="lateralidad">
+                            <option value="diestro">{% trans %}Diestro{% endtrans %}</option>
+                            <option value="zurdo">{% trans %}Zurdo{% endtrans %}</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <input type="hidden" id="rol_usuario" name="rol_usuario">  <!--Campo oculto para el rol-->
+            <input type="hidden" name="csrf_token" id="csrf_token" value="{{ csrf_token() }}"> <!--Campo oculto para el csrf-->
+
+            <!--Botones para agregar el usuario -->
+            <button type="button" class="btn-add" onclick="agregarUsuario()">{% trans %}Agregar Usuario{% endtrans %}</button>
+            <button type="button" class="btn-cancelar" onclick="cancelarAgregado()">{% trans %}Cancelar{% endtrans %}</button>
+        </form>
+
+
+
+
+
+
+
+
+
+
+        <!--Tabla de administradores-->
+        <h2 id="tituloAdmins" style="display: none;">{% trans %}Tabla de Administradores{% endtrans %}</h2>
+        <button type="button" class="btn-add" id="botonAgregarAdministrador" onclick="mostrarFormulario('administrador')" style="display: none;">{% trans %}Añadir Administrador{% endtrans %}</button>
+        <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
+            <table class="table" id="tablaAdmins" style=" display: none; ">
+                <caption>{% trans %}Esta tabla muestra la lista de administradores de la aplicación.{% endtrans %}</caption>
+                <thead> <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Nombre{% endtrans %}</th>
+                        <th>{% trans %}Foto{% endtrans %}</th>
+                        <th>{% trans %}Acciones{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for admin in admins %} <!--Por cada admin de la bbdd-->
+                    <tr>
+                        <td>{{ admin.id_admin }}</td>
+                        <td>{{ admin.nombre }}</td>
+                        <td><img src="{{ admin.foto }}" alt="Foto del admin" style="max-width: 100px;"></td>
+                        <td style="width: 500px;">
+
+                            <!--Editar usuario-->
+                            <button type="button" class="btn-editar boton-editar-administrador" data-id="{{ admin.id_admin }}">{% trans %}Editar usuario{% endtrans %}</button>                
+                            <!--Eliminar usuario-->
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ admin.id_admin }}', 'administrador', '{{id_admin_logueado}}')">{% trans %}Eliminar Usuario{% endtrans %}</button>
+                    
+                            <!--Formulario edición usuario-->
+                            <div class="formulario-edicion-administrador" id="formulario-edicion-administrador-{{ admin.id_admin }}" style="display: none;">
+                                <form action="/editar_usuario" method="POST">
+                                    <input type="hidden" name="usuario_id" value="{{ admin.id_admin }}"> <!--Para saber quién editar-->
+                                    <input type="hidden" name="editar_tipo" value="administrador">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <div class="form-group flex-container"> <!--Nombre y apellido-->
+                                        <div class="flex-item">
+                                            <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
+                                            <input type="text" id="nombre" name="nombre" value="{{ admin.nombre }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
+                                            <input type="text" id="apellido" name="apellido" value="{{ admin.apellido }}">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group flex-container"> <!--Nombre de usuario y contraseña-->
+                                        <div class="flex-item">
+                                            <label for="nombre_de_usuario">{% trans %}Nombre de usuario:{% endtrans %}</label>
+                                            <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ admin.nombre_de_usuario }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
+                                            <input type="password" id="contraseña" name="contraseña">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group"> <!--Correo-->
+                                        <label for="correo_electronico">{% trans %}Correo electrónico:{% endtrans %}</label>
+                                        <input type="email" id="correo_electronico" name="correo_electronico" value="{{ admin.correo_electronico }}">
+                                    </div>
+                            
+                                    
+                            
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="administrador">{% trans %}Guardar cambios{% endtrans %}</button>
+                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
+                                </form>
+                            </div>
+
+                        </td>
+                    {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+        <!--Tabla de médicos-->
+        <h2 id="tituloMedicos" style="display: none;">{% trans %}Tabla de Médicos{% endtrans %}</h2>
+        <button type="button" class="btn-add" id="botonAgregarMedico" onclick="mostrarFormulario('medico')" style="display: none;">{% trans %}Añadir Médico{% endtrans %}</button>
+        <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
+            <table class="table" id="tablaMedicos" style="display: none;">
+                <caption>{% trans %}Esta tabla muestra la lista de médicos de la aplicación.{% endtrans %}</caption>
+                <thead>  <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Nombre{% endtrans %}</th>
+                        <th>{% trans %}Foto{% endtrans %}</th>
+                        <th>{% trans %}Acciones{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for medico in medicos %}
+                    <tr>
+                        <td>{{ medico.id_medico }}</td>
+                        <td>{{ medico.nombre }}</td>
+                        <td><img src="{{ medico.foto }}" alt="Foto del medico" style="max-width: 100px;"></td>
+                        <td style="width: 500px;">
+                            
+                            <!--Editar usuario-->
+                            <button type="button" class="btn-editar boton-editar-medico" data-id="{{ medico.id_medico }}">{% trans %}Editar usuario{% endtrans %}</button>
+                            <!--Eliminar usuario-->
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ medico.id_medico }}', 'medico')">{% trans %}Eliminar Usuario{% endtrans %}</button>
+                    
+                            <!--Formulario edición usuario-->
+                            <div class="formulario-edicion-medico" id="formulario-edicion-medico-{{ medico.id_medico }}" style="display: none;">
+                                <form action="/editar_usuario" method="POST">
+                                    <input type="hidden" name="usuario_id" value="{{ medico.id_medico }}"> <!--Para saber quién editar-->
+                                    <input type="hidden" name="editar_tipo" value="medico">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <div class="form-group flex-container"> <!--Nombre y apellido-->
+                                        <div class="flex-item">
+                                            <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
+                                            <input type="text" id="nombre" name="nombre" value="{{ medico.nombre }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
+                                            <input type="text" id="apellido" name="apellido" value="{{ medico.apellido }}">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group flex-container"> <!--Nombre de usuario y contraseña-->
+                                        <div class="flex-item">
+                                            <label for="nombre_de_usuario">{% trans %}Nombre de usuario:{% endtrans %}</label>
+                                            <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ medico.nombre_de_usuario }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
+                                            <input type="password" id="contraseña" name="contraseña">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group"> <!--Correo-->
+                                        <label for="correo_electronico">{% trans %}Correo electrónico:{% endtrans %}</label>
+                                        <input type="email" id="correo_electronico" name="correo_electronico" value="{{ medico.correo_electronico }}">
+                                    </div>
+                            
+                                    
+                            
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="medico">{% trans %}Guardar cambios{% endtrans %}</button>
+                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
+                                </form>
+                            </div>
+                            
+                        </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+
+
+
+        <!--Tabla de pacientes-->
+        <h2 id="tituloPacientes" style="display: none;">{% trans %}Tabla de Pacientes{% endtrans %}</h2>
+        <button type="button" class="btn-add" id="botonAgregarPaciente" onclick="mostrarFormulario('paciente')" style="display: none;">{% trans %}Añadir Paciente{% endtrans %}</button>
+        <div style="display: inline-block; text-align: left; margin-top: 20px;"> <!--Centrada-->
+            <table class="table" id="tablaPacientes" style="display: none;">
+                <caption>{% trans %}Esta tabla muestra la lista de pacientes de la aplicación.{% endtrans %}</caption>
+                <thead>  <tr>
+                        <th>{% trans %}ID{% endtrans %}</th>
+                        <th>{% trans %}Nombre{% endtrans %}</th>
+                        <th>{% trans %}Foto{% endtrans %}</th>
+                        <th>{% trans %}Acciones{% endtrans %}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for paciente in pacientes %}
+                    <tr>
+                        <td>{{ paciente.id_paciente }}</td>
+                        <td>{{ paciente.nombre }}</td>
+                        <td><img src="{{ paciente.foto }}" alt="Foto del paciente" style="max-width: 100px;"></td>
+                        <td style="width: 500px;">
+                            <div class="acciones-paciente">
+                                <!--Datos personales no hace falta por repetitivo-->
+
+                                <!--Subir vídeo-->
+                                <button type="button" class="subir-videos">{% trans %}Subir vídeo{% endtrans %}</button>
+                                <div class="formulario-videos" style="display: none;"> <!--Formulario invisible-->
+                                    <form action="/subirVideo/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data" id="formularioSubirVideo">
+                                        <div class="form-group">
+                                            <label for="archivo_video">{% trans %}Archivo de vídeo:{% endtrans %}</label>
+                                            <input type="file" name="archivo_video" accept="video/*" required> <!--Vídeo-->
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="fecha_video">{% trans %}Fecha del vídeo:{% endtrans %}</label>
+                                            <input type="date" id="fecha_video" name="fecha_video" required> <!--Fecha vídeo-->
+                                        </div>
+                                        <div class="form-group flex-container">
+                                            <div class="flex-item">
+                                                <label for="mano">{% trans %}Mano del vídeo:{% endtrans %}</label> <!--Mano vídeo-->
+                                                <select id="mano" name="mano" required>
+                                                    <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+                                                    <option value="derecha">{% trans %}Derecha{% endtrans %}</option>
+                                                    <option value="izquierda">{% trans %}Izquierda{% endtrans %}</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex-item">
+                                                <label for="lentitud">{% trans %}Lentitud:{% endtrans %}</label> <!--Lentitud-->
+                                                <select id="lentitud" name="lentitud" required>
+                                                    <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+                                                    <option value="0">{% trans %}0{% endtrans %}</option>
+                                                    <option value="1">{% trans %}1{% endtrans %}</option>
+                                                    <option value="2">{% trans %}2{% endtrans %}</option>
+                                                    <option value="3">{% trans %}3{% endtrans %}</option>
+                                                    <option value="4">{% trans %}4{% endtrans %}</option>
+                                                </select>
+                                            </div>
+                                            <div class="flex-item">
+                                                <label for="amplitud">{% trans %}Amplitud:{% endtrans %}</label> <!--Amplitud-->
+                                                <select id="amplitud" name="amplitud" required>
+                                                    <option value="">{% trans %}Seleccionar{% endtrans %}</option>
+                                                    <option value="0">{% trans %}0{% endtrans %}</option>
+                                                    <option value="1">{% trans %}1{% endtrans %}</option>
+                                                    <option value="2">{% trans %}2{% endtrans %}</option>
+                                                    <option value="3">{% trans %}3{% endtrans %}</option>
+                                                    <option value="4">{% trans %}4{% endtrans %}</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary mt-2 subirFormVideo">{% trans %}Subir vídeo{% endtrans %}</button>
+
+                                        <div class="subiendo" style="display: none;"> <!--Mensaje que aparece mientras se sube el vídeo a la bbdd-->
+                                            <p>{% trans %}Subiendo...(esto podría tardar unos minutos){% endtrans %}</p>
+                                        </div>
+                                        
+                                    </form>
+                                </div>
+
+                                <!--Subir registro-->
+                                <button type="button" class="subir-datos">{% trans %}Subir datos sensor{% endtrans %}</button>
+                                <div class="formulario-datos" style="display: none;"><!--Formulario invisible-->
+                                    <form action="/subirDatosSensor/{{ paciente.id_paciente }}" method="post" enctype="multipart/form-data">
+                                        <div class="form-group">
+                                            <label for="archivo_sensor">{% trans %}Archivo CSV:{% endtrans %}</label>
+                                            <input type="file" name="archivo_sensor" accept=".csv" required> <!--Primer filtrado para el cliente-->
+                                        </div>
+                                        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                        <button type="submit" class="btn btn-primary mt-2">{% trans %}Subir archivo CSV{% endtrans %}</button>
+                                    </form>
+                                </div>
+
+                            </div>
+                            
+                            <div class="acciones-paciente">
+                                <!--Mostrar vídeos-->
+                                <a href="/mostrarVideos/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %}Mostrar vídeos{% endtrans %}</a>
+
+                                <!--Mostrar gráfica-->
+                                <a href="/mostrarDatosSensor/{{ paciente.id_paciente }}" class="btn btn-accion-paciente">{% trans %}Mostrar datos sensor{% endtrans %}</a>
+                            </div>
+
+                            <!--Editar usuario-->
+                            <button type="button" class="btn-editar boton-editar-paciente" data-id="{{ paciente.id_paciente }}">{% trans %}Editar usuario{% endtrans %}</button>
+                            <!--Eliminar usuario-->
+                            <button type="button" class="btn-eliminar" onclick="eliminarUsuario('{{ paciente.id_paciente }}', 'paciente')">{% trans %}Eliminar Usuario{% endtrans %}</button>
+                            
+                            <!--Formulario edición usuario-->
+                            <div class="formulario-edicion-paciente" id="formulario-edicion-paciente-{{ paciente.id_paciente }}" style="display: none;">
+                                <form class="formulario-edicion" id="formulario-edicion-{{ paciente.id_paciente }}" action="/editar_usuario" method="POST">
+                                    <input type="hidden" name="usuario_id" value="{{ paciente.id_paciente }}"><!--Para saber quién editar-->
+                                    <input type="hidden" name="editar_tipo" value="paciente">
+                                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                                    <div class="form-group flex-container"> <!--Nombre y apellido-->
+                                        <div class="flex-item">
+                                            <label for="nombre">{% trans %}Nombre:{% endtrans %}</label>
+                                            <input type="text" id="nombre" name="nombre" value="{{ paciente.nombre }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="apellido">{% trans %}Apellido:{% endtrans %}</label>
+                                            <input type="text" id="apellido" name="apellido" value="{{ paciente.apellido }}">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group flex-container"> <!--Nombre de usuario y contraseña-->
+                                        <div class="flex-item">
+                                            <label for="nombre_de_usuario">{% trans %}Nombre de usuario:{% endtrans %}</label>
+                                            <input type="text" id="nombre_de_usuario" name="nombre_de_usuario" value="{{ paciente.nombre_de_usuario }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="contraseña">{% trans %}Contraseña:{% endtrans %}</label>
+                                            <input type="password" id="contraseña" name="contraseña">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group"> <!--Correo-->
+                                        <label for="correo_electronico">{% trans %}Correo electrónico:{% endtrans %}</label>
+                                        <input type="email" id="correo_electronico" name="correo_electronico" value="{{ paciente.correo_electronico }}">
+                                    </div>
+
+                                    <div class="form-group flex-container"> <!--Fecha de nacimiento y direccion-->
+                                        <div class="flex-item">
+                                            <label for="fecha_de_nacimiento">{% trans %}Fecha de nacimiento:{% endtrans %}</label>
+                                            <input type="date" id="fecha_de_nacimiento" name="fecha_de_nacimiento" value="{{ paciente.fecha_de_nacimiento }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="direccion">{% trans %}Dirección:{% endtrans %}</label>
+                                            <input type="text" id="direccion" name="direccion" value="{{ paciente.direccion }}">
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group flex-container"> <!--Teléfono y sensor-->
+                                        <div class="flex-item">
+                                            <label for="telefono">{% trans %}Teléfono:{% endtrans %}</label>
+                                            <input type="text" id="telefono" name="telefono" value="{{ paciente.telefono }}">
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="sensor">{% trans %}Sensor:{% endtrans %}</label>
+                                            <br>
+                                            <select id="sensor" name="sensor">
+                                                <option value="SI" {% if paciente.sensor == 'SI' %} selected {% endif %}>{% trans %}Sí{% endtrans %}</option>
+                                                <option value="NO" {% if paciente.sensor == 'NO' %} selected {% endif %}>{% trans %}No{% endtrans %}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                            
+                                    <div class="form-group flex-container"> <!--Médico asignado y lateralidad-->
+                                        <div class="flex-item">
+                                            <label for="id_medico">{% trans %}Médico Asignado:{% endtrans %}</label>
+                                            <select id="id_medico" name="id_medico">
+                                                {% for medico in medicos %}
+                                                    <option value="{{ medico.id_medico }}" {% if paciente.id_medico == medico.id_medico %}selected{% endif %}>
+                                                        {{ medico.nombre }} {{ medico.apellido }}
+                                                    </option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="flex-item">
+                                            <label for="lateralidad">{% trans %}Lateralidad:{% endtrans %}</label>
+                                            <br>
+                                            <select id="lateralidad" name="lateralidad">
+                                                <option value="diestro" {% if paciente.lateralidad == 'diestro' %} selected {% endif %}>{% trans %}Diestro{% endtrans %}</option>
+                                                <option value="zurdo" {% if paciente.lateralidad == 'zurdo' %} selected {% endif %}>{% trans %}Zurdo{% endtrans %}</option>
+                                            </select>                                        
+                                        </div>
+                                    </div>
+                            
+                                     
+                                
+                                    <button type="submit" class="btn-editar" id="boton-guardarCambios" data-rol="paciente" data-id-paciente="{{ paciente.id_paciente }}">{% trans %}Guardar cambios{% endtrans %}</button>
+                                    <button type="button" class="btn-cancelar boton-cancelarCambios">{% trans %}Cancelar{% endtrans %}</button>
+                                </form>
+                            </div>
+
+                        </td>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+
+
+
+
+
+    <!-- Bootstrap-table filter -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-table/dist/bootstrap-table.min.js"></script>
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <!-- AJAX-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <script>
+        //----------------------------------------------------------------
+        //Dependiendo del botón pulsado muestra una tabla(y su titulo h2 y botón de agregar) u otra
+        document.getElementById('btnAdmins').addEventListener('click', function() {
+            mostrarTabla('tablaAdmins', 'tituloAdmins', 'botonAgregarAdministrador');
+        });
+
+        document.getElementById('btnMedicos').addEventListener('click', function() {
+            mostrarTabla('tablaMedicos', 'tituloMedicos', 'botonAgregarMedico');
+        });
+
+        document.getElementById('btnPacientes').addEventListener('click', function() {
+            mostrarTabla('tablaPacientes', 'tituloPacientes', 'botonAgregarPaciente');
+        });
+
+        function mostrarTabla(idTabla, idTitulo, idBoton) {
+            var tabla = document.getElementById(idTabla);
+            var titulo = document.getElementById(idTitulo);
+            var boton = document.getElementById(idBoton);
+            var formulario = document.getElementById('formulario-agregar-usuario');
+            var formularioPaciente = document.getElementById('campos-paciente');
+
+            //Si el formulario está visible, lo ocultamos
+            if (formulario.style.display === 'block') {
+                formulario.style.display = 'none';
+                formularioPaciente.style.display = 'none';
+            }
+            
+            //Si la tabla está visible, la oculta, y si está oculta, la muestra
+            if (tabla.style.display === 'block') {
+                tabla.style.display = 'none'; //Ocultar
+                titulo.style.display = 'none';
+                boton.style.display = 'none';
+
+            } else {
+                //Oculta todas las otras tablas para que se vea mejor
+                var tablas = document.querySelectorAll('table');
+                tablas.forEach(function(tabla) {
+                    tabla.style.display = 'none';
+                });
+                //Oculta todos los titulos 
+                var titulos = document.querySelectorAll('h2');
+                titulos.forEach(function(titulo) {
+                    titulo.style.display = 'none';
+                });
+                //Oculta todos los botones 
+                botonAgregarAdministrador.style.display = 'none';
+                botonAgregarMedico.style.display = 'none';
+                botonAgregarPaciente.style.display = 'none';
+                
+                tabla.style.display = 'block'; //Mostrar                
+                titulo.style.display = 'block';
+                boton.style.display = 'block';
+            }
+        }
+        //----------------------------------------------------------------
+
+
+        //----------------------------------------------------------------
+        //Lógica para mostrar las acciones sobre los pacientes dependiendo 
+        //del botón al que le den
+        $(document).ready(function(){
+            $(".subir-videos").click(function(){
+                $(this).next(".formulario-videos").toggle(); //Muestra el formulario para subir videos
+            });
+
+            $(".subir-datos").click(function(){
+                $(this).next(".formulario-datos").toggle(); //Muestra el formulario para subir csv
+            });
+        });
+        //----------------------------------------------------------------
+
+
+
+
+        //----------------------------------------------------------------
+        //Lógica para mostrar mensajes al usuario mientras se analiza el 
+        //vídeo que se sube en el formulario
+        $(document).ready(function() {
+            $('.subirFormVideo').on('click', function(e) {
+                e.preventDefault(); //Evitar que se envie el formulario todavia
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content'); //Token csrf
+                //Validación de campos
+                let form = $(this).closest('form');
+                let fileInput = form.find('input[type="file"]');
+                let dateInput = form.find('#fecha_video');
+                let manoSelect = form.find('#mano');
+                let lentitudSelect = form.find('#lentitud');
+                let amplitudSelect = form.find('#amplitud');
+
+                if (!fileInput.val() || !dateInput.val() || !manoSelect.val() || !lentitudSelect.val() || !amplitudSelect.val()) {
+                    alert('{% trans %}Por favor, complete todos los campos.{% endtrans %}');
+                    return;
+                }
+
+                //Validación de la fecha
+                let fechaSeleccionada = new Date(dateInput.val());
+                let hoy = new Date();
+                hoy.setHours(23, 59, 59, 999); // Ajustar la hora a 23:59:59
+
+                if (fechaSeleccionada > hoy) {
+                    alert('{% trans %}La fecha del vídeo no puede ser posterior a la fecha actual.{% endtrans %}');
+                    return;
+                }
+
+                //Mostrar mensaje subiendo...
+                var subiendo = form.find('.subiendo');
+                subiendo.show();
+
+                //URL donde subir los datos
+                var URLformulario = form.attr('action');
+                //Datos del formulario
+                var formData = new FormData(form[0]);
+
+                //Enviar formulario mediante AJAX
+                $.ajax({
+                    url: URLformulario,
+                    type: 'POST',
+                    data: formData,
+                    headers: { "X-CSRFToken": csrfToken },
+                    processData: false,
+                    contentType: false,
+                    //Si sale todo bien
+                    success: function(response) {
+                        subiendo.hide(); //Ocultamos botón
+                        alert(response.message); //Mensaje de éxito
+
+                        //Redireccionar al usuario a la página anterior
+                        window.location.href = '/gestionUsuarios';
+                    },
+
+                    //Si hay algún error
+                    error: function(xhr, status, error) {
+                        console.error(xhr.responseText);
+                        subiendo.hide(); //Ocultamos botón
+                        alert('{% trans %}Error al subir el archivo de vídeo.{% endtrans %}');
+                    }
+                });
+            });
+        });
+        //----------------------------------------------------------------
+
+
+
+
+        //----------------------------------------------------------------
+        //Eliminar usuario de la bbdd
+        function eliminarUsuario(idUsuario, rolUsuario, adminIdLogueado) {
+            if (idUsuario == adminIdLogueado) { //Si tratas de eliminarte a ti mismo
+                alert('{% trans %}No puedes eliminarte a ti mismo.{% endtrans %} ');
+                return; }
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            if (confirm('{% trans %}¿Estás seguro de que deseas eliminar este usuario?{% endtrans %} ')) { //Si confirman
+                fetch('/eliminarUsuario/' + rolUsuario + '/' + idUsuario, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json', "X-CSRFToken": csrfToken },
+                    body: JSON.stringify({ id: idUsuario })
+                })
+                .then(response => {
+                    if (response.ok) {
+                        //Funcionó
+                        alert('{% trans %}Usuario eliminado con éxito{% endtrans %}');
+                        //Recargar la página
+                        setTimeout(function(){ location.reload(); }, 1000);
+                        
+                    } else if (response.status === 400) {
+                        alert('{% trans %}No se puede eliminar al médico porque tiene pacientes a su cargo.{% endtrans %}');
+
+                    }else{
+                        alert('{% trans %}Error al eliminar el usuario{% endtrans %}');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('{% trans %}Error al eliminar el usuario{% endtrans %}');
+                });
+            }
+        }
+        //----------------------------------------------------------------
+
+
+        //----------------------------------------------------------------
+        //Mostrar el formulario de añadir usuario específico
+        function mostrarFormulario(rolUsuario) {
+            const formulario = document.getElementById('formulario-agregar-usuario');
+            const formularioPaciente = document.getElementById('campos-paciente');
+
+            //Si ya estaba visible, lo ocultamos
+            if (formulario.style.display === 'block') {
+                formulario.style.display = 'none';
+                formularioPaciente.style.display = 'none';
+                return;
+            }
+
+            //Campo oculto del rol
+            document.getElementById('rol_usuario').value = rolUsuario;
+
+            //Mostrar formulario
+            formulario.style.display = 'block';
+
+            //Los pacientes tienen más campos que mostrar
+            if (rolUsuario === 'paciente') {
+                formularioPaciente.style.display = 'block';
+            }
+        }
+        //----------------------------------------------------------------
+
+
+
+        //----------------------------------------------------------------
+        //Pasar los datos del formulario a app.py para añadir a la
+        //bbdd un usuario con esos datos
+        function cancelarAgregado() {
+            //Limpia los campos del formulario
+            document.getElementById("formulario-agregar-usuario").reset();
+            //Oculta el formulario
+            document.getElementById("formulario-agregar-usuario").style.display = "none";
+        }
+        //----------------------------------------------------------------
+
+
+
+        //----------------------------------------------------------------
+        //Pasar los datos del formulario a app.py para añadir a la
+        //bbdd un usuario con esos datos
+        function agregarUsuario() {
+            //Obtener los datos del formulario
+            const nombre = document.getElementById('nombre').value;
+            const apellido = document.getElementById('apellido').value;
+            const nombre_de_usuario = document.getElementById('nombre_de_usuario').value;
+            const contraseña = document.getElementById('contraseña').value;
+            const correo_electronico = document.getElementById('correo_electronico').value;
+            const foto = document.getElementById('foto').files[0];
+            const csrfToken = document.getElementById('csrf_token').value;
+            //Validar campos obligatorios
+            if (!nombre || !apellido || !nombre_de_usuario || !contraseña || !correo_electronico || !foto) {
+                alert('{% trans %}Por favor, complete todos los campos obligatorios.{% endtrans %}');
+                return;
+            }
+            
+            //Crear un objeto con esos datos
+            const datos_usuario = { nombre: nombre, apellido: apellido,
+                                    nombre_de_usuario: nombre_de_usuario, contraseña: contraseña,
+                                    correo_electronico: correo_electronico, foto: foto };
+
+
+            //Si el usuario es un paciente tiene más campos
+            const rol = document.getElementById('rol_usuario').value;
+            if (rol === 'paciente') {
+                //Obtenerlos
+                const fecha_de_nacimiento = document.getElementById('fecha_de_nacimiento').value;
+                const direccion = document.getElementById('direccion').value;
+                const telefono = document.getElementById('telefono').value;
+                const sensor = document.getElementById('sensor').value;
+                const id_medico = document.getElementById('id_medico').value;
+                const lateralidad = document.getElementById('lateralidad').value;
+
+                //Agregarlos al objeto
+                datos_usuario.fecha_de_nacimiento = fecha_de_nacimiento;
+                datos_usuario.direccion = direccion;
+                datos_usuario.telefono = telefono;
+                datos_usuario.sensor = sensor;
+                datos_usuario.id_medico = id_medico;
+                datos_usuario.lateralidad = lateralidad;
+            }
+
+            //Convertir los datos a FormData
+            const formData = new FormData();
+            for (const dato in datos_usuario) {
+                formData.append(dato, datos_usuario[dato]);
+            }
+            
+            //Validar los datos
+            var mensajeError = validarDatos(formData, rol);
+            if (mensajeError !== true) {
+                alert(mensajeError); //Mostrar error
+                return; //Detener el envío del formulario
+            }
+            //Enviar los datos del usuario como un objeto FormData en la solicitud POST
+            fetch('/agregarUsuario/' + rol, {
+                method: 'POST',
+                body: formData,
+                headers: { "X-CSRFToken": csrfToken }
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('{% trans %}Usuario agregado correctamente{% endtrans %}');
+                    setTimeout(function(){ location.reload(); }, 1000);
+                } else {
+                    alert('{% trans %}Error al agregar el usuario{% endtrans %}');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('{% trans %}Error al agregar el usuario{% endtrans %}');
+            });
+        }
+        //----------------------------------------------------------------
+
+
+
+
+        //----------------------------------------------------------------
+        //Lógica para mostrar el form de editar datos del usuario solicitado
+        $(document).ready(function(){
+            //Administradores
+            $(".boton-editar-administrador").click(function(){
+                var usuarioId = $(this).data("id");
+                var formularioEdicion = $("#formulario-edicion-administrador-" + usuarioId);
+                //Si estaba oculto, lo pone visible y viceversa
+                formularioEdicion.toggle();
+                //Ocultar el resto
+                $(".formulario-edicion-administrador").not(formularioEdicion).hide();
+            });
+
+            //Médicos
+            $(".boton-editar-medico").click(function(){
+                var usuarioId = $(this).data("id");
+                var formularioEdicion = $("#formulario-edicion-medico-" + usuarioId);
+                //Si estaba oculto, lo pone visible y viceversa
+                formularioEdicion.toggle();
+                //Ocultar el resto
+                $(".formulario-edicion-medico").not(formularioEdicion).hide();
+            });
+
+            //Pacientes
+            $(".boton-editar-paciente").click(function(){
+                var usuarioId = $(this).data("id");
+                var formularioEdicion = $("#formulario-edicion-paciente-" + usuarioId);
+                //Si estaba oculto, lo pone visible y viceversa
+                formularioEdicion.toggle();
+                //Ocultar el resto
+                $(".formulario-edicion-paciente").not(formularioEdicion).hide();
+            });
+        });        
+        //----------------------------------------------------------------
+
+
+
+
+        //----------------------------------------------------------------
+        //Cuando se pulsa el botón de guardar cambios al editar los datos de 
+        //los usuarios se llama a la función que actualiza esos datos en la 
+        //base de datos y dependiendo del resultado se alerta al usuario
+        document.addEventListener('DOMContentLoaded', function() {
+            let valoresIniciales = {};
+            // Capturar valores iniciales para cada formulario de pacientes
+            document.querySelectorAll('.formulario-edicion').forEach(formulario => {
+                let idPaciente = formulario.querySelector('input[name="usuario_id"]').value;
+                valoresIniciales[idPaciente] = {};
+                formulario.querySelectorAll('select').forEach(select => {
+                    valoresIniciales[idPaciente][select.name] = select.value;
+                });
+            });
+            //Cuando le den a guardar
+            document.querySelectorAll('#boton-guardarCambios').forEach(function(boton) {
+                boton.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    //Formulario que se ha clicado
+                    const formulario = event.target.closest('form');
+                    const formData = new FormData(formulario); //Datos del formulario
+                    const csrfToken = formData.get('csrf_token'); //Obtener el token CSRF del formulario
+                    //Validar si hay cambios en el formulario
+                    let cambios = false;
+
+                    //Para cambios input(contraseña vacía)
+                    formulario.querySelectorAll('input').forEach(input => {
+                        if (input.type !== 'password' && input.value !== input.defaultValue) {
+                            cambios = true; 
+                        }
+                    });
+
+                    //Si la contraseña no está vacía, es que hubo cambios
+                    if (formData.get('contraseña')) {cambios = true;} 
+
+                    //Obtener el rol del usuario
+                    const rol = boton.dataset.rol;
+                    
+                    if (rol=='paciente'){
+                        //Obtener el id del paciente asociado al botón
+                        let idPaciente = this.getAttribute('data-id-paciente');
+                        //Validar si hay cambios en campos select
+                        formulario.querySelectorAll('select').forEach(select => {
+                            if (select.value !== valoresIniciales[idPaciente][select.name]) {
+                                 cambios = true; 
+                            } 
+                        });
+                    }
+
+                    //Si no han realizado cambios
+                    if (!cambios) {
+                        alert('{% trans %}No hay cambios para guardar.{% endtrans %}');
+                        return;
+                    }
+
+                    //Validar los datos
+                    if (!validarDatos(formData, rol)) {
+                        //Detener el envío del formulario
+                        return;
+                    }
+                    fetch('/editar_usuario', {
+                        method: 'POST',
+                        body: formData, //Lo mandamos por aqui
+                        headers: { "X-CSRFToken": csrfToken }
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('{% trans %}Usuario editado correctamente{% endtrans %}');
+                            setTimeout(function(){ location.reload(); }, 1000);//Recarga la página
+                        } else {
+                            alert('{% trans %}Error al editar el usuario{% endtrans %}');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('{% trans %}Error al editar el usuario{% endtrans %}');
+                    });
+                });
+            });
+            
+            //Si decide cancelar los cambios, limpia el form
+            document.querySelectorAll('.boton-cancelarCambios').forEach(function(botonCancelar) {
+                botonCancelar.addEventListener('click', function(event) {
+                    const formulario = event.target.closest('form');
+                    formulario.reset(); //Restaurar valores originales
+                });
+            });
+        });
+
+        //----------------------------------------------------------------
+
+        //Función para validar los datos del formulario de agregar usuario
+        function validarDatos(formData, rol) {
+            //Validar nombre
+            var nombre = formData.get("nombre");
+            if (nombre.length > 50) {
+                alert("{% trans %}El nombre es demasiado largo.{% endtrans %}");
+                return false; //Demasiado largo
+            }
+            //Si tiene caracteres que no son propios de un nombre, error y cancelamos form
+            var nombreRegex  = /^[A-Za-záéíóúÁÉÍÓÚüÜñÑ\-']+$/;
+            if (!nombreRegex.test(nombre)) {
+                alert("{% trans %}El nombre tiene caracteres no permitidos.{% endtrans %}");
+                return false;
+            }
+
+
+            //Validar apellido
+            var apellido = formData.get("apellido");
+            if (apellido.length > 50) {
+                alert("{% trans %}El apellido es demasiado largo.{% endtrans %}");
+                return false; //Demasiado largo
+            }
+            //Si tiene caracteres que no son propios de un apellido, error y cancelamos form]+$/;
+            if (!nombreRegex.test(apellido)) {
+                alert("{% trans %}El apellido tiene caracteres no permitidos.{% endtrans %}");
+                return false;
+            }
+            
+
+            //Validar nombre de usuario
+            var nombre_de_usuario = formData.get("nombre_de_usuario");
+            if (nombre_de_usuario.length > 50) {
+                alert("{% trans %}El nombre de usuario es demasiado largo.{% endtrans %}");
+                return false;
+            }
+            //Si tiene caracteres que no son propios de un nombre de usuario, error y cancelamos form
+            var nombreUsuarioRegex = /^[a-zA-Z0-9_-]+$/;
+            if (!nombreUsuarioRegex.test(nombre_de_usuario)) {
+                alert("{% trans %}El nombre de usuario tiene caracteres no permitidos.{% endtrans %}");
+                return false;
+            }
+
+
+            //Validar contraseña
+            var contraseña = formData.get("contraseña");
+            if (contraseña.length > 0) {
+                if (contraseña.length > 50) {
+                    alert("{% trans %}La contraseña es demasiado larga.{% endtrans %}");
+                    return false; //Demasiado larga
+                }else if (contraseña.length < 8) {
+                    alert("{% trans %}La contraseña es demasiado corta.{% endtrans %}");
+                    return false; //Demasiado corta
+                }
+            }
+
+
+            if (rol === 'paciente'){
+                //Validar teléfono
+                var telefono = formData.get("telefono");
+                var telefonoRegex = /^[0-9]{9}$/; //RE para 9 números
+                if (!telefonoRegex.test(telefono)) { //Si no tiene 9 números mostramos error y cancelamos form
+                    alert("{% trans %}El teléfono debe contener exactamente 9 números.{% endtrans %}");
+                    return false;
+                }
+
+                //Validar fecha de nacimiento
+                var fechaNacimiento = formData.get("fecha_de_nacimiento");
+                if (!fechaNacimiento) {
+                    alert("{% trans %}Por favor, complete todos los campos obligatorios.{% endtrans %}");
+                    return false;
+                }
+                //Convertir a Date
+                var fechaNacimientoDate = new Date(fechaNacimiento);
+                //Como mínimo debe tener 18 años y como máximo 100
+                var fechaActual = new Date();
+                var fechaMinima = new Date(fechaActual);
+                fechaMinima.setFullYear(fechaMinima.getFullYear() - 100); //100 años
+                var fechaMaxima = new Date(fechaActual);
+                fechaMaxima.setFullYear(fechaMaxima.getFullYear() - 18); //18 años
+                //Si la fecha no está en el rango permitido, error y cancelamos form
+                if (fechaNacimientoDate < fechaMinima || fechaNacimientoDate > fechaMaxima) {
+                    alert("{% trans %}La fecha de nacimiento debe estar entre{% endtrans %}" + fechaMaxima.getFullYear() + "{% trans %} y {% endtrans %}" + fechaMinima.getFullYear() + ".");
+                    return false;
+                }
+
+
+                //Validar médico asignado
+                var medicoAsignado = formData.get("id_medico");
+                if (!medicoAsignado) {
+                    alert("{% trans %}Por favor, complete todos los campos obligatorios.{% endtrans %}");
+                    return false;
+                }
+                if (isNaN(medicoAsignado)) {
+                    alert("{% trans %}El ID del médico debe ser un número.{% endtrans %}");
+                    return false;
+                }
+            
+
+                //Validar direccion
+                var direccion = formData.get("direccion");
+                if (direccion.length > 100) {
+                    alert("{% trans %}La dirección es demasiado larga.{% endtrans %}");
+                    return false;
+                }
+                //Si tiene caracteres que no son propios de una direccion, error y cancelamos form
+                var direccionRegex = /^[A-Za-z0-9áéíóúÁÉÍÓÚ.,ºª\-# ]+$/;
+                if (!direccionRegex.test(direccion)) {
+                    alert("{% trans %}La dirección tiene caracteres no permitidos.{% endtrans %}");
+                    return false;
+                }
+            }
+
+            
+            //Si todo está bien
+            return true;
+        }
+
+
+    </script>
+
+{% endblock %}

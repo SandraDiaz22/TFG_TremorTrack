@@ -1,0 +1,77 @@
+{% extends "layout.html" %} <!--Herencia de layout-->
+
+{% block head %}
+
+    <title>{% trans %}Login{% endtrans %}</title>
+
+{% endblock %}
+
+
+
+{% block body %}
+<!--Contenido de la página-->
+<div class="container mt-4 mb-4">
+        
+  <!--Nombre de la aplicación-->
+  <img src="/get_image/logoletras.JPG" alt="{% trans %}TremorTrack{% endtrans %}" style="max-width: 250px; height: auto; margin: 0 10px;">
+
+
+  <h1>{% trans %}Inicio sesión{% endtrans %}</h1>
+
+
+  <!--Formulario de inicio de sesión-->
+
+  <form action="/login" method="post" >
+
+    <!-- Casilla para el nombre -->
+    <div>
+      <label for="username" style="font-size: 1.2em; margin-bottom: 15px;">{% trans %}Nombre de usuario{% endtrans %}</label>
+      <input type="text" id="username" name="username" class="form-control" placeholder="{% trans %}Ingresa tu nombre de usuario{% endtrans %}" required>
+      {% if 'username' in errors %}
+          <p class="help-block text-danger">{{ errors['username'] }}</p>
+      {% endif %}
+    </div>
+
+    <br>
+
+    <!-- Casilla para la contraseña -->
+    <div>
+        <label for="password" style="font-size: 1.2em; margin-bottom: 15px;">{% trans %}Contraseña{% endtrans %}</label>
+        <input type="password" id="password" name="password" class="form-control" placeholder="{% trans %}Ingresa tu contraseña{% endtrans %}" required>
+        {% if 'password' in errors %}
+            <p class="help-block text-danger">{{ errors['password'] }}</p>
+        {% endif %}
+    </div>
+
+    <!-- Honeypot (campo oculto) -->
+    <div style="display:none;">
+        <label for="honeypot">Campo oculto</label>
+        <input type="text" id="honeypot" name="honeypot">
+    </div>
+
+    <br>
+    
+    <!-- Mostrar mensajes de error -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      {% for category, message in messages %}
+        {% if category == 'error' %}
+          <div class="alert alert-danger" role="alert">
+            {{ message }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <button type="submit">{% trans %}Enviar{% endtrans %}</button>
+
+    <!-- Incluir token CSRF -->
+    {{ form.hidden_tag() }}
+
+  </form>
+  <br>
+
+</div>
+
+{% endblock %}
