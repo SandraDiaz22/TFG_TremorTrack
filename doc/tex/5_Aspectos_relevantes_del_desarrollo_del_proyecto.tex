@@ -1,0 +1,222 @@
+\capitulo{5}{Aspectos relevantes del desarrollo del proyecto}
+
+En el presente apartado se recogen los aspectos más interesantes del desarrollo del proyecto, comentados por los autores del mismo.
+En este contexto, se tratarán los siguientes temas:
+\begin{itemize}
+    \item Aprendizaje de programación web, comenzando sin ningún conocimiento previo, y el esfuerzo que supuso.
+    \item Utilizar extensos conjuntos de datos de terceros.
+    \item La incorporación de un TFG previamente desarrollado por otro alumno.
+    \item El aprendizaje de técnicas de minería de datos para realizar predicciones.
+    \item El proceso de encontrar un modelo que se adapte a los datos disponibles.
+    \item El análisis de la calidad del código.
+    \item Despliegue en un servidor real.
+\end{itemize}
+
+
+\section{Aprendizaje de programación web}
+En primer lugar, se va a destacar el aprendizaje de programación web realizado por la alumna, quien comenzó sin experiencia previa en el campo. Durante el grado en Ingeniería Informática y su vida personal previa, no se habían adquirido conocimientos sobre programación web, por lo que este proyecto exigió aprender desde cero. Se enfrentó al desafío de sentarse frente al ordenador sin ningún conocimiento de la materia y buscar de forma independiente información en diferentes fuentes: la documentación de Flask, videotutoriales, foros\ldots
+
+Se comenzó creando páginas HTML simples, formadas exclusivamente por texto, incrementando la complejidad gradualmente. Primero, se añadieron botones para navegar entre páginas. Posteriormente, se incorporaron formularios y se fusionó la aplicación con la base de datos del proyecto. Se avanzó con el control de sesiones y las interacciones con el usuario final, resultando en la aplicación web obtenida.
+
+Además, se aplicaron algunos de los conceptos aprendidos en la asignatura de <<Interacción Hombre-Máquina>>, los cuales ayudaron a ubicar de manera que resultara intuitiva ciertos elementos en la páginas web, como botones de envío, de eliminación, el perfil del usuario actual\ldots mejorando así la experiencia del usuario. 
+
+Este enfoque progresivo permitió a la alumna adquirir una base sólida en programación web mientras desarrollaba la aplicación.
+
+
+
+\section{Utilización de datos de terceros}
+Otro desafío significativo encontrado fue la interpretación y posterior visualización de los datos de los pacientes. Estos datos, recogidos por el sensor que llevan los pacientes (creado por SENSE4CARE~\cite{sense4care}), llegaron a manos de la alumna en forma de archivos CSV divididos en carpetas, formados por millones de números separados por comas. Este extenso conjunto de datos, a pesar de que los creadores del sensor proporcionaron un documento con explicaciones sobre lo que detectaban los sensores, fue inicialmente muy complejo de entender.
+
+En el documento se informaba de que los archivos CSV contenían datos a lo largo del tiempo sobre términos como <<bradicinesia>> y <<discinesia>> (indicadores clave de la enfermedad de Parkinson que no tenían sentido para la alumna al comienzo del TFG) o el ancho del paso del paciente (cuya importancia la alumna no entendía).
+
+Sin embargo, con el tiempo y tras documentarse sobre el párkinson, estos términos comenzaron a tener sentido y se comprendió la importancia de medir estos datos específicos para ayudar en el diagnóstico y tratamiento de la enfermedad.
+
+Finalmente, se pudieron generar gráficos útiles a partir de estos datos, que servirán tanto a médicos como a pacientes para llevar un control más preciso de la enfermedad.
+
+
+
+\section{Incorporación de un Trabajo de Fin de Grado previamente desarrollado}
+La idea del proyecto actual surgió de un congreso de medicina donde se presentó el Trabajo de Fin de Grado de Catalin~\cite{TFGCatalin}, un compañero del año anterior, que consistía en detectar la presencia de bradicinesia (un síntoma de la enfermedad de Parkinson) aplicando técnicas de minería de datos y visión artificial en unos vídeos grabados por pacientes de la asociación de Parkinson realizando un movimiento de pinza. Los asistentes al congreso comentaron la necesidad de tener un registro, y no solo una evaluación puntual, de la evolución de los pacientes, lo que desembocó en la creación de la aplicación web que es el actual TFG presentado.
+ 
+La primera concepción del proyecto consistió, entre otras funcionalidades, en permitir a los médicos cargar los vídeos de sus pacientes realizando este movimiento de pinza en la base de datos. Los vídeos, proporcionados por el HUBU en colaboración con la asociación de Parkinson Burgos, fueron los utilizados por el compañero comentado anteriormente para su propio proyecto.
+
+Se diseñó una interfaz para visualizar y reproducir dichos vídeos. Posteriormente, se decidió integrar en la interfaz el trabajo del compañero mencionado, mostrando las características obtenidas tras los análisis de los vídeos.
+
+Para ello, se realizó un estudio previo de su TFG, examinando la documentación contenida en la memoria y los anexos, así como revisando el código disponible en GitHub. Tras comprender el proyecto, y considerando que no se implementaría en su totalidad, sino que la idea era obtener las características de los vídeos que se obtienen en una de las etapas iniciales, se comenzó a adaptar el código existente para integrarlo en el desarrollo del presente proyecto.
+
+A lo largo de este proceso, surgieron problemas relacionados con las diferencias de versiones entre las herramientas utilizadas por el autor anterior y las empleadas en el proyecto actual. Se solucionaron mediante ciertos ajustes en el código, instalando librerías y actualizando o descendiendo versiones, garantizando la coherencia y compatibilidad del código.
+
+A pesar de las dificultades encontradas, la integración exitosa de dicho trabajo mejoró la calidad general del proyecto, ampliando su alcance, y permitiendo la implementación de características adicionales, como la capacidad de predecir la evolución de los movimientos de pinza en el futuro.
+
+
+
+\section{Aprendizaje de minería de datos}
+Otro aspecto a destacar es el aprendizaje de técnicas de inteligencia artificial aplicadas sobre grandes cantidades de datos, con el objetivo de descubrir tendencias o patrones. Estos conceptos se desarrollan en la asignatura de Minería de Datos, impartida como asignatura optativa en la Universidad de Burgos. Sin embargo, la alumna no pudo cursar esta asignatura por haber estado de Erasmus, por lo que tuvo que aprender estos conceptos de manera autodidacta para poder aplicar estos conocimientos en la realización de predicciones a partir de los datos de los pacientes.
+
+Para ello, la alumna dispuso de los apuntes de dicha asignatura, que fueron proporcionados por su tutor. Además, el tutor la inscribió en un curso sobre series temporales, lo que le permitió adquirir conocimientos adicionales en esta área de la minería de datos. Gracias a estos recursos y a la práctica, la alumna pudo comprender y aplicar estos conceptos en su TFG.
+
+Aunque la calidad de los datos disponibles no permitió generar gráficos con predicciones realmente útiles, las técnicas están correctamente implementadas, por lo que, con datos de mejor calidad, se podrían obtener predicciones valiosas para comprender la evolución de los pacientes.
+
+
+
+\section{Proceso de predicción de los datos}
+Como se ha comentado en la sección anterior, los datos disponibles no permitieron un buen resultado tras la implementación de diferentes modelos de \textit{machine learning}. Ya que en la aplicación web se aprecia el resultado pero no el trabajo previo, en este apartado se va a comentar el proceso realizado hasta conseguir el resultado actual.
+
+A la alumna le fueron suministrados una gran cantidad de vídeos de diferentes pacientes realizando un movimiento de pinza con las manos. Estos vídeos se analizaron, obteniendo ciertas características que muestran el estado de la enfermedad. Posteriormente se realizaría una predicción de estas características utilizando modelos de inteligencia artificial.
+
+En el nombre de los vídeos se especificaba la fecha en la que fue grabado, la mano que aparecía realizando el movimiento, el sexo del paciente y su edad. Al ser vídeos de pacientes reales no se indicaba a qué paciente pertenecían, por lo que se asignó un par de vídeos, uno de la mano derecha y otro de la mano izquierda a cada paciente ficticio de la base de datos del proyecto.
+
+Para entrenar buenos modelos de predicción, lo ideal hubiera sido tener gran cantidad de vídeos para cada paciente, tomados cada mes o cada ciertos meses, con el fin de ver la evolución de la enfermedad y poder realizar mejores predicciones. Por esta razón, se simuló esta situación para los cuatro primeros pacientes de la base de datos. 
+Al primer paciente se le asignaron vídeos de pacientes hombres cuyas edades estaban comprendidas entre los 62 y 67 años. Se modificaron las fechas de los vídeos para simular el paso del tiempo entre cada vídeo, grabando en el año 2018 los primeros vídeos (con 62 años ficticios) y grabando los últimos vídeos en 2023 (con 67 años ficticios). Se trató de realizar un buen preparado de los vídeos para simular el paso de los años en el paciente pero, al tratarse de pacientes con diferente avance de la enfermedad, no salían resultados muy razonables. Para los siguientes tres pacientes se realizó un proceso parecido: el segundo paciente es una mujer, con vídeos tomados entre los 56 y 60 años, el tercero es un hombre, de entre 76 y 82 años y el cuarto es una mujer de entre 75 y 82 años.
+
+Los datos de amplitud y lentitud de los vídeos son los datos reales, calculados por las neurólogas del HUBU. El resto de características son propias del movimiento de las manos que aparecen en el vídeo, calculadas mediante \texttt{tsfresh} (esto se adaptó a partir del TFG previo comentado).
+
+Cada característica se toma como una serie temporal, y se predice de forma independiente utilizando un modelo de \textit{machine learning} para series temporales. Ya que no hay una tendencia clara ni estacionalidad en los datos de los vídeos, se comenzó usando el método de suavizado exponencial simple. Este modelo es capaz de predecir los valores futuros que se le indiquen (se ha escogido predecir 4 valores) y su método es dar más peso a los datos más recientes y menos peso a los más antiguos.
+
+Tras leer el código fuente de la función \texttt{SimpleExpSmoothing} se detectaron 5 métodos diferentes: <<None>>, <<estimated>>, <<heuristic>>, <<legacy-heuristic>> y <<known>>. Se probó la eficacia de cada uno de ellos prediciendo los datos de los pacientes:
+
+
+\subsection{\texttt{SimpleExpSmoothing} con <<None>>}
+Se aplicó la función del suavizado exponencial simple por defecto, sin indicarle a la función un método de inicialización, en los datos de los cuatro primeros pacientes de la aplicación. El resultado no fue bueno, por lo que se modificaron las fechas de los datos para darles periodicidad. No se quiso alterar mucho las fechas originales, por lo que cada paciente tiene una periodicidad diferente, calculada para no hacer muchas modificaciones. Se muestran a continuación los resultados de las predicciones para cada paciente.
+
+El paciente 1 corresponde con un hombre de entre 62 y 66 años, cuyos vídeos son tomados con 199 días de diferencia. En la Figura~\ref{fig:prediccion1} se muestra el gráfico que genera la aplicación con las características de sus vídeos con la mano izquierda y derecha y cuatro días con datos generados por el modelo.
+
+El estudio de la eficacia del modelo se va a basar en los datos de lentitud y velocidad media.
+Los datos de lentitud de los vídeos de la mano izquierda del paciente son: 0, 0, 1, 0, 0, 0, 1, 0, 1, 0, 0. La media es 0.27 aproximadamente y el modelo predice una lentitud de 0.203. 
+Los datos de la velocidad media son: 1.605, 1.911, 2.662, 1.631, 5.538, 1.616, 1.296, 0.821, 0.913, 2.553, 1.024. La media es 1.870 aproximadamente y el modelo predice 1.605. 
+
+El problema es que da este mismo valor para las 4 fechas a predecir. La razón de este suceso es la mala calidad de los datos, que además de no ser suficientes, no tienen una tendencia clara que el modelo pueda detectar al ser, al fin y al cabo, vídeos de pacientes totalmente diferentes que se encuentran en diferentes etapas de la enfermedad.
+Figura~\ref{fig:prediccion1}.
+\imagen{prediccion1}{Predicción paciente 1}{1}
+
+La predicción realizada para el segundo paciente, que es una mujer con una edad de entre 56 y 60 años, con vídeos tomados cada 272 días, se puede observar en la Figura~\ref{fig:prediccion2}. El modelo sigue asociando a cada fecha futura el mismo valor.
+\imagen{prediccion2}{Predicción paciente 2}{1}
+
+En la Figura~\ref{fig:prediccion3} se aprecia la predicción del tercer paciente, hombre de entre 76 y 82 años, cuyos vídeos fueron grabados con 299 días de diferencia.
+\imagen{prediccion3}{Predicción paciente 3}{1}
+
+Por último, el gráfico con la predicción de la última paciente (con vídeos grabados con 441 días de diferencia), se encuentra en la Figura~\ref{fig:prediccion4}.
+\imagen{prediccion4}{Predicción paciente 4}{1}
+
+Dado que para los cuatro pacientes se ha obtenido el mismo resultado de linealidad de los datos predichos, se ha probado con el resto de métodos del modelo. Aunque, a partir de ahora, únicamente se mostrarán los resultados para la mano izquierda del paciente 1.
+
+
+\subsection{\texttt{SimpleExpSmoothing} con <<estimated>>}
+Con esta opción, los valores iniciales se estiman automáticamente como parte del proceso de ajuste del modelo. 
+En la Figura~\ref{fig:prediccion1Estimated} se ve como para la lentitud el modelo predice 0.273 y para la velocidad media predice 1.961, pero sigue siendo siempre el mismo valor para todas las fechas futuras.
+\imagen{prediccion1Estimated}{Predicción paciente 1 - Estimated}{0.75}
+
+
+\subsection{\texttt{SimpleExpSmoothing} con <<heuristic>>}
+El modelo establece los valores iniciales mediante promedios. Este enfoque es más rápido pero menos preciso que el anterior.
+La Figura~\ref{fig:prediccion1Heuristic} muestra el gráfico de predicción que genera, calculando una lentitud de 0.133 y una velocidad media de 2.175 para los cuatro datos a predecir.
+\imagen{prediccion1Heuristic}{Predicción paciente 1 - Heuristic}{0.75}
+
+
+\subsection{\texttt{SimpleExpSmoothing} con <<legacy-heuristic>>}
+Este enfoque inicializa los valores iniciales mediante estimaciones básicas basadas en los primeros datos de la serie temporal. Para el nivel inicial se utiliza el primer valor de la serie temporal y para la tendencia inicial la diferencia entre los dos primeros valores.
+Para la lentitud el modelo predice 0.203 y para la velocidad media predice 1.605. Como indica el gráfico de la Figura~\ref{fig:prediccion1LegacyHeuristic}, sigue ofreciendo el mismo valor para las diferentes fechas.
+\imagen{prediccion1LegacyHeuristic}{Predicción paciente 1 - Legacy-heuristic}{0.75}
+
+
+\subsection{\texttt{SimpleExpSmoothing} con <<known>>}
+Por último, el modo <<known>> requiere que el usuario proporcione los valores iniciales: valor inicial, tendencia inicial y estacionalidad inicial. Estos valores iniciales pueden afectar significativamente al rendimiento del modelo, por lo que encontrar los valores óptimos para los datos utilizados requiere de experimentación. 
+Por esta falta de experimentación, se ha decidido establecer los valores como predeterminados, a cero, obteniendo las predicciones que se observan en la Figura~\ref{fig:prediccion1Known}.
+
+Para la lentitud el modelo predice 0.203 y para la velocidad media predice 1.474, siempre el mismo valor para las diferentes fechas.
+\imagen{prediccion1Known}{Predicción paciente 1 - Known}{0.75}
+
+
+Como se ha visto, el modelo de suavizado exponencial simple nos proporciona el mismo valor para todas las predicciones futuras (diferentes valores con cada método del modelo). Las posibles razones de este suceso son: la poca variabilidad o escasez de datos, que no permiten al modelo distinguir ningún patrón, la falta de una tendencia clara en los datos o la utilización de un parámetro de suavizado cercano a cero.
+
+Para comprobar esta última, se comprobaron los parámetros de suavizado de cada característica, descubriendo cifras desde 0.16 a 0.76. 
+También se comprobó el resultado de usar parámetros de suavizado mayores o menores, pero seguía apareciendo siempre el mismo valor. Que el parámetro de suavizado o alfa sea cercano a cero significa que la predicción está altamente influenciada por los valores históricos de toda la serie temporal, dando más peso a los valores antiguos.
+
+Por ello se decidió evaluar otro modelo.
+
+\subsection{\texttt{Suavizado exponencial de Holt}}
+Este método está diseñado para hacer predicciones (de valores y pendientes) a corto plazo, para series temporales con una tendencia clara de aumento o disminución pero sin tener en cuenta la estacionalidad.
+El suavizado utiliza dos parámetros, alfa y beta, que poseen valores entre 0 y 1. Cuanto más cercano a cero, menos peso tienen las observaciones más antiguas en la predicción.
+
+Aunque a primera vista no se considere que los datos disponibles tengan una tendencia clara, se decidió probar a utilizar este otro tipo de suavizado para las predicciones, mediante la función \texttt{Holt()} del paquete \texttt{StatsModels}.
+
+En la Figura~\ref{fig:prediccion1Holt} se observa cómo este modelo ha detectado tendencia en los datos y ha realizado predicciones con pendientes. 
+Para el dato de la lentitud ha predicho un ligero aumento, de 0.274 a 0.32, basándose en los datos disponibles. Para la velocidad media predice un ligero descenso, de 1.243 a 0.602, pudiéndose deber a que, aunque hay picos, la tendencia es descendente.
+\imagen{prediccion1Holt}{Predicción paciente 1 - Holt}{1}
+
+El suavizado de Holt también tiene diferentes métodos de inicialización (<<None>>, <<estimated>>, <<heuristic>>, <<legacy-heuristic>> y <<known>>). Se ha probado con todos ellos, se adjuntan en la tabla~\ref{tabla:Holt} los datos predichos de lentitud y velocidad media para la mano izquierda del paciente 1.
+
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|l|l|}
+    \hline
+    \textbf{Método} & \textbf{Lentitud} & \textbf{Velocidad media} \\
+    \hline
+    \text{<<None>>} & de 0.274 a 0.32 & de 1.243 a 0.602\\
+    \hline
+    \text{<<estimated>>} & de 0.327 a 0.355 & de 1.337 a 1.025\\
+    \hline
+    \text{<<heuristic>>} & de 0.497 a 0.588 & de 1.559 a 1.33\\
+    \hline
+    \text{<<legacy-heuristic>>} & de 0.274 a 0.32 & de 1.243 a 0.602\\
+    \hline
+    \text{<<known>>} & de -0.091 a -0.693 & de 0.978 a 0.449\\
+    \hline
+  \end{tabular}
+  \caption{Tabla con las predicciones del modelo Holt}
+  \label{tabla:Holt}
+\end{table}
+
+
+Tras haber comprobado que este modelo sí es capaz de encontrar cierta tendencia en los datos, se trató de evaluar un modelo más avanzado, el suavizado exponencial de Holt-Winter. Este modelo está diseñado para series temporales con una tendencia y una estacionalidad claras. Utiliza tres parámetros, alfa, beta y gamma para estimar el valor, la pendiente y la estacionalidad de la serie.
+
+Debido a que la función solicita introducir la tendencia y la estacionalidad (y el número de periodos estacionales) y los datos de los vídeos del paciente no tienen estacionalidad, no se pudo probar. 
+Por ello, el modelo elegido para realizar la predicción en la aplicación es el suavizado exponencial de Holt.
+
+
+
+
+\section{Análisis de la calidad del código}
+Para garantizar la calidad del código y detectar posibles problemas de seguridad, mantenibilidad o estilo, se ha utilizado la herramienta SonarQube.
+Se trata de una plataforma de código abierto diseñada para evaluar y mejorar continuamente la calidad del código fuente. Es capaz de encontrar vulnerabilidades, errores, duplicaciones y otras malas prácticas en el código.
+
+El análisis se puede realizar enlazando la herramienta con el repositorio de GitHub o en local, que es la opción escogida. Se instaló y configuró SonarQube y SonarScanner siguiendo las instrucciones proporcionadas en la documentación oficial. Además se creó un fichero con propiedades, necesario para indicar los archivos a analizar y el token del usuario que realiza el escáner. El escaneo se realiza con el comando \texttt{sonar-scanner} y los resultados se pueden consultar en el navegador.
+
+El resumen del primer análisis realizado con SonarQube se encuentra en la Figura~\ref{fig:SonarQubePassed}.
+\imagen{SonarQubePassed}{Análisis del código con SonarQube}{0.95}
+
+El análisis inicial de SonarQube dio por aprobado el código pero identificó varios problemas de seguridad, entre ellos la falta de protección CSRF (\textit{Cross-Site Request Forgery}) y la exposición de claves secretas y credenciales de la base de datos en el código.
+Por ello, se realizaron los siguientes cambios en el código:
+\begin{itemize}
+    \item Se implementaron \textit{tokens} CSRF para proteger las solicitudes POST contra ataques maliciosos, asegurando rutas sensibles como los formularios.
+    \item Se movió la configuración de la base de datos a un archivo de configuración externo (\texttt{config.py}). Este archivo no se debería incluir en el repositorio, con el fin de proteger la contraseña y los datos sensibles de los pacientes.
+    \item También se incluyó en dicho archivo de configuración la clave secreta con la que se firman las sesiones y el CSRF.
+\end{itemize}
+
+
+Además, indicó algunas incidencias de fiabilidad (\textit{reliability}) y mantenibilidad que, aunque no suponían errores graves, se decidieron solventar. Entre estos cambios se encuentran:
+\begin{itemize}
+    \item Cambiar las variables del código que contengan la letra <<ñ>> con el fin de mejorar la compatibilidad internacional. Para desarrolladores que no hablen español puede resultar un carácter extraño y ciertos sistemas y herramientas no manejan bien los caracteres no ASCII.
+    \item SonarQube ayudó a detectar variables no utilizadas y código comentado, el cual se eliminó para mejorar la mantenibilidad del código en un futuro.
+    \item Se editaron los descriptores de las imágenes de la aplicación, eliminando la palabra <<imagen>>, ya que SonarQube los consideraba redundantes.
+    \item Se añadieron descriptores explicativos a las tablas de la aplicación.
+\end{itemize}
+
+Tras realizar los cambios pertinentes en el código, se volvió a analizar el código, obteniendo un mejor resultado (Figura~\ref{fig:SonarQubePassed2}):
+\imagen{SonarQubePassed2}{Segundo análisis del código con SonarQube}{0.95}
+
+SonarQube ha resultado ser una herramienta muy útil para evaluar y mejorar el código del proyecto, proporcionando recomendaciones prácticas para un código seguro, eficiente y mantenible, que la alumna no hubiera sido capaz de detectar por sí misma.
+
+
+
+
+\section{Despliegue en un servidor real}
+El último aspecto a destacar del proyecto es el despliegue exitoso de la aplicación en un servidor real, con un sistema operativo Linux.
+
+El primer paso fue disponer de una máquina real para ponerlo en marcha. Se optó por utilizar un servidor proporcionado por la Universidad de Burgos, de manera que la aplicación estuviera en ejecución y disponible en todo momento de manera confiable y pudiendo satisfacer las demandas de uso.
+
+Tras conseguir desplegar la aplicación en el servidor mediante el servidor de desarrollo integrado de Flask, únicamente destinado a desarrollo y pruebas, se decidió desplegarlo en un servidor de aplicaciones en producción, como establecen las buenas prácticas.
+
+El despliegue en un servidor real como Gunicorn ofrece las siguientes ventajas: permite manejar mayores volúmenes de tráfico que el servidor de desarrollo de flask, es capaz de mantener un alto nivel de rendimiento y proporciona un entorno más robusto.
+
+Tras el despliegue, la aplicación está disponible introduciendo la dirección \url{http://10.168.168.34:8000/} en el navegador, siempre y cuando se encuentre conectado a la intranet de la UBU. Esto hará más sencilla la conexión a usuarios que quieran probar su funcionamiento, sin necesidad de tener que ejecutarlo en su propio ordenador de manera local.

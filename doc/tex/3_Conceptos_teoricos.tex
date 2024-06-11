@@ -1,0 +1,60 @@
+\chapter{Conceptos teóricos}
+
+Durante el desarrollo de este proyecto se abordan conceptos que pueden resultar complejos para un ingeniero no especializado en el área de la salud o de la inteligencia artificial. A continuación, se explican de manera sintetizada algunos de estos conceptos para su comprensión.
+
+Como se ha explicado en el apartado anterior, el proyecto se centra en el desarrollo de una aplicación web destinada a asistir a pacientes con la enfermedad de Parkinson. Esta aplicación permite a los pacientes visualizar gráficas con los datos recopilados por un sensor de movimiento que deben de haber llevado durante ciertos periodos de tiempo. Además, facilita a los médicos la posibilidad de cargar vídeos de los pacientes realizando la técnica de <<\textit{fingertapping}>>, la cual es una forma adicional de detectar el párkinson. Estos vídeos se analizan y se muestran gráficas con la información obtenida de ellos, pudiendo obtener predicciones sobre la evolución de estos datos en el futuro.
+
+Por lo tanto, en este apartado se abordarán los siguientes conceptos teóricos:
+\begin{itemize}
+    \item La enfermedad de Parkinson, la cual no se limita únicamente a temblores. Se explicará por qué es importante medir los movimientos del paciente con un dispositivo con sensores y tener controlada su progresión. También se explicará la técnica del <<\textit{fingertapping}>> utilizada para evaluar la progresión de la enfermedad y su relación con la escala UPDRS.
+    
+    \item Conceptos fundamentales de aprendizaje automático empleados en el proyecto para la predicción de las gráficas futuras, incluyendo una explicación de las series temporales, que es la manera en que se gestionan los datos del sensor.
+\end{itemize}
+
+
+
+\section{Enfermedad de Parkinson}
+
+El párkinson~\cite{parkinsonDisease} es un trastorno neurodegenerativo crónico que afecta principalmente al movimiento. Se debe a una degeneración progresiva de ciertas regiones del cerebro, en particular de los núcleos pigmentados del tronco del encéfalo, conocidos como <<sustancia negra>>. Estos núcleos son los que regulan los movimientos voluntarios del cuerpo. Además aparecen estructuras anormales llamadas cuerpos de Lewy que interfieren con el normal funcionamiento de las células nerviosas. Esta enfermedad afecta a 1 de cada 1000 personas y sus síntomas suelen aparecer a partir de los 60 años.
+
+Comúnmente es conocida por el temblor que causa en las manos de los pacientes, pero también presenta otros síntomas como rigidez muscular, bradicinesia (lentitud en los movimientos), hipocinesia (movimiento reducido) y acinesia (pérdida de movimiento), así como anomalías posturales y pérdidas de equilibrio.
+
+La enfermedad puede tener un impacto significativo en la calidad de vida de los pacientes, afectando a sus actividades diarias y a su independencia. Es importante conocer la capacidad biomecánica del paciente porque estos síntomas pueden variar significativamente de un individuo a otro y con el tiempo. Por ello es que el equipo de SENSE4CARE~\cite{sense4care} desarrolló el sensor STAT-ON, el cual mide parámetros como los bloqueos, la marcha bradicinética, discinesia, el estado motor\ldots, que son con los que se trabaja en este proyecto.
+
+La evaluación de estos parámetros no solo proporciona información sobre la gravedad de la enfermedad, sino que también puede ayudar a los médicos a ajustar los tratamientos y evaluar su efectividad a lo largo del tiempo.
+
+La aplicación web desarrollada también permite a estos médicos llevar un control de unos vídeos de los pacientes realizando la técnica de <<\textit{fingertapping}>>. Esta técnica es utilizada para evaluar la velocidad y la regularidad de los movimientos de los dedos de una persona realizando un movimiento de pinza. Estos vídeos fueron utilizados en el TFG de un alumno del curso anterior\footnote{\url{https://github.com/cataand/tfg-paddel}} para detectar alteraciones en la coordinación motora, lo que puede ser indicativo de la progresión de la enfermedad.
+
+Este movimiento es parte de un examen clínico~\cite{updrs} diseñado en los años 80 para evaluar la gravedad de los síntomas de la enfermedad de Parkinson. Se utiliza una escala de 0 a 4, donde 0 indica ausencia de discapacidad y 4 indica una discapacidad severa. 
+Este <<examen>> consta de 45 preguntas, divididas en 4 apartados: 
+\begin{itemize}
+    \item Estado mental, comportamiento y estado de ánimo: evalúa los cambios emocionales y cognitivos del paciente, sus cambios en el intelecto, los pensamientos, la iniciativa\ldots
+    \item Actividades de la vida diaria: se enfoca en cómo afecta la enfermedad en actividades diarias como hablar, comer, escribir, vestirse, lavarse, caminar\ldots
+    \item Exploración de aspectos motores: incluye la evaluación de los principales síntomas motores en los pacientes. En este apartado encontramos la evaluación del movimiento de pinza que realizan los pacientes en los vídeos que se utilizan en el proyecto. Además se analizan la dificultad en el habla, los temblores, la rigidez y otros movimientos como abrir y cerrar las manos, golpes de talón o levantamientos de la silla.
+    \item Complicaciones del tratamiento: contabiliza el nivel de las discinesias (movimientos involuntarios), qué tan incapacitantes o dolorosas son y cuánto duraron la semana previa al examen. Otras complicaciones causadas por el tratamiento que se evalúan son los periodos <<OFF>> (intervalos en los que los medicamentos no funcionan de forma efectiva y los síntomas de la enfermedad reaparecen), trastornos del sueño o vómitos.
+\end{itemize}
+
+Esta herramienta, utilizada a nivel mundial, es fundamental para evaluar la enfermedad de Parkinson.
+
+
+
+
+\section{\textit{Machine Learning}}
+
+El aprendizaje automático, también conocido como \textit{machine learning}~\cite{machineLearning}, es un campo de la inteligencia artificial que se centra en el uso de algoritmos que permiten a los ordenadores aprender a partir de unos datos de igual forma que aprenden los seres humanos.
+
+Existen tres técnicas de aprendizaje: supervisado, no supervisado y por refuerzo:
+
+\begin{description}
+    \item[Aprendizaje supervisado:] consiste en entrenar un modelo utilizando un conjunto de datos etiquetados (de los que ya conocemos la respuesta) para estimar el resultado de nuevas entradas. Algunas técnicas utilizadas son las redes neuronales, Naïve Bayes, la regresión lineal\ldots Se puede utilizar por ejemplo para estimar la progresión de la diabetes de un paciente, analizando sus datos en función de otros datos conocidos sobre la enfermedad. 
+    
+    \item[Aprendizaje no supervisado:] el modelo se entrena en este caso utilizando datos no etiquetados, tratando de encontrar patrones o estructuras internas en los datos, para posteriormente agruparlos según similitudes en conjuntos llamados \textit{clusters}. Se puede utilizar para buscar patrones anómalos en grandes conjuntos de datos médicos, permitiendo identificar enfermedades de forma temprana.
+    
+    \item[Aprendizaje por refuerzo:] consiste en interactuar con el entorno tratando de maximizar la recompensa acumulada. Un agente observa el entorno, toma acciones que afecten a dicho entorno y recibe una penalización o recompensa. El objetivo del agente es aprender la estrategia que suponga el aumento de las acciones que provocan recompensas basándose en reglas o criterios. Se suele aplicar durante el aprendizaje de juegos como el ajedrez, pero también en la industria.
+\end{description}
+
+
+Los datos del sensor se presentan ordenados cronológicamente, como series temporales (entendiendo como serie temporal un conjunto de datos de una variable cuantitativa medida repetidas veces a través del tiempo). Se recogen los valores de las variables de salida de los diferentes algoritmos por minuto, lo que permite analizar su evolución a lo largo del tiempo, comprendiendo patrones y tendencias en los datos que permitirán crear modelos de predicción que se anticipen a la progresión de la enfermedad, permitiendo ajustar los tratamientos en consecuencia. No se ha realizado esta predicción debido a la pobreza de los datos existentes, con gran cantidad de datos nulos, lo que provocaba predicciones incorrectas.
+
+Los datos de lentitud y amplitud del movimiento de pinza de los pacientes, obtenidos tras el análisis de los vídeos por parte de las neurólogas del hospital, junto con otras características del movimiento se tratan también como series temporales. Se dispone de vídeos grabados cada cierto periodo de tiempo por los pacientes, por lo que tras su análisis obtenemos datos cuantitativos repetidos en el tiempo.
+Por ello, para la predicción de estos datos en el futuro, se utiliza una técnica propia de las series temporales, el suavizado exponencial de Holt. Este método está diseñado para hacer predicciones (de valores y pendientes) a corto plazo, para series temporales con una tendencia clara de aumento o disminución pero sin tener en cuenta la estacionalidad (variación periódica de los datos).

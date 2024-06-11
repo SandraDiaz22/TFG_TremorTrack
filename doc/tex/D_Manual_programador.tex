@@ -1,0 +1,436 @@
+\apendice{Documentación técnica de programación}
+
+\section{Introducción}
+Esta sección contiene la documentación técnica de programación, es decir, el conjunto de materiales que describen el funcionamiento interno del \textit{software} del proyecto. Puede ser de utilidad para otros programadores que pretendan usar, mantener o modificar el \textit{software}. 
+
+Se incluyen aspectos como la arquitectura del sistema, la estructura del código fuente, los requisitos del sistema, las pruebas o los pasos necesarios para compilar, instalar y ejecutar el proyecto.
+
+
+\section{Estructura de directorios}
+El repositorio de GitHub del proyecto\footnote{\url{https://github.com/SandraDiaz22/TFG}} se divide en:
+\begin{itemize}
+    \item doc: contiene la documentación del proyecto, formada por la memoria y anexos realizados en \LaTeX{}. Además contiene el resultado final del \textit{mockup} de la aplicación.
+
+    \item src: contiene las imágenes necesarias para el archivo \texttt{README}: los logos de la aplicación realizada, de la UBU y de la Asociación Parkinson Burgos.
+
+    \item Pruebas: contiene las pruebas realizadas al comienzo del proyecto para familiarizarse con el lenguaje Python, la herramienta Jupyter Notebook y las librerías Matplotlib y Scikit-learn. 
+    
+    \item App:
+        \begin{itemize}
+            \item \texttt{app.py}: archivo principal de la aplicación, que contiene el código necesario para su ejecución. Define las rutas y las acciones que la aplicación realiza en respuesta a las solicitudes del usuario, así como las importaciones de los módulos necesarios.
+            
+            \item Otros archivos .py: se trata de pequeños \textit{scripts} que realizan tareas específicas: \texttt{fechasRegistros.py} se utiliza para actualizar y obtener las fechas inicial y final de los registros, \texttt{personasAleatorias.py} rellena la base de datos con imágenes creadas por inteligencia artificial, \texttt{analizarVideos.py} extrae características de los vídeos de los pacientes, \texttt{hashContraseñas.py} encripta las contraseñas de los usuarios en la base de datos  y \texttt{modelosbbdd.py} contiene la estructura de la base de datos.
+            
+            \item \textit{templates}: contiene todos los .html que corresponden a cada una de las ventanas de la aplicación. Existe un documento llamado \texttt{layout.html} que es la base del resto, definiendo los estilos o la barra de navegación. El resto de documentos heredan de él.
+            
+            \item \texttt{messages.pot} y \texttt{babel.cfg}: ficheros generados automáticamente necesarios para las traducciones. En concreto, \texttt{messages.pot} contiene todos los textos de la aplicación y \texttt{babel.cfg} indica sobre qué archivos se realizan las traducciones.
+            
+            \item \textit{translations}: formado por tres carpetas utilizadas para la traducción de la aplicación a los diferentes idiomas disponibles (español, inglés y francés). En cada una de ellas encontramos \texttt{messages.po}, donde se fueron traduciendo a mano los textos de \texttt{messages.pot} y \texttt{messages.mo}, obtenido tras compilar.
+
+            \item \textit{paddel}: contiene las carpetas con el código necesario para el análisis de los vídeos de los pacientes, obtenido del TFG de un alumno del curso pasado~\cite{TFGCatalin}.
+            
+            \item Documento \texttt{.gitignore}: necesario para que GitHub ignore toda la carpeta \textit{Static}, que contiene las fotos de los usuarios o logos, los vídeos y los registros de los pacientes. De lo contrario, se superaría el espacio de almacenamiento del repositorio. Además evita subir al repositorio la carpeta del entorno virtual con todas las librerías.
+
+            \item Documento \texttt{sonar-project.properties}: contiene la configuración necesaria para realizar el escaneo de la calidad del código mediante la herramienta SonarQube.
+
+            \item \textit{pycache}: directorio creado automáticamente en Python que almacena los archivos de caché compilados de los módulos de Python que se han importado en el programa, como el programa que rellena las fechas de los registros o el archivo con la estructura de la base de datos. 
+        \end{itemize}
+
+    \item \texttt{LICENSE}: contiene información sobre la licencia escogida para la distribución del proyecto, licencia Apache versión 2.0.
+
+    \item \texttt{README}: documento que presenta la información del repositorio y ofrece una vía de contacto con los desarrolladores.
+
+    \item \texttt{baseDeDatosParkinson.sql}: contiene el código a ejecutar para crear una base de datos como la utilizada en el proyecto, pero sin datos en su interior.
+
+    \item \texttt{requirements.txt}: indica las librerías utilizadas en el proyecto y sus versiones necesarias para poder ejecutar la aplicación sin problemas.
+\end{itemize}
+
+
+Además, se ha utilizado una base de datos llamada <<parkinson>>. Durante el desarrollo se ha utilizado la herramienta HeidiSQL para administrar la base de datos, utilizando MariaDB como sistema gestor de base de datos. La base de datos está formada por cinco tablas:
+\begin{itemize}
+    \item administrador: contiene los datos de los administradores de la aplicación, entre los que se encuentran: nombre, apellido, nombre de usuario y contraseña para la aplicación, correo electrónico y foto para el perfil.
+    \item medico: contiene los datos (mismos campos que para los administradores) de una veintena de médicos de ejemplo, que trabajarían en el proyecto haciendo el seguimiento de los pacientes.
+    \item paciente: además de los campos de médicos y administradores, para los pacientes también se almacena su número de teléfono, dirección, fecha de nacimiento, si han participado llevando un sensor en el proyecto, si es diestro o zurdo y el médico que les corresponde.
+    \item registros: almacena la ubicación dentro de la carpeta \textit{static} de los registros medidos por el sensor. Además se guardan el paciente al que corresponde y la fecha inicial y final de dicho registro.
+    \item videos: almacena los vídeos grabados por ciertos pacientes realizando el movimiento de pinza. Se guarda la fecha en la que fue grabado, de qué mano (derecha o izquierda) y de que paciente se trata. Además se almacenan la lentitud y amplitud, y las características obtenidas tras analizar el vídeo: velocidad media, frecuencia de máximos y mínimos, promedio de máximos\ldots
+\end{itemize}
+
+
+
+
+\section{Manual del programador}
+Se describen a continuación las herramientas que fueron necesarias para el desarrollo de la aplicación:
+
+\begin{itemize}
+    \item \textbf{Sistema Operativo}: la desarrolladora ha utilizado Windows ya que es su entorno de trabajo habitual, pero se podría desarrollar en Linux si se prefiere.
+    
+    \item \textbf{Python}: se ha utilizado la versión 3.10.2. Se recomienda como mínimo utilizar dicha versión para garantizar la compatibilidad. La última versión de Python se puede descargar desde su página oficial\footnote{\url{https://www.python.org/downloads/}}.
+    
+    \item \textbf{GitHub Desktop}: aplicación para el control de versiones. Se utiliza para realizar comandos de Git como \textit{commits} o \textit{push} al repositorio de GitHub mediante una interfaz gráfica de usuario en lugar de mediante línea de comandos. La descarga se puede realizar desde la página de GitHub\footnote{\url{https://desktop.github.com/}}. Se puede realizar por comandos si así se prefiere.
+    
+    \item \textbf{Visual Studio Code}: utilizado como editor del código fuente. Es compatible con cualquier sistema operativo\footnote{\url{https://code.visualstudio.com/download}}. Se podría utilizar otro editor de código si así se prefiere.
+\end{itemize}
+
+Para programar y ejecutar el proyecto, la desarrolladora utilizaba Visual Studio Code, pero se puede utilizar el entorno de desarrollo que se prefiera. 
+
+El primer paso fue crear un entorno virtual, en el que se instalaron todas las librerías necesarias para el proyecto. Tener las mismas librerías con las mismas versiones es completamente necesario para evitar fallos debidos a versiones.
+
+Para simplificar este paso a futuros programadores se ha creado un documento \texttt{requirements.txt} en el que se indica la versión de cada una de las librerías utilizadas. Si se instalasen más librerías posteriormente se deberían añadir al documento. Para conocer las versiones de las librerías instaladas se puede consultar mediante \texttt{pip list}. Para añadir las nuevas librerías en el documento se deben introducir de la forma <<librería==versión>>.
+
+Para crear el entorno virtual se instaló la herramienta virtualenv mediante el siguiente comando: \texttt{pip install virtualenv}. Posteriormente se creó el entorno mediante: \texttt{virtualenv env}. Una vez que tenemos el entorno, se debe activar para trabajar sobre él. Se activa mediante el fichero \texttt{.\textbackslash activate} que se encuentra en la carpeta \texttt{Scripts} dentro de \texttt{env}. Una vez activado debería salir <<(env)>> al principio de la línea del terminal.
+
+Para instalar las librerías indicadas en el documento de requerimientos, es tan simple como ejecutar el siguiente comando: \texttt{pip install -r .\textbackslash requirements.txt}.
+
+Con todas las versiones necesarias ya se puede ejecutar el proyecto, volviendo a la carpeta de la aplicación y ejecutando \texttt{python app.py}.
+Al ejecutar dicho comando se podrá acceder a la aplicación de forma local en la ubicación <<http://127.0.0.1:5000>>.
+
+
+Si un nuevo programador realiza cambios en el proyecto y se crean nuevos textos que vayan a ser mostrados en la aplicación se deben actualizar los archivos para las traducciones. El texto que necesite internacionalizarse se debe escribir entre <<trans>> y <<endtrans>> de la siguiente manera: \begin{verbatim}
+{% trans %}Texto de ejemplo{% endtrans %}
+\end{verbatim}
+
+Posteriormente se debe ejecutar el siguiente comando: \texttt{pybabel extract -F babel.cfg -o messages.pot .}, que se encarga de rellenar el fichero \texttt{messages.pot} con el texto de la aplicación que aparezca de la manera anteriormente comentada. Se indica el documento y la línea en la que aparece el texto, ofreciendo una plantilla que hay que usar en los ficheros \texttt{messages.po} de cada idioma, traduciendo el texto que aparece como <<msgid>> en el campo <<msgstr>>. Una vez realizadas las traducciones se deben compilar, mediante el comando \texttt{pybabel compile -d translations}, obteniendo los ficheros \texttt{messages.mo}.
+
+
+
+
+\section{Compilación, instalación y ejecución del proyecto} 
+En la presente sección se comentan los pasos seguidos para realizar el despliegue del proyecto en el servidor.
+
+El primer paso es conectarse en remoto al servidor que se encuentra en la Universidad de Burgos. Como la alumna se encontraba en su casa, hizo uso de una VPN para emular estar conectada a la intranet de la UBU. Esta VPN se realiza mediante GlobalProtect a \texttt{vpn.ubu.es}. Es necesario que un tutor u otro miembro de la universidad te de acceso para poder utilizar este recurso. Para poder posteriormente acceder a uno de los servidores también es necesario que te den acceso con un usuario y contraseña.
+
+Una vez conectada la VPN, es posible conectarse al servidor mediante SSH (\textit{Secure Shell}). Se trata de un protocolo de red destinado a la conexión por remoto a un servidor mediante línea de comandos. Se debe abrir el <<CMD>> o intérprete de comandos del sistema operativo utilizado (en el caso de la alumna Windows) y escribir el comando:
+\begin{verbatim}ssh usuario@ip_del_servidor\end{verbatim}
+Se deberá introducir la contraseña del usuario para acceder.
+
+
+Una vez organizado todo el contenido del proyecto en el repositorio de GitHub se pudo clonar en el servidor mediante el comando:
+\begin{verbatim}git clone <url_repositorio>\end{verbatim}
+
+La carpeta <<static>>, en la que se almacenan las fotos de los usuarios y logos, los registros de los sensores y los vídeos de los pacientes, no se pudo añadir en el repositorio porque se excedía la capacidad permitida. Por ello fue necesario agregar esta carpeta al servidor por separado.
+
+Para transferir archivos entre el ordenador de la alumna y el servidor se utiliza el comando SCP en el ordenador personal. Al tratarse de una carpeta con todo su contenido se realizó de la siguiente manera:
+\begin{verbatim}scp -r "C:\...\static" usuario@ip_del_servidor:~/TFG/App/\end{verbatim}
+
+
+En el repositorio hay un documento \texttt{baseDeDatosParkinson.sql} que contiene los <<CREATE TABLE>> necesarios para crear una copia de la base de datos, pero no contiene los <<INSERTS>>, creando tablas vacías. Para poder probar la aplicación en el servidor se creó un documento \texttt{baseDeDatosConInserts.sql} que incluye los datos que se han utilizado en el desarrollo. Este documento se pasó al servidor mediante SCP.
+
+Para crear la base de datos en el servidor, lo primero que fue necesario fue instalar SQL.
+No se pueden descargar librerías en el servidor, no se tienen permisos de administrador, ya que podría afectar a otros proyectos que se encuentren alojados también en él, por lo que se ha instalado Miniconda en el usuario específico de la alumna del servidor. 
+Miniconda permite crear un entorno aislado, para poder instalar otras versiones de Python o más librerías específicas sin afectar al servidor general o al resto de usuarios.
+Se ha descargado el instalador de la página oficial y se ha instalado en el servidor mediante el comando:
+\begin{verbatim}bash Miniconda3-latest-Linux-x86_64.sh\end{verbatim}
+Al ejecutar el comando \texttt{which python} se aprecia como se está utilizando la versión de Python de Miniconda en vez de la del servidor.
+
+Los pasos seguidos para crear un entorno en conda llamado <<proyecto>>, instalar MySQL, inicializar la base de datos y el servidor MySQL, cambiar la contraseña por defecto por la misma que se usaba en local, crear la base de datos llamada <<parkinson>> e importar el contenido de la base de datos del proyecto se detallan a continuación:
+\begin{verbatim}
+conda create --name EntornoProyecto python=3.10.2
+conda activate EntornoProyecto
+conda install -c conda-forge mysql
+mkdir -p /home/sda1003/mysql_data
+mysqld --initialize --datadir=/home/sda1003/mysql_data
+mysqld --datadir=/home/sda1003/mysql_data &
+mysql -u root -p
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'maria';
+exit;
+mysql -u root -p -e "CREATE DATABASE parkinson;"
+cd TFG
+mysql -u root -p parkinson < baseDeDatosConInserts.sql
+\end{verbatim}
+
+En local se tuvo que crear un entorno virtual en el que instalar las versiones de las librerías correctas, pero en el servidor, al haber creado un entorno conda, no ha sido necesario crear otro. Se han instalado las librerías del documento \texttt{requirementsBase.txt} (nuevo documento con una versión más baja de la librería tsfresh debido a problemas con la versión de la gráfica del servidor) y se ha debido instalar también otra librería para las contraseñas con \texttt{conda install cryptography}.
+
+
+Por último, se han realizado un par de cambios en \texttt{app.py} para poder ser ejecutado en el servidor:
+\begin{itemize}
+    \item Cambiar la configuración de las \textit{cookies} de idioma, relajando las restricciones de seguridad, cambiando a \texttt{False} las siguientes configuraciones:
+    \begin{verbatim}
+    respuesta.set_cookie('idioma', value=idioma, 
+    max_age=86400, secure=False, httponly=False)
+    \end{verbatim}
+
+    \item Cambiar la configuración de la ejecución de Flask para escuchar en el host y puerto correctos, con el fin de poder acceder desde cualquier ordenador conectado a la red y no solo localmente:
+    \begin{verbatim}
+    app.run(host='0.0.0.0', port=5000, debug=False)
+    \end{verbatim}
+\end{itemize}
+
+
+Con las versiones y cambios necesarios, teniendo iniciada la base de datos, ya se puede ejecutar el proyecto, ejecutando:
+\texttt{python app.py}. Se puede acceder a la aplicación desde el navegador de un ordenador conectado a la intranet de la UBU mediante la dirección \url{http://10.168.168.34:5000/}.
+
+
+
+El despliegue realizado es el que no recomienda Flask, porque se debe usar únicamente para \textit{debug} y pruebas. No se debería desplegar la aplicación Flask con su propio servidor.
+Por ello se ha utilizado la herramienta Gunicorn para realizar otro despliegue, en el puerto 8000. Se detallan a continuación las acciones que fueron necesarias.
+Instalar Gunicorn mediante \texttt{pip install gunicorn}.
+Crear un archivo \texttt{wsgi.py} que ejecute la aplicación:
+\begin{verbatim}
+from app import app
+
+if __name__ == "__main__":
+    app.run()
+\end{verbatim}
+Ejecutar Gunicorn en el puerto escogido mediante :
+\begin{verbatim}gunicorn -w 4 -b 0.0.0.0:8000 wsgi:app\end{verbatim}
+
+Ahora se puede acceder a la aplicación, desde la intranet de la UBU, mediante la dirección \url{http://10.168.168.34:8000/}.
+
+Aparece el mensaje <<No es seguro>> junto a la URL, lo que significa que la conexión a la aplicación no es segura. Esto se debe a que la conexión entre el navegador y el servidor no está protegida mediante un certificado SSL válido.
+
+Se trató de utilizar el servidor web/Proxy NGINX junto con un certificado SSL para configurar una conexión segura HTTPS, pero no fue posible instalar NGINX por no tener permisos de administrador en el equipo. 
+Se detalla este problema en el apartado de <<Líneas de trabajo futuras>> de la memoria.
+
+
+
+
+\section{Pruebas del sistema}
+En este apartado se han realizado pruebas del sistema o pruebas \textit{software} para comprobar el correcto funcionamiento de la aplicación. Se llevan a cabo mediante casos de prueba, procedimientos utilizados durante el desarrollo \textit{software} para verificar que la aplicación cumpla con los requisitos especificados y detectar errores antes del despliegue, reduciendo costes asociados con correcciones posteriores.
+
+Las pruebas básicas no se incluyen en el apartado, ya que se han estado utilizando continuamente durante el desarrollo. Algunas de ellas son:
+\begin{itemize}
+    \item Inicio de sesión: si se introducen credenciales de un administrador se accede a las funcionalidades para administradores, si se introducen credenciales de un médico se accede a la página principal de los médicos y si se introducen credenciales de un paciente se accede a su página de bienvenida. 
+    Si por el contrario, se introduce el nombre de usuario incorrecto, o la contraseña incorrecta, o ambas incorrectas, aparecerá un mensaje por pantalla diciendo <<Credenciales incorrectas. Inténtalo de nuevo.>>, que no especifica cuál de los dos es incorrecto para no ayudar a posibles intrusos.
+    
+    \item Cierre de sesión: si se pulsa sobre el botón de cierre de sesión estando con una sesión de paciente, médico o administrador activa, la aplicación finalizará la sesión y redirigirá al usuario a la página principal de la aplicación. Se ha realizado un control de acceso, de forma qué antes de cargar las páginas la aplicación comprueba que el usuario está logueado y tiene acceso a dicha página, evitando que los usuarios puedan acceder a páginas que no deberían poder acceder escribiendo la url directamente (ver caso de prueba~1).
+    
+    \item Añadir usuario a la base de datos: los administradores pueden añadir nuevos administradores, médicos o pacientes a la base de datos mediante un formulario. Como es de esperar, el programa crea correctamente el usuario en la base de datos, con todas las características indicadas por el administrador (previamente comprobadas por el programa). Se ha realizado un caso de prueba en el cual el administrador introduce un usuario con el mismo correo electrónico que otro que ya está en la base de datos (cuando el correo debería ser único) y el programa no deja añadir dicho usuario (ver caso de prueba~2).
+    
+    \item Eliminar usuario de la base de datos: los administradores pueden eliminar administradores, médicos o pacientes de la base de datos mediante el botón <<Eliminar Usuario>>. Antes de eliminarlo el programa pide una confirmación, para evitar imprevistos. Como es de esperar, el programa elimina correctamente el usuario de la base de datos. Se han creado tres casos de prueba: uno en el que el administrador intenta borrarse a sí mismo (ver caso de prueba~3), otro en el que se intenta borrar un paciente que tiene registros y vídeos asociados a él en las tablas de registros y vídeos de la base de datos (ver caso de prueba~4) y otro en el que se intenta borrar a un médico con pacientes a su cargo (ver caso de prueba~5).
+
+    \item Edición de usuarios: los administradores pueden editar todos los datos de los tres tipos de usuarios, los médicos pueden editar ciertos datos de sus pacientes y un paciente puede editar ciertos datos personales propios. El programa comprueba que los nuevos datos introducidos sean correctos y realiza los cambios en la base de datos. Si le dan a modificar datos sin haber cambiado ninguno, el programa avisa de que no hay cambios para guardar (ver caso de prueba~6) y si intentan asignar un correo electrónico que ya tiene otro paciente salta un mensaje de error (ver caso de prueba~7).
+
+    \item Realizar predicciones: el programa trata de predecir lo mejor posible el avance de los datos de los vídeos en el futuro. Los vídeos disponibles tienen una periodicidad fija. Se ha realizado un caso de prueba en el que se añada un vídeo cuya fecha no tenga periodicidad con el resto (ver caso de prueba~8) y otro en el que se elimina un vídeo de los disponibles (ver caso de prueba~9).
+
+    \item Generación de gráficos: una vez elegidos el tipo de gráfica a mostrar y las fechas, el programa es capaz de generar y mostrar las gráficas solicitadas mostrando la información recogida por el sensor para las fechas seleccionadas. Si el usuario quisiera seleccionar unas fechas en las que el paciente no tiene registros, el calendario no le dejaría (ver caso de prueba~10).
+
+    \item Subida de registros y vídeos a la base de datos: para subir un registro de un paciente a la base de datos simplemente se debe rellenar el formulario que solicita un archivo de tipo CSV, y el programa sube con éxito el archivo, calculando las fechas a las que corresponde el registro automáticamente. Para subir un vídeo se deben aportar más datos en el formulario y, posteriormente, el programa analizará el vídeo y lo subirá junto con las características extraídas del mismo a la base de datos. Si el usuario sube dos vídeos con el mismo nombre no ocurren problemas en la base de datos (no se sobrescribe el anterior) porque la aplicación genera un nombre único para cada archivo antes de subirlo (ver caso de prueba~11). Además, el programa no permite al usuario indicar que la fecha del vídeo es posterior a la actual (ver caso de prueba~12).
+
+    \item Cambio de idioma: cuando un paciente elige el idioma de la aplicación mediante el desplegable de la barra de navegación, se cambian todos los textos que aparecen en las pantallas y pasan a estar en el idioma elegido.
+\end{itemize}
+
+
+Únicamente se muestran los casos de prueba más relevantes, que podrían llegar a dar fallos en la aplicación, y que se han probado en diferentes navegadores:
+
+%CP1
+\cp {Alta}
+    {05/06/2024}
+    {Manual}
+    {Probar el acceso a las ventanas}
+    {Control de acceso}
+    {No estar logueado como administrador}
+    {No acceder y ser redirigido a la página principal}
+    {
+        Hacer clic sobre el botón «Cerrar sesión» & & Estar en la página principal sin sesión activa & Estar en la página principal sin sesión activa & \ding{51} \\
+        
+        Poner manualmente la URL para acceder a la gestión de usuarios &  & Estar en la página principal & Estar en la página principal & \ding{51} \\
+        
+    }
+
+%CP2
+\cp {Media}
+    {05/06/2024}
+    {Manual}
+    {Probar a añadir usuario con mismo correo electrónico}
+    {Añadir usuario}
+    {Estar logueado como administrador}
+    {Aviso al administrador del error al agregar el usuario}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Médicos>> &  & Aparece la lista de todos los médicos de la aplicación & Aparece la lista de todos los médicos de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Añadir Médico>> &  & Aparece el formulario de creación de usuario & Aparece el formulario de creación de usuario & \ding{51} \\
+        
+        Introducir información sobre el nuevo médico & Nombre; Apellido; Nombre de Usuario; Contraseña; Correo Electrónico: igual que el de otro médico; Foto & Formulario rellenado & Formulario rellenado & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Agregar usuario>> &  & Mensaje de error al agregar el usuario & Mensaje de error al agregar el usuario & \ding{51} \\
+    }
+
+%CP3
+\cp {Alta}
+    {05/06/2024}
+    {Manual}
+    {Probar a eliminarse a sí mismo de la base de datos}
+    {Eliminarse a sí mismo}
+    {Estar logueado como administrador}
+    {Aviso de que no se puede eliminar a sí mismo}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón de <<admins>> &  & Aparece la lista de todos los administradores de la aplicación & Aparece la lista de todos los administradores de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Eliminar Usuario>> de tu propio usuario &  & Aparece el mensaje de error de no poderse eliminar a sí mismo & Aparece el mensaje de error de no poderse eliminar a sí mismo & \ding{51} \\        
+    }
+
+%CP4 
+\cp {Media}
+    {06/06/2024}
+    {Manual}
+    {Probar a borrar un paciente con vídeos y registros}
+    {Eliminar paciente con vídeos}
+    {Estar logueado como administrador}
+    {Paciente y sus vídeos eliminados}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón <<Pacientes>> &  & Aparece la lista de todos los pacientes de la aplicación & Aparece la lista de todos los pacientes de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Eliminar Usuario>> de un paciente con vídeos &  & Aparece el mensaje de confirmación & Aparece el mensaje de confirmación & \ding{51} \\
+
+        Dar a aceptar confirmación & & Paciente eliminado de la base de datos, junto con todos sus vídeos y registros & Paciente eliminado de la base de datos, junto con todos sus vídeos y registros & \ding{51} \\
+    }
+
+%CP5    
+\cp {Alta}
+    {06/06/2024}
+    {Manual}
+    {Probar a borrar un médico con pacientes a su cargo}
+    {Eliminar médico con pacientes}
+    {Estar logueado como administrador}
+    {Aviso al administrador del error al eliminar el médico}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón <<Médicos>> &  & Aparece la lista de todos los médicos de la aplicación & Aparece la lista de todos los médicos de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Eliminar Usuario>> de un médico con pacientes a su cargo &  & Aparece el mensaje de confirmación & Aparece el mensaje de confirmación & \ding{51} \\
+
+        Dar a aceptar confirmación & & No se puede eliminar el médico porque tiene pacientes a su cargo. & No se puede eliminar el médico porque tiene pacientes a su cargo. & \ding{51} \\
+    }
+
+%CP6    
+\cp {Baja}
+    {05/06/2024}
+    {Manual}
+    {Probar a darle a guardar cambios sin haber realizado cambios}
+    {Modificar cero cambios}
+    {Estar logueado como administrador}
+    {No se envía el formulario y aviso al usuario}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón <<Médicos>> &  & Aparece la lista de todos los médicos de la aplicación & Aparece la lista de todos los médicos de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Editar Usuario>> de un médico &  & Aparece el formulario con los datos del médico, que permite editarlos & Aparece el formulario con los datos del médico, que permite editarlos & \ding{51} \\
+
+        Dar a <<Guardar cambios>> sin haber realizado cambios & & Mensaje de que no hay cambios para guardar. & Mensaje de que no hay cambios para guardar. & \ding{51} \\
+    }
+
+%CP7    
+\cp {Media}
+    {06/06/2024}
+    {Manual}
+    {Poner el mismo correo que ya tiene otro paciente}
+    {Editar correo electrónico}
+    {Estar logueado como administrador}
+    {Aviso al administrador del error al editar usuario}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón <<Médicos>> &  & Aparece la lista de todos los médicos de la aplicación & Aparece la lista de todos los médicos de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Editar Usuario>> de un médico &  & Aparece el formulario con los datos del médico, que permite editarlos & Aparece el formulario con los datos del médico, que permite editarlos & \ding{51} \\
+        
+        Escribir en el campo del correo electrónico el correo de otro médico y darle a <<Guardar cambios>> & Correo electrónico existente & Error al editar el usuario & Error al editar el usuario & \ding{51} \\
+    }
+
+%CP8    
+\cp {Media}
+    {06/06/2024}
+    {Manual}
+    {Predicción con un vídeo con diferente periodicidad}
+    {Predicción con diferente periodicidad}
+    {Estar logueado como administrador}
+    {Predicción correcta}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón <<Pacientes>> &  & Aparece la lista de todos los pacientes de la aplicación & Aparece la lista de todos los pacientes de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Subir vídeo>> de un paciente &  & Aparece el formulario para subir vídeos & Aparece el formulario para subir vídeos & \ding{51} \\
+
+        Introducir el vídeo y su información & Archivo de vídeo: prueba.mp4; Fecha del vídeo: fecha con diferente periodicidad al resto; Mano; Amplitud; Lentitud & Formulario rellenado & Formulario rellenado & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Subir vídeo>> & Datos formulario & Vídeo subido a la base de datos & Vídeo subido a la base de datos & \ding{51} \\
+
+        Hacer clic sobre el botón <<Mostrar vídeos>> de ese paciente &  & Redirección a ventana con la lista de vídeos y gráficas con sus características & Redirección a ventana con la lista de vídeos y gráficas con sus características  & \ding{51} \\
+
+        Hacer clic sobre el botón <<Predecir>> &  & Aparecen los gráficos con la predicción & Aparecen los gráficos con la predicción porque el modelo se recalibra con el nuevo vídeo & \ding{51} \\
+    }
+
+%CP9    
+\cp {Media}
+    {06/06/2024}
+    {Manual}
+    {Predicción al eliminar un vídeo}
+    {Predicción al eliminar vídeo}
+    {Estar en la página de mostrar vídeos}
+    {Predicción correcta}
+    {
+        Hacer clic sobre el botón <<Eliminar vídeo>> de un vídeo de un paciente &  & Aparece el mensaje de confirmación & Aparece el mensaje de confirmación & \ding{51} \\
+
+        Dar a aceptar confirmación & & Vídeo eliminado de la base de datos & Vídeo eliminado de la base de datos & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Predecir>> &  & Aparecen los gráficos con la predicción & Aparecen los gráficos con la predicción porque el modelo se recalibra con el cambio de datos & \ding{51} \\
+    }
+
+%CP10    
+\cp {Alta}
+    {06/06/2024}
+    {Manual}
+    {Seleccionar fechas en las que no hay registros}
+    {Seleccionar fechas sin registros}
+    {Estar en la página de mostrar datos sensor}
+    {Fechas no seleccionadas}
+    {
+        Seleccionar gráfica a mostrar del desplegable & Elección & Tipo de gráfica seleccionado & Tipo de gráfica seleccionado & \ding{51} \\
+
+        Pulsar en seleccionar fechas a mostrar &  & Se muestra el calendario para elegir fechas & Se muestra el calendario para elegir fechas & \ding{51} \\
+
+        Tratar de seleccionar una fecha sin registros &  & No deja seleccionarla & No deja seleccionarla & \ding{51} \\
+    }
+
+%CP11    
+\cp {Media}
+    {06/06/2024}
+    {Manual}
+    {Subir dos vídeos con el mismo nombre a la base de datos}
+    {Subir vídeos con mismo nombre}
+    {Estar logueado como administrador}
+    {Ambos vídeos en la base de datos}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón <<Pacientes>> &  & Aparece la lista de todos los pacientes de la aplicación & Aparece la lista de todos los pacientes de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Subir vídeo>> de un paciente &  & Aparece el formulario para subir vídeos & Aparece el formulario para subir vídeos & \ding{51} \\
+
+        Introducir el vídeo y su información & Archivo de vídeo: prueba.mp4; Fecha del vídeo; Mano; Amplitud; Lentitud & Formulario rellenado & Formulario rellenado & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Subir vídeo>> & Datos formulario & Vídeo subido a la base de datos & Vídeo subido a la base de datos con un nombre que identifica su fecha, mano, paciente y el instante en el que fue subido a la base de datos & \ding{51} \\
+
+        Introducir el segundo vídeo y su información & Archivo de vídeo: prueba.mp4; Fecha del vídeo; Mano; Amplitud; Lentitud & Formulario rellenado & Formulario rellenado & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Subir vídeo>> & Datos formulario & Vídeo subido a la base de datos & Vídeo subido a la base de datos con un nombre que identifica su fecha, mano, paciente y el instante en el que fue subido a la base de datos & \ding{51} \\
+    }
+
+%CP12
+\cp {Baja}
+    {06/06/2024}
+    {Manual}
+    {Indicar que un vídeo fue grabado más tarde de la fecha actual}
+    {Fecha del vídeo incoherente}
+    {Estar logueado como administrador}
+    {Aviso al administrador del error}
+    {
+        Acceder al panel de gestión de usuarios &  & Estar en el panel de gestión de usuarios & Estar en el panel de gestión de usuarios & \ding{51} \\
+
+        Hacer clic sobre el botón <<Pacientes>> &  & Aparece la lista de todos los pacientes de la aplicación & Aparece la lista de todos los pacientes de la aplicación & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Subir vídeo>> de un paciente &  & Aparece el formulario para subir vídeos & Aparece el formulario para subir vídeos & \ding{51} \\
+
+        Introducir el vídeo y su información & Archivo de vídeo; Fecha del vídeo: posterior a la fecha actual; Mano; Amplitud; Lentitud & Formulario rellenado & Formulario rellenado & \ding{51} \\
+        
+        Hacer clic sobre el botón <<Subir vídeo>> & Datos formulario & Se avisa de que la fecha del vídeo no puede ser posterior a la fecha actual y no se sube el vídeo &Se avisa de que la fecha del vídeo no puede ser posterior a la fecha actual y no se sube el vídeo & \ding{51} \\
+    }

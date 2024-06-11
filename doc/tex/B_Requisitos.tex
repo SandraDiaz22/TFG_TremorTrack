@@ -1,0 +1,486 @@
+\apendice{Especificación de Requisitos}
+
+\section{Introducción}
+En este apéndice se realiza la especificación de los requisitos que la aplicación web debe de cumplir para entregar al cliente un producto acorde con sus requerimientos.
+
+Se siguen los apuntes de la asignatura de Ingeniería del \textit{Software}, cursada durante el segundo año del grado en Ingeniería Informática, para realizar el análisis de requisitos del sistema siguiendo el estándar IEEE 830/1993 (\textit{IEEE Recomended Practice for Software Requeriments}).
+
+Se utiliza UML (\textit{Unified Modelling Language}) como sistema de modelado para capturar dichos requisitos en un diagrama de casos de uso. Se usarán como referencia los apuntes de la asignatura de Análisis y Diseño de Sistemas.
+
+La fase del modelado es fundamental para reducir la complejidad del \textit{software} y estructurar las ideas. Se comienza con una reunión del equipo de desarrollo (en este caso la alumna) con el cliente (en este caso el tutor), que especifica las funcionalidades que se espera que tenga la aplicación. Estas funcionalidades se corresponden con los requisitos.
+
+El anexo se divide en:
+\begin{itemize}
+    \item Objetivos generales: se resumen los objetivos que se pretenden cumplir con el proyecto.
+    \item Catálogo de requisitos: se detallan las características que la aplicación web debe cumplir, analizando sus requisitos funcionales y no funcionales.
+    \item Especificación de requisitos: en este último apartado se definen los actores que forman parte del sistema y los casos de uso que realizan. Se crea un diagrama general de casos de uso presentando las relaciones y la situación general. Además se especifican las características de cada caso de uso específico mediante tablas.
+\end{itemize}
+
+
+\section{Objetivos generales}
+Se procede a numerar los principales objetivos del proyecto:
+\begin{enumerate}
+    \item Ofrecer a las personas con párkinson una manera rápida e intuitiva de llevar un seguimiento de su enfermedad.
+    \item Desarrollar una aplicación web utilizando el \textit{framework} Flask, que permita a los pacientes ver y predecir su evolución, además de permitir a los médicos gestionar a sus pacientes. Podrán acceder a todas las funcionalidades desde su navegador sin necesidad de descargar nada en su equipo.
+    \item Estas predicciones se pretenden conseguir gracias a técnicas de \textit{machine learning} mediante bibliotecas Python. 
+    \item Almacenar los datos de los pacientes de forma estructurada, en una base de datos relacional como MariaDB.
+\end{enumerate}
+
+
+\section{Catálogo de requisitos}\label{sec:catalogo}
+Los requisitos son utilizados durante el desarrollo \textit{software} para especificar las características y el comportamiento que debe tener el sistema. El objetivo de realizar un catálogo de requisitos es definir de forma clara, completa y verificable las funcionalidades (y restricciones) del sistema que se quiere elaborar.
+
+Existen dos tipos: requisitos funcionales y no funcionales. Los funcionales se centran en qué debe hacer el sistema desde el punto de vista de los usuarios, es decir, los servicios que debe proporcionar la página, mientras que los no funcionales se centrar en cómo se debe comportar, sus características generales, como usabilidad, mantenimiento, rendimiento\ldots 
+
+Tras múltiples entrevistas con el cliente (en este caso el tutor), y tras sucesivas versiones de este documento, se han aprobado los siguientes requisitos:
+
+\subsection{Requisitos funcionales}
+\begin{itemize}
+    \item \textbf{RF1}: El sistema debe \textbf{gestionar los datos} medidos por el sensor que llevan incorporado los pacientes.
+    \begin{itemize}
+        \item \textbf{RF1.1:} Debe permitir subir datos del sensor.
+        \item \textbf{RF1.2:} Debe mostrar gráficas que representen los datos del sensor.
+        \begin{itemize}
+            \item \textbf{RF1.2.1:} Se debe poder elegir el rango de tiempo que se quiere mostrar de la gráfica de datos.
+            \item \textbf{RF1.2.2:} Se debe poder elegir la gráfica que se quiere mostrar, mediante una lista de preselección.
+        \end{itemize}
+    \end{itemize}
+
+    
+    \item \textbf{RF2}: El sistema debe \textbf{gestionar los datos} obtenidos tras el análisis de los vídeos de los pacientes.
+    \begin{itemize}
+            \item \textbf{RF2.1}: El sistema debe mostrar gráficas que representen las características obtenidas de los vídeos.
+            \item \textbf{RF2.2}: El sistema debe ser capaz de \textbf{predecir} datos futuros a partir de los datos históricos de los vídeos de los pacientes.
+    \end{itemize}
+
+
+    \item \textbf{RF3}: La aplicación tiene que ser capaz de mostrar un \textbf{listado} con todos los pacientes que un médico tiene a su cargo.
+
+
+    \item \textbf{RF4}: La aplicación tiene que permitir la subida y eliminación de \textbf{vídeos} de la base de datos.
+
+
+    \item \textbf{RF5}: El sistema debe permitir cambiar \textbf{información personal} de los usuarios como domicilio, número de teléfono, médico asociado\ldots
+    \begin{itemize}
+            \item \textbf{RF5.1}: El campo del médico asociado consistirá en una lista de preselección, mostrándose los médicos disponibles.
+    \end{itemize}
+
+    
+    \item \textbf{RF6}: El sistema debe mostrar el \textbf{nombre y foto} de perfil del usuario en la esquina superior derecha.
+
+
+    \item \textbf{RF7}: El sistema debe permitir \textbf{iniciar sesión} en la aplicación con nombre de usuario y contraseña.
+    \begin{itemize}
+            \item \textbf{RF7.1}: El campo de la contraseña debe poderse mostrar y ocultar mediante un botón.
+            \item \textbf{RF7.2}: El campo nombre debe aceptar caracteres alfabéticos, numéricos y especiales.
+    \end{itemize}
+
+
+    \item \textbf{RF8}: El sistema debe permitir a los usuarios \textbf{cerrar sesión}.
+
+
+    \item \textbf{RF9}: El sistema debe soportar la \textbf{gestión de sus usuarios} (creación, eliminación y modificación).
+
+    
+    \item \textbf{RF10}: El sistema debe mostrar el \textbf{logo} de la Universidad de Burgos y el logo de la Asociación de Parkinson de Burgos, redireccionando a sus páginas web.
+    \begin{itemize}
+            \item \textbf{RF10.1}: El sistema debe mostrar el logo de la propia aplicación, redireccionando a la página principal.
+    \end{itemize}
+
+
+    \item \textbf{RF11}: El sistema debe mostrar \textbf{información} y contexto sobre los creadores de la aplicación web.
+
+
+    \item \textbf{RF12}: La aplicación debe tener una opción que ponga en \textbf{contacto} a los usuarios con los creadores de esta, mediante correo electrónico u otros medios, para responder posibles dudas sobre su uso.
+
+
+    \item \textbf{RF13}: La aplicación web debe soportar el cambio de \textbf{idioma}.
+\end{itemize}
+
+
+\subsection{Requisitos no funcionales}
+\begin{itemize}
+    \item \textbf{RNF1: Usabilidad}: el sistema debe ser intuitivo, resultando fácil de usar para médicos y pacientes. 
+
+    \item \textbf{RNF2: Internacionalización}: el sistema debe poder ser utilizado por personas de cualquier nacionalidad.
+
+    \item \textbf{RNF3: Rendimiento}: el sistema debe tener un tiempo de respuesta adecuado, siendo capaz de manejar los grandes volúmenes de datos recogidos en la base de datos del sensor, así como ofreciendo una espera al usuario de menos de 60 segundos en mostrar las gráficas o en subir y analizar los vídeos.
+
+    \item \textbf{RNF4: Seguridad}: la aplicación web debe garantizar la protección de la información sensible de los usuarios como datos médicos, datos personales o contraseñas. Las contraseñas se almacenan de forma segura utilizando técnicas de cifrado. Se utilizan técnicas para prevenir ataques como csrf (\textit{cross-site request forgery}) en los formularios.
+
+    \item \textbf{RNF5: Mantenibilidad}: el código fuente de la aplicación web debe estar bien estructurado así como comentado, para resultar fácil de mantener y actualizar en un futuro. 
+
+    \item \textbf{RNF6: Disponibilidad}: la aplicación debe estar disponible el 99\% del tiempo para los usuarios.
+
+    \item \textbf{RNF7: Compatibilidad}: la aplicación debe ser compatible con los navegadores web más utilizados (Chrome, Edge, Firefox\ldots) y con cualquier dispositivo electrónico (ordenador, teléfono móvil, tableta\ldots).
+
+    \item \textbf{RNF8: Respuesta a errores}: el sistema debe ofrecer mensajes de error claros y amigables para ser comprendidos por todo tipo de usuarios, así como detalles técnicos para el equipo de soporte.
+\end{itemize}
+
+
+\section{Especificación de requisitos}
+Se procede a realizar la especificación de requisitos de la aplicación web del proyecto, basándose en el catálogo de requisitos desarrollado en el apartado \ref{sec:catalogo}.
+
+Antes de determinar los casos de uso, o interacciones con el sistema, se deben definir los actores que realizarán dichos casos de uso.
+
+Se entiende por actor a cualquier elemento que intercambia información en el sistema. Pueden ser usuarios directos del sistema, responsables de su uso o mantenimiento, u otros sistemas. 
+En este proyecto, el sistema corresponde con la aplicación web desarrollada y los actores son los siguientes:
+\begin{itemize}
+    \item Paciente: usuario directo de la aplicación. Tras iniciar sesión con su nombre de usuario y contraseña, estos usuarios pueden visualizar sus gráficas de evolución, editar sus datos personales y predecir sus evoluciones futuras en el movimiento de pinza. Corresponden físicamente a los pacientes con párkinson que llevan el sensor de movimiento y forman parte del proyecto. Al acabar pueden cerrar su sesión.
+    \item Médico: usuario directo de la aplicación web. Tras iniciar sesión de igual manera que los pacientes, estos usuarios disponen de una lista con todos los pacientes a su cargo. Pueden cambiar los datos personales de sus pacientes, subir los datos medidos por el sensor que llevan incorporado o subir vídeos de cada paciente. Al igual que los pacientes, pueden acceder a la visualización de gráficas con los datos del sensor y a las predicciones de la evolución del movimiento de pinza de cada paciente a su cargo. Corresponden físicamente con los médicos del Hospital de Burgos relacionados con el proyecto y que tratan a los pacientes.
+    \item Administrador: responsable del sistema y de administrar los usuarios que acceden a él, creando y eliminando cuentas de usuario cuando sea necesario. Tienen acceso a todas las funcionalidades.
+\end{itemize}
+
+Tras comentar resumidamente los actores existentes y sus principales actividades, se presentan los casos de uso que describen el comportamiento del sistema. Se entiende por casos de uso a las interacciones entre los usuarios y el sistema informático, que capturan los requisitos funcionales del sistema. Corresponden con las secuencias de acciones que el sistema ejecuta y producen un resultado observable para los actores.
+
+Se ha realizado un diagrama general de casos de uso, en el que se representan las relaciones entre los casos de uso y los actores, tal como se indica en la Figura~\ref{fig:DiagramaCasosDeUso}. Los casos de uso se representan con elipses conteniendo el nombre y los actores se representan con <<monigotes>> con el nombre del actor:
+\imagen{DiagramaCasosDeUso}{Diagrama de casos de uso}
+
+A continuación se detallan tablas individuales para cada caso de uso, comentando las acciones que se realizan, su importancia, los RF asociados, precondiciones, postcondiciones y excepciones.
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1}    & \textbf{Visualizar características vídeos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF2, RF1.2.1 \\
+		\textbf{Descripción}          & Permitir a los usuarios visualizar gráficas que muestren las características del movimiento de pinza obtenidas tras el análisis de los vídeos de los pacientes. \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser paciente, médico o administrador. Si es médico o administrador debe haber elegido de qué paciente desea ver la evolución. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario debe bajar en la página hasta encontrar las gráficas. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se habrá visualizado un gráfico por cada mano que muestre las características del movimiento. \\
+		\textbf{Excepciones}          & En el caso de que el paciente no tenga vídeos, aparecerá un mensaje en pantalla.  \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-1 Visualizar características vídeos.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-1.1}    & \textbf{Realizar predicción}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF2, RF2.1 \\
+		\textbf{Descripción}          & Realizar gráficas que predigan, utilizando \textit{machine learning}, la evolución de los pacientes.  \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y debe estar en la pantalla de visualizar los vídeos.  \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist 
+                \item El usuario pulsa el botón que hace que se muestren las predicciones. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se habrá visualizado una gráfica por mano, con datos futuros que corresponden con la predicción.  \\
+		\textbf{Excepciones}          & Si no hay suficientes vídeos, el modelo no puede realizar la predicción.  \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-1.1 Realizar predicción.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-2}    & \textbf{Visualizar evolución}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF1, RF1.2, RF1.2.1, RF1.2.2 \\
+		\textbf{Descripción}          & Permitir a los usuarios visualizar gráficas que muestran datos de su elección de los medidos por el sensor que llevan los pacientes. Para ello se deben seleccionar los datos a mostrar y el intervalo de fechas que se quiere visualizar. \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser paciente, médico o administrador. Si es médico o administrador debe haber elegido de qué paciente desea ver la evolución. Además, se debe disponer de un registro de datos del paciente seleccionado para las fechas a seleccionar.  \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario elige los datos a mostrar de la lista de gráficos existentes.
+			\item El usuario selecciona las fechas por medio de un calendario. 
+            \item El usuario pulsa el botón que hace que se muestren los datos. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se habrá visualizado un gráfico que muestre datos del sensor. \\
+		\textbf{Excepciones}          & En el caso de que se vaya a indicar una fecha en la que no se tienen registros, el calendario no lo permitirá. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-2 Visualizar evolución.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-3}    & \textbf{Administrar pacientes }\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF3 \\
+		\textbf{Descripción}          & Se permite a los médicos acceder a un listado de todos los pacientes a su cargo, pudiendo editar su información personal, subir vídeos, subir datos y ver su evolución con gráficas del sensor y de los vídeos. \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser un médico. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Situarse en el listado de pacientes. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Se mostrará un listado de los pacientes. \\
+		\textbf{Excepciones}          & En el caso de que el médico no tenga pacientes a su cargo no aparecerá nada.  \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3 Administrar pacientes.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-3.1}    & \textbf{Cambiar datos paciente}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF5, RF5.1\\
+		\textbf{Descripción}          & Permite a un médico editar datos personales de los pacientes a su cargo, tales como dirección, teléfono, médico asociado\ldots  \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser un médico. Además, debe situarse en el perfil del paciente sobre el cual se quieren editar datos personales. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El médico entra al listado de sus pacientes.
+			\item Selecciona el paciente
+            \item Pulsa el botón que muestra la información personal del paciente. 
+			\item Se editan los datos elegidos. 
+            \item Se debe confirmar la edición de los datos. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Los cambios realizados se verán reflejados en la base de datos del paciente. \\
+		\textbf{Excepciones}          & Cada campo tiene sus propias excepciones: la fecha de nacimiento debe corresponder con una fecha pasada válida, el médico asociado debe corresponder con uno existente en el registro, la dirección debe ser válida, el número de teléfono debe tener la longitud adecuada\ldots  \\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3.1 Cambiar datos paciente.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-3.2}    & \textbf{Subir datos sensor}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF1, RF1.1 \\
+		\textbf{Descripción}          & Permite a un médico (o administrador) subir a la base de datos de la aplicación los datos recogidos por el sensor de un paciente.  \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser un médico (o administrador). Además, debe situarse en el perfil del paciente sobre el cual se quieren subir datos.  \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El médico entra al listado de sus pacientes. 
+			\item Selecciona el paciente. 
+            \item Pulsa el botón que permite subir nuevos datos. 
+            \item El médico es redirigido a sus archivos, donde debe escoger el archivo de datos que desea subir. 
+            \item Aparecen los datos escogidos y se debe confirmar la subida. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & 	Los datos añadidos se verán reflejados en la base de datos del paciente. \\
+		\textbf{Excepciones}          & En caso de no haber seleccionado un formato de archivo adecuado, el sistema no dejará subir los datos, apareciendo un mensaje de error.  \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3.2 Subir datos sensor.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-3.3}    & \textbf{Subir vídeos}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF4\\
+		\textbf{Descripción}          & Permite a un médico (o administrador) añadir un vídeo a la lista de vídeos asociados a un paciente.  \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser un médico (o administrador). Además, debe situarse en el perfil del paciente al que se quiere asociar dicho vídeo. Los pacientes deben haber grabado previamente esos vídeos, que deben estar a disposición del médico.  \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El médico entra al listado de sus pacientes. 
+			\item Selecciona el paciente. 
+            \item Pulsa el botón que permite subir un vídeo. 
+            \item El médico es redirigido a sus archivos, donde debe escoger el archivo de vídeo que desea subir. 
+            \item Se deben indicar algunas características del vídeo en cuestión.
+            \item Aparecen el vídeo y los datos escogidos, y se debe confirmar la subida.  
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El vídeo debe haberse añadido a los registros de la base de datos del paciente.   \\
+		\textbf{Excepciones}          & En caso de no haber seleccionado un formato de vídeo adecuado, el sistema no dejará subir el vídeo, mostrando un mensaje de error.  \\
+		\textbf{Importancia}          & Media \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-3.3 Subir vídeos.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-4}    & \textbf{Gestionar sesión}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF7, RF7.1, RF7.2, RF8 \\
+		\textbf{Descripción}          & Permite a un usuario iniciar sesión para acceder a sus funcionalidades de la aplicación web y cerrar posteriormente dicha sesión.  \\
+		\textbf{Precondición}         & Para iniciar sesión: No debe haber una sesión ya iniciada, si es así se debe primero cerrar la sesión anterior. Debe existir el perfil al que se desea acceder. 
+  
+        Para cerrar sesión: Se debe tener una sesión activa.  \\
+		\textbf{Acciones}             & Para iniciar sesión:
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Entrar a la página principal de la aplicación web.
+			\item Seleccionar el botón arriba a la derecha de <<Iniciar sesión>>, que redirigirá a la ventana de inicio de sesión. 
+            \item El usuario debe introducir el nombre de usuario asociado a su cuenta. 
+            \item El usuario debe introducir la contraseña asociada a la cuenta. 
+            \item Se debe pulsar el botón de <<Iniciar sesión>>. 
+		\end{enumerate}
+                                        Para cerrar sesión:
+        \begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El usuario debe pulsar el botón de <<Cerrar sesión>> que se encuentra arriba a la derecha, junto a su nombre y foto de perfil. 
+			\item Se debe confirmar que se desea cerrar sesión.
+		\end{enumerate} \\
+		\textbf{Postcondición}        & Al iniciar sesión el usuario será redirigido a la página principal de su cuenta dependiendo del tipo de usuario. Al cerrar sesión el usuario será redirigido a la página principal y la sesión anterior se habrá cerrado.  \\
+		\textbf{Excepciones}          & Si el usuario introduce un nombre o una contraseña incorrectas se le avisará con un error.  \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-4 Gestionar sesión.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5}    & \textbf{Administrar usuarios}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF9 \\
+		\textbf{Descripción}          & Permite a un administrador gestionar los usuarios que acceden a la aplicación. \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser administrador.  \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item El administrador accede a la ventana de administración de usuarios, donde puede elegir qué tipo de usuario mostrar.
+                \item Elige el tipo de usuario y aparecerá una tabla con los administradores, médicos o pacientes. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Aparecerá un listado de los usuarios de la aplicación. \\
+		\textbf{Excepciones}          & No hay excepciones. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5 Administrar usuarios.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5.1}    & \textbf{Crear usuario}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF9 \\
+		\textbf{Descripción}          & Permite a los administradores añadir un nuevo usuario al sistema.  \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser administrador, así como estar situado en la lista de usuarios. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Pulsar en el botón que añade un usuario al sistema. 
+			\item En el formulario que aparece se deben rellenar los datos de nombre de usuario, contraseña, nombre, foto de perfil\ldots 
+            \item Pulsar en el botón que lo añade y realizar la confirmación. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario creado se verá reflejado en la base de datos de usuarios. \\
+		\textbf{Excepciones}          & Cada campo del formulario tiene sus propias excepciones: nombre de usuario nuevo y con longitud adecuada, contraseña suficientemente segura, etc. \\
+		\textbf{Importancia}          & Alta \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5.1 Crear usuario.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5.2}    & \textbf{Modificar usuario}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF9 \\
+		\textbf{Descripción}          & Permite a los administradores modificar la información de los usuarios al sistema. \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser administrador, así como estar situado en la lista de usuarios.  \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Pulsar sobre el usuario que se desea modificar. 
+			\item Pulsar en el botón de modificar usuario. 
+            \item Editar el campo o campos que se deseen. 
+			\item Aceptar confirmación de modificación. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & Los datos del usuario aparecerán modificados en la base de datos.  \\
+		\textbf{Excepciones}          & No hay excepciones. \\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5.2 Modificar usuario.}
+\end{table}
+
+
+\begin{table}[p]
+	\centering
+	\begin{tabularx}{\linewidth}{ p{0.21\columnwidth} p{0.71\columnwidth} }
+		\toprule
+		\textbf{CU-5.3}    & \textbf{Eliminar usuario}\\
+		\toprule
+		\textbf{Versión}              & 1.0    \\
+		\textbf{Autor}                & Sandra Díaz Aguilar \\
+		\textbf{Requisitos asociados} & RF9 \\
+		\textbf{Descripción}          & Permite a los administradores eliminar un usuario del sistema. \\
+		\textbf{Precondición}         & El usuario debe haber iniciado sesión y ser administrador, así como estar situado en la lista de usuarios. \\
+		\textbf{Acciones}             &
+		\begin{enumerate}
+			\def\labelenumi{\arabic{enumi}.}
+			\tightlist
+			\item Pulsar sobre el usuario que se desea eliminar. 
+			\item Pulsar en el botón de eliminar usuario. 
+            \item Aceptar confirmación de borrado. 
+		\end{enumerate}\\
+		\textbf{Postcondición}        & El usuario eliminado no aparecerá en la base de datos de usuarios, por lo que, al intentar iniciar sesión con esos datos, ocurrirá un error.  \\
+		\textbf{Excepciones}          & No se puede eliminar un médico que tenga pacientes asignados, ya que dichos pacientes quedarían sin médico.  \\
+		\textbf{Importancia}          & Baja \\
+		\bottomrule
+	\end{tabularx}
+	\caption{CU-5.3 Eliminar usuario.}
+\end{table}

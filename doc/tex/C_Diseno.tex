@@ -1,0 +1,367 @@
+\apendice{Especificación de diseño}
+
+\section{Introducción}
+El objetivo de la especificación de diseño es crear una guía para el desarrollo de la aplicación web, describiendo la estructura y organización de los datos que los desarrolladores deben seguir para producir un \textit{software} robusto. 
+
+Además, se describirá el procedimiento interno que utiliza el sistema para mostrar los datos a los usuarios y para el resto de funcionalidades, así como la arquitectura elegida con la que se comunican los integrantes del producto \textit{software}. 
+
+
+Este apéndice se divide en: 
+\begin{itemize}
+    \item Diseño de datos: se presentan el diagrama entidad-relación, el diagrama relacional y el diccionario de datos realizados al crear la base de datos. 
+
+    \item Diseño de interfaces: se muestra el \textit{mockup} de la aplicación, cada una de las ventanas diseñadas en Pencil. 
+
+    \item Diseño procedimental: se realizan diagramas de secuencia para mostrar la interacción de los componentes del sistema durante cada una de las funcionalidades de la aplicación mediante pasos ordenados. 
+
+    \item Diseño arquitectónico: se realiza un diagrama de despliegue para exponer las relaciones entre el cliente, el servidor, la base de datos\ldots
+\end{itemize}
+
+Se han seguido los apuntes de la asignatura de Ingeniería del \textit{Software} para realizar dichos diagramas.
+
+
+
+
+
+
+\section{Diseño de datos}
+
+\subsection{Modelo entidad-relación}
+En el diagrama entidad-relación de la Figura~\ref{fig:diagramaEntidadRelacion.pdf} se representan las entidades existentes en la base de datos del proyecto, así como las relaciones entre ellas. Ayuda a comprender los datos con los que se va a trabajar en el proyecto y a identificar errores.
+
+Existen tres tipos diferentes de usuarios: pacientes, médicos y administradores. Como todos ellos comparten ciertas características básicas, se ha indicado mediante un usuario <<Usuario>> general, que se relaciona con los tres tipos mediante una relación ISA. 
+Las características comunes para todos los usuarios de la aplicación son: identificador, nombre, apellido, foto de perfil, correo electrónico, nombre de usuario y contraseña.
+
+Los pacientes tienen además otros campos como: fecha de nacimiento, dirección, teléfono, lateralidad (que puede ser diestro o zurdo) y sensor (que puede tener o no tener sensor.)
+
+Los pacientes se relacionan con los médicos mediante una relación 1 a muchos, en la que un paciente es atendido por un único médico, pero un médico se encarga de atender a muchos pacientes.
+
+A su vez, los pacientes se relacionan con otras dos entidades (registros y vídeos) mediante relaciones 1 a muchos, ya que un paciente puede tener muchos registros medidos por el sensor o muchos vídeos, pero cada registro/vídeo solo puede corresponder con un paciente.
+
+Los registros tienen un identificador de registro, campos para la fecha inicial y final del registro, calculadas por un \textit{script} del programa, y un campo llamado datos en crudo en el que se almacena la ubicación del registro en vez del registro en sí.
+
+Los vídeos tienen también un identificador, y los campos fecha, mano dominante, lentitud y amplitud que son introducidos por el médico o administrador al añadir el vídeo a la base de datos. El campo contenido contiene la ruta al vídeo y el resto de características son obtenidas tras el análisis de los vídeos al subirlos.
+\imagen{diagramaEntidadRelacion.pdf}{Diagrama entidad-relación.}
+
+
+\subsection{Diagrama relacional}
+Tras realizar el diagrama ER se ha realizado el diagrama relacional, que proporciona una representación más detallada de la base de datos y se espera que sea de utilidad para la futura mantenibilidad de la base de datos. Se adjunta en la Figura~\ref{fig:diagramaRelacional.pdf}.
+
+Como no existe posibilidad de que exista alguien que sea usuario de la aplicación sin que sea paciente, médico o administrador, no se genera tabla para el supertipo de la relación ISA (usuario). Se crea una tabla para cada subtipo, en la que se incluyen los atributos comunes.
+
+La tabla de pacientes tiene además las características adicionales comentadas anteriormente y se relaciona con las tablas de registros, vídeos y de médicos.
+\imagen{diagramaRelacional.pdf}{Diagrama relacional de la base de datos.}
+
+
+\subsection{Diccionario de datos}
+Se adjunta a continuación el diccionario de datos para cada una de las cinco tablas de la base de datos. En el diccionario se proporciona una descripción de la finalidad de cada campo de cada tabla, además del tipo de campo y restricciones.
+
+La tabla~\ref{administrador} contiene la información de la tabla de administradores.
+\begin{table}
+	\scalebox{0.80}{
+		\begin{tabular}{@{}p{10em} p{6em} p{5em} p{16em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{id\_admin}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}} & Identificador único del administrador. Generado automáticamente. \\
+			\texttt{nombre\_de\_usuario} & \texttt{VARCHAR(50)} & \texttt{UNIQUE NOT NULL} & Nombre de usuario del administrador. \\
+			\texttt{contraseña} & \texttt{VARCHAR(64)} & \texttt{NOT NULL} & Contraseña del administrador. \\
+			\texttt{correo\_electronico} & \texttt{VARCHAR(255)} & \texttt{UNIQUE NOT NULL} & Correo electrónico del administrador. \\
+			\texttt{nombre} & \texttt{VARCHAR(50)} & \texttt{NOT NULL} & Nombre del administrador. \\
+			\texttt{apellido} & \texttt{VARCHAR(50)} & \texttt{NOT NULL} & Apellido del administrador. \\
+			\texttt{foto} & \texttt{VARCHAR(255)} & & Ruta de la imagen de perfil del administrador. \\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Diccionario de datos. Tabla administrador.}
+	\label{administrador}
+\end{table}
+
+
+En la tabla~\ref{medico} se desarrolla la finalidad de los campos de la tabla de médicos, semejante a la tabla de administradores.
+\begin{table}
+	\scalebox{0.80}{
+		\begin{tabular}{@{}p{10em} p{6em} p{5em} p{18em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{id\_medico}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}} & Identificador único del médico. Generado automáticamente. \\
+			\texttt{nombre\_de\_usuario} & \texttt{VARCHAR(50)} & \texttt{UNIQUE NOT NULL} & Nombre de usuario del médico. \\
+			\texttt{contraseña} & \texttt{VARCHAR(64)} & \texttt{NOT NULL} & Contraseña del médico. \\
+			\texttt{correo\_electronico} & \texttt{VARCHAR(255)} & \texttt{UNIQUE NOT NULL} & Correo electrónico del médico. \\
+			\texttt{nombre} & \texttt{VARCHAR(50)} & \texttt{NOT NULL} & Nombre del médico. \\
+			\texttt{apellido} & \texttt{VARCHAR(50)} & \texttt{NOT NULL} & Apellido del médico. \\
+			\texttt{foto} & \texttt{VARCHAR(255)} & & Ruta de la imagen de perfil del médico. \\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Diccionario de datos. Tabla médico.}
+	\label{medico}
+\end{table}
+
+La extensa tabla~\ref{paciente} muestra la distribución de la tabla utilizada para almacenar a los pacientes de la aplicación.
+\begin{table}
+	\scalebox{0.80}{
+		\begin{tabular}{@{}p{10em} p{10em} p{5em} p{14em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{id\_paciente}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}} & Identificador único del paciente. Generado automáticamente. \\
+			\texttt{nombre\_de\_usuario} & \texttt{VARCHAR(50)} & \texttt{UNIQUE NOT NULL} & Nombre de usuario del paciente. \\
+			\texttt{contraseña} & \texttt{VARCHAR(64)} & \texttt{NOT NULL} & Contraseña del paciente. \\
+			\texttt{correo\_electronico} & \texttt{VARCHAR(255)} & \texttt{UNIQUE NOT NULL} & Correo electrónico del paciente. \\
+			\texttt{nombre} & \texttt{VARCHAR(50)} & \texttt{NOT NULL} & Nombre del paciente. \\
+			\texttt{apellido} & \texttt{VARCHAR(50)} & \texttt{NOT NULL} & Apellido del paciente. \\
+			\texttt{foto} & \texttt{VARCHAR(255)} & & Ruta de la imagen de perfil del paciente. \\
+			\texttt{fecha\_de\_nacimiento} & \texttt{DATE} & \texttt{NOT NULL} & Fecha de nacimiento del paciente. \\
+			\texttt{sensor} & \texttt{ENUM('SI','NO')} & & Indicador de si el paciente usa sensor o no. \\
+			\texttt{direccion} & \texttt{VARCHAR(255)} & \texttt{NOT NULL} & Dirección del paciente. \\
+			\texttt{telefono} & \texttt{VARCHAR(15)} & \texttt{NOT NULL} & Teléfono del paciente. \\
+			\texttt{id\_medico} & \texttt{INTEGER} & \texttt{FK} & Identificador del médico asignado al paciente. \\
+			\texttt{lateralidad} & \texttt{ENUM('diestro','zurdo')} & & Lateralidad del paciente. \\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Diccionario de datos. Tabla paciente.}
+	\label{paciente}
+\end{table}
+
+En la tabla~\ref{registros} se describen los campos de la tabla registros.
+\begin{table}
+	\scalebox{0.80}{
+		\begin{tabular}{@{}p{10em} p{6em} p{5em} p{18em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{id\_registro}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}} & Identificador único del registro. Generado automáticamente. \\
+			\texttt{paciente} & \texttt{INTEGER} & \texttt{FK NOT NULL} & Identificador del paciente al que pertenece el registro. \\
+			\texttt{datos\_en\_crudo} & \texttt{VARCHAR(250)} & \texttt{NOT NULL} & Ruta del registro. \\
+			\texttt{fecha\_inicial} & \texttt{DATE} & & Fecha de inicio del registro. \\
+			\texttt{fecha\_final} & \texttt{DATE} & & Fecha de finalización del registro. \\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Diccionario de datos. Tabla registros.}
+	\label{registros}
+\end{table}
+
+
+
+Por último, en la tabla~\ref{videos} se encuentra el diccionario de datos de la tabla utilizada para almacenar los vídeos del paciente.
+
+\begin{table}
+	\scalebox{0.80}{
+		\begin{tabular}{@{}p{8em} p{13em} p{5em} p{13em}@{}}
+			\toprule
+			\textbf{Nombre} & \textbf{Tipo} & \textbf{Columna} & \textbf{Descripción}\\
+			\midrule
+			\texttt{\textbf{\underline{id\_video}}} & \texttt{INTEGER} & \texttt{\textbf{\underline{PK}}} & Identificador único del vídeo. Generado automáticamente. \\
+			\texttt{paciente} & \texttt{INTEGER} & \texttt{FK NOT NULL} & Identificador del paciente al que pertenece el vídeo. \\
+			\texttt{fecha} & \texttt{DATE} & \texttt{NOT NULL} & Fecha del vídeo. \\
+			\texttt{contenido} & \texttt{VARCHAR(250)} & \texttt{NOT NULL} & Nombre del archivo de vídeo. \\
+			\texttt{mano\_dominante} & \texttt{ENUM('derecha','izquierda')} & \texttt{NOT NULL} & Mano que aparece en el vídeo. \\
+			\texttt{lentitud} & \texttt{ENUM('0','1','2','3','4')} & & Escala de lentitud del movimiento del vídeo. \\
+			\texttt{amplitud} & \texttt{ENUM('0','1','2','3','4')} & & Escala de amplitud del movimiento del vídeo.. \\
+			\texttt{velocidad\_media} & \texttt{VARCHAR(50)} & & Velocidad media registrada en el vídeo. \\
+			\texttt{frecuencia\_max} & \texttt{VARCHAR(50)} & & Frecuencia máxima registrada en el vídeo. \\
+			\texttt{frecuencia\_min} & \texttt{VARCHAR(50)} & & Frecuencia mínima registrada en el vídeo. \\
+			\texttt{promedio\_max} & \texttt{VARCHAR(50)} & & Promedio máximo registrado en el vídeo. \\
+			\texttt{desv\_estandar\_max} & \texttt{VARCHAR(50)} & & Desviación estándar máxima registrada en el vídeo. \\
+			\texttt{diferencia\_ranurada\_min} & \texttt{VARCHAR(50)} & & Diferencia ranurada mínima registrada en el vídeo (no utilizado). \\
+			\texttt{diferencia\_ranurada\_max} & \texttt{VARCHAR(50)} & & Diferencia ranurada máxima registrada en el vídeo (no utilizado). \\
+			\texttt{caracteristicas} & \texttt{TEXT} & & Características adicionales del vídeo (no utilizado). \\
+			\bottomrule
+		\end{tabular}
+	}
+	\caption{Diccionario de datos. Tabla vídeos.}
+	\label{videos}
+\end{table}
+
+
+\section{Diseño de interfaces}
+Se procede a mostrar el diseño de interfaces realizado por la alumna tras las reuniones con el tutor para definir las funcionalidades que debe soportar la aplicación. Se corresponde con el \textit{mockup} que crearía el equipo del proyecto tras las reuniones iniciales con el cliente para, posteriormente, enseñárselo a éste para que dé su opinión.
+
+Se ha elegido la herramienta de Pencil para realizar el diseño ya que, durante el grado, se utiliza esta herramienta en varias asignaturas. 
+
+En la página principal mostrada en la Figura~\ref{fig:PaginaPrincipal} aparece el logo y el nombre de la aplicación. El logo se corresponde con un tulipán ya que es un símbolo de la enfermedad de Parkinson~\cite{tulipan}. El nombre de la aplicación, <<\textit{Tremor Track}>>, es un juego de palabras que en inglés significa <<realizar un seguimiento del temblor>>, por lo que se ajusta perfectamente al objetivo del proyecto.
+
+Debajo, aparecen resumidas las utilidades de la aplicación para los dos tipos de usuario que van a hacer uso de ella. 
+
+El logo de la Universidad de Burgos y de la Asociación de Parkinson de Burgos aparecen en la parte baja de la ventana, permitiendo al usuario acceder a sus páginas oficiales si pincha en ellos. 
+
+\imagen{PaginaPrincipal}{\textit{Mockup} - Página principal}
+
+Además, en la parte de arriba aparecen 4 funcionalidades que se explican a continuación: 
+
+\begin{itemize}
+    \item Si se pulsa en <<Sobre nosotros>> se desplegará una sección (como se muestra en la Figura~\ref{fig:PaginaPrincipalInfo}) con información sobre los creadores de la aplicación (el tutor y la alumna) y el objetivo de esta.
+    
+    \imagen{PaginaPrincipalInfo}{\textit{Mockup} - Página principal (info)}
+
+
+    \item Si se pulsa en el apartado de contacto, se mostrarán los correos electrónicos de los creadores de la \textit{app}, así como la ubicación en la que se les puede encontrar, sirviendo como soporte a los usuarios en el caso de que tengan dudas sobre el funcionamiento de la aplicación web. Se puede apreciar esta funcionalidad en la Figura~\ref{fig:PaginaPrincipalContacto}.
+    
+    \imagen{PaginaPrincipalContacto}{\textit{Mockup} - Página principal (contacto)}
+
+
+    \item Existe una opción para realizar el cambio de idioma (Figura~\ref{fig:PaginaPrincipalIdioma}). De forma predeterminada la aplicación se muestra en el idioma preferido por el navegador del usuario (normalmente español), pero existen versiones en inglés y francés.
+    
+    \imagen{PaginaPrincipalIdioma}{\textit{Mockup} - Página principal (idioma)}
+
+
+    \item Si se pulsa en <<Iniciar sesión>>, se redirige al usuario a la ventana representada por la Figura~\ref{fig:InicioSesion}, en la que debe introducir sus credenciales para realizar el inicio de la sesión.
+    
+    \imagen{InicioSesion}{\textit{Mockup} - Inicio sesión}
+\end{itemize}
+
+Una vez se ha iniciado sesión, dependiendo del rol del usuario aparecerán diferentes funcionalidades.
+
+Si el usuario es un paciente aparecerá una ventana de bienvenida basada en la Figura~\ref{fig:BienvenidoPaciente}. 
+
+\imagen{BienvenidoPaciente}{\textit{Mockup} - Bienvenida paciente}
+
+\begin{itemize}
+    \item Puede editar sus datos personales y su fotografía si así lo desea, mediante el lápiz que hay junto a cada campo (el médico asignado no se lo puede cambiar el propio paciente). 
+    \item Puede cerrar su sesión, lo que le redirigirá a la página principal. 
+    \item Si pulsa en <<Revisar mi evolución>> se le redirigirá a la ventana que se ilustra en la Figura~\ref{fig:EvolucionPaciente}.
+    \imagen{EvolucionPaciente}{\textit{Mockup} - Evolución paciente}
+    En ella deben seleccionar qué datos de los medidos por el sensor desean visualizar entre los disponibles. También deben indicar la fecha en la que fueron tomados dichos datos y dar al botón de <<Mostrar datos>>. Esto hará que aparezca una gráfica mostrando la evolución de los datos pedidos durante las fechas seleccionadas.
+    
+    Aparece arriba a la derecha el nombre y foto del usuario, indicando de quién es la sesión abierta y con posibilidad de cerrarla.
+    
+    Si se indican fechas futuras, de las que no existen registros, el sistema utilizará inteligencia artificial para predecir una posible evolución (mostrada en la Figura~\ref{fig:PrediccionPaciente}), generando un gráfico con las partes predichas en otro color.
+    \imagen{PrediccionPaciente}{\textit{Mockup} - Predicción paciente}
+\end{itemize}
+
+
+Si el usuario es un médico aparecerá la ventana de bienvenida que se muestra en la Figura~\ref{fig:BienvenidoMedico}: 
+
+\imagen{BienvenidoMedico}{\textit{Mockup} - Bienvenida médico}
+\begin{itemize}
+    \item Puede editar su fotografía si así lo desea, mediante el lápiz que hay junto a ella. 
+    \item Puede cerrar su sesión, lo que le redirigirá a la página principal. 
+    \item Si pulsa en <<Mostrar listado pacientes>> se le redirigirá a la ventana de la Figura~\ref{fig:ListadoPacientes}.
+    \imagen{ListadoPacientes}{\textit{Mockup} - Listado pacientes}
+    En ella aparecerán todos los pacientes que tengan a dicho médico asociado. Junto al perfil del paciente aparecen 4 botones con acciones que puede realizar el médico. 
+    \begin{itemize}
+        \item Si pulsa en <<Información personal>> se desplegarán los datos personales del paciente, como se muestra en la Figura~\ref{fig:InfoPacientes}. Estos datos podrán ser editados. 
+        \imagen{InfoPacientes}{\textit{Mockup} - Información personal paciente}
+        
+        \item Si pulsa en <<Subir vídeo>>, el médico podrá asociar más vídeos al paciente, mediante una interfaz similar a la de la Figura~\ref{fig:VideoPacientes}. Si pulsa en el símbolo de añadir vídeo, será redirigido a sus archivos, donde debe escoger el vídeo/vídeos que desea subir. Además se debe indicar la fecha de grabación del vídeo y si corresponde con un vídeo de la mano derecha o de la mano izquierda.
+        \imagen{VideoPacientes}{\textit{Mockup} - Subir vídeo paciente}
+
+        \item Si pulsa en <<Subir datos sensor>> podrá subir, desde sus archivos, un archivo de datos de los creados por el sensor del paciente. Se desplegará la opción como en la Figura~\ref{fig:SubirDatos}. Se debe indicar la fecha inicial de dichos datos. 
+        \imagen{SubirDatos}{\textit{Mockup} - Subir datos paciente}
+
+        \item Si pulsa en <<Mostrar datos sensor>> se le redirigirá a una ventana parecida a la que tienen los pacientes para ver su evolución, de acuerdo con la Figura~\ref{fig:EvolucionMedico}.
+        \imagen{EvolucionMedico}{\textit{Mockup} - Evolución médico}
+        Los médicos también pueden hacer uso de la funcionalidad de predicción, según se observa en la Figura~\ref{fig:PrediccionMedico}.
+        \imagen{PrediccionMedico}{\textit{Mockup} - Predicción médico}
+        
+    \end{itemize}
+\end{itemize}
+
+
+Si el usuario es un administrador, se mostrará la ventana de bienvenida que se ilustra en la Figura~\ref{fig:BienvenidoAdmin}.
+
+\imagen{BienvenidoAdmin}{\textit{Mockup} - Bienvenida admin}
+
+
+Los administradores pueden acceder a las mismas funcionalidades que los médicos y pacientes para comprobar el correcto funcionamiento de las mismas. Pueden cerrar su sesión al igual que el resto de los pacientes y disponen de un acceso a la gestión de los usuarios de la aplicación, tal como se indica en la Figura~\ref{fig:GestionUsuarios}.
+
+\imagen{GestionUsuarios}{\textit{Mockup} - Gestión usuarios}
+
+\begin{itemize}
+    \item Desde aquí, los administradores pueden modificar los datos de usuarios existentes. Este proceso se muestra en la Figura~\ref{fig:ModificarUsuario}. 
+    \imagen{ModificarUsuario}{\textit{Mockup} - Modificar usuario}
+    
+    \item También pueden eliminarlos. Este proceso se ilustra en la Figura~\ref{fig:EliminarUsuario}.
+    \imagen{EliminarUsuario}{\textit{Mockup} - Eliminar usuario}
+    
+    \item Puede crear usuarios nuevos introduciendo sus datos. Este proceso se visualiza en la Figura~\ref{fig:CrearUsuario}.
+    \imagen{CrearUsuario}{\textit{Mockup} - Crear usuario}
+\end{itemize}
+
+
+
+
+
+
+\section{Diseño procedimental}
+El diseño procedimental durante un desarrollo \textit{software} consiste en identificar los pasos necesarios para llevar a cabo una función específica del programa. Estos pasos representan pequeñas tareas que, ejecutadas de manera secuencial, logran el objetivo deseado.
+
+Este método es útil porque facilita la organización del código, haciendo más sencillo su desarrollo, mantenimiento y comprensión, ayudando incluso en la identificación y solución de problemas.
+
+Durante el proyecto se han utilizado diagramas secuenciales, creados con la herramienta draw.io\footnote{\url{https://app.diagrams.net/}}, para representar la interacción entre los diferentes componentes del sistema durante ciertas funcionalidades de la aplicación web, con el fin de facilitar su comprensión. Los componentes del sistema son: 
+\begin{itemize}
+    \item Usuario: representado por un <<monigote>>, simboliza a los usuarios que utilizan la aplicación, que pueden ser pacientes, médicos o administradores.
+    \item Navegador: se refiere al \textit{Frontend}, a la interfaz de usuario de la aplicación. Se ha trabajado con tecnologías como HTML o JavaScript.
+    \item Servidor web: se refiere al \textit{Back-end}, al código de la aplicación desarrollado con Flask.
+    \item Base de Datos: como su nombre indica representa a la base de datos usada durante el proyecto, trabajada mediante la biblioteca de Python SQLAlchemy.
+\end{itemize}
+
+Se muestran los diagramas de secuencia para las funciones que permiten iniciar sesión, mostrar los datos del sensor de un paciente mediante gráficas, subir vídeos de los pacientes al sistema y realizar predicciones.
+
+
+\subsection{Iniciar Sesión}
+Al acceder un usuario a la aplicación web de TremorTrack lo primero que le aparece es la página principal. Para iniciar sesión existe una página en la que se deben introducir las credenciales. Dependiendo de las credenciales introducidas, la aplicación reaccionará de diferente manera, representado en el diagrama de la Figura~\ref{fig:secuenciaInicioSesion.pdf} por una alternativa. 
+
+Si se introducen unas credenciales incorrectas la aplicación avisa al usuario con un mensaje de error, pero si se introducen los datos correctos, existen tres tipos de comportamiento: si el usuario inicia como administrador se le devuelve la página principal de los administradores, si es un médico la de los médicos y si es un paciente la de los pacientes. 
+
+\imagen{secuenciaInicioSesion.pdf}{Diagrama de secuencia - Iniciar Sesión}
+
+
+
+\subsection{Mostrar Datos Sensor}
+A esta funcionalidad pueden acceder tanto los pacientes (únicamente para sus propios datos), como médicos (para los datos de sus pacientes) o administradores (para los datos de todos los pacientes).
+
+Cuando el usuario pulsa en el botón de <<Mostrar Datos Sensor>> se le redirecciona a una página con un formulario para elegir la gráfica a mostrar. Una vez elegidos el tipo de gráfica y las fechas, al darle al botón de <<Mostrar Datos>> las elecciones pasan al \textit{back-end}.
+
+Se accede a la base de datos para obtener todos los registros del paciente, que serán filtrados posteriormente por las fechas elegidas por el usuario. 
+Se dispone de una función \texttt{crearGrafico()} que es la encargada de generar los datos para crear el gráfico en el \textit{frontend}. En ella se utiliza la función \texttt{plot3Axis()}, creada inicialmente por los desarrolladores del sensor y adaptada por la alumna al código del proyecto, que a su vez llama a la función \texttt{returnByDatas()}. A la función se le pasan diferentes datos en función de lo elegido en el formulario y devuelve un JSON con los datos del gráfico preparados para ser utilizados.
+
+Posteriormente, en el \textit{frontend} se utiliza ese JSON para generar los gráficos con \texttt{chart.js}. Cada selección genera tres o cuatro gráficos, que se muestran como miniaturas y se pueden pulsar para verse en grande.
+
+La Figura~\ref{fig:SecuenciaMostrarDatosSensor} representa el diagrama de secuencia del proceso de mostrar una gráfica.
+
+\imagen{SecuenciaMostrarDatosSensor}{Diagrama de secuencia - Mostrar Datos Sensor}
+
+
+
+\subsection{Subir Vídeo}
+Como se muestra en la Figura~\ref{fig:secuenciaSubirVideo.pdf} únicamente los administradores y los médicos pueden subir vídeos de pacientes al sistema. Los administradores acceden a esta función desde su página de gestión de usuarios, seleccionando la tabla con todos los pacientes del sistema y el paciente deseado. Los médicos acceden desde su página con el listado de pacientes a su cargo, seleccionando el paciente deseado.
+
+Al pulsar en <<Subir Video>> se muestra un formulario en el que se debe introducir el vídeo, la fecha en la que fue grabado, la mano que aparece realizando el movimiento y la amplitud y lentitud del movimiento de pinza, normalmente calculados por un neurólogo. Al enviar el formulario lo primero que se realiza es una validación de los datos introducidos que, si son correctos, pasan al \textit{back-end}.
+
+Se comienza guardando el vídeo en la carpeta del paciente seleccionado, con un nombre que lo defina. Se guarda la ubicación y los datos del vídeo en la base de datos. Posteriormente se analiza el vídeo para obtener ciertas características extras del movimiento.
+
+Si todo este proceso funciona correctamente se avisa al usuario de la subida exitosa del vídeo.
+
+\imagen{secuenciaSubirVideo.pdf}{Diagrama de secuencia - Subir Vídeo}
+
+
+
+\subsection{Predicción}
+La funcionalidad de predicción se encuentra en la página que muestra los vídeos del paciente y sus características, permitiendo predecir la evolución de esas características en el futuro. A esta ventana pueden acceder tanto los pacientes (únicamente para sus propios vídeos), como médicos (para los vídeos de todos los pacientes a su cargo) o administradores (para los vídeos de todos los pacientes).
+
+En la ventana se muestra un listado con los vídeos de los pacientes, que permite reproducirlos o eliminarlos. Posteriormente se muestran dos gráficas, una para cada mano, con la evolución de las características de los vídeos de cada mano. Junto a las gráficas existe un botón <<Predecir>>.
+
+Al pulsar en el botón, como se muestra en la Figura~\ref{fig:SecuenciaPredecir} se envían las características actuales de los vídeos a la función \texttt{predecirVideo()}. En esta función se utiliza el suavizado exponencial de Holt para calcular una predicción de 4 días con la evolución del paciente. Esta predicción, junto con los datos de antes, se envía al .html, dónde se generan dos gráficas con las predicciones, una para cada mano.
+
+\imagen{SecuenciaPredecir}{Diagrama de secuencia - Predicción}
+
+
+
+
+
+
+\section{Diseño arquitectónico}
+Para explicar la arquitectura de la aplicación se utiliza el diagrama de despliegue de la Figura~\ref{fig:DiagramaDespliegue}. Un diagrama de despliegue es un tipo de diagrama UML que muestra la disposición física de los componentes software del sistema. 
+
+No se ha desplegado la aplicación por tener ficheros muy pesados, tanto los vídeos como los datos de los sensores de los pacientes, por lo que el apartado de \textit{Web Server} no es verídico ya que la lógica de la aplicación se encuentra en local.
+
+El \textit{Data Base Server} es el que gestiona la capa de persistencia del proyecto. Se ha utilizado MariaDB y Heidi SQL como herramienta de gestión de la base de datos.
+
+El usuario o cliente es el controlador de la vista de usuario, interactuando con las páginas HTML desde su navegador.
+
+\imagen{DiagramaDespliegue}{Diagrama de despliegue}

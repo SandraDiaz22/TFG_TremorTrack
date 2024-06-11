@@ -1,0 +1,173 @@
+\apendice{Documentación de usuario}
+
+\section{Introducción}
+En este apartado se describen las funcionalidades de la aplicación web desarrollada, así como toda la información que el usuario debe conocer para poder hacer un correcto uso de esta. Además se describen sus requisitos necesarios e instrucciones de instalación.
+
+Tiene como objetivo principal servir como guía a los usuarios, para poder aprovechar al máximo todas las características de la aplicación.
+
+
+\section{Requisitos de usuarios}
+Disponer de conexión a Internet y una versión reciente de cualquier navegador: Google Chrome, Microsoft Edge, Mozilla Firefox o Safari. Durante el desarrollo y las pruebas se ha hecho uso de los navegadores Google Chrome y Microsoft Edge, las versiones 125.0.6422.142 (Build oficial) (64 bits) y 125.0.2535.92 (Compilación oficial) (64 bits) respectivamente.
+
+Dado que la aplicación está desplegada únicamente en un servidor de la Universidad de Burgos, es necesario estar conectado a la intranet de la UBU para acceder a ella. Esto se debe a que la aplicación es accesible a través de direcciones IP privadas, pero no está disponible mediante direcciones IP públicas. Por lo tanto, es imprescindible encontrarse físicamente en los recintos de la universidad y conectarse a su red o utilizar una conexión VPN que emule estar dentro de la intranet de la UBU.
+
+En un futuro, si el prototipo de aplicación realizado resulta útil para los miembros del HUBU y deciden utilizarlo, se desplegará en un servidor externo y podrá ser accedido desde cualquier lugar a través de Internet.
+
+
+\section{Instalación}
+Se entiende como instalación el proceso por el cual se transfiere un nuevo programa o aplicación a un ordenador para ser configurado y preparado para ser utilizado.
+
+Durante el proyecto se ha desarrollado una aplicación web, alojada en un servidor, por lo que no es necesario descargar e instalar la aplicación en el equipo, sino que simplemente se ha de acceder a ella con el navegador, mediante la dirección \url{http://10.168.168.34:8000/}.
+
+
+
+
+\section{Manual del usuario}
+Una vez que el usuario accede al enlace de la aplicación, tiene acceso a la página principal. Existen una serie de funcionalidades básicas accesibles para cualquier usuario, pero el resto son únicamente accesibles para ciertos tipos de usuarios una vez hayan iniciado sesión. 
+
+En este apartado se mostrarán las funcionalidades básicas y las funcionalidades de cada tipo de usuario: paciente, médico y administrador.
+Cabe destacar que existe un videotutorial disponible en YouTube, para todas aquellas personas que prefieren aprender con vídeos en vez de con manuales, a través del siguiente enlace: \url{https://youtu.be/tYYHd_bVTjg}. El tiempo de visualización del tutorial es de unos 15 minutos.
+
+\subsection{Funcionalidades básicas}
+    \subsubsection{Página principal}
+    Al acceder al enlace, la primera toma de contacto con la aplicación es la página principal (Figura~\ref{fig:PagPrincipal}). En ella, además del logo y cierta información sobre sus funcionalidades, encontramos una barra de navegación, dónde se puede acceder a las ventanas de <<contacto>> o <<iniciar sesión>>, así como cambiar el idioma.
+    
+    Por otra parte, en la parte inferior de la página aparecen el logo de la Universidad de Burgos y de la Asociación de Parkinson de Burgos, permitiendo al usuario acceder a sus páginas oficiales si pincha en ellos. 
+    \imagen{PagPrincipal}{Página principal}
+
+    
+    \subsubsection{Contacto}
+    Al pulsar sobre las letras de <<Contacto>> en la barra de navegación, el usuario podrá ver una página con información sobre los creadores de la aplicación (el tutor y la alumna) y el objetivo de esta (Figura~\ref{fig:Conocenos}). Además aparece el apartado de soporte para los usuarios de la aplicación, mostrando los correos electrónicos de los creadores de la \textit{app}, así como la ubicación en la que se les puede encontrar (Figura~\ref{fig:ContactaConNosotros}).
+    \imagen{Conocenos}{Página principal - Contacto 1}
+    \imagen{ContactaConNosotros}{Página principal - Contacto 2}
+
+    
+    \subsubsection{Idioma}
+    Si se pulsa sobre <<Idioma>>, se desplegará un menú en el que el usuario puede elegir el idioma en el que quiere que se muestre la aplicación, pudiendo elegir entre Inglés, Francés o Español (Figura~\ref{fig:Idioma}). Esta opción de la barra de navegación está siempre visible por si se necesita cambiar el idioma en algún otro momento.
+    \imagen{Idioma}{Página principal - Idioma}
+
+    
+    \subsubsection{Inicio de sesión}
+    El inicio de sesión (Figura~\ref{fig:InicioDeSesion}) consiste en un simple formulario en el que se debe introducir el nombre de usuario y la contraseña de la aplicación, para posteriormente darle a enviar.
+    \imagen{InicioDeSesion}{Página principal - Inicio de Sesión}
+
+    Dependiendo del tipo de usuario que sea, se redirige al usuario a su página de bienvenida.
+
+\subsection{Funcionalidades para pacientes}
+    \subsubsection{Página bienvenida paciente}
+    El primer cambio que se observa en la Figura~\ref{fig:PPPaciente} es que, en la parte derecha de la barra de navegación, aparece el nombre de usuario y la foto del usuario que ha iniciado sesión. Si se pulsa en el desplegable, permite volver a esta página o cerrar la sesión. Para posteriormente volver a la página principal del paciente se podrá hacer también pulsando sobre el logo de la aplicación, en el lateral izquierdo de la barra de navegación.
+
+    La sesión también se puede cerrar al darle al botón rojo de <<Cerrar sesión>>, lo que redirigirá al usuario de nuevo a la página principal de la aplicación.
+    \imagen{PPPaciente}{Página principal - Paciente}
+
+    Esta página contiene la información del perfil del paciente que ha iniciado sesión. Este puede editar algunos de sus datos personales si así lo desea, mediante un formulario que se despliega al darle al botón de <<Editar datos personales>> (Figura~\ref{fig:EditarDatos}). Para hacer efectivos los cambios en la base de datos se debe dar al botón de <<Guardar cambios>>. Si por el contrario, desea cerrar el formulario, solo debe pulsar de nuevo en el botón de <<Editar datos personales>> para ocultarlo.
+    \imagen{EditarDatos}{Página principal - Paciente (editar datos personales)}
+
+    Existen otros dos botones, uno que redirige al paciente a la ventana donde se muestran las gráficas de los datos del sensor y otro que le lleva a la ventana donde se pueden reproducir sus vídeos, mostrar y predecir sus características.
+
+    Si pulsa en <<Revisar mi evolución>> se le redirigirá a la siguiente ventana:
+    
+    \subsubsection{Mostrar datos sensor}
+    En la Figura~\ref{fig:MostrarDatos} se muestra la ventana para mostrar los datos del sensor. En la parte superior se encuentran las migas de pan, que nos indican la ruta seguida hasta llegar a la página actual y nos permiten volver a páginas anteriores clicando en ellas. El resto de la página la ocupa un formulario, donde se debe indicar las gráficas a mostrar y en qué fechas.
+    \imagen{MostrarDatos}{Mostrar Datos Paciente}
+    
+    El objetivo de este apartado es poder ver gráficas que muestren los datos recogidos por el sensor que ha debido de llevar el usuario. Se puede seleccionar entre cuatro temas de gráficas (Figura~\ref{fig:Seleccionar}):
+    \begin{itemize}
+        \item Parámetros de Bradicinesia: calcula una gráfica con la marcha media filtrada, otra con la desviación estándar media de la marcha y otra con el número de pasos considerados. Si se pulsa sobre los puntos de la gráfica se puede ver el valor exacto de ese momento.
+        \item Parámetros de FoG y Discinesia: muestra los episodios de FoG, la probabilidad de discinesia y la confianza en la discinesia del paciente.
+        \item Información de los pasos: muestra la longitud, el número, la velocidad y la cadencia de los pasos dados por el paciente a lo largo del tiempo.
+        \item Parámetros de Estado Motor, Discinesia y Bradicinesia a 10 minutos: como su nombre indica muestra el estado motor, discinesia y bradicinesia del paciente en intervalos de 10 minutos.
+     \end{itemize}
+     \imagen{Seleccionar}{Mostrar Datos Paciente - Seleccionar}
+
+    Se debe indicar de qué fechas se quiere que se muestren los gráficos mediante un calendario (Figura~\ref{fig:Fechas}). Se puede elegir un día en específico o un rango de fechas entre los disponibles. Las fechas no disponibles no son seleccionables.
+    \imagen{Fechas}{Mostrar Datos Paciente - Fechas}
+
+    Al elegir estos dos aspectos y dar al botón de <<Mostrar datos>>, aparecerán tantas miniaturas como gráficas correspondan en esa selección (Figura~\ref{fig:Miniaturas}).
+    \imagen{Miniaturas}{Mostrar Datos Paciente - Miniaturas}
+
+    Si se pulsa sobre una de ellas, se mostrará más abajo dicha miniatura pero en tamaño completo (Figura~\ref{fig:Grafico}). Como ejemplo se ha pulsado sobre la gráfica de <<Marcha media filtrada>>, mostrando una gráfica con la evolución de la marcha del paciente en metros por segundo al cuadrado durante las fechas seleccionadas.
+    \imagen{Grafico}{Mostrar Datos Paciente - Gráfico}
+
+
+    Si pulsa en <<Mostrar vídeos>> se le redirigirá a la siguiente ventana:
+    
+    \subsubsection{Mostrar vídeos}
+    En la Figura~\ref{fig:MostrarVideos} se observa un listado con los vídeos grabados por el paciente Pepe Aguilar. De cada vídeo se indica el nombre de archivo, la mano que aparece y la fecha en la que fue grabado. Además permite visualizar los vídeos si se pulsa en <<Reprodcir vídeo>> o eliminarlos si se pulsa en <<Eliminar vídeo>>. Si el paciente no tiene vídeos, se comunicará mediante un mensaje en pantalla.
+    \imagen{MostrarVideos}{Mostrar Vídeos}
+
+    En la parte inferior de la ventana (Figura~\ref{fig:CaracteristicasVideos}) se muestran dos gráficos que muestran la evolución de ciertos movimientos de los vídeos a lo largo del tiempo para ambas manos.
+    \imagen{CaracteristicasVideos}{Mostrar Vídeos - Gráficas}
+
+    Si se pulsa sobre el botón <<Predecir>> se generarán dos gráficos (Figura~\ref{fig:Prediccion}), uno por cada mano, mediante inteligencia artificial, donde las cuatro últimas fechas son calculadas mediante un modelo de \textit{machine learning} a partir de los datos disponibles.
+    \imagen{Prediccion}{Mostrar Vídeos - Gráficas con predicción}
+
+    
+\subsection{Funcionalidades para médicos}
+    \subsubsection{Página bienvenida médico}
+    Si el usuario que inicia sesión es un médico aparecerá la ventana de bienvenida de la Figura~\ref{fig:PPMedico}.
+    
+    Al igual que cuando inician sesión otros usuarios, en la parte derecha de la barra de navegación, aparece el nombre de usuario y la foto del médico. Si se pulsa en el desplegable, permite volver a esta página o cerrar la sesión. Para posteriormente volver a la página principal del médico se podrá hacer también pulsando sobre el logo de la aplicación, en el lateral izquierdo de la barra de navegación.
+
+    La sesión también se puede cerrar al darle al botón rojo de <<Cerrar sesión>>, lo que redirigirá al usuario de nuevo a la página principal de la aplicación.
+    \imagen{PPMedico}{Página principal - Médico}
+
+    La última funcionalidad de la página principal de los médicos es un botón, <<Mostrar listado pacientes>>, el cual redirige al usuario a la siguiente pantalla.
+    
+    \subsubsection{Listado de pacientes}
+    La funcionalidad principal de la pantalla de la Figura~\ref{fig:ListadoPacientesMedico} es mostrar al médico una tabla con todos los pacientes que tiene a su cargo. Por cada paciente aparece su id, nombre y foto, junto con una serie de botones para realizar diferentes acciones.
+    \imagen{ListadoPacientesMedico}{Listado pacientes Médico}
+
+    Si se pulsa sobre <<Información personal>> se despliegan la lateralidad, si tiene sensor o no, la fecha de nacimiento, la dirección y el teléfono de dicho paciente (Figura~\ref{fig:InfoPersonal}), existiendo la posibilidad de editar dichos datos y guardar los cambios en la base de datos.
+    \imagen{InfoPersonal}{Listado pacientes Médico - Información personal}
+
+    Si se pulsa sobre <<Subir vídeo>>, aparece un formulario (Figura~\ref{fig:SubirVideo}) en el que se ha de subir: vídeo (al darle a <<Elegir archivo>> se abre el explorador de archivos y permite escoger el archivo de vídeo que se desee subir), fecha de grabación de dicho vídeo, mano con la que se realiza el movimiento de pinza y datos de amplitud y velocidad del movimiento de pinza (siendo 0 un movimiento bien realizado y 4 una discapacidad severa).
+    \imagen{SubirVideo}{Listado pacientes Médico - Subir vídeo}
+
+    Si se pulsa sobre <<Subir datos sensor>>, aparece un formulario (Figura~\ref{fig:SubirDatosSensor}) en el que se ha de subir el archivo .csv que contenga los datos obtenidos del sensor de dicho paciente.
+    \imagen{SubirDatosSensor}{Listado pacientes Médico - Subir datos sensor}
+
+    Los botones de <<Mostrar vídeos>> y <<Mostrar datos sensor>> presentes en cada paciente de la lista redirigen al usuario a las páginas que muestran los gráficos de los datos del sensor de dicho paciente o los vídeos y características de esos vídeos de dicho paciente, explicadas en el apartado anterior de pacientes.
+
+
+    
+\subsection{Funcionalidades para administradores}
+    \subsubsection{Página bienvenida administrador}
+    Si el usuario que inicia sesión es un administrador aparecerá la ventana de bienvenida de la Figura~\ref{fig:PPAdmin}.
+    
+    Al igual que cuando inician sesión otros usuarios, en la parte derecha de la barra de navegación, aparece el nombre de usuario y la foto del administrador. Si se pulsa en el desplegable, permite volver a esta página o cerrar la sesión. Para posteriormente volver a la página principal del administrador se podrá hacer también pulsando sobre el logo de la aplicación, en el lateral izquierdo de la barra de navegación.
+
+    La sesión también se puede cerrar al darle al botón rojo de <<Cerrar sesión>>, lo que redirigirá al usuario de nuevo a la página principal de la aplicación.
+    \imagen{PPAdmin}{Página principal - Administrador}
+
+    La última funcionalidad de la página principal de los administradores es un botón, <<Gestión de usuarios>>, el cual redirige al usuario a la siguiente pantalla.
+    
+    \subsubsection{Gestión de usuarios}
+    La funcionalidad principal de la ventana de la Figura~\ref{fig:GestionDeUsuarios} es poder gestionar todos los usuarios de la aplicación. Existen tres tipos de usuarios: administradores, médicos y pacientes.
+    \imagen{GestionDeUsuarios}{Gestión de usuarios}
+    Los administradores pueden acceder a los datos de cualquiera de ellos, existiendo 3 tablas, una para cada tipo de usuario, que se explican a continuación:
+
+    \begin{itemize}
+        \item Tabla de administradores
+        Al pulsar sobre <<Administradores>> se muestra una tabla que contiene a todos los administradores de la aplicación web (Figura~\ref{fig:GestionAdmins}). De cada uno de ellos se muestra su nombre y su foto, y se pueden realizar las acciones de editar todos sus campos o eliminar dicho usuario de la base de datos.
+        \imagen{GestionAdmins}{Gestión de usuarios - Administradores}
+        
+        Además los administradores pueden crear administradores nuevos introduciendo sus datos mediante un formulario que se despliega al pulsar sobre <<Añadir Administrador>> y se muestra en la Figura~\ref{fig:FormAñadir}.
+        \imagen{FormAñadir}{Gestión de usuarios - Añadir Usuario}
+
+        
+        \item Tabla de médicos
+        Al pulsar sobre <<Médicos>> se muestra una tabla que contiene a todos los médicos de la aplicación web (Figura~\ref{fig:GestionMedicos}). De cada uno de ellos se muestra su nombre y su foto, y se pueden realizar las acciones de editar todos sus campos o eliminar dicho usuario de la base de datos.
+        \imagen{GestionMedicos}{Gestión de usuarios - Médicos}
+        
+        Además los administradores pueden crear médicos nuevos introduciendo sus datos mediante un formulario que se despliega al pulsar sobre <<Añadir Médico>>, y que es igual que el usado para los administradores en la Figura~\ref{fig:FormAñadir}.
+        
+        
+        \item Tabla de pacientes
+        Al pulsar sobre <<Pacientes>> se muestra una tabla que contiene a todos los pacientes de la aplicación web (Figura~\ref{fig:GestionPacientes}). Dicha tabla es más completa que las anteriores. De cada uno de ellos se muestra su nombre y su foto, y se pueden realizar las acciones de editar todos sus campos o eliminar dicho usuario de la base de datos. 
+        También se pueden realizar las acciones que pueden realizar los médicos sobre los pacientes, explicadas en el apartado de médicos (subir vídeo, subir datos sensor, mostrar vídeos y mostrar datos sensor).
+        \imagen{GestionPacientes}{Gestión de usuarios - Pacientes}
+        
+        Además los administradores pueden crear pacientes nuevos introduciendo sus datos mediante un formulario que se despliega al pulsar sobre <<Añadir Paciente>> y se muestra en la Figura~\ref{fig:FormAñadirPaciente}.
+        \imagen{FormAñadirPaciente}{Gestión de usuarios - Añadir paciente}
+    \end{itemize}

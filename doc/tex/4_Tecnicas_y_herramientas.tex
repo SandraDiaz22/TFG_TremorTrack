@@ -1,0 +1,202 @@
+\capitulo{4}{Técnicas y herramientas}
+
+En esta sección de la memoria se presentan las técnicas metodológicas y las herramientas de desarrollo que se han utilizado en los diferentes ámbitos del proyecto.
+
+
+\section{Gestión de proyectos}
+En esta sección se va explicar el proceso de selección de la técnica y herramienta utilizadas para la gestión del proyecto.
+
+\subsection{Técnica}
+Durante la gestión del proyecto se ha optado por usar una metodología ágil~\cite{agil}. Estas metodologías ofrecen un enfoque interactivo e incremental, y se centran en entregar productos de calidad de forma rápida y flexible mediante colaboración activa entre miembros del equipo y clientes.
+
+Se ha elegido esta técnica frente a un enfoque más tradicional (con un plan rígido desde el inicio del proyecto) debido a su flexibilidad, pudiendo adaptarse con el tiempo, respondiendo a los cambios, algo muy a tener en cuenta en un Trabajo de Fin de Grado.
+
+Dentro del marco de las metodologías ágiles, se cuenta con variedad de opciones donde elegir. En el proyecto se ha llevado a cabo la selección entre dos de estas metodologías: Scrum y Kanban.
+\begin{itemize}
+    \item Scrum: define roles específicos como el \textit{product owner} o el equipo de desarrollo, que participan en eventos predeterminados como el \textit{daily scrum} o el \textit{sprint review}. Trabaja con iteraciones de 2 a 4 semanas, perfectamente detalladas, llamadas \textit{sprints}, tras las que se debe entregar un incremento del producto.
+    \item Kanban: no tiene roles ni eventos específicos, ofreciendo más flexibilidad. En vez de trabajar con \textit{sprints}, se opera en un flujo continuo, en el que se agregan y retiran tareas en cualquier momento.
+\end{itemize}
+Finalmente se escogió utilizar Scrum, ya que la idea de los \textit{sprints} era la que más conveniente le parecía a la alumna. La división de las tareas en períodos de 2 a 4 semanas puede mitigar la sensación de abrumo ante el trabajo futuro, permitiendo concentrarte en finalizar las tareas para la fecha final del \textit{sprint}. Además las reuniones de fin de cada \textit{sprint} sirven para tener contacto con el tutor, comentando las dificultades encontradas y ajustando la cantidad de trabajo para el siguiente \textit{sprint}.
+
+\subsection{Herramienta}
+Para llevar a cabo la planificación temporal del proyecto, utilizando una metodología Scrum, se optó por la herramienta Jira. Otra herramienta usada frecuentemente en los TFGs es ZenHub. A continuación se incluye un resumen de cada alternativa, incluyendo comparativas~\cite{jiraVSzenhub} y justificando la decisión:
+
+\begin{itemize}
+    \item Jira\footnote{\url{https://www.atlassian.com/software/jira}}: herramienta de gestión de proyectos desarrollada por Atlassian. Soporta diferentes metodologías de desarrollo como Scrum o Kanban. Ofrece una versión gratuita con funcionalidades básicas y versiones \textit{premium} de pago.
+    \item ZenHub\footnote{\url{https://www.zenhub.com/}}: herramienta que se integra directamente con GitHub, ofreciendo funciones de gestión ágil directamente en el entorno de desarrollo. Actualmente es una herramienta de pago, no ofrece una versión gratuita.
+\end{itemize}
+Ambas opciones proporcionan herramientas para la planificación de \textit{sprints}, seguimiento de tareas y gestión del flujo de trabajo mediante gráficos e informes de rendimiento, lo cual es precisamente lo que se buscaba en el proyecto. Además ambas opciones ofrecen características que mejoran la colaboración del equipo, asignando tareas a cada miembro, comentando problemas\ldots (aunque esta característica no es relevante ya que el equipo de trabajo está formado únicamente por la alumna).
+
+Dado que se está utilizando GitHub para mantener un seguimiento del progreso del proyecto, ZenHub sería una opción interesante y fácil de integrar pero se ha elegido utilizar Jira mayoritariamente por ser una opción gratuita. Además es la herramienta que se utiliza en la asignatura de Gestión de Proyectos, por lo que se tenía experiencia previa.
+
+
+
+
+\section{Lenguaje de programación}
+Como lenguaje de programación se ha utilizado Python ya que, además de tener una sintaxis simple y fácil de entender, dispone de herramientas para trabajar con desarrollo web, análisis de datos e inteligencia artificial, que son los campos que se han trabajado durante el proyecto.
+
+Python~\cite{python} es un lenguaje de código abierto orientado a objetos. Destaca entre los principiantes gracias a su sintaxis fácil de entender. Se utiliza para prácticamente todo: automatización de industrias, creación de videojuegos, desarrollo \textit{software}, análisis y representación de datos, \textit{machine learning} o \textit{blockchain}.
+
+Al ser un lenguaje de alto nivel, su código fuente (fácil de entender por los programadores) con extensión .py debe ser interpretado por el intérprete de Python para convertirlo en \textit{bytecode}, ejecutado por la máquina virtual de Python para generar las salidas por consola o modificaciones de archivos.
+
+A continuación se presentan las bibliotecas de Python utilizadas, así como el \textit{framework} utilizado para la aplicación web y los entornos de desarrollo sobre los que se programó:
+
+
+\subsection{Bibliotecas}
+Durante el proyecto se ha hecho uso de las siguientes bibliotecas de Python:
+\begin{itemize}
+    \item Scikit-learn\footnote{\url{https://scikit-learn.org/stable/}}~\cite{alcalaScikit}: librería gratuita (de código abierto) para Python que cuenta con gran variedad de algoritmos de aprendizaje automático como \textit{clustering}, clasificación o regresión. Además permite realizar el preprocesamiento de los datos de forma sencilla y una evaluación de la calidad del modelo tras su realización. Es compatible con otras librerías de Python como NumPy o Matplotlib (de la que se hablará a continuación). Es conocida por su facilidad de uso, con herramientas simples y eficientes, y por la abundante documentación y comunidad activa.
+    
+    \item Matplotlib\footnote{\url{https://matplotlib.org/}}~\cite{matplotlib}: biblioteca gratuita utilizada para crear visualizaciones estáticas, animadas o interactivas en Python. Se utilizó para practicar la creación de gráficas con los datos recogidos por el sensor de los pacientes. Puede crear histogramas, diagramas de barras, circulares\ldots con pocas líneas de código. Permite personalizar el estilo visual y exportar a múltiples formatos de archivo.
+    
+    \item Pandas\footnote{\url{https://pandas.pydata.org/}}: herramienta de manipulación y análisis de datos de código abierto, potente, flexible y fácil de usar. Permite leer/escribir datos de archivos CSV, Excel o de bases de datos SQL, así como manipularlos mediante filtrados, agrupaciones, combinaciones\dots
+    
+    \item Numpy\footnote{\url{https://numpy.org/}}: biblioteca creada para computación científica y numérica. Permite trabajar con grandes volúmenes de datos en forma de \textit{arrays} multidimensionales y realizar operaciones matemáticas con ellos. Combina la flexibilidad de Python y la eficiencia de C. Cabe destacar que es la base sobre la que se construyen otras bibliotecas comentadas anteriormente, como Pandas o Scikit-learn.
+    
+    \item Hashlib\footnote{\url{https://docs.python.org/3/library/hashlib.html}}: biblioteca de Python que permite utilizar varias funciones de \textit{hash} criptográfico como SHA1, SHA224, SHA384\ldots(durante el proyecto se utilizó SHA256). Estas funciones toman un texto de entrada y lo convierten a una cadena de caracteres de longitud fija, que representa esa entrada. Se utiliza para almacenar las contraseñas de la aplicación de forma segura en la base de datos, de manera que no se pueda obtener la contraseña a partir de la cadena \textit{hash}.
+\end{itemize}
+
+
+\subsection{\textit{Frameworks}}
+Se explica el \textit{framework} utilizado para desarrollar el proyecto junto con sus extensiones.
+
+\begin{itemize}
+\item Flask\footnote{\url{https://flask.palletsprojects.com/en/3.0.x/}}~\cite{flask}: herramienta utilizada para desarrollar la aplicación web del proyecto con el lenguaje Python. Promete facilitar la creación de aplicaciones web con el patrón Modelo Vista Controlador. Incluye un servidor web de desarrollo para poder observar los avances en la aplicación sin necesidad de disponer de un servidor web. Soporta el uso de \textit{cookies} y sesiones. Es \textit{open source} y existe mucha documentación, tanto en su página oficial como por parte de otros usuarios. Existen multitud de extensiones que se han utilizado y se explican a continuación:
+
+\begin{itemize}
+    \item Flask-Babel\footnote{\url{https://python-babel.github.io/flask-babel/}}: se ha utilizado para llevar a cabo la internacionalización de la aplicación web. Es capaz de detectar el idioma preferido del usuario y de generar automáticamente archivos de traducción con todo el texto de la aplicación, facilitando su posterior traducción. Además ofrece funciones para formatear fechas, horas o números según el idioma.
+    \item Flask-Login\footnote{\url{https://flask-login.readthedocs.io/en/latest/}}: extensión utilizada para la gestión de sesiones de usuario, manejando tareas como iniciar sesión, recordar sesiones durante determinados periodos de tiempo y cerrar sesión.
+    \item CSRFProtect\footnote{\url{https://flask-wtf.readthedocs.io/en/0.15.x/csrf/}}: se utiliza para proteger la aplicación web contra ataques CSRF (\textit{Cross-Site Request Forgery}) mediante la generación y validación de tokens únicos para cada sesión de un usuario.
+\end{itemize}
+\end{itemize}
+
+
+\subsection{Entornos de desarrollo}
+Los entornos de desarrollo sobre los que se ha trabajado en el proyecto son Jupyter Notebook, para practicar con librerías de gráficas o \textit{machine learning}, y Visual Studio Code, para programar la totalidad de la aplicación web.
+\begin{itemize}
+    \item Jupyter Notebook\footnote{\url{https://jupyter.org/}} es una aplicación web de código abierto que se ha utilizado durante la experimentación y pruebas de las librerías de Python. Permite ejecutar código de forma interactiva en celdas, visualizando el resultado paso a paso. Permite crear y compartir documentos que combinan texto, gráficos interactivos y código ejecutable. Resultó muy útil para practicar con la librería de Matpotlib, teniendo el código y los gráficos resultantes en el mismo documento.
+    \item Visual Studio Code (vscode) es un entorno de desarrollo integrado, desarrollado por Microsoft, de código abierto y gratuito. Admite muchos lenguajes de programación: Java, Python, C++, JavaScript\ldots Durante el proyecto se utiliza para programar la aplicación web con Flask (Python). Tiene una interfaz de usuario simple y técnicas como el autocompletado que ayudan a los desarrolladores. Existen muchas extensiones en el mercado que proporcionan nuevos lenguajes o temas. Ofrece integración con GitHub, pudiendo subir directamente los códigos desde vscode. Se había utilizado con anterioridad, por lo que se escogió como entorno de desarrollo sobre el que trabajar.
+\end{itemize}
+
+
+
+\subsection{Otro lenguaje utilizado}
+Ademas de Python, se ha utilizado JavaScript. Ha sido necesario para programar los \textit{scripts} de los ficheros .html, cuya función es responder a interacciones del usuario, como clics en botones o envíos de formularios, y realizar acciones en consecuencia, como des-ocultar elementos o llamar a otras funciones.
+
+A continuación se presentan algunas de las bibliotecas de JavaScript utilizadas:
+\begin{itemize}
+    \item Leaflet\footnote{\url{https://leafletjs.com/}}: librería de JavaScript de código abierto que se utiliza para crear mapas interactivos en sitios y aplicaciones web. Se ha hecho uso de ella en el proyecto para mostrar la ubicación de la UBU en la aplicación web, integrando los datos de OpenStreetMap. Se ha escogido por su simpleza y compatibilidad con diversos navegadores.
+    
+    \item Flatpickr\footnote{\url{https://flatpickr.js.org/}}: biblioteca de JavaScript que proporciona una interfaz de usuario de calendario, utilizada para la selección, por parte de los usuarios, de las fechas a mostrar en las gráficas que representan los datos de los registros. Se ha escogido por ser altamente personalizable, pudiendo modificar aspectos como el idioma, color, formato de las fechas, elección de un rango de fechas en vez de una sola fecha, deshabilitar ciertas fechas\ldots
+
+    \item Chartjs\footnote{\url{https://www.chartjs.org/}}: biblioteca de JavaScript que permite crear gráficos interactivos para visualizar datos en páginas web. Permite crear gráficos de barras, de líneas, de áreas, de radar\ldots Es fácil de usar y muy personalizable, contando con una página web con ejemplos bien explicados. Durante el proyecto se ha hecho uso de ella para generar los gráficos de los datos recogidos por el sensor y de las características de los vídeos de los pacientes.
+
+    \item jQuery\footnote{\url{https://jquery.com/}}: biblioteca de JavaScript que hace más fácil interactuar con los elementos HTML (eliminando o agregando elementos del DOM en respuesta a eventos), manejar de eventos (como clics de ratón) o usar AJAX (para realizar solicitudes HTTP asíncronas), haciendo que las páginas web del proyecto sean más dinámicas e interactivas.
+\end{itemize}
+
+
+
+
+\section{Diseño web adaptable}
+Se presentó la idea de que la aplicación web debía ajustarse automáticamente según el dispositivo en el que se estuviera visualizando (ordenador, móvil, tableta\ldots). Para ello hay que utilizar un \textit{framework} de diseño receptivo, que facilite la creación de interfaces ajustables.
+
+Se han estudiado tres alternativas de herramientas~\cite{alternativaBootstrap, responsiveCSS}:
+\begin{itemize}
+    \item Bootstrap\footnote{\url{https://getbootstrap.com/}}: herramienta popular, ampliamente utilizada y de la que existe mucha documentación y ayuda por parte de otros usuarios en la web. Dispone de una rejilla para dividir el contenido en columnas y filas, y cuatro tipos de dispositivos (teléfono, tableta, portátiles pequeños y normales), útiles para crear el diseño adaptable que se busca. Dispone de componentes predefinidos como botones, formularios o desplegables, además de gran variedad de estilos prediseñados que se pueden integrar fácilmente en la aplicación. Es conocido por ser fácil de usar e implementar, incluso para principiantes.
+    \item Materialize CSS\footnote{\url{https://materializecss.com/}}: está basada en el sistema de Material Design creado por Google, por lo que es fácil de integrar con otros productos de Google. Dispone de estilos modernos y una composición minimalista. Ofrece temas de HTML estático pero son de pago.
+    \item ZURB Foundation\footnote{\url{https://get.foundation/}}: esta herramienta es también bastante popular. Dispone de un enfoque más modular, lo que ofrece una mayor flexibilidad, con componentes personalizables, para tener control total sobre la apariencia de la aplicación. La curva de aprendizaje de esta herramienta es mayor, por lo que no es adecuada para principiantes.
+\end{itemize}
+Finalmente se decidió utilizar Bootstrap debido a la falta de experiencia en el ámbito del \textit{Front-end} y las aplicaciones web por parte de la alumna. La abundante documentación disponible en Internet sobre esta herramienta fue un factor determinante. Además, la existencia de estilos y componentes predefinidos en Bootstrap, en contraposición a una mayor flexibilidad como la ofrecida por ZURB Foundation, fue considerada como una ventaja significativa dada esa inexperiencia. Se ha optado por una herramienta gratuita y de fácil implementación en Flask. 
+
+
+
+
+\section{Editor de texto}
+Para llevar a cabo la documentación del proyecto (la memoria y anexos) se analizaron los siguientes editores de texto:
+\begin{itemize}
+    \item Microsoft Word: dispone de una interfaz de usuario intuitiva y fácil de usar. Es ampliamente utilizado en entornos académicos y profesionales. Dispone de funcionalidades avanzadas como tablas, gráficos o revisión de documentos. Tiene menor control sobre el formato.
+    \item \LaTeX{}: utilizado para documentos científicos, técnicos o académicos. Dispone de gran capacidad de gestión de fórmulas matemáticas y referencias bibliográficas. Ofrece un control preciso sobre el formato del documento. Es menos intuitivo y más complicado de aprender, ya que utiliza comandos y código.
+\end{itemize}
+Finalmente se optó por utilizar \LaTeX{} porque, aunque se tuvo que invertir tiempo en aprender a manejar el editor, se obtuvo un mejor resultado visual gracias a las plantillas disponibles para realizar la documentación.
+
+Se utilizó Overleaf\footnote{\url{https://es.overleaf.com}} como herramienta para editar los documentos de \LaTeX{} de forma colaborativa en la nube.
+
+
+
+
+
+\section{Prototipado}
+Para realizar el diseño de interfaces de la aplicación web se ha utilizado la herramienta Pencil\footnote{\url{https://pencil.evolus.vn/Features.html}}.
+
+Se barajó la idea de utilizar Adobe XD\footnote{\url{https://helpx.adobe.com/es/xd/user-guide.html}}, otra herramienta de diseño y prototipado que permite diseñar experiencias de usuario interactivas tanto para web como para móvil. Integra funciones de diseño y prototipado. Permite importar recursos de otras aplicaciones como Adobe Photoshop y se puede exportar el proyecto una vez finalizado. Se debe iniciar sesión para utilizarla.
+
+Se optó por Pencil Project ya que esta herramienta se había utilizado previamente en la asignatura de Interacción Hombre-Máquina, por lo que la alumna estaba familiarizada con su interfaz. Es una herramienta muy sencilla, con varios paquetes de diseño predeterminados, pero ampliable con colecciones encontradas en la web. Es \textit{open source} y no se debe iniciar sesión para usarla.
+
+
+
+Para realizar los diagramas del proyecto se ha utilizado Draw.io\footnote{\url{https://app.diagrams.net/}}, una herramienta \textit{online} gratuita que permite crear diagramas y mapas mentales de forma intuitiva. Existe también una versión de escritorio.
+
+Los usuarios deben arrastrar y soltar elementos que se encuentran organizados según el tipo de diagrama. Permite crear diversos diagramas (diagrama de flujo, UML, de red, organigramas, mapas conceptuales\ldots) mediante gráficos predefinidos como bloques, clases, atributos, actores, conectores, etc. Posteriormente se pueden exportar en diversos formatos (PNG, PDF, SVG\ldots).
+
+Un dato interesante, aunque no se ha utilizado en el proyecto, es que permite la colaboración en tiempo real con otros usuarios.
+
+Se ha utilizado para crear todos los diagramas del proyecto debido a su simplicidad y a que la alumna ya lo había utilizado en otras ocasiones.
+
+
+
+
+
+\section{Base de datos}
+Fue necesario escoger una herramienta para organizar los datos de los pacientes recolectados por el sensor y los obtenidos de los vídeos, así como los datos que serán utilizados por la aplicación web. Se estudiaron dos alternativas de sistemas gestores de bases de datos relacionales de código abierto~\cite{bbdd}: MariaDB y PostgreSQL.
+
+MariaDB es una bifurcación de MySQL, creada por sus desarrolladores originales, después de que Oracle adquiriera MySQL. En cambio, PostgreSQL ha evolucionado de forma más independiente.
+Ambas utilizan SQL estándar como lenguaje de consulta, por lo que resultarán conocidas para la alumna tras haber estudiado Bases de Datos durante el grado.
+
+Ambas garantizan la integridad de los datos gracias a sus propiedades ACID y admiten extensiones para aumentar su funcionalidad.
+
+A rasgos generales son muy parecidas, pero las implementaciones específicas pueden variar. Se decidió usar MariaDB por tener una comunidad activa que ofrece mucha ayuda en la web, además de por recomendación del tutor.
+
+Como herramienta para crear la base de datos se ha utilizado HeidiSQL~\cite{heidiSQL}, una herramienta gratuita de código abierto con la que se pueden administrar bases de datos. Permite crear, modificar o eliminar bases de datos, así como sus tablas y campos, con una interfaz intuitiva.
+
+
+
+
+
+
+\section{Repositorio}
+La plataforma elegida para llevar el control de versiones y el \textit{hosting} del repositorio ha sido GitHub\footnote{\url{https://github.com/about}}.
+
+Es una plataforma de desarrollo colaborativo basada en la nube que permite gestionar proyectos \textit{software}, actualizar versiones de códigos fuentes y facilitar la colaboración entre desarrolladores.
+
+Se ha creado un repositorio en GitHub para almacenar el código fuente y otros documentos del proyecto. Con su sistema de control de versiones se puede ir viendo la evolución del proyecto a lo largo del tiempo. Si hubiera varios desarrolladores podrían trabajar de manera colaborativa fácilmente creando ramas y posteriormente fusionándolas, comparando los cambios realizados.
+
+Se ha optado por hacer el repositorio privado durante la realización del proyecto, invitando únicamente a los tutores, para posteriormente hacerlo público, dejando el proyecto al alcance de otros desarrolladores que podrían estar interesados en él.
+
+La herramienta utilizada para llevar a cabo este control de versiones sobre el código es la aplicación gratuita GitHub Desktop\footnote{\url{https://docs.github.com/es/desktop/overview/about-github-desktop}}. Se utiliza para realizar comandos de Git, como \textit{commits} o \textit{push}, mediante una interfaz gráfica, en lugar de mediante la línea de comandos.
+
+
+
+\section{Otros recursos utilizados}
+
+\begin{itemize}
+    \item Mockaroo\footnote{\url{https://www.mockaroo.com/}}: herramienta en línea que genera datos ficticios, de forma aleatoria, en múltiples formatos (CSV, Json, Excel, XML\ldots). Se ha utilizado para crear los nombres de usuario, contraseñas, direcciones de correo, nombres, apellidos, fechas de nacimiento, direcciones y teléfonos de más de 50 pacientes para la base de datos de la aplicación, ya que no se podía hacer uso de los datos personales reales de los pacientes del estudio.
+
+    \item Generador de caras aleatorias\footnote{\url{https://thispersondoesnotexist.com/}}: se trata de una página web que utiliza una inteligencia artificial para generar fotos falsas de personas que no existen, de todas las edades, etnias o géneros. Se ha utilizado para rellenar la base de datos de los pacientes y médicos, ya que no se podía acceder a fotos reales de dichos usuarios.
+    
+    Para ello, se realizó un \textit{script} que accedía a la página web, descargaba y guardaba la imagen de forma local y escribía la ruta de dicha imagen en la base de datos. Este proceso se ejecuta por cada paciente/médico que no tenga imagen en la base de datos. 
+    
+    Al crear imágenes de personas aleatorias, aparecían fotos de menores de edad (que no eran realistas para la aplicación), por lo que se realizó una posterior depuración manual de estas.
+
+    \item SonarQube\footnote{\url{https://www.sonarsource.com/products/sonarqube/}}: plataforma de código abierto diseñada para gestionar la calidad del código. Sus herramientas de análisis revisan el código para detectar problemas de seguridad, mantenibilidad, duplicados\ldots Tiene soporte para muchos lenguajes de programación diferentes y ofrece una interfaz intuitiva en la que revisar los informes detallados que realiza.
+\end{itemize}
+
+
+
+\section{Herramienta \textit{Hardware}}
+Hasta este punto, se han explorado principalmente las herramientas \textit{software} utilizadas durante el proyecto. Sin embargo, es esencial destacar que la base del trabajo descansa en una herramienta \textit{hardware}: el sensor STAT-ON, desarrollado por SENSE4CARE~\cite{sense4care} en marzo de 2020 y que se muestra en la Figura~\ref{fig:STAT-ON}. 
+
+Este dispositivo, dotado de acelerómetros y otros instrumentos, es el encargado de recopilar datos como la marcha bradicinética, discinesia, el estado motor, los bloqueos de la marcha, parámetros de la marcha, transiciones posturales y detalles sobre la postura del paciente. Con estos datos, genera archivos CSV que se utilizan en el proyecto para generar las gráficas.
+
+Los archivos CSV resultantes almacenan los datos procesados por diversos algoritmos a una tasa de frecuencia por minuto. Organizados en forma de matriz, cada columna representa las variables de salida de los algoritmos, mientras que cada fila corresponde al valor de estas variables por minuto. En esencia, este conjunto de datos proporciona una visión de los síntomas motores y la movilidad del paciente.
+
+\imagen{STAT-ON}{Sensor}{0.75}

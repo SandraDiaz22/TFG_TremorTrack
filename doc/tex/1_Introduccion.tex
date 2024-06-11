@@ -1,0 +1,52 @@
+\capitulo{1}{Introducción}
+
+El párkinson es un trastorno neurodegenerativo crónico que afecta a más de siete millones de personas en todo el mundo, incluyendo a 150.000 españoles. Por lo general, el riesgo de desarrollar esta enfermedad aumenta con la edad, siendo más común a partir de los 60 años. Dado el aumento de la esperanza de vida, la SEN (Sociedad Española de Neurología) estima que el número de afectados por la Enfermedad de Parkinson se triplicará en los próximos treinta años~\cite{afectadosParkinson}.
+
+Esta enfermedad es comúnmente conocida por el temblor que causa en las manos, pero presenta una variedad de síntomas relacionados con el movimiento, como rigidez muscular, pérdidas de equilibrio y lentitud en los movimientos. Tiene un impacto significativo en la calidad de vida de los pacientes, por lo que, detectar estos síntomas a tiempo es crucial para proporcionar un tratamiento adecuado y mejorar el manejo de la enfermedad.
+
+Durante el presente proyecto se desarrollará una aplicación web que permita, tanto a las personas con párkinson como a sus médicos, llevar un seguimiento de la enfermedad. Esta herramienta ayudará a los médicos a ajustar los tratamientos y evaluar su efectividad a lo largo del tiempo, y a los pacientes les proporcionará una mayor independencia en la gestión de su enfermedad.
+
+La idea del proyecto surgió durante un congreso de medicina, donde se identificó la necesidad de monitorizar la evolución de los pacientes. Se espera que cumpla con las expectativas y resulte de utilidad para los profesionales del Hospital Universitario de Burgos y los miembros de la Asociación Parkinson Burgos. 
+
+La aplicación web permitirá a los médicos acceder a un listado de los pacientes con párkinson a su cargo, donde podrán tanto consultar como introducir información relevante para el tratamiento de la enfermedad. Principalmente se trabajará con dos tipos de datos: aquellos recogidos por un sensor y los obtenidos del análisis de vídeos de los pacientes.
+
+Los pacientes utilizarán un dispositivo médico con sensores que recogerán datos clave para la enfermedad de Parkinson, como la bradicinesia, la discinesia o características de los pasos. Estos datos, en su formato bruto, no son fácilmente interpretables, por lo que se necesitaba generar gráficas que proporcionaran información de utilidad para los médicos. 
+Son ellos los que introducirán los archivos CSV generados por los sensores en la aplicación, para posteriormente visualizar diferentes gráficas con los datos. Se permite elegir el intervalo de tiempo que se desea visualizar y el tipo de gráfica a realizar.
+
+Entre las opciones disponibles, se encuentran gráficas que muestran la marcha media filtrada, la desviación estándar media de la marcha y el número de pasos considerados (<<parámetros de bradicinesia>>). También hay gráficas que ilustran los episodios de \textit{Freezing of Gait} (FoG), la probabilidad de discinesia y la confianza en la detección de discinesia (<<parámetros de FoG y discinesia>>). Además, se puede acceder a información sobre la longitud, el número, la velocidad y la cadencia de los pasos del paciente a lo largo del tiempo (<<información de los pasos>>). Por último, existen gráficas que presentan el estado motor, la discinesia y la bradicinesia del paciente en intervalos de 10 minutos (<<parámetros de estado motor, discinesia y bradicinesia a 10 minutos>>).
+
+El otro tipo de datos proviene de los vídeos que pueden subir los médicos a la aplicación. Estos vídeos, grabados por los propios pacientes, deben mostrar una de sus manos realizando un movimiento de pinza. Este movimiento se debe realizar con ambas manos para detectar alteraciones en la coordinación motora, lo que puede ser indicativo de la progresión de la enfermedad. Se escogió este movimiento en específico ya que forma parte del formulario de la UPDRS~\cite{updrs} para la evaluación de la enfermedad. La aplicación permitirá visualizar los vídeos del paciente, junto con gráficas que muestren la evolución de las características del movimiento como la amplitud y la lentitud a lo largo del tiempo. La aplicación también incorporará modelos de \textit{machine learning} capaces de predecir el avance de dichas características en el futuro.
+
+En conclusión, este proyecto pretende crear una aplicación web para el seguimiento de la enfermedad de Parkinson, que mejore la calidad de vida de los afectados y optimice los tratamientos administrados por sus médicos. La colaboración con el Hospital Universitario de Burgos y la Asociación Parkinson Burgos será fundamental para crear una herramienta útil y eficaz en la práctica clínica diaria.
+
+
+\section{Estructura de los documentos}
+
+La documentación del proyecto se ha dividido en dos documentos: la memoria y los anexos. La memoria es el documento principal, donde se explica el trabajo de manera teórica, dirigido principalmente a los evaluadores del mismo o a cualquier lector interesado en la comprensión global del proyecto. Mientras que los anexos están más orientados a desarrolladores, ingenieros o usuarios finales del software al proporcionar información práctica y técnica de forma detallada.
+
+Se describe a continuación el contenido de cada apartado de ambos documentos.
+
+\subsection{Memoria}
+
+La memoria se divide en los siguientes capítulos:
+\begin{enumerate}
+    \item Introducción: describe el contenido del trabajo y de los documentos entregados.
+    \item Objetivos del proyecto: define las metas a cumplir.
+    \item Conceptos teóricos: proporciona los conocimientos necesarios para comprender el proyecto.
+    \item Técnicas y herramientas: explica las técnicas y herramientas de desarrollo utilizadas.
+    \item Aspectos relevantes del proyecto: se destacan los desafíos encontrados durante la realización del proyecto.
+    \item Trabajos relacionados: se estudia el contexto del proyecto comentando trabajos realizados dentro del ámbito del proyecto actual.
+    \item Conclusiones y líneas de trabajo futuras: se comentan las conclusiones obtenidas del resultado del proyecto y funcionalidades que sería interesante añadir.
+\end{enumerate}
+
+\subsection{Anexos}
+
+Se han desarrollado los siguientes anexos:
+\begin{enumerate} \renewcommand{\theenumi}{\Alph{enumi}}
+    \item Plan de proyecto \textit{Software}: discute la viabilidad económica y legal del proyecto, así como la planificación temporal del mismo.
+    \item Especificación de requisitos: se detallan las características que la aplicación web debe cumplir.
+    \item Especificación de diseño: detalla la organización de los datos, el diseño de las interfaces y la interacción entre los componentes del sistema.
+    \item Documentación técnica de programación: describe el funcionamiento interno del \textit{software} del proyecto, para facilitar su uso a otros desarrolladores.
+    \item Documentación de usuario: describe las funcionalidades de la aplicación web desarrollada, así como toda la información que el usuario debe conocer para poder hacer un correcto uso de esta. 
+    \item Anexo de sostenibilización curricular: aborda aspectos de sostenibilidad aplicados al Trabajo de Fin de Grado.
+\end{enumerate}

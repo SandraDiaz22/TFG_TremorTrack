@@ -1,0 +1,97 @@
+\capitulo{7}{Conclusiones y Líneas de trabajo futuras}
+
+En este último apartado de la memoria se abordan las conclusiones derivadas del desarrollo del proyecto. En concreto se comentan conclusiones relacionadas con los resultados del proyecto y un conjunto de conclusiones técnicas y personales. 
+
+Además, tras las conclusiones, se comentan ideas de mejora del proyecto. Estas ideas pueden servir de guía de trabajo a nuevos estudiantes que decidan continuar con el proyecto en el futuro.
+
+
+\section{Conclusiones}
+A continuación se describen las conclusiones relacionadas con los resultados del proyecto, así como conclusiones técnicas y personales. 
+
+\subsection{Resultados del proyecto}
+La aplicación web desarrollada cumple con todas las especificaciones que fueron solicitadas por el Hospital. Es completamente funcional y ha sido diseñada según los requerimientos planteados inicialmente para permitir un seguimiento continuo de los pacientes con párkinson. Cabe destacar que la idea original del proyecto fue una necesidad expresada durante un congreso de medicina, con el objetivo de monitorizar la evolución de los pacientes, no fue una concepción de la alumna.
+
+Aunque la aplicación no destaca por su diseño estético, ya que ha sido desarrollada utilizando Flask y HTML en lugar de plataformas como WordPress que facilitan la creación de interfaces más atractivas, cumple su propósito principal de manera efectiva. Además de la idea inicial, a lo largo del desarrollo surgieron algunas propuestas para mejorar la aplicación y darla por finalizada, las cuales se detallarán en la próxima sección.
+
+Si el hospital decide finalmente utilizar esta aplicación web con pacientes reales, con sus datos y vídeos reales recogidos a lo largo de cierto periodo de tiempo, se espera que tenga un impacto significativo tanto para la asociación de Parkinson Burgos como para toda la comunidad involucrada.
+
+
+\subsection{Conclusiones técnicas}
+La conclusión técnica más relevante de este proyecto es que los modelos de inteligencia artificial puede ofrecer predicciones con mucha relevancia en el campo de la medicina, ya que conocer la evolución de los pacientes puede facilitar la toma de decisiones a los médicos. Además el uso de dispositivos con sensores que detecten alteraciones en el movimiento, junto con una herramienta para mostrar dichos datos de forma que sean comprensibles, es vital en el seguimiento de los pacientes.
+
+Cabe destacar que la aplicación se ha desplegado en un servidor real, propiedad de la Universidad de Burgos.
+Además es importante resaltar que se han implementado medidas de seguridad para proteger la integridad y confidencialidad de los datos de los pacientes, como métodos de autenticación y control de accesos o el cifrado de datos sensibles como la contraseña de los usuarios en la base de datos.
+
+
+\subsection{Conclusiones personales}
+El proceso de desarrollo del proyecto ha sido una experiencia de aprendizaje significativa para la alumna. Se han repasado y aplicado los conocimientos adquiridos a lo largo de su carrera universitaria, desde aspectos fundamentales como bases de datos y programación, hasta el diseño y gestión de proyectos.
+
+La implementación de la aplicación ha supuesto la adquisición de conocimientos en desarrollo web, un área en la que la alumna no tenía experiencia previa. Además, demuestra su capacidad de aprendizaje y adaptación a nuevos entornos tecnológicos.
+
+La implementación de técnicas de inteligencia artificial, en particular en el contexto de las series temporales, ha permitido a la alumna profundizar en este campo más allá de lo que se había cubierto en sus estudios. La exposición a ejemplos reales y la dedicación necesaria para comprender y aplicar estas técnicas mejoró su comprensión en este ámbito.
+
+El proceso de desarrollo del proyecto ha requerido una dedicación constante y disciplinada. Durante los primeros meses, el proyecto avanzaba poco, por lo que en las etapas finales se tuvieron que intensificaron los esfuerzos para cumplir con los plazos establecidos. Con disciplina se consiguió trabajar a diario en el proyecto, compaginándolo con las prácticas en empresa, aunque supusiera un esfuerzo extra y una reducción notable del tiempo personal. Como conclusión personal, el proyecto ha resaltado la importancia de la gestión del tiempo y el compromiso personal desde el principio para conseguir los objetivos.
+
+
+
+
+
+\section{Líneas de trabajo futuras}
+En este apartado se pretende realizar informe crítico indicando cómo se puede mejorar el proyecto, o cómo se puede continuar trabajando en la línea del proyecto realizado. 
+
+
+\subsection{Subida asíncrona de los vídeos}
+Actualmente, el proceso de subida de vídeos una vez que el médico ha rellenado el formulario de subida, implica añadir el vídeo a la base de datos y procesarlo mediante funciones de análisis para extraer sus características relevantes. Este proceso de análisis puede tardar varios minutos, en los que el usuario de la aplicación debe esperar. Son pocos minutos debido a que la aplicación se encuentra en un entorno local, sin embargo, al desplegar la página web en un entorno de producción, existe el riesgo de que este proceso supere los límites de tiempo establecidos y resulte en un error de \textit{timeout}. 
+
+Para mitigar este problema, se propone como mejora del proyecto implementar la subida de vídeos de forma asíncrona. Esto permitiría que el proceso de subida y análisis se realice en segundo plano, sin bloquear la interfaz de usuario principal, garantizando una experiencia fluida para los usuarios y evitando posibles errores de \textit{timeout}.
+
+
+\subsection{Conseguir mejores datos}
+Otra mejora significativa sería la adquisición de conjuntos de datos más robustos y específicos. Esto incluiría recopilar múltiples vídeos reales de un mismo paciente a lo largo del tiempo, realizando la técnica de \textit{fingertapping}, para muchos pacientes.
+Esto permitiría evaluar con mayor precisión la eficacia de la aplicación al monitorizar y predecir la progresión de dicha técnica en un mismo individuo. Actualmente, la aplicación se evalúa con vídeos de personas diferentes debido a la falta de disponibilidad de datos específicos, aunque se ha intentado mantener la homogeneidad en términos de sexo y edad entre los pacientes.
+
+Además, se debería mejorar la calidad de los datos recopilados por el sensor que llevan incorporados los pacientes. Se descartó la idea de implementar inteligencia artificial para predecir el desarrollo de estos datos en el futuro debido a la presencia de una gran cantidad de valores nulos, lo que haría que el modelo no pudiera identificar buenos patrones de predicción. 
+Con datos de mayor calidad, se abriría la posibilidad de ampliar las funcionalidades de la aplicación, incluyendo la predicción con IA no solo en las características de los vídeos, sino también en los datos recogidos por el sensor. 
+
+
+\subsection{Funcionalidades del UPDRS}
+Se plantea en un futuro añadir a la aplicación web más funcionalidades para evaluar la progresión de la enfermedad. En el presente proyecto no se han añadido porque no lo requiso así el cliente.
+
+Actualmente el proyecto se ha centrado, además de en visualizar los datos de los sensores, en determinar la gravedad de los síntomas de la enfermedad mediante vídeos de pacientes realizando un golpeteo con los dedos.
+Esta funcionalidad corresponde con la evaluación número 26, dentro del apartado de aspectos motores de la escala UPDRS~\cite{updrs}. El paciente golpea el pulgar con el índice en rápida sucesión y con la mayor amplitud posible con ambas manos y el médico califica el movimiento en una escala de 0 a 4, donde 0 indica ausencia de discapacidad y 4 indica una discapacidad severa que prácticamente impide realizar la acción.
+
+Como se explica en la sección de conceptos teóricos, el UPDRS es una herramienta clínica ampliamente utilizada en todo el mundo para evaluar la gravedad de la enfermedad de Parkinson. Consta de 45 preguntas, divididas en cuatro apartados (estado mental, actividades de la vida diaria, aspectos motores y complicaciones del tratamiento). El proyecto presentado se centra en una única pregunta del apartado de aspectos motores, pero se plantea la posibilidad de incluir otras evaluaciones.
+
+La aplicación web podría centrarse en el apartado de aspectos motores, desarrollando funciones como la creada por Catalin~\cite{TFGCatalin} para detectar temblor o rigidez en ciertos movimientos de los pacientes, quienes podrían grabar vídeos realizando el movimiento desde sus propias casas y subirlos a la aplicación, dónde sus médicos podrían analizar los resultados. Dentro del apartado existen varias preguntas sobre la cantidad de temblores en ciertas ocasiones o sobre la realización de movimientos que involucran diferentes partes del cuerpo (abrir y cerrar las manos, movimientos de pronación-supinación de las manos, golpes de talón, levantamientos de una silla\ldots). Todos ellos podrían analizarse mediante visión artificial.
+
+Otra opción podría ser llevar un registro de los informes de los pacientes, con todos los apartados medidos con la escala por sus médicos a lo largo del tiempo, e incluir alguna herramienta capaz de compararlos y visualizar el avance de la enfermedad.
+
+
+\subsection{Comunicación médico-paciente}
+Como línea de trabajo futura, se propone la implementación de una funcionalidad adicional que surgió por parte de la alumna durante la fase de desarrollo del proyecto: la creación de un apartado que permita la comunicación entre médicos y pacientes.
+
+Este apartado permitirá a los médicos establecer una comunicación directa con sus pacientes a través de un sistema de mensajería, pudiendo, por ejemplo, comentar y analizar los datos obtenidos por el sensor o las conclusiones obtenidas a partir de los vídeos y sus predicciones. 
+Además, servirá como canal para solicitar citas presenciales o realizar consultas rápidas en tiempo real mediante videollamadas.
+
+Con este apartado se busca mejorar la continuidad de la atención médica, ofreciendo un seguimiento más cercano y personalizado al paciente, incluso fuera del ámbito clínico. Además, se pretende simplificar y agilizar el proceso de solicitud y realización de citas para los pacientes. Mediante videollamadas, se elimina la barrera geográfica para aquellos que viven en áreas remotas sin acceso fácil al transporte o para aquellos con movilidad reducida, facilitando así su acceso a la atención médica.
+
+
+\subsection{Sección de ayuda para el día a día}
+Una idea adicional que se considera es la creación de una sección más centrada en el aspecto humano. Aquí, los pacientes encontrarían recursos para sobrellevar mejor el párkinson en su vida diaria, como consejos prácticos respaldados por artículos científicos o recomendaciones de productos útiles para manejar los temblores y otros síntomas asociados con la enfermedad. Por ejemplo, se podría proporcionar información sobre técnicas de ejercicio, terapias complementarias y hábitos de vida saludables que hayan demostrado beneficios en la gestión del párkinson, así como dispositivos novedosos que ayuden a controlar los temblores.
+
+En relación a esa idea, se plantea la creación de un foro comunitario donde los pacientes puedan intercambiar mensajes de apoyo y motivación entre ellos, así como cualquier otro contenido que promueva el bienestar emocional y el sentimiento de comunidad entre pacientes con párkinson. Para garantizar un entorno seguro y respetuoso, se implementaría un filtro mediante inteligencia artificial que moderaría los mensajes, evitando la presencia de ciertas palabras inapropiadas o contenido perjudicial.
+
+Estas iniciativas más humanas, tienen como objetivo principal mejorar la calidad de vida de los pacientes.
+
+
+
+\subsection{Realizar conexión segura entre la aplicación y el servidor}
+Al acceder a la aplicación web <<TremorTrack>> desde el navegador aparece el mensaje <<No es seguro>> o un candado rojo junto a la URL, lo que no aporta mucha confianza al usuario que quiera hacer uso de la aplicación. 
+Esto se debe a que la conexión entre el navegador y el servidor no está protegida mediante un certificado SSL válido.
+
+Se trató de usar \texttt{openssl} para hacer la conexión segura pero no fue posible por no disponer de permisos de administrador en el servidor en el que fue desplegada la aplicación.
+
+Es importante que la aplicación sea segura, ya que se trata de una aplicación médica en la que se van a manejar datos sensibles de los pacientes. Además, garantizaría la integridad y confidencialidad de los datos, evitando que los datos personales transmitidos entre el navegador y el servidor sean adquiridos o modificados por terceros, gracias a su encriptación.
+
+Se ha incluido esta última sección en el apartado de líneas de trabajo futuras para fomentar la realización de este cambio.
+La idea barajada es utilizar el servidor web/Proxy NGINX junto con un certificado SSL para configurar una conexión segura HTTPS\footnote{\url{https://a4u.medium.com/deploy-flask-app-with-gunicorn-ssl-16460ec14c24}}.

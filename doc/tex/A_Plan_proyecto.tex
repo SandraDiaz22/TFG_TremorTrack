@@ -1,0 +1,545 @@
+\apendice{Plan de Proyecto Software}
+
+\section{Introducción}
+El Trabajo de Fin de Grado se comienza con la planificación. Esta primera fase es esencial para cumplir todos los objetivos y plazos del proyecto en el futuro.
+
+En este primer anexo se divide la planificación inicial en planificación temporal y estudio de viabilidad:
+\begin{itemize}
+    \item En la primera parte, se detallará la planificación temporal escogida, tan importante en el desarrollo \textit{software}. Se ha optado por una metodología ágil de tipo Scrum (estudiada durante el grado), dividiendo el calendario de trabajo en ciclos cortos llamados \textit{sprints}.
+    \item El estudio de viabilidad, por su parte, se divide en viabilidad económica y legal. La viabilidad económica consiste en aproximar los costes y beneficios asociados con el desarrollo del proyecto, mientras que en la viabilidad legal se requiere investigar sobre la legislación que pueda estar relacionada con el proyecto.
+\end{itemize}
+
+
+\section{Planificación temporal}
+Se ha escogido una metodología Scrum para llevar a cabo la planificación temporal del proyecto, aunque no se ha podido seguir al 100\% ya que no se trata de un proyecto real (con equipo de desarrollo de varias personas, con reuniones diarias, \textit{scrum master}, \textit{product owner}, incrementos entregables en cada \textit{sprint}\ldots), sino de un Proyecto de Fin de Grado.
+
+Los roles de \textit{scrum master} y \textit{product owner} fueron desempeñados por el tutor, quien se encargó de definir las actividades del \textit{product backlog} y asistir al equipo con las prácticas de Scrum. Por su parte, la alumna asumió el rol del equipo de desarrollo, siendo responsable de convertir los elementos del \textit{product backlog} en incrementos al final de cada \textit{sprint}.
+
+El proyecto comenzó en septiembre y concluyó en junio. Durante este periodo, se dividió el tiempo en \textit{sprints} de una, dos o tres semanas, adaptándose a las tareas requeridas o a las circunstancias personales del equipo de desarrollo. Tras cada sprint, se llevaban a cabo reuniones entre el tutor y la alumna, con el propósito de abordar dudas sobre las actividades realizadas y definir las tareas a realizar en el próximo ciclo, asegurándose de estar avanzando conforme a las necesidades del proyecto y de poder cumplir los plazos de entrega establecidos.
+
+Las actividades dentro de cada \textit{sprint} se clasificaban según su importancia, priorizando generalmente aquellas con mayor prioridad. Además, se utilizaba la técnica de Scrum de medición en \textit{story points} para estimar el esfuerzo necesario para completar una tarea. Los \textit{story points} no representan simplemente el tiempo necesario, sino que tienen en cuenta la complejidad de las tareas. 
+
+Las estimaciones de \textit{story points} y prioridad, así como la duración de los \textit{sprints}, fueron mejorando con el transcurso de los meses, basándose en lo vivido en \textit{sprints} anteriores.
+
+La herramienta seleccionada para llevar a cabo la planificación temporal fue Jira. En un primer momento, se consideró la posibilidad de utilizar ZenHub, una herramienta de GitHub usada frecuentemente en los Trabajos de Fin de Grado. Sin embargo, dado que ZenHub actualmente es de pago, se decidió optar por Jira.
+
+A continuación se presentan los \textit{sprints} realizados, comentando sus objetivos generales, las tareas realizadas y el tiempo empleado. Además se muestran informes realizados por Jira que muestran el avance de las actividades a lo largo del tiempo de cada \textit{sprint}.
+
+
+\subsection{\textit{Sprint 1} - Comienzo}
+El proyecto comenzó tras una primera reunión con el tutor, durante la cual se presentaron diferentes ideas de proyecto. Después de esta reunión, se seleccionó el tema que se discutiría más detalladamente en el siguiente encuentro, comentando cual sería el objetivo del proyecto y las actividades a realizar durante el primer \textit{sprint}.
+
+El primer \textit{sprint} se contabilizó desde esa primera reunión, por lo que dura varias semanas. Durante este periodo, se llevó a cabo una investigación sobre el párkinson, la enfermedad que aborda el proyecto. Además, la alumna se comenzó a familiarizar con las herramientas que se utilizarían posteriormente durante el proyecto (GitHub, Jira, Python, entornos virtuales\ldots).
+
+Se comenzó la documentación del proceso en Jira tarde, por lo que el gráfico \textit{burndown} tiene el aspecto que se observa en la Figura~\ref{fig:Burndown1}. Las tareas finalizadas se muestran en el informe de la Figura~\ref{fig:InformeEstado1}.
+\imagen{Burndown1}{Gráfico \textit{burndown} - \textit{Sprint} 1}
+\imagen{InformeEstado1}{Informe de estado - \textit{Sprint} 1}
+
+
+\subsection{\textit{Sprint} 2 - Usos de Python}
+El segundo \textit{sprint} tuvo una duración de tres semanas, durante las cuales se adquirieron habilidades en el uso de varias herramientas y bibliotecas de Python. Se aprendió a utilizar Jupyter Notebook para la programación en Python, así como Flask para la creación de aplicaciones web. Además, se exploraron dos importantes bibliotecas de Python que serían fundamentales para el desarrollo del proyecto:
+\begin{itemize}
+    \item Matplotlib: se utilizará para generar gráficos y otras representaciones visuales a partir de los datos de los pacientes.
+    \item Scikit-learn: esta biblioteca cuenta con una variedad de algoritmos de \textit{machine learning}, tanto supervisados como no supervisados, útiles para realizar clasificaciones o predicciones con los datos proporcionados.
+\end{itemize}
+Para adquirir competencias en aprendizaje automático, se repasó el temario de las asignaturas de Minería de datos y Sistemas inteligentes, ya que la alumna no las había cursado.
+
+El gráfico de \textit{burndown} y el informe del \textit{sprint} 2 se muestran en la Figura~\ref{fig:Burndown2} y Figura~\ref{fig:InformeEstado2}.
+\imagen{Burndown2}{Gráfico \textit{burndown} - \textit{Sprint} 2}
+\imagen{InformeEstado2}{Informe de estado - \textit{Sprint} 2}
+
+
+\subsection{\textit{Sprint} 3 – Memoria y Flask}
+La duración de este \textit{sprint} fue de diez días, los cuales se concentraron en la implementación de un prototipo de aplicación web utilizando Flask, una herramienta previamente introducida pero no estudiada en profundidad en el \textit{sprint} anterior.
+
+El objetivo principal del \textit{sprint} fue crear un prototipo funcional de la aplicación, aplicando los conceptos aprendidos de la guía de Flask. 
+
+Se desarrolló una aplicación web que dispone de una página principal con un formulario para que los pacientes ingresen su nombre e \textit{id} (campos obligatorios, con restricciones y preparados contra ataques). Con esos datos, la página redirige a los pacientes a otra ventana donde se muestran los datos de dicho paciente en forma de tabla (extraídos de un archivo CSV de prueba).
+
+Además, existe una ventana para manejar el error 404, con un botón de redirección a la página principal. Durante este \textit{sprint}, también se exploraron conceptos como \textit{cookies} y sesiones.
+
+Además del desarrollo de la aplicación, se inició el proceso de documentación del proyecto (memoria y anexos). Se comenzó a completar el apéndice~A (plan de proyecto \textit{software}) de los anexos, que consiste en la planificación temporal (en la que nos encontramos) y el estudio de viabilidad, tanto económica como legal.
+De la memoria se realizan el resumen, los descriptores y los objetivos del proyecto.
+
+A continuación se adjuntan el gráfico (Figura~\ref{fig:Burndown3}) e informe (Figura~\ref{fig:InformeEstado3}) generados por Jira, aunque es importante destacar que las tareas de documentación no se cerraron antes de que finalizara el \textit{sprint} ya que no se pudieron completar todas las partes que se plantearon en la reunión.
+\imagen{Burndown3}{Gráfico \textit{burndown} - \textit{Sprint} 3}
+\imagen{InformeEstado3}{Informe de estado - \textit{Sprint} 3}
+
+
+\subsection{\textit{Sprint} 4 – Apéndices B y C}
+El cuarto \textit{sprint}, con una duración de dos semanas, se vio afectado por el puente de diciembre, lo que limitó el tiempo dedicado al proyecto por parte de la alumna.
+
+Tras la reunión anterior con el tutor, se comprendieron los requerimientos que debía cumplir la aplicación a desarrollar. Con estos conocimientos, se realizó el apéndice B de los anexos que consiste en:
+\begin{itemize}
+    \item Definir los objetivos generales del proyecto.
+    \item Definir los requisitos del cliente (el tutor en este caso) y crear casos de uso en consecuencia. Posteriormente generar un diagrama general de casos de uso con los actores involucrados y rellenar tablas con información sobre cada caso de uso.
+\end{itemize}
+Continuando con el apéndice C de los anexos, se elaboraron los diagramas de entidad-relación y el diagrama relacional para estructurar la futura base de datos.
+Se incluye también en este apéndice la realización de un \textit{mockup} en Pencil para diseñar las interfaces de la aplicación.
+
+También se completó el apartado de <<Trabajos relacionados>> de la memoria, que proporciona un contexto en el campo del proyecto en curso. Se investigaron aplicaciones y artículos relacionados, y se incluyeron TFGs de compañeros de años anteriores relacionados con el proyecto.
+
+El gráfico \textit{burndown} y el informe del proyecto se ilustran en la Figura~\ref{fig:Burndown4} y Figura~\ref{fig:InformeEstado4}. Las tareas se subdividen en subtareas que se fueron completando progresivamente. 
+\imagen{Burndown4}{Gráfico \textit{burndown} - \textit{Sprint} 4}
+\imagen{InformeEstado4}{Informe de estado - \textit{Sprint} 4}
+
+
+\subsection{\textit{Sprint} 5 – Correcciones memoria y flask}
+El quinto \textit{sprint} duró una semana, desde el 14 de diciembre hasta el inicio de las vacaciones de Navidad, momento en el cual se llevó a cabo una reunión de final de \textit{sprint} de forma \textit{online} con el tutor.
+
+Los objetivos del \textit{sprint} fueron demasiados para el corto periodo de tiempo, por lo que no se pudieron completar todos.
+Se realizaron correcciones sobre el trabajo realizado en el \textit{sprint} anterior, entre las que se encuentran:
+\begin{itemize}
+    \item Ordenar los requisitos funcionales según su importancia y mejorar la forma de expresarlos.
+    \item Corregir el diagrama de casos de uso y el de entidad-relación.
+    \item Crear ventanas para el administrador en el \textit{mockup} elaborado en Pencil e introducir en los anexos un apartado para el diseño de interfaces.
+\end{itemize}
+
+Se realizó el apartado 4 de la memoria (Técnicas y herramientas), detallando las herramientas utilizadas hasta el momento y justificando por qué se eligieron frente a otras opciones disponibles.
+
+Los objetivos que no se lograron cumplir fueron los relacionados con la base de datos y la aplicación web. Se tenía la intención de crear las tablas principales de la base de datos, como las tablas para usuarios, pacientes o médicos. Además, se pretendía comenzar con el desarrollo de la aplicación web definitiva, implementando un formulario de inicio de sesión funcional que redirigiera a diferentes ventanas según el tipo de usuario, así como la página principal con las funcionalidades básicas que aparecen en la barra superior.
+
+El gráfico y el informe que se muestran en la Figura~\ref{fig:Burndown5} y Figura~\ref{fig:InformeEstado5} muestran las incidencias terminadas y las pendientes.
+\imagen{Burndown5}{Gráfico \textit{burndown} - \textit{Sprint} 5}
+\imagen{InformeEstado5}{Informe de estado - \textit{Sprint} 5}
+
+
+\subsection{\textit{Sprint} 6 – Flask BBDD \LaTeX}
+En un principio, se había planeado que este \textit{sprint} durara las tres semanas de vacaciones de Navidad. Sin embargo, las reuniones familiares típicas de estas fechas, junto con una posterior gripe, no permitieron a la alumna centrarse en este trabajo.
+
+La duración final del \textit{sprint} fue del 9 al 26 de enero y los objetivos planteados fueron las incidencias que quedaron sin completar en el \textit{sprint} anterior, así como pasar la documentación del proyecto a \LaTeX{}.
+
+Se creó la base de datos del proyecto, utilizando HeidiSQL y siguiendo el diagrama relacional realizado en el apéndice~C. Se estableció una tabla para cada usuario de la aplicación, así como para los registros y vídeos, con sus correspondientes restricciones y claves foráneas. Se rellenó una fila de cada tabla para probar el acceso a la base de datos desde la aplicación.
+
+Además, se trasladaron los documentos del proyecto a \LaTeX{}, aprendiendo en el proceso todas las facilidades que ofrece esta herramienta, como la creación de listas, la inclusión de imágenes, referencias, saltos de línea, negritas y otras características.
+
+Se dio inicio al desarrollo de la aplicación web definitiva en Flask, creando una página principal y una de \textit{login}, con un formulario de inicio de sesión. Se implementaron botones con redirecciones entre ventanas, se creó una base para todos los .html, se mostraron imágenes por pantalla, se accedió a los datos de la base de datos y se creó un formulario de inicio de sesión provisional, entre otras tareas.
+
+El gráfico \textit{burndown} del \textit{sprint} 6 se puede ver en la Figura~\ref{fig:Burndown6}, mientras que el informe de estado con las incidencias del mismo \textit{sprint} se presenta en la Figura~\ref{fig:InformeEstado6}.
+\imagen{Burndown6}{Gráfico \textit{burndown} - \textit{Sprint} 6}
+\imagen{InformeEstado6}{Informe de estado - \textit{Sprint} 6}
+
+
+
+
+\subsection{\textit{Sprint} 7 - Programación con Flask}
+Tras la reunión de fin de \textit{sprint} con el tutor, se establecieron los objetivos a cumplir en este \textit{sprint}:
+\begin{itemize}
+    \item Respecto a la documentación en \LaTeX{}, se debía citar con \texttt{BibTeX} en un documento nuevo llamado \texttt{bibliografia.bib}. Además debían corregir los errores lingüísticos o propios de \LaTeX{} resaltados por el tutor.
+    \item En cuanto a la base de datos, se espera rellenar las tablas. Se debía incluir los vídeos y archivos CSV proporcionados a la alumna, y rellenar el resto de los datos de pacientes y médicos con información aleatoria.
+    \item La parte importante de este \textit{sprint} sería la programación web. Se debían crear todas las ventanas que fueron diseñadas en Pencil en la aplicación, utilizando Bootstrap para el redimensionamiento y otros aspectos. También se debían emplear nuevas herramientas como \texttt{chart.js} o \texttt{bootstrap-table} para realizar gráficos o tablas.
+\end{itemize}
+
+Durante las dos semanas de duración del \textit{sprint}, se siguió el recordatorio del tutor de realizar \textit{commits} en GitHub cada vez que se realizara un cambio en la aplicación, no solo para documentar el trabajo realizado, sino también como control de versiones para la alumna, lo que facilitaría la resolución de fallos futuros.
+
+Durante este período, por cada cambio realizado en la aplicación (barra de navegación, \textit{footer}, página de contacto, página de sobre nosotros, página de listado de pacientes, colores, cambios de aspecto\ldots) se realizó un \textit{commit} y el posterior \textit{push} al repositorio de la alumna.  Aunque no fue posible crear todas las ventanas que se diseñaron en el \textit{mockup} de Pencil, se avanzó significativamente con la programación web.
+
+Se citó la bibliografía de la documentación y se realizaron los cambios señalados por el tutor, como distinguir palabras en inglés, formas de poner las URL, los números o incluso la manera de citar el propio \LaTeX{}.
+
+Además, la base de datos se rellenó con datos aleatorios utilizando la herramienta \textit{online} Mockaroo. La alumna no disponía de los vídeos de los pacientes, por lo que se incluirán en la base de datos en el siguiente \textit{sprint}.
+
+Como se puede ver en la Figura~\ref{fig:Burndown7}, se presenta el gráfico \textit{burndown} del \textit{sprint}~7. Asimismo, el informe de estado se muestra en la Figura~\ref{fig:InformeEstado7}.
+\imagen{Burndown7}{Gráfico \textit{burndown} - \textit{Sprint} 7}
+\imagen{InformeEstado7}{Informe de estado - \textit{Sprint} 7}
+
+
+
+
+\subsection{\textit{Sprint} 8 - Flask y corregir}
+Este \textit{sprint} tiene una duración de una única semana, ya que la alumna posteriormente se va a un proyecto europeo, por lo que no se han incluido todas las actividades que se comentaron con el tutor en la reunión de fin de \textit{sprint}. Se han solucionado las siguientes incidencias:
+\begin{itemize}
+    \item Rellenar el apartado de los informes de \textit{sprint} anterior y actual.
+    \item Corregir la documentación de \LaTeX{}: especificar rutas, cambiar fecha de la bibliografía, dividir los apartados en subsecciones para facilitar la lectura y cambiar la forma de expresarse a un lenguaje más impersonal.
+    \item Utilizar \textit{bootstrap-table} para mostrar el listado de pacientes de cada médico.
+    \item Editar la barra de navegación para tener una única barra universal en el \textit{layout}.
+    \item Añadir los vídeos de los pacientes en la base de datos.
+    \item Realizar el apartado de la aplicación que permite a los médicos subir los vídeos y archivos de datos de sus pacientes.
+    \item Continuar con la creación de más ventanas de las generadas inicialmente en Pencil.
+\end{itemize}
+
+El gráfico \textit{burndown} presenta la forma que se observa en la Figura~\ref{fig:Burndown8} al final del sprint ya que, además de no haberse terminado la incidencia sobre la creación de todas las ventanas de la aplicación, la alumna olvidó cerrar el sprint en Jira por las prisas del viaje, lo que hizo que el tiempo del sprint siguiera corriendo.
+
+El informe del \textit{sprint} se muestra en la Figura~\ref{fig:InformeEstado8}.
+\imagen{Burndown8}{Gráfico \textit{burndown} - \textit{Sprint} 8}
+\imagen{InformeEstado8}{Informe de estado - \textit{Sprint} 8}
+
+
+
+
+\subsection{\textit{Sprint} 9 - Estamos de vuelta}
+Tras el proyecto europeo, casi un mes más tarde se continuó con el \textit{sprint}~9, cuya duración fue de dos semanas y media. Consistió en realizar las incidencias que no se incluyeron en el anterior \textit{sprint} por falta de tiempo.
+
+Se avanzó con la documentación, realizando los apartados de conceptos teóricos y de técnicas y herramientas de la memoria, así como el apartado actual y algunas correcciones.
+
+Se realizó un \textit{script} para rellenar la base de datos de pacientes y médicos con imágenes generadas por inteligencia artificial, ya que no se tenía acceso a las fotografías reales de estos usuarios.
+
+Respecto a la aplicación web se programó el formulario de inicio de sesión definitivo, comprobando los usuarios y contraseñas en la base de datos, y llevando un posterior control de sesiones. Se incluyó en la barra de navegación un apartado extra con el perfil del usuario, permitiéndole cerrar su sesión, y se modificaron las páginas de bienvenida de cada tipo de usuario de la aplicación.
+
+También se comenzó con la generación de los gráficos de los pacientes a partir de los registros del sensor. El usuario elige qué gráfico ver y de qué fechas mediante un formulario. Se implementó el código cedido por los creadores del sensor.
+
+El gráfico \textit{burndown} se presenta en la Figura~\ref{fig:Burndown9} y el informe en la Figura~\ref{fig:InformeEstado9}:
+\imagen{Burndown9}{Gráfico \textit{burndown} - \textit{Sprint} 9}
+\imagen{InformeEstado9}{Informe de estado - \textit{Sprint} 9}
+
+
+
+
+\subsection{\textit{Sprint} 10 - Mostrar gráficos}
+Durante las poco más de dos semanas de duración del \textit{sprint} se llevaron a cabo diferentes acciones sobre el código de la aplicación web:
+\begin{itemize}
+    \item Tras la reunión con el tutor, se abandonó la idea inicial de que el usuario administrador pudiera entrar como un médico o paciente. Se programó una ventana para los administradores de gestión de usuarios. En ella se puede acceder a tres tablas, conteniendo todos los administradores, médicos y pacientes. Estos usuarios se pueden editar o eliminar de la base de datos, así como crear usuarios nuevos. Además, sobre los pacientes se pueden realizar las mismas acciones que realizaban ya los médicos.
+    \item Se corrigió el acceso a las ventanas de la aplicación, comprobando que el usuario que ha iniciado sesión tenga permiso para acceder a dicha información.
+    \item Se corrigió también la subida de vídeos y registros a la base de datos, cambiando el nombre de los archivos a uno que definiera su contenido y el momento exacto en el que fue introducido en la base de datos, controlando así la subida de elementos con el mismo nombre.
+    \item Se cambió la forma en la que se guardan los registros en la base de datos, teniendo estos una fecha inicial y una fecha final que no es introducida a mano por el usuario, sino que es calculada por un \textit{script} que obtiene dichos datos del primer y último dato del propio registro.
+    \item El cambio anterior se realizó con el fin de facilitar la creación de un calendario para elegir las fechas del gráfico. En un primer momento la idea era resaltar en verde las fechas que sí tuvieran registros pero, tras investigar las funcionalidades de la biblioteca flatpickr, se optó por deshabilitar directamente las fechas en las que no hubiera registros de ese paciente. Al ser estas muy cuantiosas, se informa al usuario de las escasas fechas disponibles para facilitar la búsqueda.
+    \item Respecto a la gráfica, se trabajó sobre las funciones de los creadores del sensor, adaptándolas al código del proyecto para poder mostrar los gráficos en la propia web, utilizando chart.js.
+    \item Por último, se creó una nueva ventana, disponible en el apartado de acciones sobre los pacientes, en la que se muestran los vídeos disponibles en la base de datos para dicho paciente.
+\end{itemize}
+
+Además de cambios en la aplicación, también se avanzó con la documentación, en concreto con el manual del programador, situado al final de los anexos. Simplemente se investigó la función de dicho apartado y se comenzó a explicar lo que se podía por el momento.
+
+El gráfico e informe del \textit{sprint} se muestran en la Figura~\ref{fig:Burndown10} y en la Figura~\ref{fig:InformeEstado10}.
+\imagen{Burndown10}{Gráfico \textit{burndown} - \textit{Sprint} 10}
+\imagen{InformeEstado10}{Informe de estado - \textit{Sprint} 10}
+
+
+
+
+\subsection{\textit{Sprint} 11 - Mejora /análisis}
+La duración de este \textit{sprint} fue de menos de dos semanas. Su objetivo principal, además de realizar mejoras sobre varios aspectos comentados con el tutor en la reunión, era incorporar parte del TFG realizado por el compañero Catalin~\cite{TFGCatalin} durante el curso pasado al presente proyecto.
+
+Algunas de estas mejoras fueron:
+\begin{itemize}
+    \item Realizar modificaciones en las gráficas. Se cambió su representación, optando por un gráfico que resaltara más los puntos que las líneas, permitiendo centrarse más en las medidas. Además se muestra una miniatura de los gráficos del apartado seleccionado, para ofrecer una visión global al usuario, que posteriormente elige el gráfico a mostrar completo.
+    Respecto al calendario para seleccionar las fechas de las gráficas, se editó para mostrar en primer momento una fecha disponible con registros y para poder seleccionar un solo día en vez de un rango.
+
+    \item Se realizó el \textit{hash} de las contraseñas de los usuarios de la aplicación para aumentar la seguridad. También se implementó la opción de poder ocultar la contraseña al escribirla en el inicio de sesión.
+
+    \item Se trató de mejorar la apariencia de la aplicación, agrupando los botones y dándoles colores característicos, centrando las tablas, mostrando los logos de la UBU y de la asociación de Parkinson Burgos únicamente en la página principal\ldots
+
+    \item Se implementaron restricciones en los formularios, de forma que el usuario no pueda introducir datos absurdos o textos malintencionados, añadiendo seguridad a la aplicación. Además, se permite limpiar o cancelar los formularios si no se van a enviar.
+\end{itemize}
+
+Respecto a la implementación de lo realizado en el trabajo de fin de grado del estudiante Catalin Andrei Cacuci, se comenzó preparando los datos. Se crearon los campos de amplitud y velocidad en la base de datos de los vídeos. Estos campos serán rellenados por los médicos especializados en el momento en el que suban un nuevo vídeo, siendo 0 un buen resultado y 4 uno que denota mayor severidad de párkinson. 
+
+Cuando se añade un nuevo vídeo a un paciente, este pasa por las funciones creadas por el alumno mencionado, obteniendo ciertas estadísticas, que se guardan en la base de datos y se muestran en la pantalla en la que anteriormente solo se mostraban los vídeos. Como dicho proceso dura unos minutos, se han añadido elementos visuales para indicar al usuario de que el proceso de análisis se está llevando a cabo. Posteriormente, se pueden ver dichos vídeos y sus características, así como también se pueden eliminar si así se desea.
+
+También se avanzó con la documentación, realizando los informes del \textit{sprint} anterior y actual, y comenzando con el manual de usuario, explicando las funcionalidades de las ventanas, pero sin imágenes ni entrando mucho en detalle porque ciertos aspectos todavía pueden cambiar hasta la entrega del proyecto.
+
+En el gráfico \textit{burndown}, representado en la Figura~\ref{fig:Burndown11}, se observa la mejora en la predicción de los \textit{Story Points} de cada incidencia por su semejanza con la línea de Guía. El informe con todas las incidencias del \textit{sprint} terminadas se puede observar en la Figura~\ref{fig:InformeEstado11}.
+\imagen{Burndown11}{Gráfico \textit{burndown} - \textit{Sprint} 11}
+\imagen{InformeEstado11}{Informe de estado - \textit{Sprint} 11}
+
+
+
+
+\subsection{\textit{Sprint} 12 - IA para vídeos}
+La duración del presente \textit{sprint} estaba estimada en dos semanas pero se finalizó antes de tiempo. Durante estos días se avanzó con la documentación, se realizaron correcciones en el diseño y navegación de la aplicación y se realizó un estudio del párkinson de los pacientes mediante inteligencia artificial a partir de las características de los vídeos de los pacientes.
+
+Respecto a la documentación, se comenzaron a redactar apartados nuevos como las conclusiones obtenidas del proyecto y las líneas de trabajo futuras, es decir, ideas que se pueden implementar en la aplicación en un futuro. Además se incluyó el utilizar el TFG de un compañero como aspecto relevante y se completó información sobre las librerías usadas por el momento.
+
+Las correcciones en la navegación de la aplicación consistieron en generar <<migas de pan>>, permitiendo al usuario ver un rastro de las páginas que ha ido visitando hasta llegar a la página actual, pudiendo acceder a ellas de forma intuitiva.
+
+Respecto al diseño de la aplicación, se han modificado aspectos de la ventana que muestra los gráficos de los datos del sensor. También se ha debido cambiar el aspecto de la ventana que muestra los vídeos, adaptándose al aumento de la cantidad de vídeos por paciente y añadiendo las nuevas funcionalidades.
+Este aumento de vídeos por paciente es necesario para poder implementar la funcionalidad de predicción mediante inteligencia artificial del desarrollo de la enfermedad, ya que con pocos vídeos esto no sería posible. Este aumento se ha simulado para los 4 primeros usuarios, para poder mostrar el funcionamiento de la aplicación.
+
+El primer paciente tiene vídeos de pacientes hombres que estaban entre los 62 y 66 años. Se han usado los datos de amplitud y lentitud reales, tomadas por las neurólogas del hospital, junto con las características reales obtenidas de las funciones de Catalin~\cite{TFGCatalin}. Se han modificado las fechas para simular que se trata del mismo hombre, que ha ido grabando vídeos a lo largo de los años.
+El segundo paciente es una mujer, con vídeos tomados entre los 56 y 60 años. El tercero es un hombre, de entre 76 y 82 años y el cuarto es una mujer de entre 75 y 82 años.
+
+Las características de cada vídeo, entre las que se encuentran amplitud, lentitud, velocidad media o frecuencia de máximos/mínimos, se muestran en una gráfica, para tener una idea visual de la evolución del paciente.
+
+Para que la alumna se familiarizara con las series temporales, el tutor la matriculó como estudiante (no oficial) en un curso de series temporales de UBUVirtual. Estos conocimientos se aplicaron para predecir la amplitud y lentitud que tendrían los pacientes ficticios basándose en los datos disponibles. El resultado no fue el deseado debido a la pobreza de los datos, por lo que se pospone la predicción a otro \textit{sprint}.
+
+
+En la Figura~\ref{fig:Burndown12}, se puede observar como el ritmo de trabajo de la alumna fue más rápido que el tiempo planificado, representado por la línea de guía, por lo que el \textit{sprint} finalizó cuatro días antes.
+En la Figura~\ref{fig:InformeEstado12} aparecen todas las incidencias explicadas con anterioridad finalizadas.
+\imagen{Burndown12}{Gráfico \textit{burndown} - \textit{Sprint} 12}
+\imagen{InformeEstado12}{Informe de estado - \textit{Sprint} 12}
+
+
+
+
+\subsection{\textit{Sprint} 13 - Cambios y Docs}
+Durante una reunión entre el tutor y la alumna se comentaron aspectos de la aplicación que podrían mejorarse para hacerla más homogénea e intuitiva. Algunos de estos cambios fueron:
+\begin{itemize}
+    \item Editar las <<migas de pan>> para hacer la navegación más intuitiva.
+    \item En la ventana de gestión de los usuarios, evitar que los administradores se puedan eliminar a sí mismos y corregir la edición de los usuarios y sus contraseñas.
+    \item Modificar el aspecto de los formularios de la aplicación para hacerlos más concisos, así como añadir avisos obligando a rellenar todos los campos obligatorios.
+    \item Añadir una característica a los pacientes, indicando si son zurdos o diestros.
+    \item Fusionar las ventanas de <<sobre nosotros>> y <<contacto>> en una única ventana con ambas informaciones.
+\end{itemize}
+
+También se añadió contenido en los siguientes apartados de la documentación:
+\begin{itemize}
+    \item Conceptos teóricos: se explicaron las series temporales como subsección a lo previamente explicado sobre \textit{machine learning} y se añadió una explicación sobre la escala UPDRS~\cite{updrs} en relación con el párkinson.
+    \item Aspectos relevantes: se destacaron ciertos desafíos encontrados durante la realización del proyecto, como aprender programación web y minería de datos o usar datos de terceros.
+    \item Conclusiones y líneas futuras: se comentaron las conclusiones obtenidas del resultado del proyecto y ciertas funcionalidades extras interesantes como el añadir más apartados del formulario de la UPDRS.
+    \item Licencias: se compararon las licencias de las librerías utilizadas, con el fin de escoger la más restrictiva como licencia del proyecto.
+    \item Diseño: se realizaron diagramas de secuencia para ciertas funciones del código y el diagrama de despliegue del proyecto.
+    \item F-ODS: se abordaron aspectos sobre la sostenibilidad del proyecto, como cambiar los materiales de los sensores, contribuir al envejecimiento saludable o utilizar modelos de \textit{machine learning} eficientes.
+    \item Introducción: se explicó cuál y cómo es el trabajo realizado.
+\end{itemize}
+
+En la Figura~\ref{fig:Burndown13}, que representa el gráfico \textit{burndown} se muestra cómo se comenzó con las incidencias de programar de forma rápida y se finalizó más tarde de lo esperado con las relacionadas con la documentación.
+La Figura~\ref{fig:InformeEstado13} representa el informe con todas las incidencias finalizadas. Se puede apreciar cómo se editó la dificultad en \textit{story points} de la incidencia sobre las migas de pan, y que se añadieron dos incidencias al \textit{sprint} después de la fecha de comienzo.
+\imagen{Burndown13}{Gráfico \textit{burndown} - \textit{Sprint} 13}
+\imagen{InformeEstado13}{Informe de estado - \textit{Sprint} 13}
+
+
+
+\subsection{\textit{Sprint} 14 - Predicciones}
+El principal objetivo de este \textit{sprint} es generar unas predicciones con resultados razonables de las características de los vídeos grabados por los pacientes realizando el movimiento de pinza. Las predicciones se realizarán para todas las características, utilizando una gráfica por mano. Anteriormente se intentó con un modelo pero no se obtenían buenos resultados, por lo que ahora, además de editar los datos de los pacientes para simular una periodicidad de fechas entre los vídeos, se probará con diferentes modelos. Este proceso hasta conseguir las predicciones deseadas se documentó en la memoria, en el apartado de aspectos relevantes.
+Tras probar con diferentes modelos y técnicas se decidió usar el modelo de suavizado exponencial de Holt.
+
+Además de las predicciones se realizaron otros cambios en la aplicación comentados en la reunión de final de \textit{sprint}, como ajustes en los formularios y en los datos a mostrar.
+
+La traducción de los textos de la aplicación no se había realizado hasta este momento, ya que se iban añadiendo textos cada semana. Una vez dados por acabados los cambios, se realizó la traducción al inglés y al francés de todos los textos que se muestran en la aplicación, con el fin de internacionalizarla y hacerla accesible para más usuarios.
+
+A medida que avanzaba el \textit{sprint} se fueron descubriendo pequeños fallos en el código que obligaron a reescribir los documentos de las traducciones en varias ocasiones. Algunos de estos fallos fueron: permitir eliminar un paciente aunque tenga vídeos y registros asociados (eliminándolos para acabar con las restricciones de claves foráneas), detectar que no se han realizado cambios en los formularios de edición de los pacientes (evitando enviar el formulario con los mismos datos que ya se encuentran en la base de datos), realizar las traducciones de las alertas al usuario por errores en el formulario\ldots
+
+Para revisar la calidad del código del programa se estudió la herramienta SonarQube. Debido a que es una herramienta de pago, se pidió una licencia de prueba, pero al ser fin de semana no se obtuvo respuesta. A comienzos de la semana, y tras haber configurado y aprendido el funcionamiento de la herramienta, la licencia de prueba fue denegada, por lo que no se pudo ejecutar.
+
+Por último se realizaron correcciones en ciertas partes de la memoria y anexos, como mejorar los diagramas de secuencia, añadir imágenes de las ventanas en el manual de usuario, calcular los beneficios que se obtendrían al añadir publicidad\ldots
+
+En la Figura~\ref{fig:Burndown14} se observa cómo se han ido completando las tareas a lo largo del \textit{sprint}.
+En el informe de la Figura~\ref{fig:InformeEstado14} se aprecian las prioridades dadas a cada incidencia, así como los cambios en las estimaciones de \textit{story points} o las nuevas incidencias agregadas tras la fecha de comienzo.
+\imagen{Burndown14}{Gráfico \textit{burndown} - \textit{Sprint} 14}
+\imagen{InformeEstado14}{Informe de estado - \textit{Sprint} 14}
+
+
+
+\subsection{\textit{Sprint} 15 - Despliegue}
+Este \textit{sprint} corresponde con la semana antes de la entrega, por lo que su objetivo es terminar de perfeccionar la aplicación, completar los apartados de la memoria restantes, mejorar el aspecto del repositorio de GitHub y desplegar el proyecto en el servidor de la UBU.
+
+Respecto a la aplicación, se realizaron las traducciones de los títulos de las gráficas, que previamente no se habían podido traducir. 
+También se revisaron ciertos aspectos de las predicciones.
+
+Además, se trató de revisar el código de nuevo con la herramienta SonarQube, pero con la versión \textit{Community Edition} en vez de la versión para desarrolladores. Esta versión si resultó ser gratuita, por lo que se pudo realizar el análisis del código. Gracias a este análisis se pudieron modificar varias partes del código, que suponían problemas de seguridad o mantenibilidad. Estando a tan pocos días de la entrega, cambiar tanto código de la aplicación sin que nada dejara de funcionar supuso un esfuerzo extra para la alumna.
+
+Respecto a la documentación, se desarrollaron los casos de prueba realizados con el fin de probar ciertas funcionalidades de la aplicación que podían fallar. Se realizaron tablas para cada caso de prueba, mostrando el funcionamiento esperado y el funcionamiento que tiene la aplicación.
+
+Además se completaron los apartados de técnicas y herramientas, y aspectos relevantes, incluyendo el proceso y la información de la herramienta SonarQube con la que se analizó el código.
+
+Por último se repasó toda la documentación, arreglando errores y desarrollando más ciertos apartados como el diseño de datos con la base de datos final, los manuales de programador y usuario, el plan de proyecto,\ldots
+
+Una vez finalizados definitivamente los cambios en la aplicación se comenzó con la puesta a punto del repositorio de GitHub. Se fusionó la rama \textit{master} que contenía todo el código de la aplicación con la rama \textit{main} principal. Además se eliminaron documentos y archivos duplicados y se realizó una carpeta en la que se incluyeron las pruebas realizadas al comienzo del TFG para familiarizarse con el lenguaje y ciertas herramientas. Se realizó el archivo \texttt{README.md} informativo y se incluyó la licencia elegida para la distribución del código. Además se exportó la configuración de la base de datos y se incluyó en el repositorio. Al finalizar la documentación, se añadirán tanto los .pdf como los documentos .tex propios de \LaTeX{}.
+
+
+La parte más tediosa del \textit{sprint} fue la realización del despliegue de la aplicación en un servidor real.
+La máquina real en la que se puso en marcha fue un servidor proporcionado por la Universidad de Burgos, con un sistema operativo Linux. La idea es que la aplicación estuviera disponible en todo momento desde la intranet de la UBU, facilitando el trabajo de corrección del TFG.
+
+
+Por último se grabó el tutorial explicando las funcionalidades de la aplicación, se imprimió la memoria y se crearon los 3 pinchos USB con el contenido del repositorio para la entrega física.
+
+En la Figura~\ref{fig:Burndown15} se aprecia el ritmo de trabajo llevado en el \textit{sprint}, y en la Figura~\ref{fig:InformeEstado15} el informe con todas las incidencias finalizadas.
+\imagen{Burndown15}{Gráfico \textit{burndown} - \textit{Sprint} 15}
+\imagen{InformeEstado15}{Informe de estado - \textit{Sprint} 15}
+
+
+
+\subsection{Gráfico global final}
+Al terminar el proyecto, se consultó el diagrama de flujo acumulado, proporcionado por la herramienta Jira. 
+
+La Figura~\ref{fig:TrabajoAcumulado} muestra cómo se van acumulando el número de incidencias desde la fecha de inicio del proyecto hasta la fecha actual.
+
+\imagen{TrabajoAcumulado}{Diagrama de flujo acumulado total}
+
+
+
+\section{Estudio de viabilidad}
+El estudio de la viabilidad de un proyecto consiste en llevar a cabo una evaluación exhaustiva del mismo antes de iniciarlo, determinando si es rentable o factible. Dado que se trata de un Trabajo de Fin de Grado y no un proyecto real, no se va a analizar de la misma forma. Además, no se pretende obtener beneficios económicos con su realización y no serán necesarios permisos especiales, ya que no se pretende lanzarlo al mercado.
+
+Se va ha realizar una evaluación económica y legal, con el fin de asegurar el éxito y la continuidad del proyecto.
+
+
+
+\subsection{Viabilidad económica}
+Se procede a analizar los costes y beneficios del proyecto, para estudiar su rentabilidad. Se tienen en cuenta todos los aspectos que se analizarían si el proyecto fuera real, realizado por una empresa y con un equipo de trabajo.
+
+Es importante tener en cuenta la duración del proyecto. Comenzó el 29 de septiembre y la fecha prevista de entrega al cliente es el 12 de junio, por lo que el proyecto tendrá una duración aproximada de 8 meses.
+
+
+\subsubsection{Costes}
+Los costes involucrados en la realización del proyecto se pueden dividir en costes \textit{hardware}, \textit{software}, del personal y otros:
+\begin{itemize}
+\item Costes \textit{hardware}: el único material utilizado ha sido el ordenador portátil de la alumna (DELL XPS 15 9570 con 32 GB de RAM y un procesador Intel® Core™ i5 de octava generación y 2.3 GHz). Actualmente se encuentra en el mercado por unos 1700~euros\footnote{\url{https://www.worten.es/productos/portatil-dell-xps-15-9570-n5n09-15-6-intel-core-i5-8300h-ram-8-gb-256-gb-ssd-nvidia-geforce-gtx-1050-6841095}}, pero el equipo tiene una antigüedad de 4 años, por lo que habría que calcular su amortización en el proyecto~\cite{amortizacionEquipos}:
+$$\frac{\text{1700 €}}{4 \, \text{años} \times 12 \, \text{meses/año}} = \text{35.42 €/mes}$$
+
+$$\text{35.42 €/mes} \times \text{8 meses} = \text{283.36 €}$$
+
+
+\item Costes \textit{software}: se entiende como costes \textit{software} los gastos asociados al desarrollo y mantenimiento del \textit{software} a utilizar en el proyecto. Entre ellos se encuentran: licencias, plataformas para el desarrollo o pruebas, formación del equipo de desarrollo, mantenimiento que garantice el funcionamiento del \textit{software} a lo largo de los años\ldots
+
+El principal \textit{software} sobre el cual se han ejecutado las aplicaciones del proyecto, es el sistema operativo de la alumna, en este caso una licencia de Windows 10 Pro, que actualmente se encuentra en el mercado por 259\footnote{\url{https://www.microsoft.com/es-es/d/windows-11-pro/dg7gmgf0d8h4}}~euros. Calculamos su amortización, teniendo en cuenta que la licencia tiene la misma antigüedad que el portátil:
+$$\frac{\text{259 €}}{4 \, \text{años} \times 12 \, \text{meses/año}} = \text{5.4 €/mes}$$
+
+$$\text{5.4 €/mes} \times \text{8 meses} = \text{43.2 €}$$
+
+
+
+Otras licencias utilizadas durante el proyecto han sido:
+\begin{itemize}
+    \item Licencia de Office: utilizada mayoritariamente para realizar la documentación, para el almacenamiento en la nube proporcionado por OneDrive y para las comunicaciones con el tutor a través de correos electrónicos. Siendo estudiante, el coste real de la licencia es de 0~euros, ya que la UBU proporciona este servicio. Si se tratara de una empresa real, disponer de Office~365 tendría un coste de 5.6~€ al mes\footnote{\url{https://www.microsoft.com/es-es/microsoft-365/business/compare-all-microsoft-365-business-products}}, 44.8~€ teniendo en cuenta la duración del proyecto.
+    
+    \item Licencia de GitHub Pro: plataforma de desarrollo colaborativo escogida para desarrollar el \textit{software} del proyecto. Se utiliza una licencia \textit{pro}, cuyo coste sería de 4~euros al mes\footnote{\url{https://github.com/settings/billing/summary}}, constituyendo un total de 32~€ durante todo el proyecto. En este caso, la licencia es gratis por ser estudiante.
+    
+    \item Jira: actualmente se utiliza el plan \textit{Free} ya que es gratuito pero, si se tratara de una empresa real, lo mínimo sería utilizar la versión \textit{Standard}, cuyo precio es de 7.75~€ al mes\footnote{\url{https://www.atlassian.com/es/software/jira/pricing}}, resultando en un total de 62~€ para todo el proyecto.
+\end{itemize}
+
+
+\item Costes del personal: se calculan aproximadamente los salarios de los integrantes del equipo (una única desarrolladora y un director de proyecto) en función de la normativa laboral española actual.
+\begin{itemize}
+    \item La alumna es considerada como única integrante del equipo de desarrollo del producto \textit{software}. Dedica las tardes al proyecto, habiendo invertido aproximadamente 500 horas de trabajo repartidas a lo largo de 8 meses. Al seguir estudiando y no contar con experiencia laboral previa en el campo, se le podría considerar programadora \textit{junior}. En España, el sueldo medio de un programador \textit{junior} es de 21384~€ al año\footnote{\url{https://www.glassdoor.es/Sueldos/espa\%C3\%B1a-programador-j\%C3\%BAnior-sueldo-SRCH_IL.0,6_IN219_KO7,25.htm}}.
+    Teniendo en cuenta que el tiempo de trabajo anual en España es de 1820~horas\footnote{\url{https://www.expansion.com/diccionario-juridico/jornada-laboral.html}}, el trabajo de programador \textit{junior} se paga a 11.75~€ la hora. Habiendo trabajado 500~horas, el salario bruto de la desarrolladora sería de 5875~€ (734~€ al mes).
+    
+    A esta cifra se le deben añadir los impuestos y contribuciones sociales que debe pagar la empresa, recogidos en la tabla~\ref{tabla:costes}~\cite{costesxtrabajador}:
+    
+    \begin{table}[h]
+      \centering
+      \begin{tabular}{|l|r|}
+        \hline
+        \textbf{Contingencias comunes} & 23.60\% \\
+        \hline
+        \textbf{Contingencias profesionales} & 1.50\% \\
+        \hline
+        \textbf{Formación profesional} & 0.60\% \\
+        \hline
+        \textbf{Desempleo} & 6.70\% \\
+        \hline
+        \textbf{Fogasa} & 0.20\% \\
+        \hline
+      \end{tabular}
+      \caption{Tabla de contribuciones que las empresas pagan por trabajador}
+      \label{tabla:costes}
+    \end{table}
+
+
+    Con estos porcentajes, el coste total para la empresa sería de:    
+    $$\frac{\text{734 €/mes}}{1 - (\text{0.236} + \text{0.015} + \text{0.006} + \text{0.067} + \text{0.002})} = \text{1089.02 €/mes}$$
+
+    $$\text{1089.02 €/mes} \times \text{8 meses} = \text{8712.17 €}$$
+
+
+    \item El tutor es considerado \textit{product owner} y \textit{scrum master} del proyecto. Sabiendo que el salario promedio anual de ambos empleos ronda los 45000~euros\footnote{\url{https://es.talent.com/salary?job=product+owner}}, es decir, 23.08~€ la hora. Teniendo en cuenta que el tutor dedica unas 2 horas semanales, cobraría 200~€ brutos al mes. Aplicando la fórmula anterior para añadir los impuestos:
+    $$\frac{\text{200 €/mes}}{1 - (\text{0.236} + \text{0.015} + \text{0.006} + \text{0.067} + \text{0.002})} = \text{296.74 €/mes}$$
+
+    $$\text{296.74 €/mes} \times \text{8 meses} = \text{2373.89 €}$$
+
+
+\end{itemize}
+
+\item Otros costes: si se tratara de un proyecto real realizado por una empresa, un coste a tener en cuenta sería el lugar de trabajo, es decir, el coste de alquiler de una oficina u otro espacio, añadiendo costes como luz, calefacción, Internet\ldots Aproximadamente, alquilar una oficina pequeña en una ciudad como Burgos ronda los 300~euros\footnote{\url{https://www.idealista.com/alquiler-oficinas/burgos-burgos/}} al mes, suponiendo un coste extra de 2400~€.
+\end{itemize}
+
+El total de los costes se recoge en la tabla~\ref{tabla:costesTotales}:
+\begin{table}[h]
+  \centering
+  \begin{tabular}{|l|r|}
+    \hline
+    \textbf{Costes software} & 181.97~€ \\
+    \hline
+    \textbf{Costes hardware} & 283.36~€ \\
+    \hline
+    \textbf{Costes de personal} & 11086.06~€ \\
+    \hline
+    \textbf{Otros costes} & 2400~€ \\
+    \hline
+    \textbf{Costes totales} & 13951.39~€ \\
+    \hline
+  \end{tabular}
+  \caption{Tabla de costes del proyecto}
+  \label{tabla:costesTotales}
+\end{table}
+
+
+
+
+
+
+\subsubsection{Beneficios}
+Los beneficios esperados no son monetarios. El objetivo real del proyecto para la alumna es consolidar y ampliar los conocimientos adquiridos durante su carrera universitaria, así como adquirir nuevas habilidades que puedan resultar útiles en su futura vida laboral. Además, busca obtener el título universitario como culminación a su dedicación personal durante estos 4~años.
+
+Además de los aspectos académicos y personales, el proyecto tiene un propósito social, contribuir a mejorar la calidad de vida de los pacientes con párkinson al proporcionarles un acceso más fácil a sus constantes físicas y al facilitar el seguimiento de su enfermedad. 
+
+Por ello, los beneficios van más allá del dinero, el proyecto tiene un fin social y personal.
+
+
+Pero, como se ha estado realizando hasta ahora, se considerarán los posibles beneficios como si el proyecto fuera llevado a cabo por una empresa real. 
+
+El proyecto se realiza en colaboración con la Asociación Parkinson Burgos, gracias a los convenios establecidos con la Universidad de Burgos~\cite{UBUxparkinson}. No se espera obtener ingresos directos por el uso de la aplicación web, pero se explorará la posibilidad de mitigar algunos costos a través de donaciones a la asociación.
+
+No se contempla la implementación de suscripciones a los usuarios, ya que se busca que la aplicación sea accesible para toda la población, por lo que no se espera obtener beneficios monetarios de los pacientes.
+
+Aunque inicialmente no se planeaba la idea de monetizar la aplicación con publicidad, es útil considerar cómo esta podría generar ingresos pasivos. Utilizando servicios como Google AdSense\footnote{\url{https://adsense.google.com/start/}}, es posible integrar anuncios sin afectar negativamente la experiencia de los usuarios.
+Además, para el desarrollador es tan simple como añadir un fragmento de código para que Google muestre automáticamente anuncios relevantes en la aplicación y adaptados a su diseño en cualquier dispositivo.
+
+Mediante su página oficial se puede realizar una estimación de los ingresos anuales que se obtendrían con los anuncios. Se ha de seleccionar la ubicación de los visitantes del sitio web y la categoría del contenido, en el caso del proyecto actual la ubicación es Europa y en el campo de la salud. Indicando el número de veces al mes que las páginas del sitio web se cargan, la página calcula los ingresos. El mínimo de visitas al mes que permite la herramienta de estimación es 50000, lo que supondría unos ingresos de \$~3204, unos 2956~€.
+
+Se estima que la aplicación web del proyecto podría alcanzar los 200 usuarios activos al mes, entre pacientes y médicos, cuando esté en funcionamiento. Si cada usuario visita la aplicación 10 veces al mes, formaría un total de 2000 visitas al mes. Aplicando la regla de tres de la página, supondrían \$~128.16, unos 118~€.
+
+Esta cantidad es simplemente una estimación, los ingresos reales dependen de diversos factores: la demanda de los anunciantes, la ubicación y el dispositivo de los usuarios, el contenido, la temporada, el tamaño de los anuncios\ldots
+
+
+
+
+La rentabilidad del proyecto determina si los beneficios serán suficientes para cubrir los costes, lo que permite confirmar si el proyecto será viable o no. Como se puede observar tras estudiar la viabilidad económica del proyecto, los costes han sido de 13951.39~€ y los beneficios han sido nulos. Típicamente la rentabilidad~\cite{rentabilidad} se calcularía utilizando la fórmula del retorno de la inversión, que divide los beneficios netos menos los costes entre los costes, pero en este proyecto el resultado de esa operación sería una rentabilidad del -100\%.
+
+El resultado nos ofrece que el proyecto ha supuesto pérdidas y no es rentable pero, como se trata de un Trabajo de Fin de Grado, se va a hacer caso omiso del resultado obtenido.
+
+Si se tuviera en cuenta la idea de utilizar publicidad, se obtendrían unos 118~€ al mes, 1416~€ al año. Calculando entonces la rentabilidad, se obtendría una rentabilidad del -89.8\%:
+$$\text{ROI} = \frac{\text{1416 €} - \text{13951.39 €}}{\text{13951.39 €}} = \frac{\text{-12535.39 €}}{\text{13951.39 €}} \approx \text{-0.898}$$
+
+Para rentabilizar el proyecto obteniendo esos beneficios anuales, serían necesarios casi 10~años:
+$$\text{Años para rentabilizar} = \frac{\text{13951.39 €}}{\text{1416 €}} \approx \text{9.85}$$
+
+
+
+\subsection{Viabilidad legal}
+El estudio de la viabilidad legal consiste en analizar si existe alguna barrea legal que impida realizar el proyecto. Se deben analizar todas las cuestiones jurídicas que afecten al proyecto: acuerdos de confidencialidad, derechos de propiedad intelectual, legislaciones de la Unión Europea, requisitos legales del sector\ldots
+
+Ya que el proyecto se realiza junto con una universidad y una asociación médica, se deben considerar diversas normativas. Las más relevantes pueden ser:
+\begin{itemize}
+    \item Reglamento General de Protección de Datos (RGPD~\cite{RGPD}): ya que se trabaja con datos de pacientes reales, residentes en la Unión Europea, hay que seguir estos estrictos estándares para la protección de sus datos.
+    \item Consentimiento informado: según el RGPD se debe contar con el consentimiento de los pacientes para poder hacer uso de su información personal. Se entiende consentimiento como: «la manifestación de voluntad libre, específica, informada e inequívoca por la cual una persona acepta, mediante una clara acción afirmativa, el tratamiento de sus datos personales~\cite{consentimiento}». Cuando los pacientes accedieron a llevar el sensor con fines de investigación, dieron su consentimiento para que sus datos fueran utilizados en el ámbito universitario para realizar proyectos como el desarrollado.
+    \item Seguridad de los datos: se deben implementar medidas de seguridad que garanticen la confidencialidad e integridad de los datos. Para ello se utiliza un acceso con usuario y contraseña para poder acceder a los datos de cada paciente, acompañado de medidas de ciberseguridad.
+    \item Propiedad intelectual: ya que durante el proyecto se utilizan obras de otros autores (por ejemplo, se utiliza el código de Python utilizado para tratar y mostrar los datos del sensor creado por los creadores de SENSE4CARE~\cite{sense4care}) hay que abordar el tema de los derechos de autor.
+\end{itemize}
+
+Además, hay que tener en cuenta las licencias de las librerías de Python utilizadas durante el proyecto. En la tabla~\ref{a:licencias} se resumen las licencias de las bibliotecas usadas y sus versiones. Se han obtenido escribiendo el comando <<pip-licenses>> en la terminal del entorno virtual.
+
+\begin{table}[p]
+    \begin{tabularx}{\linewidth}{ p{0.3\textwidth} p{0.15\textwidth} p{0.55\textwidth} }
+        \toprule
+        \textbf{Librería} & \hfil\textbf{Versión} & \textbf{Licencia} \\
+        \midrule
+        \texttt{Flask} & \hfil3.0.0 & BSD-3-Clause License \\
+        \texttt{flask-babel} & \hfil4.0.0 & BSD License \\
+        \texttt{Flask-SQLAlchemy} & \hfil3.1.1 & BSD-3-Clause License \\
+        \texttt{Flask-WTF} & \hfil1.2.1 & BSD-3-Clause License \\
+        \texttt{Jinja2} & \hfil3.1.2 & BSD-3-Clause License \\
+        \texttt{jsonschema} & \hfil4.19.1 & MIT License \\
+        \texttt{matplotlib} & \hfil3.8.0 & PSF License \\
+        \texttt{mediapipe} & \hfil0.10.11 & Apache Software License 2.0 \\
+        \texttt{numpy} & \hfil1.26.1 & BSD-3-Clause License \\
+        \texttt{pandas} & \hfil1.5.3 & BSD-3-Clause License \\
+        \texttt{pydantic} & \hfil1.10.15 & MIT License \\
+        \texttt{requests} & \hfil2.31.0 & Apache Software License 2.0 \\
+        \texttt{scikit-learn} & \hfil1.3.2 & BSD-3-Clause License \\
+        \texttt{scipy} & \hfil1.11.3 & BSD License \\
+        \texttt{tsfresh} & \hfil0.20.0 & MIT License \\
+        \bottomrule
+    \end{tabularx}
+    \caption[Licencias]{Librerías utilizadas, junto con sus versiones y licencias.}
+    \label{a:licencias}
+\end{table}
+
+El orden de restrictividad, de la menos a la más restrictiva, de las licencias de las librerías usadas es el siguiente:
+\begin{enumerate}
+    \item MIT License
+    \item BSD License (2-Clause y 3-Clause)
+    \item PSF License
+    \item Apache Software License 2.0
+\end{enumerate}
+
+Para el proyecto se debe escoger la más restrictiva para asegurar que todas las condiciones de las licencias sean cumplidas, evitando conflictos legales. Es por ello que en el actual proyecto se utilizará una licencia Apache License 2.0\footnote{\url{https://www.apache.org/licenses/LICENSE-2.0}}, usada por la librería <<mediapipe>>. 
+Es una licencia permisiva y similar a las licencias MIT y BSD, pero se diferencia de ellas ya que incluye además una cláusula de concesión de patente, protegiendo a los usuarios que usen el software de demandas por infracción de patentes por parte de los que contribuyeron en el desarrollo del software.
