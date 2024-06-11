@@ -43,7 +43,7 @@ TremorTrack es un proyecto de fin de grado en el que se ha creado una aplicació
 | Algoritmos para la predicción del avance de los temblores |         ✔️         |    
 | Interfaz intuitiva para pacientes, médicos y administradores         |         ✔️         |    
 | [Documentación detallada](https://github.com/SandraDiaz22/TFG/tree/main/doc) 📚 |         ✔️         |    
-| [Canal de YouTube con tutoriales](https://www.youtube.com/@TU_CANAL_DE_YOUTUBE/playlists) 🎥 |         ✔️         |  
+| [Canal de YouTube con tutoriales](https://youtu.be/tYYHd_bVTjg) 🎥 |         ✔️         |  
 <br />
 
 ## Contacto
